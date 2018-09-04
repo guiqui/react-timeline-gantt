@@ -1,0 +1,258 @@
+.timeLine{
+    display: flex;
+    flex-direction: row;
+    width: 2000px;
+    height: 800px;
+    border:solid 1px rgb(207, 207, 205);
+    font-size: 12px;
+    user-select: none;
+}
+
+/* Main Area */
+
+.timeLine-main{
+    flex: 1 1 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden;
+}
+/* Main Area Header*/
+
+.timeLine-main-header-viewPort{
+    flex: 0 0 60px;
+    position: relative;
+    height: 60px ;
+    width: 100%;
+    background-color:  rgb(112, 112, 112);
+    overflow-y: auto;
+    
+}
+
+.timeLine-main-header-container{
+    flex: 0 0 60px;
+    position: relative;
+    top:0;
+    left:0;
+    height: 100% ;
+    width: 3000px;
+    background-color: rgb(59, 59, 58);
+    overflow-x: hidden;
+}
+
+.timeLine-main-header-day-item{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color:rgb(112, 112, 112);
+    font-size: 10px;
+    text-align: center;
+    border-right:solid 1px;
+    border-top:solid 1px;
+    border-bottom:solid 1px;
+    top:20px;
+    width: 24px;
+    height:40px;
+    color: white;
+    text-align: center;
+}
+
+
+.timeLine-main-header-month-item{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color:rgb(59, 59, 58);
+    font-size: 10px;
+    text-align: center;
+    border-right:solid 1px white;
+    height:20px;
+    color: white;
+    text-align: center;
+    z-index: 91;
+}
+
+.timeLine-main-header-day-week{
+    flex:0 0 12px;
+    background-color: chocolate;
+    padding: 2px;
+    z-index: 90;
+}
+
+.timeLine-main-header-day-month{
+    top:0px;
+    position: sticky;
+    flex:0 0 15px;
+    padding: 5px;
+    z-index: 90;
+}
+
+.timeLine-main-header-day-selected{
+    background-color: rgb(210, 51, 30);
+    font-weight: bold;
+}
+
+/* Main Area Data*/
+
+.timeLine-main-data-viewPort{
+    flex: 1 1 auto;
+    position: relative;
+    overflow-y: scroll;
+    
+}
+.timeLine-main-data-container{
+    position: relative;
+    top:0;
+    left:0;
+    height: 100% ;
+    width: 3000px;
+    max-width: 3000px;
+    background-color: rgb(255, 255, 255);
+}
+
+.timeLine-main-data-row{
+    position: absolute;
+    background-color:rgba(red, green, blue, 0.1);
+    width: 100%;
+    height: 50px;
+    border-bottom-width: 0.5px;
+    border-bottom-color: rgb(207, 207, 205);
+    border-bottom-style: dashed;
+}
+
+.timeLine-main-data-task{
+    position: absolute;
+    background-color:darkorchid;
+    border:solid 0.5px rgb(207, 207, 205);
+    border-radius: 3px;
+    height: 28px;
+   
+    color: white;
+    padding-top: 5px;
+    text-align: center;
+}
+
+.timeLine-main-data-task:hover {
+    background-color:chocolate;
+    border:solid 2px darkorchid;
+    cursor: move;
+}
+
+.timeLine-main-data-task{
+    border-left:dotted 1px grey;
+    border-bottom:dotted 1px grey;
+  }
+
+.timeLine-main-data-verticalLine{
+    flex:1 1 auto;
+    height: 100%;
+    width: 24px;
+    background-color:white;
+    border-left-width: 0.5px;
+    border-left-color: rgb(207, 207, 205);
+    border-left-style: dashed;
+}
+
+/* Side Area */
+
+.timeLine-side-main{
+    flex: 0 0 auto;
+    width:108px;
+    min-width: 108px;
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.timeLine-side{
+    flex: 1 0 100px;
+    display: flex;
+    flex-direction: column;
+    border-right:solid 1px rgb(207, 207, 205);
+}
+
+.verticalResizer{
+    flex: 0 0 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: col-resize;
+    background-color:  rgb(59, 59, 58);
+    border-right:solid 1px rgb(207, 207, 205);
+    height: 100%;
+
+}
+.squareGrip{
+    flex: 0 0 auto;
+    background-color: rgb(207, 207, 205);
+    border-radius: 50%;
+    height: 5px;
+    width: 5px;
+    margin: 3px 0;
+}
+
+.timeLine-side-title{
+    flex: 0 0 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: chocolate;
+    color: white;
+    text-align: center;
+}
+
+.timeLine-side-task-viewPort{
+    position: relative;
+    flex: 1 1 auto;
+    height:100% ;
+    background-color: rgb(112, 112, 112);
+    overflow-x: hidden;
+  
+}
+
+.timeLine-side-task-container{
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.timeLine-side-task-row{
+    position: absolute;
+    width: 100%;
+    background-color: rgb(112, 112, 112);
+    border-bottom :solid 0.5px white;
+    height: 30px;
+    color: white;
+    text-align: center;
+    padding-top:10px;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+
+/* width
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+/* ::-webkit-scrollbar-track {
+    background: rgba(210, 51, 30,0),; 
+}  */
+
+/* Handle */
+ /* ::-webkit-scrollbar-thumb {
+    background: rgba(210, 51, 30,0),; 
+} */
+
+/* Handle on hover */
+/* ::-webkit-scrollbar-thumb:hover {
+    background: rgba(210, 51, 30,0),; 
+}  */

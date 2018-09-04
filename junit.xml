@@ -1,0 +1,12 @@
+<testsuites name="jest tests" tests="3" failures="0" time="4.09">
+  <testsuite name="TimeLine Component Suite " errors="0" failures="0" skipped="0" timestamp="2018-06-12T04:44:48" time="3.053" tests="1">
+    <testcase classname="TimeLine Component Suite  TimeLine Render Properly" name="TimeLine Component Suite  TimeLine Render Properly" time="0.156">
+    </testcase>
+  </testsuite>
+  <testsuite name="TimeLine dataprovider " errors="0" failures="0" skipped="0" timestamp="2018-06-12T04:44:51" time="0.045" tests="2">
+    <testcase classname="TimeLine dataprovider  TimeLine Create Properly" name="TimeLine dataprovider  TimeLine Create Properly" time="0">
+    </testcase>
+    <testcase classname="TimeLine dataprovider  Testing calculate Page " name="TimeLine dataprovider  Testing calculate Page " time="0.005">
+    </testcase>
+  </testsuite>
+</testsuites>
