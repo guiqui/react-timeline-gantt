@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import moment  from 'moment'  
 import './TimeLine.css'
 import TimeDataProvider from './TimeDataProvider'
-//import { listTask } from '../../store/Actions';
-
 
 //TimeHeader Components
 
@@ -136,7 +134,6 @@ class DataTask extends React.Component{
 
     doMouseDown(e){
         if (e.button === 0){
-            console.log('Child Click')
             this.props.onChildDrag(true)
             this.draggingPosition=e.clientX;
             this.setState({dragging:true,
@@ -365,7 +362,6 @@ class TimeLine extends Component{
         }
         //Check if we need to change moths and load new data
         if (this.changingMonth(currentIndx,currentIndx+this.numVisibleDays)){
-            console.log('We need to change Month')
             months=this.calculateMonthData(currentIndx,currentIndx+this.numVisibleDays,new_nowposition)
             this.dataProvider.setCurrentPage(months.data[1].key)
             renderData=this.getDataToRender(months);
@@ -402,7 +398,6 @@ class TimeLine extends Component{
         if ((e.button === 0) && (!this.childDragging)) {
             this.dragging=true;
             this.draggingPosition=e.clientX;
-            console.log('Parent Click')
         }
     }
 
@@ -508,7 +503,6 @@ class TimeLine extends Component{
     }
    
     render(){
-        console.log("Rendering")
         return (
         <div className="timeLine">   
             <div className="timeLine-side-main" style={this.state.sideStyle}> 

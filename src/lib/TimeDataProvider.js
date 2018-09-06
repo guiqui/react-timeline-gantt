@@ -1,5 +1,5 @@
 
-import {authFecth} from 'lib/helpers/authFecth'
+import {authFecth} from './helpers/authFecth'
 import {HOST} from '../setting'
 import moment  from 'moment'  
 
@@ -93,10 +93,9 @@ class Generator{
             let endDate=new Date(starDate.getTime());
             endDate.setDate(starDate.getDate() + Math.random() * 10);
             let record={name: `Task ${i}`,start:starDate,end:endDate ,color:this.getRandomColor()}
-            authFecth(`${HOST}/task`,'post',record)
-            .then(response => console.log("done"))
+            
 
-            result.push();
+            result.push(record);
         }
         return result;
     }
