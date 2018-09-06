@@ -2,11 +2,11 @@ import React,{Component} from 'react'
 import PropTypes from 'prop-types'
 import moment  from 'moment'  
 import './TimeLine.css'
-import TimeDataProvider from 'lib/provider/TimeDataProvider'
-import VerticalSpliter from 'lib/components/VerticalSpliter'
-import {HeaderMonthItem,HeaderDayItem} from 'lib/components/Headers'
-import DataTask from 'lib/components/data/DataTask'
-import {VerticalLine,DataRow,SideRow} from 'lib/components/Miscellaneus'
+import TimeDataProvider from 'libs/provider/TimeDataProvider'
+import VerticalSpliter from 'libs/components/VerticalSpliter'
+import {HeaderMonthItem,HeaderDayItem} from 'libs/components/Headers'
+import DataTask from 'libs/components/data/DataTask'
+import {VerticalLine,DataRow,SideRow} from 'libs/components/Miscellaneus'
 
 
 const PxinDay=24;
@@ -33,7 +33,6 @@ class TimeLine extends Component{
         this.changingMonth=this.changingMonth.bind(this)
         this.onChildDrag=this.onChildDrag.bind(this)
         this.calculateVerticalScrollVariables=this.calculateVerticalScrollVariables.bind(this)
-
         //Initianlising Data Provider
         this.dataProvider=new TimeDataProvider();
         this.dataProvider.onPageLoad=this.onPageLoad;

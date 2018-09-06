@@ -1,10 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import ReactTestUtils from 'react-dom/test-utils'; 
-import ShallowRenderer from 'react-test-renderer/shallow';
 import TimeLine from './TimeLine'
-import renderer from 'react-test-renderer'
-import TestRenderer from 'react-test-renderer';
 import { mount } from 'enzyme';
 
 

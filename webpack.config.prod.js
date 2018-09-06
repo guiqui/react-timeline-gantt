@@ -5,7 +5,7 @@ module.exports ={
   entry:'./src/demo/index.js',
   resolve: {
     alias: {
-      lib: path.resolve(__dirname, 'src/lib/'),
+      libs: path.resolve(__dirname, 'src/lib/'),
       pages: path.resolve(__dirname, 'src/demo/pages')
     }
   },
