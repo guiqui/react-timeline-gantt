@@ -13,7 +13,8 @@ module.exports ={
   resolve: {      
     alias: {          
         'react': path.resolve(__dirname, './node_modules/react'),
-      'react-dom': path.resolve(__dirname, './node_modules/react-dom'),      
+        'react-dom': path.resolve(__dirname, './node_modules/react-dom'),      
+         lib: path.resolve(__dirname, 'src/lib/'),
     }  
   },  
   externals: {      
