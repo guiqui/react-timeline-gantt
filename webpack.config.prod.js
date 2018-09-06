@@ -10,14 +10,8 @@ module.exports ={
     }
   },
   output:{
-    path:path.resolve('dist'),
+    path:path.resolve('docs'),
     filename:'webpack-bundle.js'
-  },
-  devServer:{
-    inline:true,
-    contentBase:'./demo',
-    port:4444,
-    historyApiFallback: true,
   }
   ,
   module:{
