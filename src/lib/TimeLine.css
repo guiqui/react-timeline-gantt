@@ -125,10 +125,9 @@
 .timeLine-main-data-task{
     position: absolute;
     background-color:darkorchid;
-    border:solid 0.5px rgb(207, 207, 205);
-    border-radius: 3px;
+    border:solid 1px silver;
+    border-radius: 14px;
     height: 28px;
-   
     color: white;
     padding-top: 5px;
     text-align: center;
