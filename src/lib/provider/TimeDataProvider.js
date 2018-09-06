@@ -1,6 +1,6 @@
 
-import {authFecth} from './helpers/authFecth'
-import {HOST} from '../setting'
+import {authFecth} from '../helpers/authFecth'
+import {HOST} from '../../setting'
 import moment  from 'moment'  
 
 class TimeDataProvider{
