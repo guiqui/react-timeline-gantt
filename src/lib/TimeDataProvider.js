@@ -14,7 +14,8 @@ class TimeDataProvider{
         this.initialise=false;
         //data generator
         this.gen=new Generator();
-        this.gen.generateData()
+        this.opData=this.gen.generateData()
+        debugger
 
     }
 
@@ -42,10 +43,10 @@ class TimeDataProvider{
     }
 
     removeUnusedPages(page){
-        let upBorder=this.calculatePage(moment(page, 'M-YYYY'),this.OFFSET_CACHE+1);
-        delete this.opData[upBorder];
-        let downBorder=this.calculatePage(moment(page, 'M-YYYY'),-this.OFFSET_CACHE-1);
-        delete this.opData[downBorder];
+        // let upBorder=this.calculatePage(moment(page, 'M-YYYY'),this.OFFSET_CACHE+1);
+        // delete this.opData[upBorder];
+        // let downBorder=this.calculatePage(moment(page, 'M-YYYY'),-this.OFFSET_CACHE-1);
+        // delete this.opData[downBorder];
     
     }
 
@@ -87,18 +88,26 @@ class Generator{
 
     }
     generateData(){
-        let result=[]
+        let result={}
         for (let i=0;i<200;i++){
             let starDate=this.randomDate(new Date(2017, 9, 1),new Date(2020, 9, 1));
             let endDate=new Date(starDate.getTime());
             endDate.setDate(starDate.getDate() + Math.random() * 10);
             let record={name: `Task ${i}`,start:starDate,end:endDate ,color:this.getRandomColor()}
-            
-
-            result.push(record);
+            let startkey=moment(starDate).format("M-YYYY");
+            this.persistRecord(result,record,startkey)
+            // let endKey=moment(endDate).format("M-YYYY") ;
+            // this.persistRecord(result,record,endKey)
         }
         return result;
     }
+
+    persistRecord(result,value,key){
+        if (!result[key])
+            result[key]=[]
+        result[key].push(value)
+    }
+ 
     randomDate(start, end) {
         return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
     }

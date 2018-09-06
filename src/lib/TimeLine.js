@@ -205,9 +205,7 @@ const PxinDay=24;
 const BUFFER_DAYS=2;
 const LEFT_BOUNDARIES=3000;
 
-/// The vertical scroll handler size  is  equal = (viewportLegnth/Contentlengh) * viewportLegnth
-///                                                 Percentage of what vl represent * (multipli the percentage)
-// we are in the middle of the content when the handler position is equal =(Contentlengh/2)-(handlerwidth/2)
+
 class TimeLine extends Component{
     constructor(props){
         super(props);
@@ -461,7 +459,17 @@ class TimeLine extends Component{
             }
         )
     }
-
+    componentDidMount(){
+        let newdata=this.getDataToRender(this.state.months)
+        let new_end =this.numVisibleRows>=newdata.length?newdata.length-1:this.numVisibleRows;//Duplication need centraise
+        this.setState({
+                data:newdata,
+                containerStyle:this.getContainerStyle(newdata.length),
+                endRow:new_end
+                
+            }
+        )
+    }
     //Render Methods
     renderMonth(){
         return this.state.months.data.map(item=>{
