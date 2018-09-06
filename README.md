@@ -8,3 +8,5 @@
 An awesome blazing fast timeline -gantt component.
 It can be easly customize by providing its own item renderer.
 
+## Demo
+Check out a working demo [here](https://guiqui.github.io/react-timeline/index.html)
