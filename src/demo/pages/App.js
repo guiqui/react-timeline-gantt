@@ -17,7 +17,7 @@ class App extends Component{
       <div className="app-container">
        <h1>Gant Time Lime Demo</h1>
         <div className="time-line-container">
-          <TimeLine rowheight={20} itemheight={30}/>
+          <TimeLine rowheight={20} itemheight={30} dayWidth={30}/>
         </div>
       </div>
 

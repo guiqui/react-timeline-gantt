@@ -9,7 +9,6 @@ import DataTask from 'libs/components/data/DataTask'
 import {VerticalLine,DataRow,SideRow} from 'libs/components/Miscellaneus'
 
 
-const PxinDay=24;
 const BUFFER_DAYS=2;
 const LEFT_BOUNDARIES=3000;
 
@@ -19,23 +18,10 @@ class TimeLine extends Component{
         super(props);
         this.dragging=false;
         this.draggingPosition=0;
-
-        //Binding the functions
-        this.doMouseMove=this.doMouseMove.bind(this)
-        this.doMouseDown=this.doMouseDown.bind(this)
-        this.doMouseUp=this.doMouseUp.bind(this)
-        this.doMouseLeave=this.doMouseLeave.bind(this)
-        this.scollPos=this.scollPos.bind(this)
-        this.dayToPosition=this.dayToPosition.bind(this)
-        this.onChangeSize=this.onChangeSize.bind(this)
-        this.onPageLoad=this.onPageLoad.bind(this)
-        this.getDataToRender=this.getDataToRender.bind(this)
-        this.changingMonth=this.changingMonth.bind(this)
-        this.onChildDrag=this.onChildDrag.bind(this)
-        this.calculateVerticalScrollVariables=this.calculateVerticalScrollVariables.bind(this)
         //Initianlising Data Provider
         this.dataProvider=new TimeDataProvider();
         this.dataProvider.onPageLoad=this.onPageLoad;
+
         //Initialising Drawing variables
         this.numVisibleRows=30; 
         this.numVisibleDays=60;
@@ -58,8 +44,7 @@ class TimeLine extends Component{
 
     componentDidMount(){
         this.numVisibleRows=Math.trunc(this.refs.dataViewPort.clientHeight / this.props.rowheight);
-        this.numVisibleDays=Math.trunc(this.refs.dataViewPort.clientWidth / PxinDay)+BUFFER_DAYS;
-
+        this.numVisibleDays=Math.trunc(this.refs.dataViewPort.clientWidth / this.props.dayWidth)+BUFFER_DAYS;
         this.calculateVerticalScrollVariables();
 
         let middleScrollPosition=this.pxToScroll/2;
@@ -98,7 +83,7 @@ class TimeLine extends Component{
                 key:currentKey,
                 month:currentMonth.format("MMM  YYYY"),
                 left:this.dayToPosition(i-currentMonth.date()+1,now),
-                width:currentMonth.daysInMonth()*PxinDay
+                width:currentMonth.daysInMonth()*this.props.dayWidth
 
             })
             result['keys'][currentKey]=currentKey;
@@ -107,14 +92,14 @@ class TimeLine extends Component{
         return result;
     }
 
-    changingMonth(start,end){
+    changingMonth=(start,end)=>{
         let startMonth=moment().add(start, 'days').format("M-YYYY");  
         let endMonth=moment().add(end, 'days').format("M-YYYY");
         return (!(startMonth in this.state.months.keys) || !(endMonth in this.state.months.keys))
     }
 
-    dayToPosition(day,now){
-        return day * PxinDay +now;
+    dayToPosition=(day,now)=>{
+        return day * this.props.dayWidth +now;
 
     }
     dateToPixel(input){
@@ -124,14 +109,14 @@ class TimeLine extends Component{
         return Math.ceil(timeDiff / (1000 * 3600 ))+this.state.nowposition;
     }
 
-    calculateVerticalScrollVariables(){
+    calculateVerticalScrollVariables=()=>{
         //The pixel to scroll verically is equal to the pecentage of what the viewport represent in the context multiply by the context width
         this.pxToScroll=(1-(this.refs.dataViewPort.clientWidth/this.refs.dataContainer.clientWidth)) * this.refs.dataContainer.clientWidth-1;
     }
     
 
     //Interaction Events 
-    scollPos(e){ ///Needs serious refactoring to be able to centralise changes 
+    scollPos=(e)=>{ ///Needs serious refactoring to be able to centralise changes 
         e.preventDefault();
         this.refs.timeHeaderViewPort.scrollLeft=this.refs.dataViewPort.scrollLeft;
         this.refs.taskViewPort.scrollTop=this.refs.dataViewPort.scrollTop;
@@ -155,7 +140,7 @@ class TimeLine extends Component{
             }
         }
         //Check if we have are changing date
-        let currentIndx=Math.trunc((this.refs.dataViewPort.scrollLeft-this.state.nowposition) /PxinDay)// ++ when infinite scrolling OFfset
+        let currentIndx=Math.trunc((this.refs.dataViewPort.scrollLeft-this.state.nowposition) /this.props.dayWidth)// ++ when infinite scrolling OFfset
         if (currentIndx!==this.state.currentday){//We change days
             needUpdate=true;
         }
@@ -199,14 +184,14 @@ class TimeLine extends Component{
         }
     }
 
-    doMouseDown(e){
+    doMouseDown=(e)=>{
         if ((e.button === 0) && (!this.childDragging)) {
             this.dragging=true;
             this.draggingPosition=e.clientX;
         }
     }
 
-    doMouseMove(e){
+    doMouseMove=(e)=>{
         if(this.dragging){
             let delta=this.draggingPosition-e.clientX;
             this.draggingPosition=e.clientX;
@@ -214,16 +199,16 @@ class TimeLine extends Component{
         }
     }
 
-    doMouseUp(e){
+    doMouseUp=(e)=>{
         this.dragging=false;
     }
 
-    doMouseLeave(e){
+    doMouseLeave=(e)=>{
         this.dragging=false;
     }
 
     //Child communicating states
-    onChangeSize(delta){
+    onChangeSize=(delta)=>{
       
         this.setState((prevState) => {
             let result={...prevState};
@@ -233,7 +218,7 @@ class TimeLine extends Component{
         this.calculateVerticalScrollVariables()
     }
 
-    onChildDrag(dragging){
+    onChildDrag=(dragging)=>{
         this.childDragging=dragging;
     }
 
@@ -245,7 +230,7 @@ class TimeLine extends Component{
 
     // DATA CHANGE
 
-    getDataToRender(months){
+    getDataToRender=(months)=>{
         //For all visible months
         let result=[]
         months.data.forEach( item=>{
@@ -255,7 +240,7 @@ class TimeLine extends Component{
         return result;
     }
 
-    onPageLoad(){
+    onPageLoad=()=>{
         let newdata=this.getDataToRender(this.state.months)
         let new_end =this.numVisibleRows>=newdata.length?newdata.length-1:this.numVisibleRows;//Duplication need centraise
         this.setState({
@@ -287,8 +272,8 @@ class TimeLine extends Component{
     renderTimeHeader(){
         let result=[];
         for (let i=-BUFFER_DAYS;i<this.numVisibleDays;i++){
-            let leftvalue =(this.state.currentday+i)*PxinDay+this.state.nowposition;
-            result.push(<HeaderDayItem key={this.state.currentday+i} day={this.state.currentday+i}   left={leftvalue}/>);
+            let leftvalue =(this.state.currentday+i)*this.props.dayWidth+this.state.nowposition;
+            result.push(<HeaderDayItem key={this.state.currentday+i} day={this.state.currentday+i} width={this.props.dayWidth}  left={leftvalue}/>);
         }
         return result;
     }
@@ -358,11 +343,13 @@ class TimeLine extends Component{
 }
 
 TimeLine.propTypes = {
-    itemheight: PropTypes.number.isRequired
+    itemheight: PropTypes.number.isRequired,
+    dayWidth:PropTypes.number.isRequired
   };
 
 TimeLine.defaultProps = {
-    itemheight:20
+    itemheight:20,
+    dayWidth:24
   };
 
 export default TimeLine

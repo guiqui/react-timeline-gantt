@@ -19,7 +19,7 @@ export class HeaderDayItem extends Component{
     }
     render(){
         return (
-        <div className="timeLine-main-header-day-item" style={{ left:this.props.left}}>
+        <div className="timeLine-main-header-day-item" style={{ left:this.props.left,width:this.props.width}}>
             <div className="timeLine-main-header-day-week">
             {moment().add(this.props.day , 'days').format('dd')}
             </div>    
