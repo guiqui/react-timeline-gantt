@@ -18,4 +18,4 @@ npm install react-gantt-timeline
 
 
 ## Some Demo Code
-- [![Edit 5xnwjvjxwx](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/5xnwjvjxwx) Simple Demo.
+- [![Edit n09l7m400j](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/n09l7m400j) Simple Demo.
