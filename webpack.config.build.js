@@ -11,7 +11,8 @@ module.exports ={
     umdNamedDefine: true  
   },
   resolve: {      
-    alias: {          
+    alias: {
+        'moment' : path.resolve(__dirname, './node_modules/moment'),         
         'react': path.resolve(__dirname, './node_modules/react'),
         'react-dom': path.resolve(__dirname, './node_modules/react-dom'),      
          lib: path.resolve(__dirname, 'src/lib/'),
@@ -30,7 +31,13 @@ module.exports ={
           commonjs2: "react-dom",          
           amd: "ReactDOM",          
           root: "ReactDOM"      
-      }  
+      } ,
+      moment: {          
+        commonjs: "moment",          
+        commonjs2: "moment",          
+        amd: "moment",          
+        root: "moment"      
+    },
   },
   module:{
     rules:[

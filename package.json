@@ -1,8 +1,8 @@
 {
   "name": "react-gantt-timeline",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "start": "webpack-dev-server --mode development --open --config webpack.config.demo.js ",
     "prod": "webpack --mode production --open --config webpack.config.prod.js ",
@@ -11,12 +11,11 @@
     "test": "jest && codecov",
     "prepublish": "rm -rf ./dist && npm run build"
   },
-  "dependencies": {
-    "css-layout": "^1.1.1",
-    "moment": "^2.22.1",
+  "peerDependencies": {
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "react-test-renderer": "^16.4.0"
+    "css-layout": "^1.1.1",
+    "moment": "^2.22.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -27,6 +26,9 @@
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.11",
     "enzyme": "^3.3.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-test-renderer": "^16.4.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
@@ -46,5 +48,7 @@
     "webpack-dev-server": "^3.1.4"
   },
   "author": "Guillermo  Quiros",
-  "license": "MIT"
+  "license": "MIT",
+  "keywords":["react","list","timeline","gantt","virtual","virtualize"],
+  "homepage":"https://github.com/guiqui/react-timeline"
 }
