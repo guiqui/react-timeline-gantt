@@ -15,8 +15,6 @@ class TimeDataProvider{
         //data generator
         this.gen=new Generator();
         this.opData=this.gen.generateData()
-        debugger
-
     }
 
     getPage(page){
@@ -89,8 +87,14 @@ class Generator{
     }
     generateData(){
         let result={}
-        for (let i=0;i<200;i++){
-            let starDate=this.randomDate(new Date(2017, 9, 1),new Date(2020, 9, 1));
+        this.addRecord(new Date(),0,result) 
+        for (let i=1;i<200;i++){
+            this.addRecord(this.randomDate(new Date(2017, 9, 1),new Date(2020, 9, 1)),i,result) 
+        }
+        return result;
+    }
+
+    addRecord(starDate,i,result){
             let endDate=new Date(starDate.getTime());
             endDate.setDate(starDate.getDate() + Math.random() * 10);
             let record={name: `Task ${i}`,start:starDate,end:endDate ,color:this.getRandomColor()}
@@ -98,8 +102,6 @@ class Generator{
             this.persistRecord(result,record,startkey)
             // let endKey=moment(endDate).format("M-YYYY") ;
             // this.persistRecord(result,record,endKey)
-        }
-        return result;
     }
 
     persistRecord(result,value,key){

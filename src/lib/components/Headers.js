@@ -1,5 +1,8 @@
 import React,{Component} from 'react'
 import moment from  'moment'
+import {BUFFER_DAYS,LEFT_BOUNDARIES} from 'libs/Const'
+
+
 export class HeaderMonthItem extends Component{
     constructor(props){
         super(props);
@@ -29,5 +32,39 @@ export class HeaderDayItem extends Component{
  
         </div>)
           
+    }
+}
+export default class Header extends Component {
+    constructor (props){
+        super(props)
+    }
+        //Render Methods
+    renderMonth(){
+        
+        
+        return this.props.months.data.map(item=>{
+            return <HeaderMonthItem key={item.month} left={item.left}   width={item.width}  label={item.month}/>
+        })
+
+    }
+    renderTimeHeader(){
+        let result=[];
+        for (let i=-BUFFER_DAYS;i<this.props.numVisibleDays;i++){
+            let leftvalue =(this.props.currentday+i)*this.props.dayWidth+this.props.nowposition;
+            result.push(<HeaderDayItem key={this.props.currentday+i} day={this.props.currentday+i} width={this.props.dayWidth}  left={leftvalue}/>);
+        }
+        return result;
+    }
+    render(){
+        if (this.refs.Header)
+            this.refs.Header.scrollLeft=this.props.scrollPos;
+        
+        return  <div ref="Header" 
+                    className="timeLine-main-header-viewPort">
+                    <div  className="timeLine-main-header-container">
+                        {this.renderMonth()} 
+                        {this.renderTimeHeader()} 
+                    </div>
+                </div>
     }
 }

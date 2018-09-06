@@ -4,13 +4,11 @@ import moment  from 'moment'
 import './TimeLine.css'
 import TimeDataProvider from 'libs/provider/TimeDataProvider'
 import VerticalSpliter from 'libs/components/VerticalSpliter'
-import {HeaderMonthItem,HeaderDayItem} from 'libs/components/Headers'
+import Header from 'libs/components/Headers'
 import DataTask from 'libs/components/data/DataTask'
 import {VerticalLine,DataRow,SideRow} from 'libs/components/Miscellaneus'
+import {BUFFER_DAYS,LEFT_BOUNDARIES} from 'libs/Const'
 
-
-const BUFFER_DAYS=2;
-const LEFT_BOUNDARIES=3000;
 
 
 class TimeLine extends Component{
@@ -38,7 +36,8 @@ class TimeLine extends Component{
             data:this.dataProvider.data,
             months:this.calculateMonthData(0,this.numVisibleDays,0),
             sideStyle:{width:200},
-            containerStyle:{height:10}
+            containerStyle:{height:10},
+            scrollPos:0
         }
     }
 
@@ -52,11 +51,12 @@ class TimeLine extends Component{
         let middleNowPosition=this.refs.dataContainer.clientWidth/2;
         ///Initialise bar to the middle and now position
         this.refs.dataViewPort.scrollLeft=middleScrollPosition;
-        this.refs.timeHeaderViewPort.scrollLeft=this.refs.dataViewPort.scrollLeft;
+        //this.refs.timeHeaderViewPort.scrollLeft=this.refs.dataViewPort.scrollLeft;
         this.nowPosition=middleNowPosition;
         this.setState((prevState) => {
             let result={...prevState};
-            result.nowposition=middleNowPosition
+            result.nowposition=middleNowPosition;
+            result.scrollPos=middleScrollPosition;
             return result;
         })
         //Provider
@@ -118,7 +118,7 @@ class TimeLine extends Component{
     //Interaction Events 
     scollPos=(e)=>{ ///Needs serious refactoring to be able to centralise changes 
         e.preventDefault();
-        this.refs.timeHeaderViewPort.scrollLeft=this.refs.dataViewPort.scrollLeft;
+        //this.refs.timeHeaderViewPort.scrollLeft=this.refs.dataViewPort.scrollLeft;
         this.refs.taskViewPort.scrollTop=this.refs.dataViewPort.scrollTop;
         let needUpdate=false;
         let new_nowposition=this.state.nowposition;
@@ -174,11 +174,15 @@ class TimeLine extends Component{
                     startRow:new_start,
                     endRow:new_end,
                     months:months,
-                    containerStyle:new_containerStyle
+                    containerStyle:new_containerStyle,
+                    scrollPos:this.refs.dataViewPort.scrollLeft
                 }
             )
             if(new_left !==-1){
-                this.refs.timeHeaderViewPort.scrollLeft=new_left;
+                this.state={
+                    scrollPos:new_left
+                }
+                //this.refs.timeHeaderViewPort.scrollLeft=new_left;
                 this.refs.dataViewPort.scrollLeft=new_left;
             }
         }
@@ -262,21 +266,21 @@ class TimeLine extends Component{
             }
         )
     }
-    //Render Methods
-    renderMonth(){
-        return this.state.months.data.map(item=>{
-            return <HeaderMonthItem key={item.month} left={item.left}   width={item.width}  label={item.month}/>
-        })
+    // //Render Methods
+    // renderMonth(){
+    //     return this.state.months.data.map(item=>{
+    //         return <HeaderMonthItem key={item.month} left={item.left}   width={item.width}  label={item.month}/>
+    //     })
 
-    }
-    renderTimeHeader(){
-        let result=[];
-        for (let i=-BUFFER_DAYS;i<this.numVisibleDays;i++){
-            let leftvalue =(this.state.currentday+i)*this.props.dayWidth+this.state.nowposition;
-            result.push(<HeaderDayItem key={this.state.currentday+i} day={this.state.currentday+i} width={this.props.dayWidth}  left={leftvalue}/>);
-        }
-        return result;
-    }
+    // }
+    // renderTimeHeader(){
+    //     let result=[];
+    //     for (let i=-BUFFER_DAYS;i<this.numVisibleDays;i++){
+    //         let leftvalue =(this.state.currentday+i)*this.props.dayWidth+this.state.nowposition;
+    //         result.push(<HeaderDayItem key={this.state.currentday+i} day={this.state.currentday+i} width={this.props.dayWidth}  left={leftvalue}/>);
+    //     }
+    //     return result;
+    // }
     renderRows(){
         let result=[];
         for (let i=this.state.startRow;i<this.state.endRow+1;i++){
@@ -321,12 +325,19 @@ class TimeLine extends Component{
                 <VerticalSpliter onChangeSize={this.onChangeSize}/>
             </div>       
             <div className="timeLine-main">
-                <div ref="timeHeaderViewPort" className="timeLine-main-header-viewPort">
+                {/* <div ref="timeHeaderViewPort" className="timeLine-main-header-viewPort">
                     <div  className="timeLine-main-header-container">
                         {this.renderMonth()} 
                         {this.renderTimeHeader()} 
                     </div>
-                </div>
+                </div> */}
+                <Header 
+                        months={this.state.months} 
+                        numVisibleDays={this.numVisibleDays}
+                        currentday={this.state.currentday}
+                        nowposition={this.state.nowposition}
+                        dayWidth={this.props.dayWidth}
+                        scrollPos={this.state.scrollPos}/>
                 <div ref="dataViewPort"  className="timeLine-main-data-viewPort" onScroll={this.scollPos}  
                     onMouseDown={this.doMouseDown} 
                     onMouseMove={this.doMouseMove}
