@@ -1,8 +1,8 @@
 .timeLine{
     display: flex;
     flex-direction: row;
-    width: 2000px;
-    height: 800px;
+    width:100%;
+    height: 100%;
     border:solid 1px rgb(207, 207, 205);
     font-size: 12px;
     user-select: none;

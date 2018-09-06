@@ -1,6 +1,6 @@
 
-import {authFecth} from '../../helpers/authFecth'
-import {HOST} from '../../setting'
+import {authFecth} from 'lib/helpers/authFecth'
+import {HOST} from '../setting'
 import moment  from 'moment'  
 
 class TimeDataProvider{
@@ -13,8 +13,8 @@ class TimeDataProvider{
         this.currentPage='';
         this.initialise=false;
         //data generator
-        // this.gen=new Generator();
-        // this.gen.generateData()
+        this.gen=new Generator();
+        this.gen.generateData()
 
     }
 
@@ -82,39 +82,39 @@ class TimeDataProvider{
 
 
 
-// class Generator{
-//     constructor(){
+class Generator{
+    constructor(){
 
-//     }
-//     generateData(){
-//         let result=[]
-//         for (let i=0;i<200;i++){
-//             let starDate=this.randomDate(new Date(2017, 9, 1),new Date(2020, 9, 1));
-//             let endDate=new Date(starDate.getTime());
-//             endDate.setDate(starDate.getDate() + Math.random() * 10);
-//             let record={name: `Task ${i}`,start:starDate,end:endDate ,color:this.getRandomColor()}
-//             authFecth(`${HOST}/task`,'post',record)
-//             .then(response => console.log("done"))
+    }
+    generateData(){
+        let result=[]
+        for (let i=0;i<200;i++){
+            let starDate=this.randomDate(new Date(2017, 9, 1),new Date(2020, 9, 1));
+            let endDate=new Date(starDate.getTime());
+            endDate.setDate(starDate.getDate() + Math.random() * 10);
+            let record={name: `Task ${i}`,start:starDate,end:endDate ,color:this.getRandomColor()}
+            authFecth(`${HOST}/task`,'post',record)
+            .then(response => console.log("done"))
 
-//             result.push();
-//         }
-//         return result;
-//     }
-//     randomDate(start, end) {
-//         return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-//     }
+            result.push();
+        }
+        return result;
+    }
+    randomDate(start, end) {
+        return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+    }
 
-//     getRandomColor() {
-//         var letters = '0123456789ABCDEF';
-//         var color = '#';
-//         for (var i = 0; i < 6; i++) {
-//         color += letters[Math.floor(Math.random() * 16)];
-//         }
-//         return color;
-//     }
-//     setRandomColor() {
-//         $("#colorpad").css("background-color", getRandomColor());
-//     }
-// }
+    getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+    setRandomColor() {
+        $("#colorpad").css("background-color", getRandomColor());
+    }
+}
   
 export default TimeDataProvider;

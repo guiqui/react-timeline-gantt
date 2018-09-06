@@ -1,13 +1,15 @@
 {
-  "name": "react-timeline",
-  "version": "1.0.0",
+  "name": "react-gantt-timeline",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open",
-    "prod": "webpack-dev-server --mode production --open",
-    "build": "webpack --mode production",
-    "test": "jest"
+    "start": "webpack-dev-server --mode development --open --config webpack.config.demo.js ",
+    "prod": "webpack --mode production --open --config webpack.config.demo.js ",
+    "build": "webpack --mode production  --config webpack.config.build.js",
+    "lint": "eslint src",
+    "test": "jest && codecov",
+    "prepublish": "rm -rf ./dist && npm run build"
   },
   "dependencies": {
     "css-layout": "^1.1.1",
