@@ -175,14 +175,8 @@ class TimeLine extends Component{
                     startRow:new_start,
                     endRow:new_end,
                     months:months,
-                    scrollLeft:dataViewport.scrollLeft
-                }
-            )
-            if(new_left !==-1){
-                this.state={
-                    scrollLeft:new_left
-                }
-            }
+                    scrollLeft: new_left!==-1?new_left: dataViewport.scrollLeft
+            })
         }
     }
 

@@ -47,7 +47,7 @@ export default class TaskList extends Component{
             <div className="timeLine-side"> 
                 <div className="timeLine-side-title">
                     <div>
-                        My tasks todo
+                       Projects
                     </div>  
                 </div>    
                 <div ref="taskViewPort"  className="timeLine-side-task-viewPort" >                

@@ -195,7 +195,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: chocolate;
+    background-color: rgb(59, 59, 58);;
+    border-bottom: solid 1px silver;
     color: white;
     text-align: center;
 }
