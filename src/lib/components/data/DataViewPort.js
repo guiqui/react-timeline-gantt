@@ -1,6 +1,7 @@
 import React,{Component} from  'react'
 import {DATA_CONTAINER_WIDTH} from 'libs/Const'
 import DataTask from 'libs/components/data/DataTask'
+import DateHelper from 'libs/helpers/DateHelper'
 import sizeMe from 'react-sizeme'
 
 export class DataRow extends Component{
@@ -30,21 +31,14 @@ export  class DataViewPort extends Component{
         this.childDragging=dragging;
     }
 
-    dateToPixel(input){
-        let nowDate=new Date();
-        let inputTime=new Date(input);
-        let timeDiff = inputTime.getTime() - nowDate.getTime();
-        return Math.ceil(timeDiff / (1000 * 3600 ))+this.props.nowposition;
-    }
-
     renderRows=()=>{
         let result=[];
         for (let i=this.props.startRow;i<this.props.endRow+1;i++){
             let item=this.props.data[i];
             if(!item) break
-            let new_position=this.dateToPixel(item.start);
+            let new_position=DateHelper.dateToPixel(item.start,this.props.nowposition);
             console.log(`Now Position ${new_position}`)
-            let new_width=this.dateToPixel(item.end)-new_position;
+            let new_width=DateHelper.dateToPixel(item.end,this.props.nowposition)-new_position;
             console.log(`Now Width ${new_width}`)
             console.log(`Scroll Left ${this.props.scrollLeft}`)
             // if (new_position<DATA_CONTAINER_WIDTH){

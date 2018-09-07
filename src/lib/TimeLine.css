@@ -37,6 +37,7 @@
     height: 100% ;
     background-color: rgb(59, 59, 58);
     overflow: hidden;
+    user-select: none;
 }
 
 .timeLine-main-header-day-item{
