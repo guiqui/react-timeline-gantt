@@ -118,9 +118,9 @@ class TimeLine extends Component{
     //Interaction Events 
     scrollData=(dataViewport)=>{ ///Needs serious refactoring to be able to centralise changes 
         console.log(`sl:${dataViewport.scrollTop} st:${dataViewport.scrollLeft}`)
-        if (this.state.scrollLeft==dataViewport.scrollLeft &&
-            this.state.scrollTop==dataViewport.scrollTop)
-            return;
+        // if (this.state.scrollLeft==dataViewport.scrollLeft &&
+        //     this.state.scrollTop==dataViewport.scrollTop)
+        //     return;
 
         //this.refs.timeHeaderViewPort.scrollLeft=this.refs.dataViewPort.refs.dataViewPort.scrollLeft;
         this.refs.taskViewPort.refs.taskViewPort.scrollTop=dataViewport.scrollTop;

@@ -12,6 +12,12 @@ module.exports ={
   output:{
     path:path.resolve('docs'),
     filename:'webpack-bundle.js'
+  },
+  devServer:{
+    inline:true,
+    contentBase:'./docs',
+    port:4444,
+    historyApiFallback: true,
   }
   ,
   module:{
