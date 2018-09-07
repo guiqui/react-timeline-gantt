@@ -105,8 +105,8 @@ class TimeLine extends Component{
         //     //For middleNowPosition we get middlescrollLeftition and we add half of the bar of the scroll
         //     let middleNowPosition=DATA_CONTAINER_WIDTH/2;
         //     ///Initialise bar to the middle and now position
-        //     //this.refs.dataViewPort.refs.dataViewPort.scrollLeft=middlescrollLeftition;
-        //     //this.refs.timeHeaderViewPort.scrollLeft=this.refs.dataViewPort.refs.dataViewPort.scrollLeft;
+        //     //this.refs.dataViewPort.refs.this.state.scrollLeft=middlescrollLeftition;
+        //     //this.refs.timeHeaderViewPort.scrollLeft=this.refs.dataViewPort.refs.this.state.scrollLeft;
         //     this.nowPosition=middleNowPosition;  
 
         // }
@@ -116,84 +116,93 @@ class TimeLine extends Component{
         })
     }
     //Interaction Events 
-    scrollData=(dataViewport)=>{ ///Needs serious refactoring to be able to centralise changes 
-        console.log(`sl:${dataViewport.scrollTop} st:${dataViewport.scrollLeft}`)
-        // if (this.state.scrollLeft==dataViewport.scrollLeft &&
-        //     this.state.scrollTop==dataViewport.scrollTop)
-        //     return;
+    verticalChange=(scrollTop)=>{ ///Needs serious refactoring to be able to centralise changes 
+        if (scrollTop==this.state.scrollTop)
+            return;
+        //Check if we have scrolling rows
+        let new_start=Math.trunc(scrollTop/this.props.itemheight)
+        let new_end =new_start+this.state.numVisibleRows>=this.state.data.length?this.state.data.length-1:new_start+this.state.numVisibleRows;
+        if (new_start!==this.state.start){
+            //Got you
+            this.setState(
+                this.state={
+                    scrollTop:scrollTop,
+                    startRow:new_start,
+                    endRow:new_end,
+            })
+        }
+    }
 
-        //this.refs.timeHeaderViewPort.scrollLeft=this.refs.dataViewPort.refs.dataViewPort.scrollLeft;
-        this.refs.taskViewPort.refs.taskViewPort.scrollTop=dataViewport.scrollTop;
+
+    horizontalChange=(newScrollLeft)=>{
         let needUpdate=false;
         let new_nowposition=this.state.nowposition;
         let new_left=-1;
         let renderData=this.state.data;
         let months=this.state.months;
+        let new_start=this.state.startRow;
+        let new_end =this.state.endRow;
         
         //Check if we have run out of scroll
-        if (dataViewport.scrollLeft>this.pxToScroll){//ContenLegnth-viewportLengt
-            needUpdate=true;
+        if (newScrollLeft>this.pxToScroll){//ContenLegnth-viewportLengt
+     
             new_nowposition=this.state.nowposition-this.pxToScroll
             new_left=0;
         } else{
-            if (dataViewport.scrollLeft===0){//ContenLegnth-viewportLengt
-                needUpdate=true;//This bug will be fixed once data to draw is filtered
+            if (newScrollLeft<=0){//ContenLegnth-viewportLengt
                 new_nowposition=this.state.nowposition+this.pxToScroll
                 new_left=this.pxToScroll;
+            }else{
+                new_left=newScrollLeft;
             }
         }
         //Check if we have are changing date
-        let currentIndx=Math.trunc((dataViewport.scrollLeft-this.state.nowposition) /this.props.dayWidth)// ++ when infinite scrolling OFfset
+        let currentIndx=Math.trunc((newScrollLeft-this.state.nowposition) /this.props.dayWidth)
+        // ++ when infinite scrolling OFfset
         if (currentIndx!==this.state.currentday){//We change days
-            needUpdate=true;
+
         }
-        //Check if we have scrolling rows
-        let new_start=Math.trunc(dataViewport.scrollTop/this.props.itemheight)
-        let new_end =new_start+this.state.numVisibleRows>=this.state.data.length?this.state.data.length-1:new_start+this.state.numVisibleRows;
-        if (new_start!==this.state.start){
-            needUpdate=true;
-        }
+        
         //Check if we need to change moths and load new data
         if (this.changingMonth(currentIndx,currentIndx+this.state.numVisibleDays)){
             months=this.calculateMonthData(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition)
             this.dataProvider.setCurrentPage(months.data[1].key)
             renderData=this.getDataToRender(months);
-            needUpdate=true;
-            
         }else{ 
-            if(new_left !==-1)
+            if(new_left !=-1)
                 months=this.calculateMonthData(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition)
         }
-        //If we need updates then change the state and the scroll position
-        if (needUpdate){
-            //Got you
-            this.setState(
-                this.state={
-                    currentday:currentIndx,
-                    nowposition:new_nowposition,
-                    data:renderData,
-                    startRow:new_start,
-                    endRow:new_end,
-                    months:months,
-                    scrollLeft: new_left!==-1?new_left: dataViewport.scrollLeft
-            })
-        }
-    }
 
-    doMouseDown=(e)=>{
-       
-        this.dragging=true;
-        this.draggingPosition=e.clientX;
+
+        new_start=Math.trunc(this.state.scrollTop/this.props.itemheight)
+        new_end =new_start+this.state.numVisibleRows>=renderData.length?renderData.length-1:new_start+this.state.numVisibleRows;
+        //If we need updates then change the state and the scroll position
+        //Got you
+        this.setState(
+            this.state={
+                currentday:currentIndx,
+                nowposition:new_nowposition,
+                data:renderData,
+                months:months,
+                scrollLeft: new_left,
+                startRow:new_start,
+                endRow:new_end,
+        })
         
     }
+    
+    doMouseDown=(e)=>{
+        this.dragging=true;
+        this.draggingPosition=e.clientX;
+    }
 
-    doMouseMove=(e,dataViewPort)=>{
+    doMouseMove=(e)=>{
         if(this.dragging){
             let delta=this.draggingPosition-e.clientX;
-            this.draggingPosition=e.clientX;
-            this.setState({
-                scrollLeft:dataViewPort.scrollLeft+delta
-            })
+            if (delta!==0){
+                this.draggingPosition=e.clientX;
+                this.horizontalChange(this.state.scrollLeft+delta);
+            }
         }
     }
 
@@ -207,7 +216,6 @@ class TimeLine extends Component{
 
     //Child communicating states
     onChangeSize=(delta)=>{
-      
         this.setState((prevState) => {
             let result={...prevState};
             result.sideStyle={width:result.sideStyle.width-delta};
@@ -215,9 +223,7 @@ class TimeLine extends Component{
         })
     }
 
-
     // DATA CHANGE
-
     getDataToRender=(months)=>{
         //For all visible months
         let result=[]
@@ -248,7 +254,8 @@ class TimeLine extends Component{
                     itemheight={this.props.itemheight} 
                     startRow={this.state.startRow}
                     endRow={this.state.endRow}
-                    data={this.state.data}/>
+                    data={this.state.data}
+                    onScroll={this.verticalChange}/>
                 <VerticalSpliter onChangeSize={this.onChangeSize}/>
             </div>       
             <div className="timeLine-main">
@@ -261,6 +268,7 @@ class TimeLine extends Component{
                 <DataViewPort 
                     ref='dataViewPort'
                     scrollLeft={this.state.scrollLeft}
+                    scrollTop={this.state.scrollTop}
                     itemheight={this.props.itemheight}
                     nowposition={this.state.nowposition}
                     startRow={this.state.startRow}

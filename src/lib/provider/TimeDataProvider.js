@@ -88,15 +88,16 @@ class Generator{
     generateData(){
         let result={}
         this.addRecord(new Date(),0,result) 
-        for (let i=1;i<200;i++){
-            this.addRecord(this.randomDate(new Date(2017, 9, 1),new Date(2020, 9, 1)),i,result) 
-        }
+        this.addRecord(new Date(),1,result) 
+        // for (let i=1;i<200;i++){
+        //     this.addRecord(this.randomDate(new Date(2017, 9, 1),new Date(2020, 9, 1)),i,result) 
+        // }
         return result;
     }
 
     addRecord(starDate,i,result){
             let endDate=new Date(starDate.getTime());
-            endDate.setDate(starDate.getDate() + Math.random() * 10);
+            endDate.setDate(starDate.getDate() + Math.random() * 20);
             let record={name: `Task ${i}`,start:starDate,end:endDate ,color:this.getRandomColor()}
             let startkey=moment(starDate).format("M-YYYY");
             this.persistRecord(result,record,startkey)

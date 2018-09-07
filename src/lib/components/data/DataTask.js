@@ -14,7 +14,7 @@ export default class DataTask extends Component{
             this.props.onChildDrag(true)
             this.draggingPosition=e.clientX;
             this.setState({dragging:true});
-
+            this.state.left=this.props.left;
         }
     }
 
@@ -43,11 +43,11 @@ export default class DataTask extends Component{
     
     calculateStyle(){
 
-        //if(this.state.dragging){
+        if(this.state.dragging){
             return {backgroundColor: this.props.color,left:this.state.left,width:this.props.width}
-        //}else{
-        //    return {backgroundColor: this.props.color,left:this.props.left,width:this.props.width}
-       // }
+        }else{
+           return {backgroundColor: this.props.color,left:this.props.left,width:this.props.width}
+       }
      
     }
     render(){
@@ -55,6 +55,7 @@ export default class DataTask extends Component{
         <div className="timeLine-main-data-task" 
             onMouseDown={this.doMouseDown}
             style={this.calculateStyle()}>
+            {this.props.label}
         </div>)
           
     }

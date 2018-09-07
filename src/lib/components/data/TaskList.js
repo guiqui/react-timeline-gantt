@@ -40,7 +40,9 @@ export default class TaskList extends Component{
         }
         return result;
     }
-
+    doScroll=()=>{
+        this.props.onScroll(this.refs.taskViewPort)
+    }
     render(){
         this.containerStyle=this.getContainerStyle(this.props.data.length)
         return(
@@ -50,7 +52,7 @@ export default class TaskList extends Component{
                        Projects
                     </div>  
                 </div>    
-                <div ref="taskViewPort"  className="timeLine-side-task-viewPort" >                
+                <div ref="taskViewPort"  className="timeLine-side-task-viewPort" onScroll={this.doScroll}  >                
                     <div className="timeLine-side-task-container" style={this.containerStyle}>                   
                         { this.renderSiderow() }
                     </div> 

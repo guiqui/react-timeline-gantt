@@ -25,7 +25,7 @@
     height: 60px ;
     width: 100%;
     background-color:  rgb(112, 112, 112);
-    overflow-y: auto;
+    overflow: hidden;
     
 }
 
@@ -36,7 +36,7 @@
     left:0;
     height: 100% ;
     background-color: rgb(59, 59, 58);
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .timeLine-main-header-day-item{
@@ -98,7 +98,7 @@
 .timeLine-main-data-viewPort{
     flex: 1 1 auto;
     position: relative;
-    overflow-y: scroll;
+    overflow: scroll;
     
 }
 .timeLine-main-data-container{
@@ -207,7 +207,7 @@
     height:100% ;
     background-color: rgb(112, 112, 112);
     overflow-x: hidden;
-  
+    overflow-y: scroll;
 }
 
 .timeLine-side-task-container{
