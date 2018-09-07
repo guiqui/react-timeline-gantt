@@ -5,6 +5,7 @@ import './TimeLine.css'
 import TimeDataProvider from 'libs/provider/TimeDataProvider'
 import VerticalSpliter from 'libs/components/VerticalSpliter'
 import Header from 'libs/components/Headers'
+import DataViewPort from 'libs/components/data/DataViewPort'
 import DataTask from 'libs/components/data/DataTask'
 import {VerticalLine,DataRow,SideRow} from 'libs/components/Miscellaneus'
 import {BUFFER_DAYS,LEFT_BOUNDARIES} from 'libs/Const'
@@ -42,21 +43,25 @@ class TimeLine extends Component{
     }
 
     componentDidMount(){
-        this.numVisibleRows=Math.trunc(this.refs.dataViewPort.clientHeight / this.props.rowheight);
-        this.numVisibleDays=Math.trunc(this.refs.dataViewPort.clientWidth / this.props.dayWidth)+BUFFER_DAYS;
+        this.numVisibleRows=Math.trunc(this.refs.dataViewPort.refs.dataViewPort.clientHeight / this.props.rowheight);
+        this.numVisibleDays=Math.trunc(this.refs.dataViewPort.refs.dataViewPort.clientWidth / this.props.dayWidth)+BUFFER_DAYS;
         this.calculateVerticalScrollVariables();
 
         let middleScrollPosition=this.pxToScroll/2;
         //For middleNowPosition we get middleScrollPosition and we add half of the bar of the scroll
-        let middleNowPosition=this.refs.dataContainer.clientWidth/2;
+        let middleNowPosition=this.refs.dataViewPort.refs.dataContainer.clientWidth/2;
         ///Initialise bar to the middle and now position
-        this.refs.dataViewPort.scrollLeft=middleScrollPosition;
-        //this.refs.timeHeaderViewPort.scrollLeft=this.refs.dataViewPort.scrollLeft;
+        this.refs.dataViewPort.refs.dataViewPort.scrollLeft=middleScrollPosition;
+        //this.refs.timeHeaderViewPort.scrollLeft=this.refs.dataViewPort.refs.dataViewPort.scrollLeft;
         this.nowPosition=middleNowPosition;
+        let newdata=this.getDataToRender(this.state.months)
+        let new_end =this.numVisibleRows>=newdata.length?newdata.length-1:this.numVisibleRows;//Duplication need centraise
         this.setState((prevState) => {
             let result={...prevState};
             result.nowposition=middleNowPosition;
             result.scrollPos=middleScrollPosition;
+            result.data=newdata;
+            result.endRow=new_end;
             return result;
         })
         //Provider
@@ -102,24 +107,19 @@ class TimeLine extends Component{
         return day * this.props.dayWidth +now;
 
     }
-    dateToPixel(input){
-        let nowDate=new Date();
-        let inputTime=new Date(input);
-        let timeDiff = inputTime.getTime() - nowDate.getTime();
-        return Math.ceil(timeDiff / (1000 * 3600 ))+this.state.nowposition;
-    }
+
 
     calculateVerticalScrollVariables=()=>{
         //The pixel to scroll verically is equal to the pecentage of what the viewport represent in the context multiply by the context width
-        this.pxToScroll=(1-(this.refs.dataViewPort.clientWidth/this.refs.dataContainer.clientWidth)) * this.refs.dataContainer.clientWidth-1;
+        this.pxToScroll=(1-(this.refs.dataViewPort.refs.dataViewPort.clientWidth/this.refs.dataViewPort.refs.dataContainer.clientWidth)) * this.refs.dataViewPort.refs.dataContainer.clientWidth-1;
     }
     
 
     //Interaction Events 
     scollPos=(e)=>{ ///Needs serious refactoring to be able to centralise changes 
         e.preventDefault();
-        //this.refs.timeHeaderViewPort.scrollLeft=this.refs.dataViewPort.scrollLeft;
-        this.refs.taskViewPort.scrollTop=this.refs.dataViewPort.scrollTop;
+        //this.refs.timeHeaderViewPort.scrollLeft=this.refs.dataViewPort.refs.dataViewPort.scrollLeft;
+        this.refs.taskViewPort.scrollTop=this.refs.dataViewPort.refs.dataViewPort.scrollTop;
         let needUpdate=false;
         let new_nowposition=this.state.nowposition;
         let new_left=-1;
@@ -128,24 +128,24 @@ class TimeLine extends Component{
         let new_containerStyle=this.state.containerStyle;
         
         //Check if we have run out of scroll
-        if (this.refs.dataViewPort.scrollLeft>this.pxToScroll){//ContenLegnth-viewportLengt
+        if (this.refs.dataViewPort.refs.dataViewPort.scrollLeft>this.pxToScroll){//ContenLegnth-viewportLengt
             needUpdate=true;
             new_nowposition=this.state.nowposition-this.pxToScroll
             new_left=0;
         } else{
-            if (this.refs.dataViewPort.scrollLeft===0){//ContenLegnth-viewportLengt
+            if (this.refs.dataViewPort.refs.dataViewPort.scrollLeft===0){//ContenLegnth-viewportLengt
                 needUpdate=true;//This bug will be fixed once data to draw is filtered
                 new_nowposition=this.state.nowposition+this.pxToScroll
                 new_left=this.pxToScroll;
             }
         }
         //Check if we have are changing date
-        let currentIndx=Math.trunc((this.refs.dataViewPort.scrollLeft-this.state.nowposition) /this.props.dayWidth)// ++ when infinite scrolling OFfset
+        let currentIndx=Math.trunc((this.refs.dataViewPort.refs.dataViewPort.scrollLeft-this.state.nowposition) /this.props.dayWidth)// ++ when infinite scrolling OFfset
         if (currentIndx!==this.state.currentday){//We change days
             needUpdate=true;
         }
         //Check if we have scrolling rows
-        let new_start=Math.trunc(this.refs.dataViewPort.scrollTop/this.props.itemheight)
+        let new_start=Math.trunc(this.refs.dataViewPort.refs.dataViewPort.scrollTop/this.props.itemheight)
         let new_end =new_start+this.numVisibleRows>=this.state.data.length?this.state.data.length-1:new_start+this.numVisibleRows;
         if (new_start!==this.state.start){
             needUpdate=true;
@@ -175,15 +175,14 @@ class TimeLine extends Component{
                     endRow:new_end,
                     months:months,
                     containerStyle:new_containerStyle,
-                    scrollPos:this.refs.dataViewPort.scrollLeft
+                    scrollPos:this.refs.dataViewPort.refs.dataViewPort.scrollLeft
                 }
             )
             if(new_left !==-1){
                 this.state={
                     scrollPos:new_left
                 }
-                //this.refs.timeHeaderViewPort.scrollLeft=new_left;
-                this.refs.dataViewPort.scrollLeft=new_left;
+                this.refs.dataViewPort.refs.dataViewPort.scrollLeft=new_left;
             }
         }
     }
@@ -199,7 +198,7 @@ class TimeLine extends Component{
         if(this.dragging){
             let delta=this.draggingPosition-e.clientX;
             this.draggingPosition=e.clientX;
-            this.refs.dataViewPort.scrollLeft=this.refs.dataViewPort.scrollLeft+delta;
+            this.refs.dataViewPort.refs.dataViewPort.scrollLeft=this.refs.dataViewPort.refs.dataViewPort.scrollLeft+delta;
         }
     }
 
@@ -255,47 +254,8 @@ class TimeLine extends Component{
             }
         )
     }
-    componentDidMount(){
-        let newdata=this.getDataToRender(this.state.months)
-        let new_end =this.numVisibleRows>=newdata.length?newdata.length-1:this.numVisibleRows;//Duplication need centraise
-        this.setState({
-                data:newdata,
-                containerStyle:this.getContainerStyle(newdata.length),
-                endRow:new_end
-                
-            }
-        )
-    }
-    // //Render Methods
-    // renderMonth(){
-    //     return this.state.months.data.map(item=>{
-    //         return <HeaderMonthItem key={item.month} left={item.left}   width={item.width}  label={item.month}/>
-    //     })
 
-    // }
-    // renderTimeHeader(){
-    //     let result=[];
-    //     for (let i=-BUFFER_DAYS;i<this.numVisibleDays;i++){
-    //         let leftvalue =(this.state.currentday+i)*this.props.dayWidth+this.state.nowposition;
-    //         result.push(<HeaderDayItem key={this.state.currentday+i} day={this.state.currentday+i} width={this.props.dayWidth}  left={leftvalue}/>);
-    //     }
-    //     return result;
-    // }
-    renderRows(){
-        let result=[];
-        for (let i=this.state.startRow;i<this.state.endRow+1;i++){
-            let item=this.state.data[i];
-            if(!item) break
-            let new_position=this.dateToPixel(item.start);
-            let new_width=this.dateToPixel(item.end)-new_position;
-            if (new_position<LEFT_BOUNDARIES){
-                result.push(<DataRow key={i} label={item.name} top={i*this.props.itemheight} left={20} itemheight={this.props.itemheight} ><DataTask label={item.name}  color={item.color} left={new_position} width={new_width} onChildDrag={this.onChildDrag} > </DataTask> </DataRow>);
-            }else{
-                result.push(<DataRow key={i} label={item.name} top={i*this.props.itemheight} left={20} itemheight={this.props.itemheight} > </DataRow>);
-            }
-        }
-        return result;
-    }
+
     renderSiderow(){
         let result=[];
         for (let i=this.state.startRow;i<this.state.endRow+1;i++){
@@ -325,28 +285,24 @@ class TimeLine extends Component{
                 <VerticalSpliter onChangeSize={this.onChangeSize}/>
             </div>       
             <div className="timeLine-main">
-                {/* <div ref="timeHeaderViewPort" className="timeLine-main-header-viewPort">
-                    <div  className="timeLine-main-header-container">
-                        {this.renderMonth()} 
-                        {this.renderTimeHeader()} 
-                    </div>
-                </div> */}
-                <Header 
-                        months={this.state.months} 
+                <Header months={this.state.months} 
                         numVisibleDays={this.numVisibleDays}
                         currentday={this.state.currentday}
                         nowposition={this.state.nowposition}
                         dayWidth={this.props.dayWidth}
                         scrollPos={this.state.scrollPos}/>
-                <div ref="dataViewPort"  className="timeLine-main-data-viewPort" onScroll={this.scollPos}  
+                <DataViewPort 
+                    ref='dataViewPort'
+                    itemheight={this.props.itemheight}
+                    nowposition={this.state.nowposition}
+                    startRow={this.state.startRow}
+                    endRow={this.state.endRow}
+                    data={this.state.data}
+                    onScroll={this.scollPos}  
                     onMouseDown={this.doMouseDown} 
                     onMouseMove={this.doMouseMove}
                     onMouseUp={this.doMouseUp} 
-                    onMouseLeave ={this.doMouseLeave}>                
-                    <div ref="dataContainer" className="timeLine-main-data-container" style={this.state.containerStyle}>                   
-                        {this.renderRows()} 
-                    </div>
-                </div>
+                    onMouseLeave ={this.doMouseLeave}/>
             </div>
         </div>)
     }

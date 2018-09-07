@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import moment from  'moment'
-import {BUFFER_DAYS,LEFT_BOUNDARIES} from 'libs/Const'
+import {BUFFER_DAYS} from 'libs/Const'
 
 
 export class HeaderMonthItem extends Component{

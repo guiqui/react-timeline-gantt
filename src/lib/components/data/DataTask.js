@@ -6,15 +6,14 @@ export default class DataTask extends Component{
         this.doMouseDown=this.doMouseDown.bind(this)
         this.doMouseUp=this.doMouseUp.bind(this)
         this.calculateStyle=this.calculateStyle.bind(this)
-        this.state={dragging:false}
+        this.state={dragging:false,left:this.props.left}
     }
 
     doMouseDown(e){
         if (e.button === 0){
             this.props.onChildDrag(true)
             this.draggingPosition=e.clientX;
-            this.setState({dragging:true,
-                           left:this.props.left});
+            this.setState({dragging:true});
 
         }
     }
@@ -44,11 +43,11 @@ export default class DataTask extends Component{
     
     calculateStyle(){
 
-        if(this.state.dragging){
+        //if(this.state.dragging){
             return {backgroundColor: this.props.color,left:this.state.left,width:this.props.width}
-        }else{
-            return {backgroundColor: this.props.color,left:this.props.left,width:this.props.width}
-        }
+        //}else{
+        //    return {backgroundColor: this.props.color,left:this.props.left,width:this.props.width}
+       // }
      
     }
     render(){
