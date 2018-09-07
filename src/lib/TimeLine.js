@@ -7,7 +7,7 @@ import VerticalSpliter from 'libs/components/VerticalSpliter'
 import Header from 'libs/components/Headers'
 import DataViewPort from 'libs/components/data/DataViewPort'
 import DataTask from 'libs/components/data/DataTask'
-import {VerticalLine,DataRow,SideRow} from 'libs/components/Miscellaneus'
+import TaskList,{VerticalLine} from 'libs/components/data/TaskList'
 import {BUFFER_DAYS,LEFT_BOUNDARIES} from 'libs/Const'
 
 
@@ -119,7 +119,7 @@ class TimeLine extends Component{
     scollPos=(e)=>{ ///Needs serious refactoring to be able to centralise changes 
         e.preventDefault();
         //this.refs.timeHeaderViewPort.scrollLeft=this.refs.dataViewPort.refs.dataViewPort.scrollLeft;
-        this.refs.taskViewPort.scrollTop=this.refs.dataViewPort.refs.dataViewPort.scrollTop;
+        this.refs.taskViewPort.refs.taskViewPort.scrollTop=this.refs.dataViewPort.refs.dataViewPort.scrollTop;
         let needUpdate=false;
         let new_nowposition=this.state.nowposition;
         let new_left=-1;
@@ -256,32 +256,18 @@ class TimeLine extends Component{
     }
 
 
-    renderSiderow(){
-        let result=[];
-        for (let i=this.state.startRow;i<this.state.endRow+1;i++){
-            let item=this.state.data[i];
-            if(!item) break
-            result.push(<SideRow key={i} label={item.name} top={i*this.props.itemheight} itemheight={this.props.itemheight} ></SideRow>);
-        }
-        return result;
-    }
+
    
     render(){
         return (
         <div className="timeLine">   
             <div className="timeLine-side-main" style={this.state.sideStyle}> 
-                <div className="timeLine-side"> 
-                    <div className="timeLine-side-title">
-                        <div>
-                            My tasks todo
-                        </div>  
-                    </div>    
-                    <div ref="taskViewPort"  className="timeLine-side-task-viewPort" >                
-                        <div className="timeLine-side-task-container" style={this.state.containerStyle}>                   
-                            { this.renderSiderow() }
-                        </div> 
-                    </div>
-                </div> 
+                <TaskList
+                    ref='taskViewPort'
+                    itemheight={this.props.itemheight} 
+                    startRow={this.state.startRow}
+                    endRow={this.state.endRow}
+                    data={this.state.data}/>
                 <VerticalSpliter onChangeSize={this.onChangeSize}/>
             </div>       
             <div className="timeLine-main">

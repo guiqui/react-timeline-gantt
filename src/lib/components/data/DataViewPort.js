@@ -52,8 +52,7 @@ export default class DataViewPort extends Component{
     }
 
     render(){
-        this.containerStyle=this.getContainerStyle(this.props.data)
-        debugger
+        this.containerStyle=this.getContainerStyle(this.props.data.length)
         return (
         <div ref="dataViewPort"  className="timeLine-main-data-viewPort" 
                     onScroll={this.props.onScroll}  
