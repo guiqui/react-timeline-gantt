@@ -14,8 +14,7 @@
   "peerDependencies": {
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "css-layout": "^1.1.1",
-    "moment": "^2.22.1"
+    "css-layout": "^1.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -49,6 +48,17 @@
   },
   "author": "Guillermo  Quiros",
   "license": "MIT",
-  "keywords":["react","list","timeline","gantt","virtual","virtualize"],
-  "homepage":"https://github.com/guiqui/react-timeline"
+  "keywords": [
+    "react",
+    "list",
+    "timeline",
+    "gantt",
+    "virtual",
+    "virtualize"
+  ],
+  "homepage": "https://github.com/guiqui/react-timeline",
+  "dependencies": {
+    "react-sizeme": "^2.5.2",
+    "moment": "^2.22.1"
+  }
 }

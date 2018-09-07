@@ -1,6 +1,7 @@
 import React,{Component} from  'react'
-import {LEFT_BOUNDARIES} from 'libs/Const'
+import {LEFT_BOUNDARIES,DATA_CONTAINER_WIDTH} from 'libs/Const'
 import DataTask from 'libs/components/data/DataTask'
+import sizeMe from 'react-sizeme'
 
 export class DataRow extends Component{
     constructor(props){
@@ -16,14 +17,14 @@ export class DataRow extends Component{
     }
 }
 
-export default class DataViewPort extends Component{
+export  class DataViewPort extends Component{
     constructor(props){
         super(props)
         this.childDragging=false
     }
-    getContainerStyle(rows){
+    getContainerHeight(rows){
         let new_height=rows>0?rows * this.props.itemheight:10;
-        return {height:new_height}
+        return new_height
     }
     onChildDrag=(dragging)=>{
         this.childDragging=dragging;
@@ -52,27 +53,40 @@ export default class DataViewPort extends Component{
         return result;
     }
     onScroll=(e)=>{
+        e.preventDefault();
         if (!this.childDragging)
-            this.props.onScroll(e)
+            this.props.onScroll(this.refs.dataViewPort)
     }
     doMouseDown=(e)=>{
         if ((e.button === 0) && (!this.childDragging)) {
             this.props.onMouseDown(e)
         }
     }
+    doMouseMove=(e)=>{
+        this.props.onMouseMove(e,this.refs.dataViewPort)
+    }
+    componentDidMount(){
+        this.refs.dataViewPort.scrollLeft=0;
+    }
 
     render(){
-        this.containerStyle=this.getContainerStyle(this.props.data.length)
+        if (this.refs.dataViewPort){
+            this.refs.dataViewPort.scrollLeft=this.props.scrollLeft;
+        }
+            
+        let height=this.getContainerHeight()
         return (
         <div ref="dataViewPort"  className="timeLine-main-data-viewPort" 
                     onScroll={this.onScroll}  
                     onMouseDown={this.doMouseDown} 
-                    onMouseMove={this.props.onMouseMove}
+                    onMouseMove={this.doMouseMove}
                     onMouseUp={this.props.onMouseUp} 
                     onMouseLeave ={this.props.onMouseLeave}>                
-            <div ref="dataContainer" className="timeLine-main-data-container" style={this.containerStyle}>                   
+            <div className="timeLine-main-data-container" style={{height:height,width:DATA_CONTAINER_WIDTH}}>                   
                 {this.renderRows()} 
             </div>
         </div>)
     }
 }
+
+export default sizeMe({monitorWidth:true,monitorHeight:true})(DataViewPort)

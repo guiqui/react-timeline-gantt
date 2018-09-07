@@ -32,7 +32,6 @@ export default class TaskList extends Component{
         return {height:new_height}
     }
     renderSiderow(){
-        debugger
         let result=[];
         for (let i=this.props.startRow;i<this.props.endRow+1;i++){
             let item=this.props.data[i];

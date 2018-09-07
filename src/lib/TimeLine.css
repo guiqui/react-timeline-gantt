@@ -35,7 +35,6 @@
     top:0;
     left:0;
     height: 100% ;
-    width: 3000px;
     background-color: rgb(59, 59, 58);
     overflow-x: hidden;
 }
@@ -107,8 +106,6 @@
     top:0;
     left:0;
     height: 100% ;
-    width: 3000px;
-    max-width: 3000px;
     background-color: rgb(255, 255, 255);
 }
 

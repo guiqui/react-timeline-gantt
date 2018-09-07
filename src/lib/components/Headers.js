@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import moment from  'moment'
-import {BUFFER_DAYS} from 'libs/Const'
+import {BUFFER_DAYS,DATA_CONTAINER_WIDTH} from 'libs/Const'
 
 
 export class HeaderMonthItem extends Component{
@@ -57,11 +57,11 @@ export default class Header extends Component {
     }
     render(){
         if (this.refs.Header)
-            this.refs.Header.scrollLeft=this.props.scrollPos;
+            this.refs.Header.scrollLeft=this.props.scrollLeft;
         
         return  <div ref="Header" 
                     className="timeLine-main-header-viewPort">
-                    <div  className="timeLine-main-header-container">
+                    <div  className="timeLine-main-header-container" style={{width:DATA_CONTAINER_WIDTH}}>
                         {this.renderMonth()} 
                         {this.renderTimeHeader()} 
                     </div>
