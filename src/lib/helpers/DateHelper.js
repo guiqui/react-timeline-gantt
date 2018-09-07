@@ -6,8 +6,10 @@ class DateHelper{
         let timeDiff = inputTime.getTime() - nowDate.getTime();
         return Math.ceil(timeDiff / (1000 * 3600 ))+nowposition;
     }
-    pixelToDate(){
-
+    pixelToDate(position,nowposition){
+        let pixelsFromNow=position-nowposition;
+        let milisecondsFromNow=new Date().getTime()+pixelsFromNow*1000 * 3600 ;
+        return new Date(milisecondsFromNow);
     }
 }
 const helper=new DateHelper();
