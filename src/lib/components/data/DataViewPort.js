@@ -19,6 +19,7 @@ export class DataRow extends Component{
 export default class DataViewPort extends Component{
     constructor(props){
         super(props)
+        this.childDragging=false
     }
     getContainerStyle(rows){
         let new_height=rows>0?rows * this.props.itemheight:10;
@@ -50,13 +51,22 @@ export default class DataViewPort extends Component{
         }
         return result;
     }
+    onScroll=(e)=>{
+        if (!this.childDragging)
+            this.props.onScroll(e)
+    }
+    doMouseDown=(e)=>{
+        if ((e.button === 0) && (!this.childDragging)) {
+            this.props.onMouseDown(e)
+        }
+    }
 
     render(){
         this.containerStyle=this.getContainerStyle(this.props.data.length)
         return (
         <div ref="dataViewPort"  className="timeLine-main-data-viewPort" 
-                    onScroll={this.props.onScroll}  
-                    onMouseDown={this.props.onMouseDown} 
+                    onScroll={this.onScroll}  
+                    onMouseDown={this.doMouseDown} 
                     onMouseMove={this.props.onMouseMove}
                     onMouseUp={this.props.onMouseUp} 
                     onMouseLeave ={this.props.onMouseLeave}>                

@@ -24,8 +24,8 @@ class TimeLine extends Component{
         //Initialising Drawing variables
         this.numVisibleRows=30; 
         this.numVisibleDays=60;
-        ///Child Management
-        this.childDragging=false
+       
+        
         //This variable define the number of pixels the viewport can scroll till arrive to the end of the context
         this.pxToScroll=1900;
         //Initialising state
@@ -188,10 +188,10 @@ class TimeLine extends Component{
     }
 
     doMouseDown=(e)=>{
-        if ((e.button === 0) && (!this.childDragging)) {
-            this.dragging=true;
-            this.draggingPosition=e.clientX;
-        }
+       
+        this.dragging=true;
+        this.draggingPosition=e.clientX;
+        
     }
 
     doMouseMove=(e)=>{
@@ -221,10 +221,7 @@ class TimeLine extends Component{
         this.calculateVerticalScrollVariables()
     }
 
-    onChildDrag=(dragging)=>{
-        this.childDragging=dragging;
-    }
-
+  
     getContainerStyle(rows){
         let new_height=rows>0?rows * this.props.itemheight:10;
         return {height:new_height}
