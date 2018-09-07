@@ -41,7 +41,7 @@ export default class TaskList extends Component{
         return result;
     }
     doScroll=()=>{
-        this.props.onScroll(this.refs.taskViewPort)
+        this.props.onScroll(this.refs.taskViewPort.scrollTop)
     }
     render(){
         this.containerStyle=this.getContainerStyle(this.props.data.length)

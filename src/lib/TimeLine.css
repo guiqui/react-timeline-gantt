@@ -98,7 +98,7 @@
 .timeLine-main-data-viewPort{
     flex: 1 1 auto;
     position: relative;
-    overflow: scroll;
+    overflow: hidden;
     
 }
 .timeLine-main-data-container{

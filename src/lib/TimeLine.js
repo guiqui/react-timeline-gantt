@@ -94,7 +94,6 @@ class TimeLine extends Component{
     }
     
     onSize = size => {
-        console.log('Resizing ', size.width)
         //If size has changed
         this.calculateVerticalScrollVariables(size);
         // if (!this.state.initialise)
