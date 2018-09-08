@@ -52,7 +52,6 @@
     border-top:solid 1px;
     border-bottom:solid 1px;
     top:20px;
-    width: 24px;
     height:40px;
     color: white;
     text-align: center;
@@ -231,9 +230,11 @@
 }
 
 
-::-webkit-scrollbar { 
+/* ::-webkit-scrollbar { 
     display: none; 
-}
+} */
+
+
 
 /* width
 ::-webkit-scrollbar {

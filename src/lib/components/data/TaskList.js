@@ -17,7 +17,7 @@ export class SideRow extends Component{
     }
     render(){
         return (
-        <div className="timeLine-side-task-row" style={{top:this.props.top}}>
+        <div className="timeLine-side-task-row" style={{top:this.props.top,height:this.props.itemheight}}>
             {this.props.label}
         </div>)    
     }

@@ -1,4 +1,6 @@
 import React,{Component} from 'react'
+import DateHelper from 'libs/helpers/DateHelper'
+
 export default class DataTask extends Component{
     constructor(props){
         super(props);
@@ -38,15 +40,16 @@ export default class DataTask extends Component{
 
     doMouseUp(e){
         this.props.onChildDrag(false)
+        this.props.item.start=DateHelper.pixelToDate(this.state.left,this.props.nowposition);
         this.setState({dragging:false})
     }
     
     calculateStyle(){
 
         if(this.state.dragging){
-            return {backgroundColor: this.props.color,left:this.state.left,width:this.props.width}
+            return {backgroundColor: this.props.color,left:this.state.left,width:this.props.width,height:this.props.height}
         }else{
-           return {backgroundColor: this.props.color,left:this.props.left,width:this.props.width}
+           return {backgroundColor: this.props.color,left:this.props.left,width:this.props.width,height:this.props.height}
        }
      
     }

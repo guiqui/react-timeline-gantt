@@ -36,13 +36,18 @@ export  class DataViewPort extends Component{
         for (let i=this.props.startRow;i<this.props.endRow+1;i++){
             let item=this.props.data[i];
             if(!item) break
-            let new_position=DateHelper.dateToPixel(item.start,this.props.nowposition);
-            console.log(`Now Position ${new_position}`)
-            let new_width=DateHelper.dateToPixel(item.end,this.props.nowposition)-new_position;
-            console.log(`Now Width ${new_width}`)
-            console.log(`Scroll Left ${this.props.scrollLeft}`)
+            let new_position=DateHelper.dateToPixel(item.start,this.props.nowposition,this.props.dayWidth);
+            let new_width=DateHelper.dateToPixel(item.end,this.props.nowposition,this.props.dayWidth)-new_position;
             // if (new_position<DATA_CONTAINER_WIDTH){
-            result.push(<DataRow key={i} label={item.name} top={i*this.props.itemheight} left={20} itemheight={this.props.itemheight} ><DataTask item={item} label={item.name}  color={item.color} left={new_position} width={new_width} onChildDrag={this.onChildDrag} > </DataTask> </DataRow>);
+            result.push(<DataRow key={i} label={item.name} top={i*this.props.itemheight} left={20} itemheight={this.props.itemheight} >
+                    <DataTask item={item} label={item.name}  
+                              nowposition={this.props.nowposition} 
+                              color={item.color} 
+                              left={new_position} 
+                              width={new_width} 
+                              height={this.props.itemheight}
+                              onChildDrag={this.onChildDrag} > </DataTask> 
+                </DataRow>);
             // }else{
             //     result.push(<DataRow key={i} label={item.name} top={i*this.props.itemheight} left={20} itemheight={this.props.itemheight} > </DataRow>);
             // }

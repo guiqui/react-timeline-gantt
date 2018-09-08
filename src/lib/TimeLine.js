@@ -110,7 +110,7 @@ class TimeLine extends Component{
 
         // }
         this.setState({
-            numVisibleRows:Math.trunc(size.height / this.props.rowheight),
+            numVisibleRows:Math.trunc(size.height / this.props.itemheight),
             numVisibleDays:Math.trunc(size.width / this.props.dayWidth)+BUFFER_DAYS
         })
     }
@@ -273,6 +273,7 @@ class TimeLine extends Component{
                     startRow={this.state.startRow}
                     endRow={this.state.endRow}
                     data={this.state.data}
+                    dayWidth={this.props.dayWidth}
                     onScroll={this.scrollData}  
                     onMouseDown={this.doMouseDown} 
                     onMouseMove={this.doMouseMove}

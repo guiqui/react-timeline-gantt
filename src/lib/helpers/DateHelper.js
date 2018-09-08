@@ -1,10 +1,11 @@
 class DateHelper{
 
-    dateToPixel(input,nowposition){
+    dateToPixel(input,nowposition,daywidth){
         let nowDate=new Date();
         let inputTime=new Date(input);
         let timeDiff = inputTime.getTime() - nowDate.getTime();
-        return Math.ceil(timeDiff / (1000 * 3600 ))+nowposition;
+        let pixelWeight=daywidth/24;
+        return Math.ceil((timeDiff / (1000 * 3600 )*pixelWeight))+nowposition;
     }
     pixelToDate(position,nowposition){
         let pixelsFromNow=position-nowposition;
