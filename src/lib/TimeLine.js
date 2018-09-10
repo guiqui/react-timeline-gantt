@@ -6,7 +6,7 @@ import Header from 'libs/components/header/Headers'
 import DataViewPort from 'libs/components/viewport/DataViewPort'
 import TaskList from 'libs/components/taskList/TaskList'
 import {BUFFER_DAYS,DATA_CONTAINER_WIDTH} from 'libs/Const'
-import DataController from 'libs/provider/DataController'
+import DataController from 'libs/controller/DataController'
 import './TimeLine.css'
 
 
@@ -149,8 +149,8 @@ class TimeLine extends Component{
         let new_nowposition=this.state.nowposition;
         let new_left=-1;
         let months=this.state.months;
-        let new_start=this.state.startRow;
-        let new_end =this.state.endRow;
+        let new_startRow=this.state.startRow;
+        let new_endRow=this.state.endRow;
         
         //Calculating if we need to roll up the scroll
         if (newScrollLeft>this.pxToScroll){//ContenLegnth-viewportLengt
@@ -177,8 +177,8 @@ class TimeLine extends Component{
         }
 
         //Calculate rows to render
-        new_start=Math.trunc(this.state.scrollTop/this.props.itemheight)
-        new_end =new_start+this.state.numVisibleRows>=this.props.data.length?this.props.data.length-1:new_start+this.state.numVisibleRows;
+        new_startRow=Math.trunc(this.state.scrollTop/this.props.itemheight)
+        new_endRow =new_startRow+this.state.numVisibleRows>=this.props.data.length?this.props.data.length-1:new_startRow+this.state.numVisibleRows;
         //If we need updates then change the state and the scroll position
         //Got you
         this.setStartEnd();
@@ -188,8 +188,8 @@ class TimeLine extends Component{
                 nowposition:new_nowposition,
                 months:months,
                 scrollLeft: new_left,
-                startRow:new_start,
-                endRow:new_end,
+                startRow:new_startRow,
+                endRow:new_endRow,
         })
         
     }

@@ -8,7 +8,7 @@ import { mount } from 'enzyme';
 describe('TimeLine Component Suite ', function () {
     it('TimeLine Render Properly',()=>{
         const div= document.createElement('div');
-        ReactDOM.render(<TimeLine />,div)
+        ReactDOM.render(<TimeLine  data={[]}/>,div)
       
     })
 
@@ -37,7 +37,7 @@ describe('TimeLine Component Suite ', function () {
     //       console.log(testRenderer.toJSON());
     // })
     test('Enzyme Renderiung',()=>{
-        const wrapper = mount(<TimeLine />);
+        const wrapper = mount(<TimeLine data={[]}/>);
         console.log('TimeLine')
         
         console.log(wrapper.find('timeLine').length)
