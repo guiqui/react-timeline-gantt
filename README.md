@@ -15,19 +15,31 @@ An awesome blazing fast timeline component.
 - Can render more than a 100k records.
 - Implemented with virtual rendering.
 
-
-## Status
-Have scrolling and rendering done
-The next stage is externalizing the data, addin paging and make it redux friendly.
-Some help will be apreciated :)
-
-## Demo
-Check out a working demo [here](https://guiqui.github.io/react-timeline/index.html)
+## Road Map
+- Full Test coverage.
+- Hierachical data.
+- Day and week view.
+- Gantt lines and constrains.
 
 ## Installation
 ```javascript
 npm install react-gantt-timeline
 ```
+## Defining Timeline Data
+The timeline data can be set with the data property of the time line.
+The data needs to be an array of object.
+Each item of the array needs to contain the following elements.
+
+| Property      | value   | Descriptions                        |
+| ------------- |:-------:| -----------------------------------:|
+| start         | date    | The start date of the task          |
+| end           | date    | The end date of the task            |
+| name          | string  | The name of the task to be diplayed |
+
+## Demo
+Check out a working demo [here](https://guiqui.github.io/react-timeline/index.html)
+
+
 
 
 ## Some Demo Code
