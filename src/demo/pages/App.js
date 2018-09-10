@@ -10,7 +10,8 @@ class App extends Component{
     this.state={
       daysWidth:30,
       itemheight:30,
-      timeLineData:[]
+      timeLineData:[],
+      selectedItem:null
     }
   }
 
@@ -30,6 +31,18 @@ class App extends Component{
       this.setState({timeLineData:result})
   }
   
+  onSelectItem=(item)=>{
+    console.log(`Select Item ${item}`)
+    this.setState({selectedItem:item})
+  }
+
+  onUpdateItem=(item,props)=>{
+    item.start=props.start;
+    item.end=props.end;
+    this.setState({timeLineData:[...this.state.timeLineData]})
+    console.log(`Update Item ${item}`)
+  }
+
   render(){
 
     return (
@@ -38,7 +51,13 @@ class App extends Component{
        {/* DayWidth<input type="range" min="30" max="500" value={this.state.daysWidth} onChange={this.handleDayWidth} step="1"/>
        Item Height<input type="range" min="30" max="500" value={this.state.itemheight} onChange={this.handleItemHeight} step="1"/> */}
         <div className="time-line-container">
-          <TimeLine  data={this.state.timeLineData} onNeedData={this.onNeedData} itemheight={this.state.itemheight} dayWidth={this.state.daysWidth}/>
+          <TimeLine  data={this.state.timeLineData} 
+            onNeedData={this.onNeedData} 
+            onSelectItem={this.onSelectItem}
+            onUpdateItem={this.onUpdateItem}
+            itemheight={this.state.itemheight} 
+            dayWidth={this.state.daysWidth}
+            selectedItem={this.state.selectedItem}/>
         </div>
       </div>
 

@@ -40,7 +40,9 @@ export default class DataTask extends Component{
 
     doMouseUp(e){
         this.props.onChildDrag(false)
-        this.props.item.start=DateHelper.pixelToDate(this.state.left,this.props.nowposition);
+        let new_start_date=DateHelper.pixelToDate(this.state.left,this.props.nowposition,this.props.dayWidth);
+        let new_end_date=DateHelper.pixelToDate(this.state.left+this.props.width,this.props.nowposition,this.props.dayWidth);
+        this.props.onUpdateItem(this.props.item,{start:new_start_date,end:new_end_date})
         this.setState({dragging:false})
     }
     
@@ -57,8 +59,9 @@ export default class DataTask extends Component{
         return (
         <div className="timeLine-main-data-task" 
             onMouseDown={this.doMouseDown}
+            onClick={(e)=>{this.props.onSelectItem(this.props.item)}}
             style={this.calculateStyle()}>
-            {this.props.label}
+       
         </div>)
           
     }

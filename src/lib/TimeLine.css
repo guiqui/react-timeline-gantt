@@ -228,30 +228,3 @@
     overflow: hidden;
     text-overflow: ellipsis; 
 }
-
-
-/* ::-webkit-scrollbar { 
-    display: none; 
-} */
-
-
-
-/* width
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-/* Track */
-/* ::-webkit-scrollbar-track {
-    background: rgba(210, 51, 30,0),; 
-}  */
-
-/* Handle */
- /* ::-webkit-scrollbar-thumb {
-    background: rgba(210, 51, 30,0),; 
-} */
-
-/* Handle on hover */
-/* ::-webkit-scrollbar-thumb:hover {
-    background: rgba(210, 51, 30,0),; 
-}  */

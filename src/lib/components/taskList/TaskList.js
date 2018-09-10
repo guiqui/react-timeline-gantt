@@ -12,13 +12,17 @@ export class VerticalLine extends Component{
 
 }
 
-export class SideRow extends Component{
+export class TaskRow extends Component{
     constructor(props){
         super(props);
     }
     render(){
+        let backgroundColor=this.props.isSelected?'chocolate':'grey'
         return (
-        <div className="timeLine-side-task-row" style={{top:this.props.top,height:this.props.itemheight}}>
+        <div className="timeLine-side-task-row" 
+            //  contentEditable={true}
+             style={{top:this.props.top,height:this.props.itemheight,backgroundColor:backgroundColor}}
+             onClick={(e)=>this.props.onSelectItem(this.props.item)}>
             {this.props.label}
         </div>)    
     }
@@ -32,12 +36,19 @@ export default class TaskList extends Component{
         let new_height=rows>0?rows * this.props.itemheight:10;
         return {height:new_height}
     }
-    renderSiderow(){
+    renderTaskRow(){
         let result=[];
         for (let i=this.props.startRow;i<this.props.endRow+1;i++){
             let item=this.props.data[i];
             if(!item) break
-            result.push(<SideRow key={i} label={item.name} top={i*this.props.itemheight} itemheight={this.props.itemheight} ></SideRow>);
+            result.push(<TaskRow key={i}    
+                                 item={item}
+                                 label={item.name} 
+                                 top={i*this.props.itemheight} 
+                                 itemheight={this.props.itemheight} 
+                                 isSelected={this.props.selectedItem==item}
+                                 onSelectItem={this.props.onSelectItem}></TaskRow>);
+                        
         }
         return result;
     }
@@ -55,7 +66,7 @@ export default class TaskList extends Component{
                 </div>    
                 <div ref="taskViewPort"  className="timeLine-side-task-viewPort" onScroll={this.doScroll}  >                
                     <div className="timeLine-side-task-container" style={this.containerStyle}>                   
-                        { this.renderSiderow() }
+                        { this.renderTaskRow() }
                     </div> 
                 </div>
             </div> 

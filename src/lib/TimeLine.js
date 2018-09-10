@@ -237,7 +237,15 @@ class TimeLine extends Component{
         return result;
     }
 
+    onSelectItem=(item)=>{
+        if (this.props.onSelectItem)
+            this.props.onSelectItem(item)
+    }
 
+    onUpdateItem=(item,props)=>{
+        if (this.props.onUpdateItem)
+            this.props.onUpdateItem(item,props)
+    }
    
     render(){
 
@@ -250,6 +258,9 @@ class TimeLine extends Component{
                     startRow={this.state.startRow}
                     endRow={this.state.endRow}
                     data={this.props.data}
+                    selectedItem={this.props.selectedItem}
+                    onSelectItem={this.onSelectItem}
+                    onUpdateItem={this.onUpdateItem}
                     onScroll={this.verticalChange}/>
                 <VerticalSpliter onChangeSize={this.onChangeSize}/>
             </div>       
@@ -269,12 +280,15 @@ class TimeLine extends Component{
                     startRow={this.state.startRow}
                     endRow={this.state.endRow}
                     data={this.props.data}
+                    selectedItem={this.props.selectedItem}
                     dayWidth={this.props.dayWidth}
                     onScroll={this.scrollData}  
                     onMouseDown={this.doMouseDown} 
                     onMouseMove={this.doMouseMove}
                     onMouseUp={this.doMouseUp} 
                     onMouseLeave ={this.doMouseLeave}
+                    onSelectItem={this.onSelectItem}
+                    onUpdateItem={this.onUpdateItem}
                     boundaries={{lower:this.state.scrollLeft,upper:this.state.scrollLeft+this.state.size.width}}
                     onSize={this.onSize}/>
             </div>
