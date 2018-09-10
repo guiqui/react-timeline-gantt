@@ -1,6 +1,6 @@
 import React,{Component} from  'react'
 import {DATA_CONTAINER_WIDTH} from 'libs/Const'
-import DataTask from 'libs/components/data/DataTask'
+import DataTask from 'libs/components/viewport/DataTask'
 import DateHelper from 'libs/helpers/DateHelper'
 import sizeMe from 'react-sizeme'
 
@@ -31,13 +31,43 @@ export  class DataViewPort extends Component{
         this.childDragging=dragging;
     }
 
+    // calculatePosition=(item)=>{
+    //     let new_position=DateHelper.dateToPixel(item.start,this.props.nowposition,this.props.dayWidth);
+    //     let new_width=DateHelper.dateToPixel(item.end,this.props.nowposition,this.props.dayWidth)-new_position;
+    //     //Checking start
+    //     if (new_position<this.props.boundaries.lower){
+    //         if (new_position+new_width<this.props.boundaries.lower){
+    //             //no in visible space
+    //             return({left:0,width:0})
+    //         }
+    //         else{
+    //             new_position=this.props.boundaries.lower-12;
+    //         }
+    //     }
+    //     if (new_position>this.props.boundaries.upper){
+    //             return({left:0,width:0})
+    //     }
+    //     if (new_position>this.props.boundaries.upper){
+    //         return({left:0,width:0})
+    //     }else{
+
+    //     }
+
+
+
+    // }
+
     renderRows=()=>{
         let result=[];
         for (let i=this.props.startRow;i<this.props.endRow+1;i++){
             let item=this.props.data[i];
             if(!item) break
+            //FIXME PAINT IN BOUNDARIES
+            
             let new_position=DateHelper.dateToPixel(item.start,this.props.nowposition,this.props.dayWidth);
             let new_width=DateHelper.dateToPixel(item.end,this.props.nowposition,this.props.dayWidth)-new_position;
+           
+
             // if (new_position<DATA_CONTAINER_WIDTH){
             result.push(<DataRow key={i} label={item.name} top={i*this.props.itemheight} left={20} itemheight={this.props.itemheight} >
                     <DataTask item={item} label={item.name}  
@@ -85,7 +115,7 @@ export  class DataViewPort extends Component{
                     onMouseMove={this.doMouseMove}
                     onMouseUp={this.props.onMouseUp} 
                     onMouseLeave ={this.props.onMouseLeave}>                
-            <div className="timeLine-main-data-container" style={{height:height,width:DATA_CONTAINER_WIDTH}}>                   
+            <div className="timeLine-main-data-container" style={{height:height,width:DATA_CONTAINER_WIDTH,maxWidth:DATA_CONTAINER_WIDTH}}>                   
                 {this.renderRows()} 
             </div>
         </div>)

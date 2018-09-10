@@ -1,12 +1,12 @@
 import React,{Component} from 'react'
 import PropTypes from 'prop-types'
 import moment  from 'moment'  
-import TimeDataProvider from 'libs/provider/TimeDataProvider'
 import VerticalSpliter from 'libs/components/VerticalSpliter'
-import Header from 'libs/components/Headers'
-import DataViewPort from 'libs/components/data/DataViewPort'
-import TaskList,{VerticalLine} from 'libs/components/data/TaskList'
+import Header from 'libs/components/header/Headers'
+import DataViewPort from 'libs/components/viewport/DataViewPort'
+import TaskList from 'libs/components/taskList/TaskList'
 import {BUFFER_DAYS,DATA_CONTAINER_WIDTH} from 'libs/Const'
+import DataController from 'libs/provider/DataController'
 import './TimeLine.css'
 
 
@@ -17,9 +17,11 @@ class TimeLine extends Component{
         this.dragging=false;
         this.draggingPosition=0;
         //Initianlising Data Provider
-        this.dataProvider=new TimeDataProvider();
-        this.dataProvider.onPageLoad=this.onPageLoad;
-
+        //this.dataProvider=new TimeDataProvider();
+        this.dc=new DataController();
+        this.dc.onNeedData=this.onNeedData;
+        //this.dataProvider.onPageLoad=this.onPageLoad;
+        this.initialise=false;
         //This variable define the number of pixels the viewport can scroll till arrive to the end of the context
         this.pxToScroll=1900;
         //Initialising state
@@ -28,27 +30,19 @@ class TimeLine extends Component{
             nowposition:0,//      
             startRow:0,//
             endRow:30,
-            data:this.dataProvider.data,
             months:this.calculateMonthData(0,30,0),
             sideStyle:{width:200},
             scrollLeft:0,
             scrollTop:0,
             numVisibleRows:30,
             numVisibleDays:60,
-            intialise:false
+            size:{width:1}
         }
     }
 
-    componentDidMount(){
-        let newdata=this.getDataToRender(this.state.months)
-        let new_end =this.state.numVisibleRows>=newdata.length?newdata.length-1:this.state.numVisibleRows;//Duplication need centraise
-        this.setState((prevState) => {
-            let result={...prevState};
-            result.data=newdata;
-            result.endRow=new_end;
-            return result;
-        })
-        this.dataProvider.setCurrentPage(this.state.months.data[1].key);
+    onNeedData=(lowerLimit,upLimit)=>{
+        if (this.props.onNeedData)
+            this.props.onNeedData(lowerLimit,upLimit)
     }
 
 
@@ -76,6 +70,8 @@ class TimeLine extends Component{
         return result;
     }
 
+
+
     changingMonth=(start,end)=>{
         let startMonth=moment().add(start, 'days').format("M-YYYY");  
         let endMonth=moment().add(end, 'days').format("M-YYYY");
@@ -96,7 +92,13 @@ class TimeLine extends Component{
     onSize = size => {
         //If size has changed
         this.calculateVerticalScrollVariables(size);
-        // if (!this.state.initialise)
+         if (!this.initialise){
+            this.dc.initialise(this.state.scrollLeft+this.state.nowposition,
+                this.state.scrollLeft+this.state.nowposition+size.width,
+                this.state.nowposition,this.props.dayWidth
+            )
+
+         }
         // {
 
         // }else{
@@ -109,9 +111,11 @@ class TimeLine extends Component{
         //     this.nowPosition=middleNowPosition;  
 
         // }
+        this.setStartEnd();
         this.setState({
             numVisibleRows:Math.trunc(size.height / this.props.itemheight),
-            numVisibleDays:Math.trunc(size.width / this.props.dayWidth)+BUFFER_DAYS
+            numVisibleDays:Math.trunc(size.width / this.props.dayWidth)+BUFFER_DAYS,
+            size:size
         })
     }
     //Interaction Events 
@@ -120,7 +124,7 @@ class TimeLine extends Component{
             return;
         //Check if we have scrolling rows
         let new_start=Math.trunc(scrollTop/this.props.itemheight)
-        let new_end =new_start+this.state.numVisibleRows>=this.state.data.length?this.state.data.length-1:new_start+this.state.numVisibleRows;
+        let new_end =new_start+this.state.numVisibleRows>=this.props.data.length?this.props.data.length-1:new_start+this.state.numVisibleRows;
         if (new_start!==this.state.start){
             //Got you
             this.setState(
@@ -132,19 +136,24 @@ class TimeLine extends Component{
         }
     }
 
+    
+    setStartEnd=()=>{
+        this.dc.setStartEnd(this.state.scrollLeft,
+                            this.state.scrollLeft+this.state.size.width,
+                            this.state.nowposition,
+                            this.props.dayWidth)
+    }
+
 
     horizontalChange=(newScrollLeft)=>{
-        let needUpdate=false;
         let new_nowposition=this.state.nowposition;
         let new_left=-1;
-        let renderData=this.state.data;
         let months=this.state.months;
         let new_start=this.state.startRow;
         let new_end =this.state.endRow;
         
-        //Check if we have run out of scroll
+        //Calculating if we need to roll up the scroll
         if (newScrollLeft>this.pxToScroll){//ContenLegnth-viewportLengt
-     
             new_nowposition=this.state.nowposition-this.pxToScroll
             new_left=0;
         } else{
@@ -155,33 +164,28 @@ class TimeLine extends Component{
                 new_left=newScrollLeft;
             }
         }
-        //Check if we have are changing date
-        let currentIndx=Math.trunc((newScrollLeft-this.state.nowposition) /this.props.dayWidth)
-        // ++ when infinite scrolling OFfset
-        if (currentIndx!==this.state.currentday){//We change days
 
-        }
-        
+        //Get the day of the left position
+        let currentIndx=Math.trunc((newScrollLeft-this.state.nowposition) /this.props.dayWidth)
+ 
         //Check if we need to change moths and load new data
         if (this.changingMonth(currentIndx,currentIndx+this.state.numVisibleDays)){
             months=this.calculateMonthData(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition)
-            this.dataProvider.setCurrentPage(months.data[1].key)
-            renderData=this.getDataToRender(months);
         }else{ 
             if(new_left !=-1)
                 months=this.calculateMonthData(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition)
         }
 
-
+        //Calculate rows to render
         new_start=Math.trunc(this.state.scrollTop/this.props.itemheight)
-        new_end =new_start+this.state.numVisibleRows>=renderData.length?renderData.length-1:new_start+this.state.numVisibleRows;
+        new_end =new_start+this.state.numVisibleRows>=this.props.data.length?this.props.data.length-1:new_start+this.state.numVisibleRows;
         //If we need updates then change the state and the scroll position
         //Got you
+        this.setStartEnd();
         this.setState(
             this.state={
                 currentday:currentIndx,
                 nowposition:new_nowposition,
-                data:renderData,
                 months:months,
                 scrollLeft: new_left,
                 startRow:new_start,
@@ -233,18 +237,10 @@ class TimeLine extends Component{
         return result;
     }
 
-    onPageLoad=()=>{
-        let newdata=this.getDataToRender(this.state.months)
-        let new_end =this.state.numVisibleRows>=newdata.length?newdata.length-1:this.state.numVisibleRows;//Duplication need centraise
-        this.setState({
-                data:newdata,
-                endRow:new_end
-                
-            }
-        )
-    }
+
    
     render(){
+
         return (
         <div className="timeLine">   
             <div className="timeLine-side-main" style={this.state.sideStyle}> 
@@ -253,7 +249,7 @@ class TimeLine extends Component{
                     itemheight={this.props.itemheight} 
                     startRow={this.state.startRow}
                     endRow={this.state.endRow}
-                    data={this.state.data}
+                    data={this.props.data}
                     onScroll={this.verticalChange}/>
                 <VerticalSpliter onChangeSize={this.onChangeSize}/>
             </div>       
@@ -272,13 +268,14 @@ class TimeLine extends Component{
                     nowposition={this.state.nowposition}
                     startRow={this.state.startRow}
                     endRow={this.state.endRow}
-                    data={this.state.data}
+                    data={this.props.data}
                     dayWidth={this.props.dayWidth}
                     onScroll={this.scrollData}  
                     onMouseDown={this.doMouseDown} 
                     onMouseMove={this.doMouseMove}
                     onMouseUp={this.doMouseUp} 
                     onMouseLeave ={this.doMouseLeave}
+                    boundaries={{lower:this.state.scrollLeft,upper:this.state.scrollLeft+this.state.size.width}}
                     onSize={this.onSize}/>
             </div>
         </div>)
