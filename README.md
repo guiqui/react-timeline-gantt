@@ -8,6 +8,10 @@
 
 An awesome blazing fast timeline -gantt component.
 It can be easly customize by providing its own item renderer.
+## Status
+Have scrolling and rendering done
+The next stage is externalizing the data, addin paging and make it redux friendly.
+Some help will be apreciated :)
 
 ## Demo
 Check out a working demo [here](https://guiqui.github.io/react-timeline/index.html)
