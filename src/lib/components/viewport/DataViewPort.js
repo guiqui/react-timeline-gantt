@@ -68,7 +68,6 @@ export  class DataViewPort extends Component{
             let new_width=DateHelper.dateToPixel(item.end,this.props.nowposition,this.props.dayWidth)-new_position;
            
 
-            // if (new_position<DATA_CONTAINER_WIDTH){
             result.push(<DataRow key={i} label={item.name} top={i*this.props.itemheight} left={20} itemheight={this.props.itemheight} >
                     <DataTask item={item} label={item.name}  
                               nowposition={this.props.nowposition} 
@@ -78,9 +77,7 @@ export  class DataViewPort extends Component{
                               height={this.props.itemheight}
                               onChildDrag={this.onChildDrag} > </DataTask> 
                 </DataRow>);
-            // }else{
-            //     result.push(<DataRow key={i} label={item.name} top={i*this.props.itemheight} left={20} itemheight={this.props.itemheight} > </DataRow>);
-            // }
+ 
         }
         return result;
     }
@@ -104,10 +101,11 @@ export  class DataViewPort extends Component{
     render(){
         if (this.refs.dataViewPort){
             this.refs.dataViewPort.scrollLeft=this.props.scrollLeft;
+            console.log('ScrollingTop:'+this.props.scrollTop)
             this.refs.dataViewPort.scrollTop=this.props.scrollTop;
         }
             
-        let height=this.getContainerHeight()
+        let height=this.getContainerHeight(this.props.data.length)
         return (
         <div ref="dataViewPort"  className="timeLine-main-data-viewPort" 
                     
