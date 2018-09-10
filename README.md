@@ -6,8 +6,16 @@
 [![codecov](https://codecov.io/gh/guiqui/react-timeline/branch/master/graph/badge.svg)](https://codecov.io/gh/guiqui/react-timeline)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9149e301e65b44cebf2e7b49316aee10)](https://www.codacy.com/app/gquiman/react-timeline?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=guiqui/react-timeline&amp;utm_campaign=Badge_Grade)
 
-An awesome blazing fast timeline -gantt component.
-It can be easly customize by providing its own item renderer.
+## Intro
+An awesome blazing fast timeline component.
+- Super fast. 😛
+- Infinite scrolling.
+- Made to be use with Redux.
+- Support paging.
+- Can render more than a 100k records.
+- Implemented with virtual rendering.
+
+
 ## Status
 Have scrolling and rendering done
 The next stage is externalizing the data, addin paging and make it redux friendly.
