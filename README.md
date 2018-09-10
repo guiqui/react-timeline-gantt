@@ -20,12 +20,14 @@ An awesome blazing fast timeline component.
 - Hierachical data.
 - Day and week view.
 - Gantt lines and constrains.
+## Demo
+Check out a working demo [here](https://guiqui.github.io/react-timeline/index.html)
 
 ## Installation
 ```javascript
 npm install react-gantt-timeline
 ```
-## Defining Timeline Data
+## Timeline Data
 The timeline data can be set with the data property of the time line.
 The data needs to be an array of object.
 Each item of the array needs to contain the following elements.
@@ -36,11 +38,19 @@ Each item of the array needs to contain the following elements.
 | end           | date    | The end date of the task            |
 | name          | string  | The name of the task to be diplayed |
 
-## Demo
-Check out a working demo [here](https://guiqui.github.io/react-timeline/index.html)
+```javascript
+ let data=[ {start:new Date(), end:new Date()+1 ,name:'Demo Task'}]
+```
 
+## Timeline Events
+| name      | params   | Descriptions                        |
+| ------------- |:-------:| -----------------------------------:|
+| onNeedData    | start:Date,end :date   | Is trigger everytime the timeline load a new period, provide the start and end date of the period to load, this method is useful for implementing pagin or filter your data to only show tasks for the relevant period      |
+| onSelectItem  | item:Object    | This even is trigger when a item is selected by the time line           |
+| onUpdateItem  | item:Object,props:Object  |  This even is trigger when a item has been updated, it recive the item to be updated and the properties and values to by apply|
 
-
+## Other properties 
 
 ## Some Demo Code
-- [![Edit n09l7m400j](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/n09l7m400j) Simple Demo.
+- [![Edit n09l7m400j](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/n09l7m400j) Crud Demo.
+- Coming up a redux demo.
