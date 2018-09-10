@@ -30,15 +30,13 @@ class App extends Component{
       this.setState({timeLineData:result})
   }
   
-
-
   render(){
 
     return (
       <div className="app-container">
        <h1>Gant Time Lime Demo</h1>
-       DayWidth<input type="range" min="30" max="500" value={this.state.daysWidth} onChange={this.handleDayWidth} step="1"/>
-       Item Height<input type="range" min="30" max="500" value={this.state.itemheight} onChange={this.handleItemHeight} step="1"/>
+       {/* DayWidth<input type="range" min="30" max="500" value={this.state.daysWidth} onChange={this.handleDayWidth} step="1"/>
+       Item Height<input type="range" min="30" max="500" value={this.state.itemheight} onChange={this.handleItemHeight} step="1"/> */}
         <div className="time-line-container">
           <TimeLine  data={this.state.timeLineData} onNeedData={this.onNeedData} itemheight={this.state.itemheight} dayWidth={this.state.daysWidth}/>
         </div>
