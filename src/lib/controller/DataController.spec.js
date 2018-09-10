@@ -1,13 +1,11 @@
 
 import DataController from 'libs/controller/DataController'
-
+import DateHelper from 'libs/helpers/DateHelper'
 describe('TimeLine dataprovider ', function () {
-
-
-
   test('Initialise Properly ',()=>{
     let dataController=new DataController();
-    dataController.onNeedData=()=>{}
+    const mockCallback = jest.fn();
+    dataController.onNeedData=mockCallback;
     //start,end,nowposition,daywidth
     dataController.initialise(0,101,2,30);
     expect(dataController.nowposition).toBe(2)
@@ -16,6 +14,13 @@ describe('TimeLine dataprovider ', function () {
     expect(dataController.lower_data_limit).toBe(-750)
     expect(dataController.upper_limit).toBe(1101)
     expect(dataController.upper_data_limit).toBe(851)
+    expect(mockCallback.mock.calls.length).toBe(1);
+    let lowerLimit=DateHelper.pixelToDate(dataController.lower_limit,dataController.nowposition,dataController.daywidth)
+    let upLimit=DateHelper.pixelToDate(dataController.upper_limit,dataController.nowposition,dataController.daywidth)
+    expect(mockCallback.mock.calls[0][0].getDay()).toBe(lowerLimit.getDay());
+    expect(mockCallback.mock.calls[0][0].getMonth()).toBe(lowerLimit.getMonth());
+    expect(mockCallback.mock.calls[0][1].getDay()).toBe(upLimit.getDay());
+    expect(mockCallback.mock.calls[0][1].getMonth()).toBe(upLimit.getMonth());
   })
   
 
