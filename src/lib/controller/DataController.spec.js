@@ -1,7 +1,7 @@
 
 import DataController from 'libs/controller/DataController'
 import DateHelper from 'libs/helpers/DateHelper'
-describe('TimeLine dataprovider ', function () {
+describe('Test DataController ', function () {
   test('Initialise Properly ',()=>{
     let dataController=new DataController();
     const mockCallback = jest.fn();
@@ -21,6 +21,22 @@ describe('TimeLine dataprovider ', function () {
     expect(mockCallback.mock.calls[0][0].getMonth()).toBe(lowerLimit.getMonth());
     expect(mockCallback.mock.calls[0][1].getDay()).toBe(upLimit.getDay());
     expect(mockCallback.mock.calls[0][1].getMonth()).toBe(upLimit.getMonth());
+  })
+
+  test('Testing changing Start End date ',()=>{
+    let dataController=new DataController();
+    const mockCallback = jest.fn();
+    dataController.onNeedData=mockCallback;
+    //start,end,nowposition,daywidth
+    dataController.initialise(0,100,0,30);
+    dataController.setStartEnd(-100,0,0,30)
+    expect(mockCallback.mock.calls.length).toBe(1);
+    dataController.setStartEnd(-756,0,0,30)
+    expect(mockCallback.mock.calls.length).toBe(2);
+    expect(dataController.lower_limit).toBe(-1756)
+    expect(dataController.lower_data_limit).toBe(-1506)
+    expect(dataController.upper_limit).toBe(1000)
+    expect(dataController.upper_data_limit).toBe(750)
   })
   
 
