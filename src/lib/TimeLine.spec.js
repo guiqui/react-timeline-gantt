@@ -63,7 +63,9 @@ describe('TimeLine Scroll left ', function () {
         wrapper.instance().onSize({width:500,height:500})
         expect(wrapper.state().nowposition).toBe(0);
         expect(wrapper.state().scrollLeft).toBe(0);
+        expect(wrapper.instance().dragging).toBe(false);
         wrapper.instance().doMouseDown({clientX:0})
+        expect(wrapper.instance().dragging).toBe(true);
         wrapper.instance().doMouseMove({clientX:-10})
         expect(wrapper.state().nowposition).toBe(0);
         expect(wrapper.state().scrollLeft).toBe(10);
@@ -81,8 +83,19 @@ describe('TimeLine Scroll left ', function () {
         expect(wrapper.state().scrollLeft).toBe(4999)
         wrapper.instance().doMouseMove({clientX:5030})
         expect(wrapper.state().nowposition).toBe(4999);
-        expect(wrapper.state().scrollLeft).toBe(4989)
-        wrapper.unmount();
+        expect(wrapper.state().scrollLeft).toBe(4989);
+        wrapper.instance().doMouseUp()
+        expect(wrapper.instance().dragging).toBe(false);
+
+        wrapper.instance().doMouseDown({clientX:0})
+        expect(wrapper.instance().dragging).toBe(true);
+        wrapper.instance().doMouseMove({clientX:-10})
+        expect(wrapper.state().nowposition).toBe(4999);
+        expect(wrapper.state().scrollLeft).toBe(4999);
+        wrapper.instance().doMouseLeave()
+        expect(wrapper.instance().dragging).toBe(false);
+        wrapper.unmount()
+
     })    
 })
 
@@ -132,11 +145,38 @@ describe('TimeLine Scroll Up ', function () {
         expect(wrapper.state().scrollTop).toBe(481);
         expect(wrapper.state().startRow).toBe(16);
         expect(wrapper.state().endRow).toBe(numVisibleRows+2);
-        wrapper.unmount();
+ 
+        
+  
+   
     })    
 })
 
 describe('Testing onTaskListSizing ', function () {
+    it('recalculate width properly whe moving vertical Bar',()=>{
+        let itemheight=30;
+        let dayWidth=20;
+        let data=[]
+        for(let i=0;i<20;i++){
+            data.push({name: `Task Today`,start:new Date(),end:new Date().setDate(new Date().getDate(),5) ,color:'red'})
+        }
+        let onNeedData=(start,end)=>{return data}
+        const wrapper =shallow(<TimeLine data={data}  
+                                            itemheight={itemheight} 
+                                            dayWidth={dayWidth}
+                                            onNeedData={onNeedData}/>);
+        wrapper.instance().onSize({width:500,height:500})
+        expect(wrapper.state().sideStyle.width).toBe(200);
+        wrapper.instance().onTaskListSizing(10)
+        expect(wrapper.state().sideStyle.width).toBe(190);
+        wrapper.instance().onTaskListSizing(-20)
+        expect(wrapper.state().sideStyle.width).toBe(210);
+        
+    })    
+})
+
+
+describe('Testing Firing Events ', function () {
     it('recalculate width properly whe moving vertical Bar',()=>{
         let itemheight=30;
         let dayWidth=20;
