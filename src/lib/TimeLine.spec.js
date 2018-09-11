@@ -18,7 +18,7 @@ describe('TimeLine Initialization ', function () {
         let dayWidth=20;
         let data=[{name: `Task Today`,start:new Date(),end:new Date().setDate(new Date().getDate(),5) ,color:'red'}]
         let onNeedData=(start,end)=>{return data}
-        const wrapper =mount(<TimeLine data={data}  
+        const wrapper =shallow(<TimeLine data={data}  
                                             itemheight={itemheight} 
                                             dayWidth={dayWidth}
                                             onNeedData={onNeedData}/>);
@@ -37,10 +37,10 @@ describe('TimeLine Initialization ', function () {
         expect(wrapper.state().numVisibleRows).toBe(Math.ceil(500/itemheight));
         expect(wrapper.state().numVisibleDays).toBe(Math.ceil(500/dayWidth)+BUFFER_DAYS);
         expect(wrapper.instance().pxToScroll).toBe((1-(500/DATA_CONTAINER_WIDTH)) * DATA_CONTAINER_WIDTH-1);
-        // wrapper.instance().onSize({width:500,height:10})
-        // expect(wrapper.state().numVisibleRows).toBe(Math.ceil(10 / itemheight));
-        // expect(wrapper.state().endRow).toBe(1);
-        wrapper.unmount();
+        wrapper.instance().onSize({width:500,height:10})
+        expect(wrapper.state().numVisibleRows).toBe(Math.ceil(10 / itemheight));
+        expect(wrapper.state().endRow).toBe(30);
+    
     })    
 })
 
@@ -86,3 +86,54 @@ describe('TimeLine Scroll left ', function () {
     })    
 })
 
+
+describe('TimeLine Scroll Up ', function () {
+
+
+    it('Calculate Num of visible rows properly',()=>{
+        let itemheight=30;
+        let dayWidth=20;
+        let data=[]
+        for(let i=0;i<20;i++){
+            data.push({name: `Task Today`,start:new Date(),end:new Date().setDate(new Date().getDate(),5) ,color:'red'})
+        }
+        let onNeedData=(start,end)=>{return data}
+        const wrapper =shallow(<TimeLine data={data}  
+                                            itemheight={itemheight} 
+                                            dayWidth={dayWidth}
+                                            onNeedData={onNeedData}/>);
+        wrapper.instance().onSize({width:500,height:500})
+        expect(wrapper.state().nowposition).toBe(0);
+        expect(wrapper.state().scrollTop).toBe(0);
+        expect(wrapper.state().startRow).toBe(0);
+        expect(wrapper.state().endRow).toBe(30);
+        let numVisibleRows=Math.ceil(500/itemheight)
+        expect(wrapper.state().numVisibleRows).toBe(numVisibleRows);
+        //Test moving 10
+        wrapper.instance().verticalChange(10)
+        expect(wrapper.state().scrollTop).toBe(10);
+        expect(wrapper.state().startRow).toBe(0);
+        expect(wrapper.state().endRow).toBe(numVisibleRows);
+        //Tes send same scroll
+        expect(wrapper.state().scrollTop).toBe(10);
+        expect(wrapper.state().startRow).toBe(0);
+        expect(wrapper.state().endRow).toBe(numVisibleRows);
+        wrapper.instance().verticalChange(31)
+        expect(wrapper.state().scrollTop).toBe(31);
+        expect(wrapper.state().startRow).toBe(1);
+        expect(wrapper.state().endRow).toBe(numVisibleRows+1);
+        wrapper.instance().verticalChange(61)
+        expect(wrapper.state().scrollTop).toBe(61);
+        expect(wrapper.state().startRow).toBe(2);
+        expect(wrapper.state().endRow).toBe(numVisibleRows+2);
+        wrapper.instance().verticalChange(451)
+        expect(wrapper.state().scrollTop).toBe(451);
+        expect(wrapper.state().startRow).toBe(15);
+        expect(wrapper.state().endRow).toBe(numVisibleRows+2);
+        wrapper.instance().verticalChange(481)
+        expect(wrapper.state().scrollTop).toBe(481);
+        expect(wrapper.state().startRow).toBe(16);
+        expect(wrapper.state().endRow).toBe(numVisibleRows+2);
+        wrapper.unmount();
+    })    
+})
