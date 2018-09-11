@@ -55,14 +55,14 @@ describe('Test DateToPixel Fuctionality',()=>{
         tomorrow.setDate(tomorrow.getDate() + 1);
         let result= DateHelper.dateToPixel(tomorrow,0,DAY_WIDTH);
         result= DateHelper.pixelToDate(result,0,DAY_WIDTH);
-        expect(result.getTime()).toBe(tomorrow.getTime())
+        expect(tomorrow.getTime()-result.getTime()<10).toBe(true)
     })
     test('When tomorrow and now position 100',()=>{
         let tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
         let result= DateHelper.dateToPixel(tomorrow,100,DAY_WIDTH);
         result= DateHelper.pixelToDate(result,100,DAY_WIDTH);
-        expect(result.getTime()).toBe(tomorrow.getTime())
+        expect(tomorrow.getTime()-result.getTime()<10).toBe(true)
     })
    
 })
