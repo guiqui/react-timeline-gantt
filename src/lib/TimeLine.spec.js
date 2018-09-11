@@ -22,7 +22,7 @@ describe('TimeLine Initialization ', function () {
                                             itemheight={itemheight} 
                                             dayWidth={dayWidth}
                                             onNeedData={onNeedData}/>);
-                                        
+        //This needs to be improve
         expect(wrapper.state().currentday).toBe(0);
         expect(wrapper.state().nowposition).toBe(0);
         expect(wrapper.state().startRow).toBe(0);
@@ -88,8 +88,6 @@ describe('TimeLine Scroll left ', function () {
 
 
 describe('TimeLine Scroll Up ', function () {
-
-
     it('Calculate Num of visible rows properly',()=>{
         let itemheight=30;
         let dayWidth=20;
@@ -135,5 +133,28 @@ describe('TimeLine Scroll Up ', function () {
         expect(wrapper.state().startRow).toBe(16);
         expect(wrapper.state().endRow).toBe(numVisibleRows+2);
         wrapper.unmount();
+    })    
+})
+
+describe('Testing onTaskListSizing ', function () {
+    it('recalculate width properly whe moving vertical Bar',()=>{
+        let itemheight=30;
+        let dayWidth=20;
+        let data=[]
+        for(let i=0;i<20;i++){
+            data.push({name: `Task Today`,start:new Date(),end:new Date().setDate(new Date().getDate(),5) ,color:'red'})
+        }
+        let onNeedData=(start,end)=>{return data}
+        const wrapper =shallow(<TimeLine data={data}  
+                                            itemheight={itemheight} 
+                                            dayWidth={dayWidth}
+                                            onNeedData={onNeedData}/>);
+        wrapper.instance().onSize({width:500,height:500})
+        expect(wrapper.state().sideStyle.width).toBe(200);
+        wrapper.instance().onTaskListSizing(10)
+        expect(wrapper.state().sideStyle.width).toBe(190);
+        wrapper.instance().onTaskListSizing(-20)
+        expect(wrapper.state().sideStyle.width).toBe(210);
+        
     })    
 })
