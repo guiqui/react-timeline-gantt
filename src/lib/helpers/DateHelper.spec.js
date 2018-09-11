@@ -96,7 +96,7 @@ describe('Test date difference',()=>{
         let start= new Date(2019, 9, 8);
         let end= new Date(2018, 11, 18);
         let result= DateHelper.monthDiff(start,end)
-        expect(result).toBe(14)
+        expect(result).toBe(10)
     })
 })
 describe('Test Month Calculation',()=>{
