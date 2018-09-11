@@ -11,14 +11,14 @@ describe('VirtualListCore Initialise propertly ',()=>{
         expect(wrapper.find('.timeLine-main-header-container')).toBeDefined();
     })
 
-    it ('It properties are assign properly',()=>{
+    it ('It properties are assign properly and state',()=>{
         //calculateMonthData(start,end,now,dayWidth)
         let start=0;
         let end=100;
         let now=0;
         let dayWidth=30;
         let months=DateHelper.calculateMonthData(start,end,now,dayWidth)
-        const wrapper = shallow(<Headers 
+        const wrapper = mount(<Headers 
                                     months={months}
                                     numVisibleDays={20}
                                     currentday={1}
@@ -27,85 +27,26 @@ describe('VirtualListCore Initialise propertly ',()=>{
                                     scrollLeft={0} />);
         expect(wrapper.find('#timeline-header')).toBeDefined();
         expect(wrapper.find('.timeLine-main-header-container')).toBeDefined();
+        var count=0;
+        wrapper.find('.timeLine-main-header-month-item').forEach((node) => {
+            expect(node.props().children).toBe(months.data[count].month);
+            count=count+1;
+        })
+
+        let today=new Date()
+        let dayofMonth=today.getDate()
+        let month=today.getMonth()+1
+        let year=today.getFullYear()
+        let result= DateHelper.calculateMonthData(0,40,0,50)
+        let daysInMonth=DateHelper.daysInMonth (month, year) ;
+        let currentDay=dayofMonth-1
+        wrapper.find('.timeLine-main-header-day-month').forEach((node) => {
+            expect(parseInt(node.props().children)).toBe(currentDay);
+            currentDay=currentDay+1;
+            if(currentDay>daysInMonth){
+                currentDay=1;
+            }
+        })
+
     })
-
-    // it('Render propertly when no item renderer',()=>{
-    //     const wrapper = shallow(<VirtualListCore data={data} itemheight={30} size={{height:300}}/>);
-    //     expect(wrapper.find('#vlistItemContainer').children()).toHaveLength(0)
-    // })
-    // it('Render propertly when adding data',()=>{
-    //     const wrapper = shallow(<VirtualListCore data={data} itemheight={30} size={{height:300}} renderItems={renderItems}/>);
-    //     expect(wrapper.find('#vlistItemContainer').children()).toHaveLength(12);
-    //     let count=0;
-    //     wrapper.find('#vlistItemContainer').children().forEach((node) => {
-    //         expect(node.prop('style')).toBeDefined();
-    //         expect(node.prop('style').height).toBe(30);
-    //         expect(node.prop('style').top).toBe(count*30);
-    //         count=count+1;
-    //         //expect(node.prop('style').toHaveStyleRule('height', 30);
-    //       });
-    // })
 })
-
-// describe('Test Changing Data ',()=>{
-//     it ('We should render children when changing data',()=>{
-//         const wrapper = shallow(<VirtualListCore itemheight={30} size={{height:300}} renderItems={renderItems}></VirtualListCore>);
-//         expect(wrapper.find('#vlistItemContainer').children()).toHaveLength(0)
-//         wrapper.setProps({ data: data});
-//         expect(wrapper.find('#vlistItemContainer').children()).toHaveLength(12)
-
-//     })
-// })
-
-// describe('Test Changing Size ',()=>{
-//     it ('We should render children when changing sizes',()=>{
-//         const wrapper = shallow(<VirtualListCore data= {data} itemheight={30} size={{height:300}} renderItems={renderItems}></VirtualListCore>);
-//         expect(wrapper.find('#vlistItemContainer').children()).toHaveLength(12)
-//         wrapper.setProps({ size: {height:600}});
-//         expect(wrapper.find('#vlistItemContainer').children()).toHaveLength(22)
-//         let count=0;
-//         wrapper.find('#vlistItemContainer').children().forEach((node) => {
-//             expect(node.prop('data').name).toBe(`Row ${count}`);
-//             expect(node.prop('style')).toBeDefined();
-//             expect(node.prop('style').height).toBe(30);
-//             expect(node.prop('style').top).toBe(count*30);
-//             count=count+1;
-//             //expect(node.prop('style').toHaveStyleRule('height', 30);
-//           });
-
-//     })
-// })
-
-// describe('Test scrolling',()=>{
-//     it ('Children should update position',()=>{
-//         const wrapper = mount(<VirtualListCore data= {data} itemheight={30} size={{height:300}} renderItems={renderItems}></VirtualListCore>);
-//         wrapper.simulate('scroll',{target:{id:"vListViewPort",scrollTop:60}})
-//         let count=2;
-//         wrapper.find('#vlistItemContainer').children().forEach((node) => {
-//             expect(node.prop('data').name).toBe(`Row ${count}`);
-//             count=count+1;
-//           });
-
-
-//     })
-
-//     it ('Event from other target Should not trigger scroll',()=>{
-//         const wrapper = mount(<VirtualListCore data= {data} itemheight={30} size={{height:300}} renderItems={renderItems}></VirtualListCore>);
-//         wrapper.simulate('scroll',{target:{id:"other",scrollTop:60}})
-//         let count=0;
-//         wrapper.find('#vlistItemContainer').children().forEach((node) => {
-//             expect(node.prop('data').name).toBe(`Row ${count}`);
-//             count=count+1;
-//           });
-
-
-//     })
-// })
-
-
-{/* <Header months={this.state.months} 
-                        numVisibleDays={this.state.numVisibleDays}
-                        currentday={this.state.currentday}
-                        nowposition={this.state.nowposition}
-                        dayWidth={this.props.dayWidth}
-                        scrollLeft={this.state.scrollLeft}/> */}

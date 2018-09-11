@@ -47,7 +47,7 @@ class App extends Component{
 
     return (
       <div className="app-container">
-       <h1>Gant Time Lime Demo</h1>
+       <h1>Gantt Time Lime Demo</h1>
        {/* DayWidth<input type="range" min="30" max="500" value={this.state.daysWidth} onChange={this.handleDayWidth} step="1"/>
        Item Height<input type="range" min="30" max="500" value={this.state.itemheight} onChange={this.handleItemHeight} step="1"/> */}
         <div className="time-line-container">

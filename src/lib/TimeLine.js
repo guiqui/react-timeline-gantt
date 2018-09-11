@@ -10,8 +10,6 @@ import DataController from 'libs/controller/DataController'
 import DateHelper from 'libs/helpers/DateHelper'
 import './TimeLine.css'
 
-
-
 class TimeLine extends Component{
     constructor(props){
         super(props);
@@ -41,25 +39,6 @@ class TimeLine extends Component{
         }
     }
 
-    onNeedData=(lowerLimit,upLimit)=>{
-        if (this.props.onNeedData)
-            this.props.onNeedData(lowerLimit,upLimit)
-    }
-
-
-    changingMonth=(start,end)=>{
-        let startMonth=moment().add(start, 'days').format("M-YYYY");  
-        let endMonth=moment().add(end, 'days').format("M-YYYY");
-        return (!(startMonth in this.state.months.keys) || !(endMonth in this.state.months.keys))
-    }
-
-  
-
-    calculateVerticalScrollVariables=(size)=>{
-        //The pixel to scroll verically is equal to the pecentage of what the viewport represent in the context multiply by the context width
-        this.pxToScroll=(1-(size.width/DATA_CONTAINER_WIDTH)) * DATA_CONTAINER_WIDTH-1;
-    }
-    
     onSize = size => {
         //If size has changed
         this.calculateVerticalScrollVariables(size);
@@ -68,6 +47,7 @@ class TimeLine extends Component{
                 this.state.scrollLeft+this.state.nowposition+size.width,
                 this.state.nowposition,this.props.dayWidth
             )
+            this.initialise=true;
 
          }
         // {
@@ -84,12 +64,16 @@ class TimeLine extends Component{
         // }
         this.setStartEnd();
         this.setState({
-            numVisibleRows:Math.trunc(size.height / this.props.itemheight),
-            numVisibleDays:Math.trunc(size.width / this.props.dayWidth)+BUFFER_DAYS,
+            numVisibleRows:Math.ceil(size.height / this.props.itemheight),
+            numVisibleDays:Math.ceil(size.width / this.props.dayWidth)+BUFFER_DAYS,
             size:size
         })
     }
-    //Interaction Events 
+    
+      /////////////////////////
+     //   VIEWPORT CHANGES  //
+    /////////////////////////
+
     verticalChange=(scrollTop)=>{ ///Needs serious refactoring to be able to centralise changes 
         if (scrollTop==this.state.scrollTop)
             return;
@@ -164,7 +148,29 @@ class TimeLine extends Component{
         })
         
     }
+
+    changingMonth=(start,end)=>{
+        let startMonth=moment().add(start, 'days').format("M-YYYY");  
+        let endMonth=moment().add(end, 'days').format("M-YYYY");
+        return (!(startMonth in this.state.months.keys) || !(endMonth in this.state.months.keys))
+    }
+
+  
+
+    calculateVerticalScrollVariables=(size)=>{
+        //The pixel to scroll verically is equal to the pecentage of what the viewport represent in the context multiply by the context width
+        this.pxToScroll=(1-(size.width/DATA_CONTAINER_WIDTH)) * DATA_CONTAINER_WIDTH-1;
+    }
+
+    onNeedData=(lowerLimit,upLimit)=>{
+        if (this.props.onNeedData)
+            this.props.onNeedData(lowerLimit,upLimit)
+    }
     
+      /////////////////////
+     //   MOUSE EVENTS  //
+    /////////////////////
+
     doMouseDown=(e)=>{
         this.dragging=true;
         this.draggingPosition=e.clientX;
@@ -189,7 +195,7 @@ class TimeLine extends Component{
     }
 
     //Child communicating states
-    onChangeSize=(delta)=>{
+    onTaskListSizing=(delta)=>{
         this.setState((prevState) => {
             let result={...prevState};
             result.sideStyle={width:result.sideStyle.width-delta};
@@ -197,17 +203,10 @@ class TimeLine extends Component{
         })
     }
 
-    // DATA CHANGE
-    getDataToRender=(months)=>{
-        //For all visible months
-        let result=[]
-        months.data.forEach( item=>{
-            result=[ ...result, ...this.dataProvider.getPage(item.key)] 
-
-        })
-        return result;
-    }
-
+      /////////////////////
+     //   ITEMS EVENTS  //
+    /////////////////////
+    
     onSelectItem=(item)=>{
         if (this.props.onSelectItem)
             this.props.onSelectItem(item)
@@ -219,7 +218,6 @@ class TimeLine extends Component{
     }
    
     render(){
-
         return (
         <div className="timeLine">   
             <div className="timeLine-side-main" style={this.state.sideStyle}> 
@@ -233,7 +231,7 @@ class TimeLine extends Component{
                     onSelectItem={this.onSelectItem}
                     onUpdateItem={this.onUpdateItem}
                     onScroll={this.verticalChange}/>
-                <VerticalSpliter onChangeSize={this.onChangeSize}/>
+                <VerticalSpliter onTaskListSizing={this.onTaskListSizing}/>
             </div>       
             <div className="timeLine-main">
                 <Header months={this.state.months} 
