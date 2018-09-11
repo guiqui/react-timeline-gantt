@@ -40,7 +40,8 @@ export default class Header extends Component {
     }
         //Render Methods
     renderMonth(){
-        
+        if (!this.props.months)
+            return;
         
         return this.props.months.data.map(item=>{
             return <HeaderMonthItem key={item.month} left={item.left}   width={item.width}  label={item.month}/>
@@ -59,7 +60,7 @@ export default class Header extends Component {
         if (this.refs.Header)
             this.refs.Header.scrollLeft=this.props.scrollLeft;
         
-        return  <div ref="Header" 
+        return  <div id="timeline-header" ref="Header" 
                     className="timeLine-main-header-viewPort">
                     <div  className="timeLine-main-header-container" style={{width:DATA_CONTAINER_WIDTH}}>
                         {this.renderMonth()} 

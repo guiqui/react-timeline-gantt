@@ -7,6 +7,7 @@ import DataViewPort from 'libs/components/viewport/DataViewPort'
 import TaskList from 'libs/components/taskList/TaskList'
 import {BUFFER_DAYS,DATA_CONTAINER_WIDTH} from 'libs/Const'
 import DataController from 'libs/controller/DataController'
+import DateHelper from 'libs/helpers/DateHelper'
 import './TimeLine.css'
 
 
@@ -30,7 +31,7 @@ class TimeLine extends Component{
             nowposition:0,//      
             startRow:0,//
             endRow:30,
-            months:this.calculateMonthData(0,30,0),
+            months:DateHelper.calculateMonthData(0,30,0,this.props.dayWidth),
             sideStyle:{width:200},
             scrollLeft:0,
             scrollTop:0,
@@ -46,43 +47,13 @@ class TimeLine extends Component{
     }
 
 
-    // Helper Fuctions for time and drawing calculations
-    calculateMonthData(start,end,now){
-        //startMonth daysinMonth 
-        let result={}
-        result['data']=[]
-        result['keys']={}
-        let currentMonth='';
-        let currentKey='';
-        for (let i=start-BUFFER_DAYS;i<end+BUFFER_DAYS;i++ ){
-            currentMonth=moment().add(i, 'days')       ;
-            currentKey=currentMonth.format("M-YYYY")     
-            result['data'].push({
-                key:currentKey,
-                month:currentMonth.format("MMM  YYYY"),
-                left:this.dayToPosition(i-currentMonth.date()+1,now),
-                width:currentMonth.daysInMonth()*this.props.dayWidth
-
-            })
-            result['keys'][currentKey]=currentKey;
-            i=i+currentMonth.daysInMonth()-currentMonth.date();
-        }
-        return result;
-    }
-
-
-
     changingMonth=(start,end)=>{
         let startMonth=moment().add(start, 'days').format("M-YYYY");  
         let endMonth=moment().add(end, 'days').format("M-YYYY");
         return (!(startMonth in this.state.months.keys) || !(endMonth in this.state.months.keys))
     }
 
-    dayToPosition=(day,now)=>{
-        return day * this.props.dayWidth +now;
-
-    }
-
+  
 
     calculateVerticalScrollVariables=(size)=>{
         //The pixel to scroll verically is equal to the pecentage of what the viewport represent in the context multiply by the context width
@@ -170,10 +141,10 @@ class TimeLine extends Component{
  
         //Check if we need to change moths and load new data
         if (this.changingMonth(currentIndx,currentIndx+this.state.numVisibleDays)){
-            months=this.calculateMonthData(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition)
+            months=DateHelper.calculateMonthData(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition,this.props.dayWidth)
         }else{ 
             if(new_left !=-1)
-                months=this.calculateMonthData(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition)
+                months=DateHelper.calculateMonthData(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition,this.props.dayWidth)
         }
 
         //Calculate rows to render
