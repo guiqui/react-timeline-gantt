@@ -11,11 +11,13 @@ describe('VirtualListCore Initialise propertly ',()=>{
     })
 
     it ('It properties are assign properly',()=>{
-        const wrapper = shallow(<Headers numVisibleDays={20}
-            currentday={1}
-            nowposition={0}
-            dayWidth={30}
-            scrollLeft={0} />);
+        const wrapper = shallow(<Headers 
+                                    // months={this.state.months}
+                                    numVisibleDays={20}
+                                    currentday={1}
+                                    nowposition={0}
+                                    dayWidth={30}
+                                    scrollLeft={0} />);
         expect(wrapper.find('#timeline-header')).toBeDefined();
         expect(wrapper.find('.timeLine-main-header-container')).toBeDefined();
     })

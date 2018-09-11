@@ -21,7 +21,11 @@ class DateHelper{
     }
 
     monthDiff(start,end){
-        return  end.getMonth() - start.getMonth() + (12 * (end.getFullYear() - start.getFullYear()));
+        return  Math.abs(end.getMonth() - start.getMonth() + (12 * (end.getFullYear() - start.getFullYear())));
+    }
+
+    daysInMonth (month, year) {
+        return new Date(year, month, 0).getDate();
     }
 
     calculateMonthData(start,end,now,dayWidth){

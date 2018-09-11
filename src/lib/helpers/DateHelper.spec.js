@@ -66,3 +66,57 @@ describe('Test DateToPixel Fuctionality',()=>{
     })
    
 })
+
+describe('Test date difference',()=>{
+ 
+    test('Test with in the same month',()=>{
+        //(start,end,now,dayWidth)
+        let start= new Date(2018, 9, 8);
+        let end= new Date(2018, 9, 18);
+        let result= DateHelper.monthDiff(start,end)
+        expect(result).toBe(0)
+    })
+
+    test('Test different month same year',()=>{
+        //(start,end,now,dayWidth)
+        let start= new Date(2018, 9, 8);
+        let end= new Date(2018, 11, 18);
+        let result= DateHelper.monthDiff(start,end)
+        expect(result).toBe(2)
+    })
+    test('Test different month same year',()=>{
+        //(start,end,now,dayWidth)
+        let start= new Date(2018, 9, 8);
+        let end= new Date(2019, 11, 18);
+        let result= DateHelper.monthDiff(start,end)
+        expect(result).toBe(14)
+    })
+    test('Test different  start > end',()=>{
+        //(start,end,now,dayWidth)
+        let start= new Date(2019, 9, 8);
+        let end= new Date(2018, 11, 18);
+        let result= DateHelper.monthDiff(start,end)
+        expect(result).toBe(14)
+    })
+})
+describe('Test Month Calculation',()=>{
+    test('Month calculation wheh all 0',()=>{
+        //(start,end,now,dayWidth)
+        let result= DateHelper.calculateMonthData(0,0,0,0)
+        expect(result).toBeDefined()
+    })
+
+    test('Month calculation wheh all 0',()=>{
+        //(start,end,now,dayWidth)
+        let today=new Date()
+        let dayofMonth=today.getDate()
+        let month=today.getMonth()+1
+        let year=today.getFullYear()
+        let result= DateHelper.calculateMonthData(0,40,0,50)
+        let daysInMonth=DateHelper.daysInMonth (month, year) ;
+        expect(result.keys[`${month}-${year}`]).toBe(`${month}-${year}`)
+        expect(result.data[0].key).toBe((`${month}-${year}`))
+        expect(result.data[0].left).toBe((-dayofMonth+1)*50)
+        expect(result.data[0].width).toBe(daysInMonth*50)
+    })
+})
