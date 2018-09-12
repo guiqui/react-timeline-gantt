@@ -55,7 +55,10 @@
     "timeline",
     "gantt",
     "virtual",
-    "virtualize"
+    "virtualize",
+    "planning",
+    "scheduler",
+    "calendar"
   ],
   "homepage": "https://github.com/guiqui/react-timeline",
   "dependencies": {
