@@ -4,10 +4,10 @@ class Generator{
     }
     generateData(){
         let result=[]
-        this.addRecord(new Date(),0,result) 
-          for (let i=1;i<1000;i++){
-              this.addRecord(this.randomDate(new Date(2016, 9, 1),new Date(2020, 9, 1)),i,result) 
-          }
+        this.addRecord(new Date(2018, 8, 13),0,result) 
+        //   for (let i=1;i<1000;i++){
+        //       this.addRecord(this.randomDate(new Date(2016, 9, 1),new Date(2020, 9, 1)),i,result) 
+        //   }
          return result;
     }
 

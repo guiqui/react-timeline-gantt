@@ -39,6 +39,8 @@ class TimeLine extends Component{
         }
     }
 
+    
+
     onSize = size => {
         //If size has changed
         this.calculateVerticalScrollVariables(size);

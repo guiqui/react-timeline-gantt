@@ -7,7 +7,8 @@ class DateHelper{
     }
 
     dateToPixel(input,nowposition,daywidth){
-        let nowDate=new Date();
+        let nowDate=this.getToday();//
+        nowDate.setHours(0,0,0,0);
         let inputTime=new Date(input);
         let timeDiff = inputTime.getTime() - nowDate.getTime();
         let pixelWeight=daywidth/24;
@@ -16,10 +17,15 @@ class DateHelper{
     pixelToDate(position,nowposition,daywidth){
         let hoursInPixel=24/daywidth;
         let pixelsFromNow=position-nowposition;
-        let milisecondsFromNow=new Date().getTime()+pixelsFromNow*hoursInPixel*MIL_IN_HOUR;
+
+        let milisecondsFromNow=this.getToday().getTime()+pixelsFromNow*hoursInPixel*MIL_IN_HOUR;
         return new Date(milisecondsFromNow);
     }
-
+    getToday(){
+        let date =new Date()
+        date.setHours(0,0,0,0);
+        return date
+    }
     monthDiff(start,end){
         return  Math.abs(end.getMonth() - start.getMonth() + (12 * (end.getFullYear() - start.getFullYear())));
     }
