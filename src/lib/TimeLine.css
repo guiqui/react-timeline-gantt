@@ -6,6 +6,9 @@
     border:solid 1px rgb(207, 207, 205);
     font-size: 12px;
     user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 /* Main Area */
@@ -124,7 +127,6 @@
     background-color:darkorchid;
     border:solid 1px silver;
     border-radius: 14px;
-  
     color: white;
     text-align: center;
 }
