@@ -1,5 +1,7 @@
 import React,{Component} from 'react'
 import DateHelper from 'libs/helpers/DateHelper'
+import {MODE_NONE,MODE_MOVE,MOVE_RESIZE_LEFT,MOVE_RESIZE_RIGHT} from 'libs/Const'
+
 
 export default class DataTask extends Component{
     constructor(props){
@@ -8,15 +10,21 @@ export default class DataTask extends Component{
         this.doMouseDown=this.doMouseDown.bind(this)
         this.doMouseUp=this.doMouseUp.bind(this)
         this.calculateStyle=this.calculateStyle.bind(this)
-        this.state={dragging:false,left:this.props.left}
+        this.state={dragging:false,
+                    left:this.props.left,
+                    width:this.props.width,
+                    mode:MODE_NONE}
     }
 
-    doMouseDown(e){
+    doMouseDown(e,mode){
         if (e.button === 0){
+            e.stopPropagation();
             this.props.onChildDrag(true)
             this.draggingPosition=e.clientX;
-            this.setState({dragging:true});
-            this.state.left=this.props.left;
+            this.setState({dragging:true,mode:mode,
+                            left:this.props.left,
+                            width:this.props.width});
+
         }
     }
 
@@ -33,7 +41,18 @@ export default class DataTask extends Component{
     doMouseMove(e){
        if(this.state.dragging){
             let delta=this.draggingPosition-e.clientX;
-            this.setState({left:this.state.left-delta})
+            switch(this.state.mode){
+                case MODE_MOVE:
+                    this.setState({left:this.state.left-delta})
+                    break;
+                case MOVE_RESIZE_LEFT:
+                    this.setState({left:this.state.left-delta,width:this.state.width+delta})
+                    break;
+                case MOVE_RESIZE_RIGHT :
+                    this.setState({width:this.state.width-delta})
+                    break;
+            }
+            
             this.draggingPosition=e.clientX;
         }
     }
@@ -41,28 +60,33 @@ export default class DataTask extends Component{
     doMouseUp(e){
         this.props.onChildDrag(false)
         let new_start_date=DateHelper.pixelToDate(this.state.left,this.props.nowposition,this.props.dayWidth);
-        let new_end_date=DateHelper.pixelToDate(this.state.left+this.props.width,this.props.nowposition,this.props.dayWidth);
+        let new_end_date=DateHelper.pixelToDate(this.state.left+this.state.width,this.props.nowposition,this.props.dayWidth);
         this.props.onUpdateItem(this.props.item,{start:new_start_date,end:new_end_date})
-        this.setState({dragging:false})
+        this.setState({dragging:false,mode:MODE_NONE})
     }
     
     calculateStyle(){
 
         if(this.state.dragging){
-            return {backgroundColor: this.props.color,left:this.state.left,width:this.props.width,height:this.props.height-2}
+            return {backgroundColor: this.props.color,left:this.state.left,width:this.state.width,height:this.props.height-2}
         }else{
            return {backgroundColor: this.props.color,left:this.props.left,width:this.props.width,height:this.props.height-2}
        }
      
     }
     render(){
+        let style=this.calculateStyle()
         return (
         <div className="timeLine-main-data-task" 
-            onMouseDown={this.doMouseDown}
+            onMouseDown={(e)=>this.doMouseDown(e,MODE_MOVE)}
             onClick={(e)=>{this.props.onSelectItem(this.props.item)}}
-            style={this.calculateStyle()}>
-            <div>r</div>
-            <div>l</div>    
+            style={style}>
+            <div className="timeLine-main-data-task-side" 
+                 style={{left:-4,height:style.height}}
+                 onMouseDown={(e)=>this.doMouseDown(e,MOVE_RESIZE_LEFT)} ></div>
+            <div className="timeLine-main-data-task-side" 
+                 style={{left:style.width,height:style.height}}
+                 onMouseDown={(e)=>this.doMouseDown(e,MOVE_RESIZE_RIGHT)} ></div>  
         </div>)
           
     }

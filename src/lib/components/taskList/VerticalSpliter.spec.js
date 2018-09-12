@@ -12,7 +12,7 @@ describe('Testing Firing Events ', function () {
     it('Handle mouse events',()=>{
         const mockCallback = jest.fn();
         const stopPropagation=jest.fn();
-        const wrapper =shallow(<VerticalSpliter onChangeSize={mockCallback}/>);
+        const wrapper =shallow(<VerticalSpliter onTaskListSizing={mockCallback}/>);
 
         expect(wrapper.state().dragging).toBe(false);
         expect(wrapper.instance().doMouseDown({button:1}))

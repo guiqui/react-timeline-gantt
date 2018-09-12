@@ -1,6 +1,7 @@
 import React from 'react'
 import DataTask from './DataTask'
 import DateHelper from 'libs/helpers/DateHelper'
+import {MODE_NONE,MODE_MOVE,MOVE_RESIZE_LEFT,MOVE_RESIZE_RIGHT} from 'libs/Const'
 import { shallow } from 'enzyme';
 
 describe('Testing Firing Events ', function () {
@@ -29,6 +30,7 @@ describe('Testing Firing Events ', function () {
         let item={name:'this Item'}
         let dayWidth=30;
         let nowposition=0;
+        let stopPropagation=jest.fn();
         const wrapper =shallow(<DataTask 
                                     nowposition={nowposition}
                                     dayWidth={dayWidth}
@@ -39,9 +41,11 @@ describe('Testing Firing Events ', function () {
                                     width={80}
                                     color='red'/>);
         expect(wrapper.state().dragging).toBe(false);    
-        wrapper.instance().doMouseDown({button:1,clientX:10})    
+        wrapper.instance().doMouseDown({button:1,clientX:10,stopPropagation:stopPropagation},MODE_MOVE)    
+        expect(wrapper.state().mode).toBe(MODE_NONE); 
         expect(wrapper.state().dragging).toBe(false); 
-        wrapper.instance().doMouseDown({button:0,clientX:10})    
+        wrapper.instance().doMouseDown({button:0,clientX:10,stopPropagation:stopPropagation},MODE_MOVE)    
+        expect(wrapper.state().mode).toBe(MODE_MOVE); 
         expect(wrapper.state().dragging).toBe(true);       
         expect(wrapper.state().left).toBe(0);   
         expect(wrapper.instance().draggingPosition).toBe(10);       
@@ -56,6 +60,7 @@ describe('Testing Firing Events ', function () {
         expect(style.width).toBe(80);
         expect(style.backgroundColor).toBe('red');
         wrapper.instance().doMouseUp()
+        expect(wrapper.state().mode).toBe(MODE_NONE); 
         expect(onChildDrag.mock.calls.length).toBe(2);
         expect(onChildDrag.mock.calls[1][0]).toBe(false) 
         expect(onUpdateItem.mock.calls.length).toBe(1);
@@ -67,5 +72,104 @@ describe('Testing Firing Events ', function () {
         expect(new_end_date.getTime()-onUpdateItem.mock.calls[0][1].end.getTime()<10).toBe(true)
 
 
-    })        
+    })
+    it('Resize Left and handle mouse event properly',()=>{
+        let onChildDrag=jest.fn();
+        let onUpdateItem=jest.fn();
+        let item={name:'this Item'}
+        let dayWidth=30;
+        let nowposition=0;
+        let stopPropagation=jest.fn();
+        const wrapper =shallow(<DataTask 
+                                    nowposition={nowposition}
+                                    dayWidth={dayWidth}
+                                    onChildDrag={onChildDrag}
+                                    onUpdateItem={onUpdateItem}
+                                    item={item}
+                                    left={0}
+                                    width={80}
+                                    color='red'/>);
+        expect(wrapper.state().dragging).toBe(false);    
+        wrapper.instance().doMouseDown({button:1,clientX:10,stopPropagation:stopPropagation},MOVE_RESIZE_LEFT)    
+        expect(wrapper.state().dragging).toBe(false); 
+        expect(wrapper.state().mode).toBe(MODE_NONE); 
+        wrapper.instance().doMouseDown({button:0,clientX:10,stopPropagation:stopPropagation},MOVE_RESIZE_LEFT)    
+        expect(wrapper.state().mode).toBe(MOVE_RESIZE_LEFT);
+        expect(wrapper.state().dragging).toBe(true);       
+        expect(wrapper.state().left).toBe(0);   
+        expect(wrapper.instance().draggingPosition).toBe(10);       
+        expect(onChildDrag.mock.calls.length).toBe(1);
+        expect(onChildDrag.mock.calls[0][0]).toBe(true)  
+
+        wrapper.instance().doMouseMove({button:0,clientX:20})      
+        expect(wrapper.state().left).toBe(10);   
+        expect(wrapper.instance().draggingPosition).toBe(20);
+        let style=wrapper.instance().calculateStyle();     
+        expect(style.left).toBe(10);
+        expect(style.width).toBe(70);
+        expect(style.backgroundColor).toBe('red');
+        wrapper.instance().doMouseUp()
+        expect(wrapper.state().mode).toBe(MODE_NONE); 
+        expect(onChildDrag.mock.calls.length).toBe(2);
+        expect(onChildDrag.mock.calls[1][0]).toBe(false) 
+        expect(onUpdateItem.mock.calls.length).toBe(1);
+        expect(onUpdateItem.mock.calls[0][0]).toBe(item)
+        let new_start_date=DateHelper.pixelToDate(10,nowposition,dayWidth);
+        let new_end_date=DateHelper.pixelToDate(70,nowposition,dayWidth);
+
+        expect(new_start_date.getTime()-onUpdateItem.mock.calls[0][1].start.getTime()<10).toBe(true)
+        expect(new_end_date.getTime()-onUpdateItem.mock.calls[0][1].end.getTime()<10).toBe(true)
+
+
+    })
+    it('Resize Right and handle mouse event properly',()=>{
+        let onChildDrag=jest.fn();
+        let onUpdateItem=jest.fn();
+        let item={name:'this Item'}
+        let dayWidth=30;
+        let nowposition=0;
+        let stopPropagation=jest.fn();
+        const wrapper =shallow(<DataTask 
+                                    nowposition={nowposition}
+                                    dayWidth={dayWidth}
+                                    onChildDrag={onChildDrag}
+                                    onUpdateItem={onUpdateItem}
+                                    item={item}
+                                    left={0}
+                                    width={80}
+                                    color='red'/>);
+        expect(wrapper.state().dragging).toBe(false);    
+        wrapper.instance().doMouseDown({button:1,clientX:10,stopPropagation:stopPropagation},MOVE_RESIZE_RIGHT)    
+        expect(wrapper.state().dragging).toBe(false); 
+        expect(wrapper.state().mode).toBe(MODE_NONE); 
+        wrapper.instance().doMouseDown({button:0,clientX:10,stopPropagation:stopPropagation},MOVE_RESIZE_RIGHT)    
+        expect(wrapper.state().mode).toBe(MOVE_RESIZE_RIGHT);
+        expect(wrapper.state().dragging).toBe(true);       
+        expect(wrapper.state().left).toBe(0);   
+        expect(wrapper.instance().draggingPosition).toBe(10);       
+        expect(onChildDrag.mock.calls.length).toBe(1);
+        expect(onChildDrag.mock.calls[0][0]).toBe(true)  
+
+        wrapper.instance().doMouseMove({button:0,clientX:20})      
+        expect(wrapper.state().left).toBe(0);   
+        expect(wrapper.instance().draggingPosition).toBe(20);
+        let style=wrapper.instance().calculateStyle();     
+        expect(style.left).toBe(0);
+        expect(style.width).toBe(90);
+        expect(style.backgroundColor).toBe('red');
+        wrapper.instance().doMouseUp()
+        expect(wrapper.state().mode).toBe(MODE_NONE); 
+        expect(onChildDrag.mock.calls.length).toBe(2);
+        expect(onChildDrag.mock.calls[1][0]).toBe(false) 
+        expect(onUpdateItem.mock.calls.length).toBe(1);
+        expect(onUpdateItem.mock.calls[0][0]).toBe(item)
+        let new_start_date=DateHelper.pixelToDate(0,nowposition,dayWidth);
+        let new_end_date=DateHelper.pixelToDate(90,nowposition,dayWidth);
+
+        expect(new_start_date.getTime()-onUpdateItem.mock.calls[0][1].start.getTime()<10).toBe(true)
+        expect(new_end_date.getTime()-onUpdateItem.mock.calls[0][1].end.getTime()<10).toBe(true)
+
+
+    })
+    
 })

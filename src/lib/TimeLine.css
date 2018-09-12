@@ -131,11 +131,18 @@
     text-align: center;
 }
 
-.timeLine-main-data-task:hover {
+.timeLine-main-data-task-side{
+    position: absolute;
+    width: 3px;
+    cursor: col-resize;
+}
+
+
+/* .timeLine-main-data-task:hover {
     background-color:chocolate;
     border:solid 2px darkorchid;
     cursor: move;
-}
+} */
 
 .timeLine-main-data-task{
     border-left:dotted 1px grey;
@@ -230,11 +237,3 @@
     text-overflow: ellipsis; 
 }
 
-/* e-resize  - resize cursor pointing right
-n-resize  - resize cursor pointing up
-ne-resize  - resize cursor pointing diagonally up and right
-nw-resize  - resize cursor pointing diagonally up and left
-s-resize  - resize cursor pointing down
-se-resize  - resize cursor pointing diagonally down and right
-sw-resize  - resize cursor pointing diagonally down and left
-w-resize  - resize cursor pointing left */
