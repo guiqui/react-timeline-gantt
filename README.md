@@ -11,6 +11,7 @@ An awesome blazing fast timeline component.
 - Super fast. 😛
 - Infinite scrolling.
 - Made to be use with Redux.
+- Task update and resizing.
 - Support paging.
 - Can render more than a 100k records.
 - Implemented with virtual rendering.
