@@ -36,10 +36,10 @@ export default class TaskList extends Component{
         let new_height=rows>0?rows * this.props.itemheight:10;
         return {height:new_height}
     }
-    renderTaskRow(){
+    renderTaskRow(data){
         let result=[];
         for (let i=this.props.startRow;i<this.props.endRow+1;i++){
-            let item=this.props.data[i];
+            let item=data[i];
             if(!item) break
             result.push(<TaskRow key={i}    
                                  item={item}
@@ -56,7 +56,8 @@ export default class TaskList extends Component{
         this.props.onScroll(this.refs.taskViewPort.scrollTop)
     }
     render(){
-        this.containerStyle=this.getContainerStyle(this.props.data.length)
+        let data =this.props.data?this.props.data:[];
+        this.containerStyle=this.getContainerStyle(data.length)
         return(
             <div className="timeLine-side"> 
                 <div className="timeLine-side-title">
@@ -66,7 +67,7 @@ export default class TaskList extends Component{
                 </div>    
                 <div ref="taskViewPort"  className="timeLine-side-task-viewPort" onScroll={this.doScroll}  >                
                     <div className="timeLine-side-task-container" style={this.containerStyle}>                   
-                        { this.renderTaskRow() }
+                        { this.renderTaskRow(data) }
                     </div> 
                 </div>
             </div> 
