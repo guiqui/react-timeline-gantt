@@ -4,6 +4,18 @@ const DAY_WIDTH=24;
 
 
 describe('Test DateToPixel Fuctionality',()=>{
+    test('Test get today ',()=>{
+        let result=DateHelper.getToday();
+        let today=new Date();
+        expect(result.getDay()).toBe(today.getDay())
+        expect(result.getMonth()).toBe(today.getMonth())
+        expect(result.getFullYear()).toBe(today.getFullYear())
+        expect(result.getHours()).toBe(0)
+        expect(result.getMinutes()).toBe(0)
+        expect(result.getSeconds()).toBe(0)
+       
+    }) 
+
     test('When Today and now position  0',()=>{
         let result= DateHelper.dateToPixel(DateHelper.getToday(),0,DAY_WIDTH);
         expect(result).toBe(0)
