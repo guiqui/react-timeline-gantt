@@ -61,7 +61,8 @@ export default class DataTask extends Component{
             onMouseDown={this.doMouseDown}
             onClick={(e)=>{this.props.onSelectItem(this.props.item)}}
             style={this.calculateStyle()}>
-       
+            <div>r</div>
+            <div>l</div>    
         </div>)
           
     }

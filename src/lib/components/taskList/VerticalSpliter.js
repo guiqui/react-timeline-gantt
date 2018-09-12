@@ -30,7 +30,7 @@ export default class VerticalSpliter extends Component{
             e.stopPropagation();
             let delta=this.draggingPosition-e.clientX;
             this.draggingPosition=e.clientX;
-            this.props.onChangeSize(delta)
+            this.props.onTaskListSizing(delta)
         }
     }
 

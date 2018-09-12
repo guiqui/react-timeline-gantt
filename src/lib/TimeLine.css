@@ -229,3 +229,12 @@
     overflow: hidden;
     text-overflow: ellipsis; 
 }
+
+/* e-resize  - resize cursor pointing right
+n-resize  - resize cursor pointing up
+ne-resize  - resize cursor pointing diagonally up and right
+nw-resize  - resize cursor pointing diagonally up and left
+s-resize  - resize cursor pointing down
+se-resize  - resize cursor pointing diagonally down and right
+sw-resize  - resize cursor pointing diagonally down and left
+w-resize  - resize cursor pointing left */
