@@ -50,6 +50,7 @@ export default class Header extends Component {
     }
     renderTimeHeader(){
         let result=[];
+        
         for (let i=-BUFFER_DAYS;i<this.props.numVisibleDays;i++){
             let leftvalue =(this.props.currentday+i)*this.props.dayWidth+this.props.nowposition;
             result.push(<HeaderDayItem key={this.props.currentday+i} day={this.props.currentday+i} width={this.props.dayWidth}  left={leftvalue}/>);
@@ -62,7 +63,7 @@ export default class Header extends Component {
         
         return  <div id="timeline-header" ref="Header" 
                     className="timeLine-main-header-viewPort">
-                    <div  className="timeLine-main-header-container" style={{width:DATA_CONTAINER_WIDTH}}>
+                    <div  className="timeLine-main-header-container" style={{width:DATA_CONTAINER_WIDTH,maxWidth:DATA_CONTAINER_WIDTH}}>
                         {this.renderMonth()} 
                         {this.renderTimeHeader()} 
                     </div>

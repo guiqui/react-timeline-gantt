@@ -38,7 +38,7 @@
     top:0;
     left:0;
     height: 100% ;
-    background-color: rgb(59, 59, 58);
+    background-color: #223344;
     overflow: hidden;
     user-select: none;
 }
@@ -66,7 +66,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color:rgb(59, 59, 58);
+    background-color:#223344;
     font-size: 10px;
     text-align: center;
     border-right:solid 1px white;
@@ -184,7 +184,7 @@
     justify-content: center;
     align-items: center;
     cursor: col-resize;
-    background-color:  rgb(59, 59, 58);
+    background-color:  #223344;
     border-right:solid 1px rgb(207, 207, 205);
     height: 100%;
 
@@ -203,7 +203,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(59, 59, 58);;
+    background-color: #223344;;
     border-bottom: solid 1px silver;
     color: white;
     text-align: center;
@@ -215,7 +215,7 @@
     height:100% ;
     background-color: rgb(112, 112, 112);
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .timeLine-side-task-container{

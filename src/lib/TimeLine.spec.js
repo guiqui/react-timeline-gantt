@@ -15,12 +15,10 @@ describe('TimeLine Initialization ', function () {
 
     it('Initialise on Size',()=>{
         let itemheight=30;
-        let dayWidth=20;
         let data=[{name: `Task Today`,start:new Date(),end:new Date().setDate(new Date().getDate(),5) ,color:'red'}]
         let onNeedData=(start,end)=>{return data}
         const wrapper =shallow(<TimeLine data={data}  
                                             itemheight={itemheight} 
-                                            dayWidth={dayWidth}
                                             onNeedData={onNeedData}/>);
         //This needs to be improve
         expect(wrapper.state().currentday).toBe(0);
@@ -35,7 +33,7 @@ describe('TimeLine Initialization ', function () {
         expect(wrapper.instance().initialise).toBe(true)
         expect(wrapper.state().startRow).toBe(0);
         expect(wrapper.state().numVisibleRows).toBe(Math.ceil(500/itemheight));
-        expect(wrapper.state().numVisibleDays).toBe(Math.ceil(500/dayWidth)+BUFFER_DAYS);
+        expect(wrapper.state().numVisibleDays).toBe(Math.ceil(500/24)+BUFFER_DAYS);
         expect(wrapper.instance().pxToScroll).toBe((1-(500/DATA_CONTAINER_WIDTH)) * DATA_CONTAINER_WIDTH-1);
         wrapper.instance().onSize({width:500,height:10})
         expect(wrapper.state().numVisibleRows).toBe(Math.ceil(10 / itemheight));
@@ -53,12 +51,12 @@ describe('TimeLine Scroll left ', function () {
 
     it('Render and handle mouse move right and Right',()=>{
         let itemheight=30;
-        let dayWidth=20;
+
         let data=[{name: `Task Today`,start:new Date(),end:new Date().setDate(new Date().getDate(),5) ,color:'red'}]
         let onNeedData=(start,end)=>{return data}
         const wrapper =mount(<TimeLine data={data}  
                                             itemheight={itemheight} 
-                                            dayWidth={dayWidth}
+                                        
                                             onNeedData={onNeedData}/>);
         wrapper.instance().onSize({width:500,height:500})
         expect(wrapper.state().nowposition).toBe(0);
@@ -103,7 +101,7 @@ describe('TimeLine Scroll left ', function () {
 describe('TimeLine Scroll Up ', function () {
     it('Calculate Num of visible rows properly',()=>{
         let itemheight=30;
-        let dayWidth=20;
+ 
         let data=[]
         for(let i=0;i<20;i++){
             data.push({name: `Task Today`,start:new Date(),end:new Date().setDate(new Date().getDate(),5) ,color:'red'})
@@ -111,7 +109,6 @@ describe('TimeLine Scroll Up ', function () {
         let onNeedData=(start,end)=>{return data}
         const wrapper =shallow(<TimeLine data={data}  
                                             itemheight={itemheight} 
-                                            dayWidth={dayWidth}
                                             onNeedData={onNeedData}/>);
         wrapper.instance().onSize({width:500,height:500})
         expect(wrapper.state().nowposition).toBe(0);
@@ -155,7 +152,6 @@ describe('TimeLine Scroll Up ', function () {
 describe('Testing onTaskListSizing ', function () {
     it('recalculate width properly whe moving vertical Bar',()=>{
         let itemheight=30;
-        let dayWidth=20;
         let data=[]
         for(let i=0;i<20;i++){
             data.push({name: `Task Today`,start:new Date(),end:new Date().setDate(new Date().getDate(),5) ,color:'red'})
@@ -163,7 +159,6 @@ describe('Testing onTaskListSizing ', function () {
         let onNeedData=(start,end)=>{return data}
         const wrapper =shallow(<TimeLine data={data}  
                                             itemheight={itemheight} 
-                                            dayWidth={dayWidth}
                                             onNeedData={onNeedData}/>);
         wrapper.instance().onSize({width:500,height:500})
         expect(wrapper.state().sideStyle.width).toBe(200);

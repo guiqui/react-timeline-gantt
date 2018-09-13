@@ -8,10 +8,10 @@ class App extends Component{
     super(props)
     this.data=Generator.generateData()
     this.state={
-      daysWidth:30,
       itemheight:30,
       timeLineData:[],
-      selectedItem:null
+      selectedItem:null,
+      timelineMode:"week"
     }
   }
 
@@ -43,24 +43,40 @@ class App extends Component{
     console.log(`Update Item ${item}`)
   }
 
+  getbuttonStyle(value){
+    return this.state.timelineMode==value?{backgroundColor:"grey",boder:'solid 1px #223344'}:{}
+  }
+
+  modeChange=(value)=>{
+    this.setState({timelineMode:value})
+  }
+
   render(){
 
     return (
       <div className="app-container">
        <h1>Gantt Time Lime Demo</h1>
-       {/* DayWidth<input type="range" min="30" max="500" value={this.state.daysWidth} onChange={this.handleDayWidth} step="1"/>
-       Item Height<input type="range" min="30" max="500" value={this.state.itemheight} onChange={this.handleItemHeight} step="1"/> */}
+        <div className="mode-container">
+          <div className="mode-container-item mode-container-item-left" 
+              onClick={(e)=>this.modeChange('day')}
+              style={this.getbuttonStyle('day')}>Day</div>
+          <div className="mode-container-item" 
+              onClick={(e)=>this.modeChange('week')}
+              style={this.getbuttonStyle('week')} >Week</div>
+          <div className="mode-container-item mode-container-item-right" 
+              onClick={(e)=>this.modeChange('month')}
+              style={this.getbuttonStyle('month')}>Month</div>
+        </div>
         <div className="time-line-container">
           <TimeLine  data={this.state.timeLineData} 
             onNeedData={this.onNeedData} 
             onSelectItem={this.onSelectItem}
             onUpdateItem={this.onUpdateItem}
+            mode={this.state.timelineMode}
             itemheight={this.state.itemheight} 
-            dayWidth={this.state.daysWidth}
             selectedItem={this.state.selectedItem}/>
         </div>
       </div>
-
     )
   }
 

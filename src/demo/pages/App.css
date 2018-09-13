@@ -80,4 +80,26 @@ html{
     align-self: center;
 }
 
-
+.mode-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline
+}
+.mode-container-item{
+    width:80px;
+    padding: 5px;
+    border :solid 1px grey;
+    background-color: #223344;
+    color: silver;
+    font-size: 12px;
+    text-align: center;
+}
+.mode-container-item-left{
+    border-top-left-radius: 17px;
+    border-bottom-left-radius: 17px;
+}
+.mode-container-item-right{
+    border-top-right-radius: 17px;
+    border-bottom-right-radius: 17px;
+}

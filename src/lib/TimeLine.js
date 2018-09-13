@@ -6,9 +6,16 @@ import Header from 'libs/components/header/Headers'
 import DataViewPort from 'libs/components/viewport/DataViewPort'
 import TaskList from 'libs/components/taskList/TaskList'
 import {BUFFER_DAYS,DATA_CONTAINER_WIDTH} from 'libs/Const'
+import {VIEW_MODE_DAY,VIEW_MODE_WEEK,VIEW_MODE_MONTH}from 'libs/Const'
+import {DAY_MONTH_MODE,DAY_WEEK_MODE,DAY_DAY_MODE} from 'libs/Const'
 import DataController from 'libs/controller/DataController'
 import DateHelper from 'libs/helpers/DateHelper'
 import './TimeLine.css'
+
+
+
+
+
 
 class TimeLine extends Component{
     constructor(props){
@@ -24,21 +31,48 @@ class TimeLine extends Component{
         //This variable define the number of pixels the viewport can scroll till arrive to the end of the context
         this.pxToScroll=1900;
         //Initialising state
+        let dayWidth=this.getDayWidth(this.props.mode);
         this.state={
-            currentday:0,//define what days is in the top-left of the view port      
-            nowposition:0,//      
+            currentday:0,//Day that is in the 0px horizontal    
+            //nowposition is the reference position, this variable support the infinit scrolling by accumulatning scroll times and redefining the 0 position 
+            // if we accumulat 2 scroll to the left nowposition will be 2* DATA_CONTAINER_WIDTH
+            nowposition:0,
             startRow:0,//
             endRow:30,
-            months:DateHelper.calculateMonthData(0,30,0,this.props.dayWidth),
+            months:DateHelper.calculateMonthData(0,30,0,dayWidth),
             sideStyle:{width:200},
             scrollLeft:0,
             scrollTop:0,
             numVisibleRows:30,
             numVisibleDays:60,
-            size:{width:1}
+            dayWidth:dayWidth,
+            mode:this.props.mode,
+            size:{width:1,height:1}
         }
     }
 
+      ////////////////////
+     //     ON MODE    //
+    ////////////////////
+
+
+    getDayWidth(mode){
+        switch(mode){
+            case VIEW_MODE_DAY:
+                return DAY_DAY_MODE;
+            case VIEW_MODE_WEEK:
+                return DAY_WEEK_MODE;
+            case VIEW_MODE_MONTH:
+                return DAY_MONTH_MODE;
+            default:
+                return DAY_MONTH_MODE;
+        }
+    }
+
+
+      ////////////////////
+     //     ON SIZE    //
+    ////////////////////
     
 
     onSize = size => {
@@ -47,27 +81,15 @@ class TimeLine extends Component{
          if (!this.initialise){
             this.dc.initialise(this.state.scrollLeft+this.state.nowposition,
                 this.state.scrollLeft+this.state.nowposition+size.width,
-                this.state.nowposition,this.props.dayWidth
+                this.state.nowposition,this.state.dayWidth
             )
             this.initialise=true;
 
          }
-        // {
-
-        // }else{
-        //      let middlescrollLeftition=this.pxToScroll/2;
-        //     //For middleNowPosition we get middlescrollLeftition and we add half of the bar of the scroll
-        //     let middleNowPosition=DATA_CONTAINER_WIDTH/2;
-        //     ///Initialise bar to the middle and now position
-        //     //this.refs.dataViewPort.refs.this.state.scrollLeft=middlescrollLeftition;
-        //     //this.refs.timeHeaderViewPort.scrollLeft=this.refs.dataViewPort.refs.this.state.scrollLeft;
-        //     this.nowPosition=middleNowPosition;  
-
-        // }
         this.setStartEnd();
         this.setState({
             numVisibleRows:Math.ceil(size.height / this.props.itemheight),
-            numVisibleDays:Math.ceil(size.width / this.props.dayWidth)+BUFFER_DAYS,
+            numVisibleDays:this.calcNumVisibleDays(size),
             size:size
         })
     }
@@ -98,7 +120,7 @@ class TimeLine extends Component{
         this.dc.setStartEnd(this.state.scrollLeft,
                             this.state.scrollLeft+this.state.size.width,
                             this.state.nowposition,
-                            this.props.dayWidth)
+                            this.state.dayWidth)
     }
 
 
@@ -123,14 +145,14 @@ class TimeLine extends Component{
         }
 
         //Get the day of the left position
-        let currentIndx=Math.trunc((newScrollLeft-this.state.nowposition) /this.props.dayWidth)
+        let currentIndx=Math.trunc((newScrollLeft-this.state.nowposition) /this.state.dayWidth)
  
         //Check if we need to change moths and load new data
         if (this.changingMonth(currentIndx,currentIndx+this.state.numVisibleDays)){
-            months=DateHelper.calculateMonthData(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition,this.props.dayWidth)
+            months=DateHelper.calculateMonthData(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition,this.state.dayWidth)
         }else{ 
             if(new_left !=-1)
-                months=DateHelper.calculateMonthData(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition,this.props.dayWidth)
+                months=DateHelper.calculateMonthData(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition,this.state.dayWidth)
         }
 
         //Calculate rows to render
@@ -161,7 +183,7 @@ class TimeLine extends Component{
 
     calculateVerticalScrollVariables=(size)=>{
         //The pixel to scroll verically is equal to the pecentage of what the viewport represent in the context multiply by the context width
-        this.pxToScroll=(1-(size.width/DATA_CONTAINER_WIDTH)) * DATA_CONTAINER_WIDTH-1;
+        this.pxToScroll=(1-(size.width/DATA_CONTAINER_WIDTH)) * DATA_CONTAINER_WIDTH -1;
     }
 
     onNeedData=(lowerLimit,upLimit)=>{
@@ -218,8 +240,34 @@ class TimeLine extends Component{
         if (this.props.onUpdateItem)
             this.props.onUpdateItem(item,props)
     }
-   
+ 
+    calcNumVisibleDays=(size)=>{
+        return Math.ceil(size.width / this.state.dayWidth)+BUFFER_DAYS
+    }
+    checkMode(){
+        if(this.props.mode!=this.state.mode){
+            this.state.mode=this.props.mode
+            
+            let newDayWidth=this.getDayWidth(this.state.mode);
+            let percentageCahnge=newDayWidth/this.state.dayWidth;
+            this.state.dayWidth=newDayWidth;
+            this.state.numVisibleDays=this.calcNumVisibleDays(this.state.size)
+            //to recalculate the now position we have to see how mwny scroll has happen
+            //to do so we calculate the diff of days between current day and now 
+            //And we calculate how many times we have scroll
+            let scrollTime=Math.trunc(-this.state.currentday*this.state.dayWidth/this.pxToScroll)
+            let scrollLeft=percentageCahnge*this.state.scrollLeft;
+            //We readjust now postion to the new number of scrolls
+            this.state.nowposition=scrollTime*this.pxToScroll;
+            // we recalculate the new scroll Left value
+            this.state.scrollLeft=scrollLeft;
+            this.state.months=DateHelper.calculateMonthData(this.state.currentday,this.state.currentday+this.state.numVisibleDays,this.state.nowposition,this.state.dayWidth)
+        }
+    }
+    
     render(){
+        this.checkMode();
+        console.log(this.state.nowposition)
         return (
         <div className="timeLine">   
             <div className="timeLine-side-main" style={this.state.sideStyle}> 
@@ -240,7 +288,7 @@ class TimeLine extends Component{
                         numVisibleDays={this.state.numVisibleDays}
                         currentday={this.state.currentday}
                         nowposition={this.state.nowposition}
-                        dayWidth={this.props.dayWidth}
+                        dayWidth={this.state.dayWidth}
                         scrollLeft={this.state.scrollLeft}/>
                 <DataViewPort 
                     ref='dataViewPort'
@@ -252,7 +300,7 @@ class TimeLine extends Component{
                     endRow={this.state.endRow}
                     data={this.props.data}
                     selectedItem={this.props.selectedItem}
-                    dayWidth={this.props.dayWidth}
+                    dayWidth={this.state.dayWidth}
                     onScroll={this.scrollData}  
                     onMouseDown={this.doMouseDown} 
                     onMouseMove={this.doMouseMove}

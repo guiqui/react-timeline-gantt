@@ -8,18 +8,23 @@ class DateHelper{
 
     dateToPixel(input,nowposition,daywidth){
         let nowDate=this.getToday();//
-        nowDate.setHours(0,0,0,0);
         let inputTime=new Date(input);
-        let timeDiff = inputTime.getTime() - nowDate.getTime();
-        let pixelWeight=daywidth/24;
-        return Math.ceil((timeDiff / (MIL_IN_HOUR )*pixelWeight))+nowposition;
+
+        //Day light saving patch
+        let lightSavingDiff=(inputTime.getTimezoneOffset()-nowDate.getTimezoneOffset())*60*1000
+        let timeDiff = inputTime.getTime() - nowDate.getTime()-lightSavingDiff;
+        let pixelWeight=daywidth/24;//Value in pixels of one hour
+        return (timeDiff / MIL_IN_HOUR )*pixelWeight+nowposition;
     }
     pixelToDate(position,nowposition,daywidth){
         let hoursInPixel=24/daywidth;
         let pixelsFromNow=position-nowposition;
-
-        let milisecondsFromNow=this.getToday().getTime()+pixelsFromNow*hoursInPixel*MIL_IN_HOUR;
-        return new Date(milisecondsFromNow);
+        let today=this.getToday();
+        let milisecondsFromNow=today.getTime()+pixelsFromNow*hoursInPixel*MIL_IN_HOUR;
+        let result =new Date(milisecondsFromNow)
+        let lightSavingDiff=(result.getTimezoneOffset()-today.getTimezoneOffset())*60*1000
+        result.setTime(result.getTime() + lightSavingDiff);
+        return result;
     }
     getToday(){
         let date =new Date()
