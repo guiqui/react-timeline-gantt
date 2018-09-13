@@ -20,11 +20,13 @@ An awesome blazing fast timeline component.
 - Implemented with virtual rendering.
 - Support Day Week and Month view.
 
+## Under develpment
+- Gantt lines and constrains.
 ## Road Map
 - Full Test coverage.
 - Hierachical data.
 - Zoom to task
-- Gantt lines and constrains.
+
 ## Demo
 Check out a working demo [here](https://guiqui.github.io/react-timeline/index.html)
 
