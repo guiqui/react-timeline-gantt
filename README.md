@@ -20,7 +20,7 @@ An awesome blazing fast timeline component.
 - Implemented with virtual rendering.
 - Support Day Week and Month view.
 
-## Under develpment
+## Under development
 - Gantt lines and constrains.
 ## Road Map
 - Full Test coverage.
