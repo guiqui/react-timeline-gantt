@@ -96,6 +96,21 @@
     font-weight: bold;
 }
 
+.timeLine-main-header-time{
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    height: 22px;
+    justify-content: stretch;
+}
+
+.timeLine-main-header-time-item{
+    border-left: solid 1px silver;
+    border-bottom: solid 1px silver;
+    border-top: solid 1px silver;
+    text-align: center;
+    padding-top: 5px;
+}
 /* Main Area Data*/
 
 .timeLine-main-data-viewPort{

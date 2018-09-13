@@ -27,7 +27,7 @@ html{
     align-items: center;
     width: 100%;
     height: 100%; 
-    margin:50px;
+    margin:1px;
 }
 
 .list{
@@ -80,13 +80,33 @@ html{
     align-self: center;
 }
 
+.nav-container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background : white;
+    height: 50px;
+    color:grey;
+    align-items: center;
+
+}
+
 .mode-container{
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    align-items: baseline
+    align-items: baseline;
+    justify-self: flex-end;
+    margin: 0px 20px;
 }
+.mode-container-title{
+    margin: 0px 20px;
+    flex:1 1 auto;
+    margin: 0px 20px;
+}
+
 .mode-container-item{
+    flex:0 0 auto;
     width:80px;
     padding: 5px;
     border :solid 1px grey;
@@ -94,7 +114,9 @@ html{
     color: silver;
     font-size: 12px;
     text-align: center;
+
 }
+
 .mode-container-item-left{
     border-top-left-radius: 17px;
     border-bottom-left-radius: 17px;

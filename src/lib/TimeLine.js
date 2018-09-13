@@ -289,6 +289,7 @@ class TimeLine extends Component{
                         currentday={this.state.currentday}
                         nowposition={this.state.nowposition}
                         dayWidth={this.state.dayWidth}
+                        mode={this.state.mode}
                         scrollLeft={this.state.scrollLeft}/>
                 <DataViewPort 
                     ref='dataViewPort'
