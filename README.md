@@ -7,6 +7,9 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9149e301e65b44cebf2e7b49316aee10)](https://www.codacy.com/app/gquiman/react-timeline?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=guiqui/react-timeline&amp;utm_campaign=Badge_Grade)
 
 ## Intro
+
+![alt text](https://guiqui.github.io/react-timeline/demo.gif)
+
 An awesome blazing fast timeline component.
 - Super fast. 😛
 - Infinite scrolling.
