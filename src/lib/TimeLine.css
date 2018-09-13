@@ -125,7 +125,7 @@
 .timeLine-main-data-task{
     position: absolute;
     background-color:darkorchid;
-    border:solid 1px silver;
+    border:solid 1px grey;
     border-radius: 14px;
     color: white;
     text-align: center;
@@ -144,10 +144,7 @@
     cursor: move;
 } */
 
-.timeLine-main-data-task{
-    border-left:dotted 1px grey;
-    border-bottom:dotted 1px grey;
-  }
+
 
 .timeLine-main-data-verticalLine{
     flex:1 1 auto;

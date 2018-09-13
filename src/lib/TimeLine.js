@@ -46,7 +46,7 @@ class TimeLine extends Component{
             numVisibleRows:30,
             numVisibleDays:60,
             dayWidth:dayWidth,
-            mode:this.props.mode,
+            mode:this.props.mode?this.props.mode:VIEW_MODE_MONTH,
             size:{width:1,height:1}
         }
     }
@@ -245,20 +245,20 @@ class TimeLine extends Component{
         return Math.ceil(size.width / this.state.dayWidth)+BUFFER_DAYS
     }
     checkMode(){
-        if(this.props.mode!=this.state.mode){
+        if(this.props.mode!=this.state.mode && this.props.mode){
             this.state.mode=this.props.mode
             
             let newDayWidth=this.getDayWidth(this.state.mode);
-            let percentageCahnge=newDayWidth/this.state.dayWidth;
+
             this.state.dayWidth=newDayWidth;
             this.state.numVisibleDays=this.calcNumVisibleDays(this.state.size)
             //to recalculate the now position we have to see how mwny scroll has happen
             //to do so we calculate the diff of days between current day and now 
             //And we calculate how many times we have scroll
-            let scrollTime=Math.trunc(-this.state.currentday*this.state.dayWidth/this.pxToScroll)
-            let scrollLeft=percentageCahnge*this.state.scrollLeft;
+            let scrollTime=Math.ceil(-this.state.currentday*this.state.dayWidth/this.pxToScroll)
             //We readjust now postion to the new number of scrolls
             this.state.nowposition=scrollTime*this.pxToScroll;
+            let scrollLeft=(this.state.currentday*this.state.dayWidth+this.state.nowposition)%this.pxToScroll
             // we recalculate the new scroll Left value
             this.state.scrollLeft=scrollLeft;
             this.state.months=DateHelper.calculateMonthData(this.state.currentday,this.state.currentday+this.state.numVisibleDays,this.state.nowposition,this.state.dayWidth)

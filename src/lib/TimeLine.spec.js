@@ -168,6 +168,85 @@ describe('Testing onTaskListSizing ', function () {
         expect(wrapper.state().sideStyle.width).toBe(210);
         
     })    
+
+
+
 })
+
+
+
+describe('Testing Mode change ', function () {
+    it('It change mode properly when the component has not scroll ',()=>{
+        let itemheight=30;
+        let data=[]
+        for(let i=0;i<20;i++){
+            data.push({name: `Task Today`,start:new Date(),end:new Date().setDate(new Date().getDate(),5) ,color:'red'})
+        }
+        let onNeedData=(start,end)=>{return data}
+        const wrapper =shallow(<TimeLine data={data}  
+                                            itemheight={itemheight} 
+                                            onNeedData={onNeedData}/>);
+        wrapper.instance().onSize({width:500,height:500})
+        expect(wrapper.state().nowposition).toBe(0);
+        expect(wrapper.state().scrollLeft).toBe(0);
+        expect(wrapper.state().numVisibleDays).toBe(23);
+        expect(wrapper.state().numVisibleRows).toBe(17);
+        expect(wrapper.state().mode).toBe("month");
+        wrapper.setProps({mode:"week"})
+        wrapper.instance().checkMode()
+        expect(wrapper.state().nowposition).toBe(-0);
+        expect(wrapper.state().scrollLeft).toBe(0);
+        expect(wrapper.state().numVisibleRows).toBe(17);
+        expect(wrapper.state().numVisibleDays).toBe(4);
+        wrapper.setProps({mode:"day"})
+        wrapper.instance().checkMode()
+        expect(wrapper.state().mode).toBe("day");
+        expect(wrapper.state().nowposition).toBe(-0);
+        expect(wrapper.state().scrollLeft).toBe(0);
+        expect(wrapper.state().numVisibleRows).toBe(17);
+        expect(wrapper.state().numVisibleDays).toBe(3);
+
+
+    })    
+
+
+    it('It change mode properly when the component has scroll left',()=>{
+        let itemheight=30;
+        let data=[]
+        for(let i=0;i<20;i++){
+            data.push({name: `Task Today`,start:new Date(),end:new Date().setDate(new Date().getDate(),5) ,color:'red'})
+        }
+        let onNeedData=(start,end)=>{return data}
+        const wrapper =shallow(<TimeLine data={data}  
+                                            itemheight={itemheight} 
+                                            onNeedData={onNeedData}/>);
+        wrapper.instance().onSize({width:500,height:500})
+        wrapper.instance().doMouseDown({clientX:0})
+        wrapper.instance().doMouseMove({clientX:501})
+        wrapper.instance().doMouseUp()
+        expect(wrapper.state().nowposition).toBe(4499);
+        expect(wrapper.state().scrollLeft).toBe(4499);
+        expect(wrapper.state().numVisibleDays).toBe(23);
+        expect(wrapper.state().numVisibleRows).toBe(17);
+        expect(wrapper.state().mode).toBe("month");
+        wrapper.setProps({mode:"week"})
+        wrapper.instance().checkMode()
+        expect(wrapper.state().nowposition).toBe(13497);
+        expect(wrapper.state().scrollLeft).toBe(3897);
+        expect(wrapper.state().numVisibleRows).toBe(17);
+        expect(wrapper.state().numVisibleDays).toBe(4);
+        wrapper.setProps({mode:"day"})
+        wrapper.instance().checkMode()
+        expect(wrapper.state().mode).toBe("day");
+        expect(wrapper.state().nowposition).toBe(31493);
+        expect(wrapper.state().scrollLeft).toBe(2693);
+        expect(wrapper.state().numVisibleRows).toBe(17);
+        expect(wrapper.state().numVisibleDays).toBe(3);
+
+
+    })    
+
+})
+
 
 

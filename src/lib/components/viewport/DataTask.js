@@ -68,9 +68,9 @@ export default class DataTask extends Component{
     calculateStyle(){
 
         if(this.state.dragging){
-            return {backgroundColor: this.props.color,left:this.state.left,width:this.state.width,height:this.props.height-2}
+            return {backgroundColor: this.props.color,left:this.state.left,width:this.state.width,height:this.props.height-5,top:2}
         }else{
-           return {backgroundColor: this.props.color,left:this.props.left,width:this.props.width,height:this.props.height-2}
+           return {backgroundColor: this.props.color,left:this.props.left,width:this.props.width,height:this.props.height-5,top:2}
        }
      
     }
