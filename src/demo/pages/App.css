@@ -27,7 +27,7 @@ html{
     align-items: center;
     width: 100%;
     height: 100%; 
-    margin:1px;
+
 }
 
 .list{
@@ -84,7 +84,9 @@ html{
     display: flex;
     flex-direction: row;
     width: 100%;
-    background : white;
+    background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%);
+    background: -webkit-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #eeeeee 0%,#cccccc 100%); 
     height: 50px;
     color:grey;
     align-items: center;
@@ -103,15 +105,18 @@ html{
     margin: 0px 20px;
     flex:1 1 auto;
     margin: 0px 20px;
+    text-shadow: 0.5px 0.5px #333333;
+    font-family: Helvetica, sans-serif;
+    font-size:17px;
 }
 
 .mode-container-item{
     flex:0 0 auto;
     width:80px;
     padding: 5px;
-    border :solid 1px grey;
-    background-color: #223344;
-    color: silver;
+    border :solid 1px silver;
+    background-color: #333333;;
+    color: white;
     font-size: 12px;
     text-align: center;
 

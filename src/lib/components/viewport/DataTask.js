@@ -82,10 +82,10 @@ export default class DataTask extends Component{
             onClick={(e)=>{this.props.onSelectItem(this.props.item)}}
             style={style}>
             <div className="timeLine-main-data-task-side" 
-                 style={{left:-4,height:style.height}}
+                 style={{left:-1,height:style.height}}
                  onMouseDown={(e)=>this.doMouseDown(e,MOVE_RESIZE_LEFT)} ></div>
             <div className="timeLine-main-data-task-side" 
-                 style={{left:style.width,height:style.height}}
+                 style={{left:style.width-4,height:style.height}}
                  onMouseDown={(e)=>this.doMouseDown(e,MOVE_RESIZE_RIGHT)} ></div>  
         </div>)
           
