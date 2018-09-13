@@ -105,9 +105,10 @@ html{
     margin: 0px 20px;
     flex:1 1 auto;
     margin: 0px 20px;
-    text-shadow: 0.5px 0.5px #333333;
+    text-shadow: 0.5px 0.5px white;
     font-family: Helvetica, sans-serif;
-    font-size:17px;
+    font-size: 22px;
+    font-weight: bolder;
 }
 
 .mode-container-item{
