@@ -248,5 +248,6 @@
     padding-top:10px;
     overflow: hidden;
     text-overflow: ellipsis; 
+    outline: none;
 }
 

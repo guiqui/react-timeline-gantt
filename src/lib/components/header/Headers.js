@@ -32,26 +32,41 @@ export class HeaderDayItem extends Component{
             </div>  
     }
 
-    renderTimeElements=()=>{
+    renderTimeWeeKElements=()=>{
         let result=[]
         for(let i=0;i<24;i++){
-            result.push(<div className="timeLine-main-header-time-item" style={{width:HOUR_DAY_WEEK}}>{i}</div>)
+            result.push(<div key={i} className="timeLine-main-header-time-item" style={{width:HOUR_DAY_WEEK}}>{i}</div>)
         }
         return result;
     }
 
     renderTimeWeek=()=>{
         return <div className="timeLine-main-header-time">
-                {this.renderTimeElements()}
+                {this.renderTimeWeeKElements()}
             </div>  
     }
 
-    renderTime=()=>{
+    renderTimeDayElements=()=>{
+        let result=[]
+        for(let i=0;i<24;i++){
+            result.push(<div key={i} className="timeLine-main-header-time-item" style={{width:HOUR_DAY_DAY}}>{`${i}:00`}</div>)
+        }
+        return result;
+    }
+
+
+    renderBottomInfo=()=>{
         switch(this.props.mode){
             case VIEW_MODE_MONTH:
                 return this.renderDay()
             case VIEW_MODE_WEEK:
-                return this.renderTimeWeek()
+                return <div className="timeLine-main-header-time">
+                        {this.renderTimeWeeKElements()}
+                        </div>  
+            case VIEW_MODE_DAY:
+                return <div className="timeLine-main-header-time">
+                        {this.renderTimeDayElements()}
+                        </div>  
             default:
                 return this.renderDay()
         }
@@ -63,7 +78,7 @@ export class HeaderDayItem extends Component{
             <div className="timeLine-main-header-day-week"  >
             {moment().add(this.props.day , 'days').format(this.getFormat())}
             </div>    
-            {this.renderTime()} 
+            {this.renderBottomInfo()} 
  
         </div>)
           
