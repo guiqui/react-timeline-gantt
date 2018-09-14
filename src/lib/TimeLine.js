@@ -4,11 +4,14 @@ import moment  from 'moment'
 import VerticalSpliter from 'libs/components/taskList/VerticalSpliter'
 import Header from 'libs/components/header/Headers'
 import DataViewPort from 'libs/components/viewport/DataViewPort'
+import LinkViewPort from 'libs/components/links/LinkViewPort'
 import TaskList from 'libs/components/taskList/TaskList'
+import Registry from 'libs/helpers/registry/Registry'
 import {BUFFER_DAYS,DATA_CONTAINER_WIDTH} from 'libs/Const'
 import {VIEW_MODE_DAY,VIEW_MODE_WEEK,VIEW_MODE_MONTH}from 'libs/Const'
 import {DAY_MONTH_MODE,DAY_WEEK_MODE,DAY_DAY_MODE} from 'libs/Const'
 import DataController from 'libs/controller/DataController'
+
 import DateHelper from 'libs/helpers/DateHelper'
 import './TimeLine.css'
 
@@ -32,6 +35,7 @@ class TimeLine extends Component{
         this.pxToScroll=1900;
         //Initialising state
         let dayWidth=this.getDayWidth(this.props.mode);
+   
         this.state={
             currentday:0,//Day that is in the 0px horizontal    
             //nowposition is the reference position, this variable support the infinit scrolling by accumulatning scroll times and redefining the 0 position 
@@ -47,7 +51,8 @@ class TimeLine extends Component{
             numVisibleDays:60,
             dayWidth:dayWidth,
             mode:this.props.mode?this.props.mode:VIEW_MODE_MONTH,
-            size:{width:1,height:1}
+            size:{width:1,height:1},
+  
         }
     }
 
@@ -264,10 +269,20 @@ class TimeLine extends Component{
             this.state.months=DateHelper.calculateMonthData(this.state.currentday,this.state.currentday+this.state.numVisibleDays,this.state.nowposition,this.state.dayWidth)
         }
     }
-    
+    checkNeeeData=()=>{
+        if (this.props.data!=this.state.data){
+            this.state.data=this.props.data;
+            Registry.registerData(this.state.data)
+        }
+        if (this.props.links!=this.state.links){
+            this.state.links=this.props.links;
+            Registry.registerLinks(this.props.links)
+        }
+        
+    }
     render(){
         this.checkMode();
-        console.log(this.state.nowposition)
+        this.checkNeeeData();
         return (
         <div className="timeLine">   
             <div className="timeLine-side-main" style={this.state.sideStyle}> 
@@ -311,6 +326,15 @@ class TimeLine extends Component{
                     onUpdateItem={this.onUpdateItem}
                     boundaries={{lower:this.state.scrollLeft,upper:this.state.scrollLeft+this.state.size.width}}
                     onSize={this.onSize}/>
+                    <LinkViewPort 
+                        scrollLeft={this.state.scrollLeft}
+                        scrollTop={this.state.scrollTop}
+                        startRow={this.state.startRow}
+                        endRow={this.state.endRow}
+                        data={this.props.data}
+                        nowposition={this.state.nowposition}
+                        dayWidth={this.state.dayWidth}
+                        links={this.props.links}/>
             </div>
         </div>)
     }

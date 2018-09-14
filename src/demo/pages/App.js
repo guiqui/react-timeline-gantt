@@ -6,12 +6,14 @@ import './App.css'
 class App extends Component{
   constructor(props){
     super(props)
-    this.data=Generator.generateData()
+    let result=Generator.generateData()
+    this.data=result.data;
     this.state={
       itemheight:30,
       timeLineData:[],
       selectedItem:null,
-      timelineMode:"week"
+      timelineMode:"month",
+      links:result.links
     }
   }
 
@@ -71,7 +73,9 @@ class App extends Component{
           </div>
         </div>
         <div className="time-line-container">
-          <TimeLine  data={this.state.timeLineData} 
+          <TimeLine  
+            data={this.state.timeLineData} 
+            links={this.state.links} 
             onNeedData={this.onNeedData} 
             onSelectItem={this.onSelectItem}
             onUpdateItem={this.onUpdateItem}
