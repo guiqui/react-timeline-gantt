@@ -50,6 +50,8 @@ class TimeLine extends Component{
             numVisibleRows:30,
             numVisibleDays:60,
             dayWidth:dayWidth,
+            interactiveMode:false,
+            taskToCreate:null,
             mode:this.props.mode?this.props.mode:VIEW_MODE_MONTH,
             size:{width:1,height:1},
   
@@ -245,6 +247,28 @@ class TimeLine extends Component{
         if (this.props.onUpdateItem)
             this.props.onUpdateItem(item,props)
     }
+
+    onStartCreateLink=(task)=>{
+        console.log(`Createing Link ${task}`)
+        this.setState({
+            interactiveMode:true,
+            taskToCreate:task
+        })
+        
+    }
+
+    onFinishCreateLink=(task)=>{
+        console.log(`Createing Link ${task}`)
+        if (this.props.onUpdateLink){
+            this.props.onUpdateLink({start:this.state.taskToCreate.id,end:task.id})
+        }
+        this.setState({
+            interactiveMode:false,
+            taskToCreate:null
+        })
+
+        
+    }
  
     calcNumVisibleDays=(size)=>{
         return Math.ceil(size.width / this.state.dayWidth)+BUFFER_DAYS
@@ -324,17 +348,21 @@ class TimeLine extends Component{
                     onMouseLeave ={this.doMouseLeave}
                     onSelectItem={this.onSelectItem}
                     onUpdateItem={this.onUpdateItem}
+                    onStartCreateLink={this.onStartCreateLink}
+                    onFinishCreateLink={this.onFinishCreateLink}
                     boundaries={{lower:this.state.scrollLeft,upper:this.state.scrollLeft+this.state.size.width}}
                     onSize={this.onSize}/>
-                    <LinkViewPort 
-                        scrollLeft={this.state.scrollLeft}
-                        scrollTop={this.state.scrollTop}
-                        startRow={this.state.startRow}
-                        endRow={this.state.endRow}
-                        data={this.props.data}
-                        nowposition={this.state.nowposition}
-                        dayWidth={this.state.dayWidth}
-                        links={this.props.links}/>
+                <LinkViewPort 
+                    scrollLeft={this.state.scrollLeft}
+                    scrollTop={this.state.scrollTop}
+                    startRow={this.state.startRow}
+                    endRow={this.state.endRow}
+                    data={this.props.data}
+                    nowposition={this.state.nowposition}
+                    dayWidth={this.state.dayWidth}
+                    interactiveMode={this.state.interactiveMode}
+                    taskToCreate={this.state.taskToCreate}
+                    links={this.props.links}/>
             </div>
         </div>)
     }

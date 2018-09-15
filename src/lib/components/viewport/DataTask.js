@@ -16,7 +16,23 @@ export default class DataTask extends Component{
                     mode:MODE_NONE}
     }
 
+    onCreateLinkMouseDown=(e)=>{
+        if (e.button === 0){
+            e.stopPropagation();
+            this.props.onStartCreateLink(this.props.item)
+        }
+    }
+
+
+    
+    onCreateLinkMouseUp=(e)=>{
+            e.stopPropagation();
+            this.props.onFinishCreateLink(this.props.item)
+    }
+
     doMouseDown(e,mode){
+        
+        
         if (e.button === 0){
             e.stopPropagation();
             this.props.onChildDrag(true)
@@ -82,11 +98,19 @@ export default class DataTask extends Component{
             onClick={(e)=>{this.props.onSelectItem(this.props.item)}}
             style={style}>
             <div className="timeLine-main-data-task-side" 
-                 style={{left:-1,height:style.height}}
-                 onMouseDown={(e)=>this.doMouseDown(e,MOVE_RESIZE_LEFT)} ></div>
+                 style={{left:-8,height:style.height}}
+                 onMouseDown={(e)=>this.doMouseDown(e,MOVE_RESIZE_LEFT)} >
+                <div  className="timeLine-main-data-task-side-linker" 
+                      onMouseDown={this.onCreateLinkMouseDown} 
+                      onMouseUp={this.onCreateLinkMouseUp}/>
+            </div>
             <div className="timeLine-main-data-task-side" 
-                 style={{left:style.width-4,height:style.height}}
-                 onMouseDown={(e)=>this.doMouseDown(e,MOVE_RESIZE_RIGHT)} ></div>  
+                 style={{left:style.width-1,height:style.height}}
+                 onMouseDown={(e)=>this.doMouseDown(e,MOVE_RESIZE_RIGHT)} >
+                <div className="timeLine-main-data-task-side-linker" 
+                                  onMouseDown={this.onCreateLinkMouseDown} 
+                                  onMouseUp={this.onCreateLinkMouseUp}/>
+            </div>  
         </div>)
           
     }

@@ -1,6 +1,8 @@
 import React,{Component} from 'react'
 import Registry from 'libs/helpers/registry/Registry'
 import Link from 'libs/components/links/Link'
+import CreateLink from 'libs/components/links/CreateLink'
+
 import DateHelper from 'libs/helpers/DateHelper'
 
 export default class LinkViewPort extends Component{
@@ -11,10 +13,17 @@ export default class LinkViewPort extends Component{
     }
 
     renderLink(startItem,endItem,key){
-        let startPosition=DateHelper.dateToPixel(startItem.item.end,this.props.nowposition,this.props.dayWidth)
-        let endPosition=DateHelper.dateToPixel(endItem.item.start,this.props.nowposition,this.props.dayWidth)
-        return<Link key={key} start={{x:startPosition,y:startItem.index*30+15}} end={{x:endPosition,y:endItem.index*30+15}} />  
+        let startPosition = this.getItemPosition(startItem.index,startItem.item.start)
+        let endPosition   = this.getItemPosition(endItem.index,endItem.item.end) 
+        return<Link key={key} start={{x:startPosition.x,y:startPosition.y}} end={{x:endPosition.x,y:endPosition.y}} />  
     }
+
+    getItemPosition=(index,date)=>{
+        let x=DateHelper.dateToPixel(date,this.props.nowposition,this.props.dayWidth)
+        let y=index*30+15
+        return{x:x,y:y}
+    }
+
 
     renderLinks(){
         this.cache=[];
@@ -49,15 +58,30 @@ export default class LinkViewPort extends Component{
         }
     }
 
+    renderCreateLink=()=>{
+        if (this.props.interactiveMode){
+            let record=Registry.getTask(this.props.taskToCreate.id)
+            let position =this.getItemPosition(record.index,record.item.end)
+            return <CreateLink  start={position}/>
+        }
+    }
+
     render(){
         this.refreshData();
-        return  (<svg ref="mainSvg" x={0} y={0} width="100%"  
-             pointerEvents="none" 
-            
-             style={{position:'absolute', top:60, userSelect: 'none',height:'100%' }} >
+
+        //Creating task
+        //Add CreateLink Component and he will manage mousemove mouse up
+
+        //selected task get the index of the links attached
+        //render them
+
+        return  (<svg x={0} y={0} width="100%"  
+                      pointerEvents="none" 
+                      style={{position:'absolute', top:60, userSelect: 'none',height:'100%' }} >
                 <g  transform={`matrix(1,0,0,1,${-this.props.scrollLeft},${-this.props.scrollTop})`}>
                 {this.cache}
                 </g>
+                {this.renderCreateLink()}
              </svg>)
     }
 }

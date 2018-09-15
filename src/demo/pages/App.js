@@ -44,7 +44,13 @@ class App extends Component{
     this.setState({timeLineData:[...this.state.timeLineData]})
     console.log(`Update Item ${item}`)
   }
+  onUpdateLink=(item,props)=>{
 
+    let newLink=Generator.createLink(item.start,item.end)
+
+    this.setState({links:[...this.state.links,newLink]})
+    console.log(`Update Item ${item}`)
+  }
   getbuttonStyle(value){
     return this.state.timelineMode==value?{backgroundColor:"grey",boder:'solid 1px #223344'}:{}
   }
@@ -79,6 +85,7 @@ class App extends Component{
             onNeedData={this.onNeedData} 
             onSelectItem={this.onSelectItem}
             onUpdateItem={this.onUpdateItem}
+            onUpdateLink={this.onUpdateLink}
             mode={this.state.timelineMode}
             itemheight={this.state.itemheight} 
             selectedItem={this.state.selectedItem}/>

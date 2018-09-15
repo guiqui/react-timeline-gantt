@@ -47,6 +47,10 @@ class Generator{
             return id;
     }
 
+    createLink(startId,endId){
+        return {id:ObjectHelper.genID(),start:startId,end:endId}
+    }
+
 
     randomDate(start, end) {
         return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));

@@ -149,11 +149,21 @@
 
 .timeLine-main-data-task-side{
     position: absolute;
-    width: 5px;
+    width: 10px;
     cursor: col-resize;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
 }
-
-
+.timeLine-main-data-task-side-linker{
+    width:10px;
+    height: 10px;
+    border-radius: 5px;
+    cursor: progress;
+}
+.timeLine-main-data-task-side-linker:hover{
+    background-color: black;
+}
 /* .timeLine-main-data-task:hover {
     background-color:chocolate;
     border:solid 2px darkorchid;
