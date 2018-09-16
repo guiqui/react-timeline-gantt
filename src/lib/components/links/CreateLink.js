@@ -5,6 +5,7 @@ export default class CreateLink extends Component{
     constructor(props){
         super(props);
         this.state={x:this.props.start.x,y:this.props.start.y}
+        this.init=false;
         this.lastX=-1;
         this.lastY=-1;
     }
@@ -20,13 +21,20 @@ export default class CreateLink extends Component{
     }
 
     doMouseMove=(e)=>{
-        let newX=this.state.x+(e.clientX-this.state.x);
-        let newY=this.state.y+(e.clientY-this.state.y);
+        if(!this.init){
+            this.lastX=e.clientX;
+            this.lastY=e.clientY; 
+            this.init=true;
+        }
+        let newX=this.state.x+(e.clientX-this.lastX);
+        let newY=this.state.y+(e.clientY-this.lastY);
+        this.lastX=e.clientX;
+        this.lastY=e.clientY; 
         this.setState({x:newX,y:newY})
     }
 
     doMouseUp=(e)=>{
-        //this.props.onChildDrag(false)
+        this.props.onFinishCreateLink()
     }
     
  

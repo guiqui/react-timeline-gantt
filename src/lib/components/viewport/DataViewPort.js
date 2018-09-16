@@ -102,7 +102,7 @@ export  class DataViewPort extends Component{
             
         let height=this.getContainerHeight(this.props.data.length)
         return (
-        <div ref="dataViewPort"  className="timeLine-main-data-viewPort" 
+        <div ref="dataViewPort"  id="timeLinedataViewPort" className="timeLine-main-data-viewPort" 
                     onMouseDown={this.doMouseDown} 
                     onMouseMove={this.doMouseMove}
                     onMouseUp={this.props.onMouseUp} 

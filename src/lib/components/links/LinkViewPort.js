@@ -13,8 +13,8 @@ export default class LinkViewPort extends Component{
     }
 
     renderLink(startItem,endItem,key){
-        let startPosition = this.getItemPosition(startItem.index,startItem.item.start)
-        let endPosition   = this.getItemPosition(endItem.index,endItem.item.end) 
+        let startPosition = this.getItemPosition(startItem.index,startItem.item.end)
+        let endPosition   = this.getItemPosition(endItem.index,endItem.item.start) 
         return<Link key={key} start={{x:startPosition.x,y:startPosition.y}} end={{x:endPosition.x,y:endPosition.y}} />  
     }
 
@@ -62,7 +62,7 @@ export default class LinkViewPort extends Component{
         if (this.props.interactiveMode){
             let record=Registry.getTask(this.props.taskToCreate.id)
             let position =this.getItemPosition(record.index,record.item.end)
-            return <CreateLink  start={position}/>
+            return <CreateLink  start={position} onFinishCreateLink={this.props.onFinishCreateLink}/>
         }
     }
 

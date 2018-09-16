@@ -21,12 +21,12 @@ class Generator{
         }
         let start=0;
         let end=0;
-        for (let i=1;i<100;i++){
-            start=Math.trunc(Math.random() * 1000)
-            end=Math.trunc(Math.random() * 1000)
+        // for (let i=1;i<100;i++){
+        //     start=Math.trunc(Math.random() * 1000)
+        //     end=Math.trunc(Math.random() * 1000)
             
-            this.addLink(data[start].id,data[end].id,links) 
-        }
+        //     this.addLink(data[start].id,data[end].id,links) 
+        // }
         
         return {data:data,links:links};
     }

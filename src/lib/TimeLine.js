@@ -259,7 +259,7 @@ class TimeLine extends Component{
 
     onFinishCreateLink=(task)=>{
         console.log(`Createing Link ${task}`)
-        if (this.props.onUpdateLink){
+        if (this.props.onUpdateLink && task){
             this.props.onUpdateLink({start:this.state.taskToCreate.id,end:task.id})
         }
         this.setState({
@@ -362,6 +362,7 @@ class TimeLine extends Component{
                     dayWidth={this.state.dayWidth}
                     interactiveMode={this.state.interactiveMode}
                     taskToCreate={this.state.taskToCreate}
+                    onFinishCreateLink={this.onFinishCreateLink}
                     links={this.props.links}/>
             </div>
         </div>)
