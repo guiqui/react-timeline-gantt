@@ -80,8 +80,9 @@ export default class LinkViewPort extends Component{
                       style={{position:'absolute', top:60, userSelect: 'none',height:'100%' }} >
                 <g  transform={`matrix(1,0,0,1,${-this.props.scrollLeft},${-this.props.scrollTop})`}>
                 {this.cache}
-                </g>
                 {this.renderCreateLink()}
+                </g>
+                
              </svg>)
     }
 }
