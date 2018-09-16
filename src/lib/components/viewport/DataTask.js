@@ -57,18 +57,27 @@ export default class DataTask extends Component{
     doMouseMove(e){
        if(this.state.dragging){
             let delta=this.draggingPosition-e.clientX;
+            let newLeft=this.state.left;
+            let newWidth=this.state.width;
+            
             switch(this.state.mode){
                 case MODE_MOVE:
-                    this.setState({left:this.state.left-delta})
+                    newLeft=this.state.left-delta
+                    this.setState({left:newLeft})
                     break;
                 case MOVE_RESIZE_LEFT:
-                    this.setState({left:this.state.left-delta,width:this.state.width+delta})
+                    newLeft=this.state.left-delta;
+                    newWidth=this.state.width+delta;
+                    this.setState({left:newLeft,width: newWidth})
                     break;
                 case MOVE_RESIZE_RIGHT :
-                    this.setState({width:this.state.width-delta})
+                    newWidth=this.state.width-delta;
+                    this.setState({width:newWidth})
                     break;
             }
-            
+                    newLeft=this.state.left-delta
+            let changeObj={item:this.props.item,position:{start:newLeft,end:newLeft+newWidth}};
+            this.props.onTaskChanging(changeObj);
             this.draggingPosition=e.clientX;
         }
     }
@@ -86,7 +95,7 @@ export default class DataTask extends Component{
         if(this.state.dragging){
             return {backgroundColor: this.props.color,left:this.state.left,width:this.state.width,height:this.props.height-5,top:2}
         }else{
-           return {backgroundColor: this.props.color,left:this.props.left,width:this.props.width,height:this.props.height-5,top:2}
+            return {backgroundColor: this.props.color,left:this.props.left,width:this.props.width,height:this.props.height-5,top:2}
        }
      
     }

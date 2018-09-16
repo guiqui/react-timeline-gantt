@@ -54,6 +54,7 @@ class TimeLine extends Component{
             taskToCreate:null,
             mode:this.props.mode?this.props.mode:VIEW_MODE_MONTH,
             size:{width:1,height:1},
+            changingTask:null
   
         }
     }
@@ -257,6 +258,13 @@ class TimeLine extends Component{
         
     }
 
+    onTaskChanging=(changingTask)=>{
+        this.setState({
+            changingTask:changingTask
+        })
+
+    }
+
     onFinishCreateLink=(task)=>{
         console.log(`Createing Link ${task}`)
         if (this.props.onUpdateLink && task){
@@ -348,6 +356,7 @@ class TimeLine extends Component{
                     onMouseLeave ={this.doMouseLeave}
                     onSelectItem={this.onSelectItem}
                     onUpdateItem={this.onUpdateItem}
+                    onTaskChanging={this.onTaskChanging}
                     onStartCreateLink={this.onStartCreateLink}
                     onFinishCreateLink={this.onFinishCreateLink}
                     boundaries={{lower:this.state.scrollLeft,upper:this.state.scrollLeft+this.state.size.width}}
@@ -363,6 +372,7 @@ class TimeLine extends Component{
                     interactiveMode={this.state.interactiveMode}
                     taskToCreate={this.state.taskToCreate}
                     onFinishCreateLink={this.onFinishCreateLink}
+                    changingTask={this.state.changingTask}
                     links={this.props.links}/>
             </div>
         </div>)

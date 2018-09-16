@@ -75,6 +75,7 @@ export  class DataViewPort extends Component{
                               onSelectItem={this.props.onSelectItem} 
                               onStartCreateLink={this.props.onStartCreateLink}
                               onFinishCreateLink={this.props.onFinishCreateLink}
+                              onTaskChanging={this.props.onTaskChanging}
                               onUpdateItem={this.props.onUpdateItem}> </DataTask> 
                 </DataRow>);
  

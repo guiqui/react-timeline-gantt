@@ -48,6 +48,8 @@ export default class LinkViewPort extends Component{
         }
     }
 
+
+
     refreshData(){
         if ( this.props.links!=this.state.links ||
             this.props.data!=this.state.data ){
@@ -65,24 +67,46 @@ export default class LinkViewPort extends Component{
             return <CreateLink  start={position} onFinishCreateLink={this.props.onFinishCreateLink}/>
         }
     }
+    
+    renderChangingTaskLinks=()=>{
+        if ( this.props.changingTask!=this.state.changingTask){
+            this.state.changingTask=this.props.changingTask;
+            //Get Links from task
+            let links=Registry.getLinks(this.state.changingTask.item.id);
+            if (!links)
+                return
+            let item=null
+            let startItem=null
+            let endItem =null;
+            let startPosition={}
+            let endPosition={}
+            for (let i=0;i<links.length;i++){
+                item=links[i];
+                startItem=Registry.getTask(item.link.start)
+                endItem=Registry.getTask(item.link.end)
+                startPosition =   this.getItemPosition(startItem.index,startItem.item.end)
+                if (this.state.changingTask.item.id==item.link.start)
+                    startPosition.x=this.state.changingTask.position.end
+                endPosition   =  this.getItemPosition(endItem.index,endItem.item.end)
+                if (this.state.changingTask.item.id==item.link.end)
+                    endPosition.x=this.state.changingTask.position.start
+                console.log(endPosition)
+                this.cache[item.index]=(<Link key={-i} start={{x:startPosition.x,y:startPosition.y}} end={{x:endPosition.x,y:endPosition.y}} />  )
+                this.cache=[...this.cache]
+            }
+        }
+    }
 
     render(){
         this.refreshData();
-
-        //Creating task
-        //Add CreateLink Component and he will manage mousemove mouse up
-
-        //selected task get the index of the links attached
-        //render them
-
-        return  (<svg x={0} y={0} width="100%"  
-                      pointerEvents="none" 
-                      style={{position:'absolute', top:60, userSelect: 'none',height:'100%' }} >
-                <g  transform={`matrix(1,0,0,1,${-this.props.scrollLeft},${-this.props.scrollTop})`}>
-                {this.cache}
-                {this.renderCreateLink()}
-                </g>
-                
-             </svg>)
+        this.renderChangingTaskLinks()
+        return  (<svg   x={0} y={0} width="100%"  
+                        pointerEvents="none" 
+                        style={{position:'absolute', top:60, userSelect: 'none',height:'100%' }} >
+                        <g  transform={`matrix(1,0,0,1,${-this.props.scrollLeft},${-this.props.scrollTop})`}>
+                            {this.cache}
+                            {this.renderCreateLink()}
+                        </g>
+                </svg>)
     }
 }

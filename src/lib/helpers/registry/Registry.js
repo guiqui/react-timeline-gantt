@@ -20,11 +20,12 @@ class Registry{
         for (let i=0;i<list.length;i++){
             start=list[i].start;
             end=list[i].end;
-            this.createAddTo(start,this.link,list[i])
-            this.createAddTo(end,this.link,list[i])
+            let value={link:list[i],index:i}
+            this.createAddTo(start,this.link,value,i)
+            this.createAddTo(end,this.link,value,i)
         }
     }
-    createAddTo(id,list,value){
+    createAddTo(id,list,value,index){
         if (!list[id])
             list[id]=[]
         if (list[id].indexOf(value)==-1)
