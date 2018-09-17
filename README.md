@@ -24,11 +24,12 @@ An awesome blazing fast timeline component.
 - Implemented with virtual rendering.
 - Support Day Week and Month view.
 
-## Under development
+## Under test
 - Gantt lines and constrains.
+## Under development
+- Hierachical data.
 ## Road Map
 - Full Test coverage.
-- Hierachical data.
 - Zoom to task
 
 ## Demo
