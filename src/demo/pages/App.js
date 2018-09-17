@@ -9,7 +9,7 @@ class App extends Component{
     let result=Generator.generateData()
     this.data=result.data;
     this.state={
-      itemheight:30,
+      itemheight:20,
       timeLineData:[],
       selectedItem:null,
       timelineMode:"month",

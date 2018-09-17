@@ -21,7 +21,7 @@ export default class LinkViewPort extends Component{
 
     getItemPosition=(index,date)=>{
         let x=DateHelper.dateToPixel(date,this.props.nowposition,this.props.dayWidth)
-        let y=index*30+15
+        let y=index*this.props.itemheight+this.props.itemheight/2
         return{x:x,y:y}
     }
 

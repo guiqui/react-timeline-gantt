@@ -286,9 +286,7 @@ class TimeLine extends Component{
     checkMode(){
         if(this.props.mode!=this.state.mode && this.props.mode){
             this.state.mode=this.props.mode
-            
             let newDayWidth=this.getDayWidth(this.state.mode);
-
             this.state.dayWidth=newDayWidth;
             this.state.numVisibleDays=this.calcNumVisibleDays(this.state.size)
             //to recalculate the now position we have to see how mwny scroll has happen
@@ -375,6 +373,7 @@ class TimeLine extends Component{
                     taskToCreate={this.state.taskToCreate}
                     onFinishCreateLink={this.onFinishCreateLink}
                     changingTask={this.state.changingTask}
+                    itemheight={this.props.itemheight}
                     links={this.props.links}/>
             </div>
         </div>)
