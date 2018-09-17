@@ -63,21 +63,19 @@ export default class DataTask extends Component{
             switch(this.state.mode){
                 case MODE_MOVE:
                     newLeft=this.state.left-delta
-                    this.setState({left:newLeft})
                     break;
                 case MOVE_RESIZE_LEFT:
                     newLeft=this.state.left-delta;
                     newWidth=this.state.width+delta;
-                    this.setState({left:newLeft,width: newWidth})
                     break;
                 case MOVE_RESIZE_RIGHT :
                     newWidth=this.state.width-delta;
-                    this.setState({width:newWidth})
                     break;
             }
-                    newLeft=this.state.left-delta
+            
             let changeObj={item:this.props.item,position:{start:newLeft,end:newLeft+newWidth}};
             this.props.onTaskChanging(changeObj);
+            this.setState({left:newLeft,width: newWidth}) 
             this.draggingPosition=e.clientX;
         }
     }

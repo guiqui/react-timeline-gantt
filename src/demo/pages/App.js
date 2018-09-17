@@ -44,10 +44,9 @@ class App extends Component{
     this.setState({timeLineData:[...this.state.timeLineData]})
     console.log(`Update Item ${item}`)
   }
-  onUpdateLink=(item,props)=>{
-
+  onUpdateLink=(item)=>{
+    
     let newLink=Generator.createLink(item.start,item.end)
-
     this.setState({links:[...this.state.links,newLink]})
     console.log(`Update Item ${item}`)
   }
