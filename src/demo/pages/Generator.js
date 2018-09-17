@@ -42,7 +42,7 @@ class Generator{
 
     addLink(startId,endId,list){
             let id=ObjectHelper.genID();
-            let record={id:id,start:startId,startPosition:0,end:endId,endPosition:1}
+            let record={id:id,start:startId,startPosition:1,end:endId,endPosition:0}
             list.push(record)
             return id;
     }
