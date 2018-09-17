@@ -56,7 +56,8 @@ export default class LinkViewPort extends Component{
             this.props.data!=this.state.data ){
             this.state.links=this.props.links
             this.state.data=this.props.data
-            this.renderLinks();
+            if (this.state.links && this.state.data)
+                this.renderLinks();
             
         }
     }
