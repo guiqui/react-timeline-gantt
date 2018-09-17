@@ -136,7 +136,7 @@
     height: 50px;
     border-bottom-width: 0.5px;
     border-bottom-color: rgb(207, 207, 205);
-    border-bottom-style: dashed;
+    border-bottom-style: solid;
 }
 
 .timeLine-main-data-task{
@@ -251,7 +251,9 @@
     position: absolute;
     width: 100%;
     background-color: rgb(112, 112, 112);
-    border-bottom :solid 0.5px grey;
+    border-bottom-width: 0.5px;
+    border-bottom-color: rgb(207, 207, 205);
+    border-bottom-style: solid;
     height: 30px;
     color: grey;
     text-align: center;
