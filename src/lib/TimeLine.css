@@ -255,9 +255,11 @@
     height: 30px;
     color: grey;
     text-align: center;
-    padding-top:10px;
     overflow: hidden;
     text-overflow: ellipsis; 
     outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 

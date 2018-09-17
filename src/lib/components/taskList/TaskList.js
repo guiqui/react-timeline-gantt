@@ -23,7 +23,9 @@ export class TaskRow extends Component{
               contentEditable suppressContentEditableWarning
              style={{top:this.props.top,height:this.props.itemheight,backgroundColor:backgroundColor}}
              onClick={(e)=>this.props.onSelectItem(this.props.item)}>
-            {this.props.label}
+             <div>
+                {this.props.label}
+            </div>
         </div>)    
     }
 }
