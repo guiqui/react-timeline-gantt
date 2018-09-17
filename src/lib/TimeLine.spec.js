@@ -56,7 +56,7 @@ describe('TimeLine Scroll left ', function () {
         let onNeedData=(start,end)=>{return data}
         const wrapper =mount(<TimeLine data={data}  
                                             itemheight={itemheight} 
-                                        
+                                            links={[]}
                                             onNeedData={onNeedData}/>);
         wrapper.instance().onSize({width:500,height:500})
         expect(wrapper.state().nowposition).toBe(0);

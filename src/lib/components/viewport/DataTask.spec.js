@@ -27,6 +27,7 @@ describe('Testing Firing Events ', function () {
     it('Move and handle mouse event properly',()=>{
         let onChildDrag=jest.fn();
         let onUpdateItem=jest.fn();
+        let onTaskChanging=jest.fn();
         let item={name:'this Item'}
         let dayWidth=30;
         let nowposition=0;
@@ -36,6 +37,7 @@ describe('Testing Firing Events ', function () {
                                     dayWidth={dayWidth}
                                     onChildDrag={onChildDrag}
                                     onUpdateItem={onUpdateItem}
+                                    onTaskChanging={onTaskChanging}
                                     item={item}
                                     left={0}
                                     width={80}
@@ -76,6 +78,7 @@ describe('Testing Firing Events ', function () {
     it('Resize Left and handle mouse event properly',()=>{
         let onChildDrag=jest.fn();
         let onUpdateItem=jest.fn();
+        let onTaskChanging=jest.fn();
         let item={name:'this Item'}
         let dayWidth=30;
         let nowposition=0;
@@ -85,6 +88,7 @@ describe('Testing Firing Events ', function () {
                                     dayWidth={dayWidth}
                                     onChildDrag={onChildDrag}
                                     onUpdateItem={onUpdateItem}
+                                    onTaskChanging={onTaskChanging}
                                     item={item}
                                     left={0}
                                     width={80}
@@ -125,6 +129,7 @@ describe('Testing Firing Events ', function () {
     it('Resize Right and handle mouse event properly',()=>{
         let onChildDrag=jest.fn();
         let onUpdateItem=jest.fn();
+        let onTaskChanging=jest.fn();
         let item={name:'this Item'}
         let dayWidth=30;
         let nowposition=0;
@@ -134,6 +139,7 @@ describe('Testing Firing Events ', function () {
                                     dayWidth={dayWidth}
                                     onChildDrag={onChildDrag}
                                     onUpdateItem={onUpdateItem}
+                                    onTaskChanging={onTaskChanging}
                                     item={item}
                                     left={0}
                                     width={80}

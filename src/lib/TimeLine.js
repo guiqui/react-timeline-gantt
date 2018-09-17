@@ -52,6 +52,7 @@ class TimeLine extends Component{
             dayWidth:dayWidth,
             interactiveMode:false,
             taskToCreate:null,
+            links:[],
             mode:this.props.mode?this.props.mode:VIEW_MODE_MONTH,
             size:{width:1,height:1},
             changingTask:null

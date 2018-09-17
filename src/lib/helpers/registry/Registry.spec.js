@@ -1,22 +1,17 @@
 import Registry from './Registry'
 
+
+
 test('Adding object to registry',()=>{
-    Registry.add('1',{id:1,name:'First Element'})
-    let obj=Registry.get('1');
-    expect(obj).toBeDefined();
+
+    let data=[]
+    for(let i=0;i<20;i++){
+        data.push({name: `Task Today`,id:i,start:new Date(),end:new Date().setDate(new Date().getDate(),5) ,color:'red'})
+    }
+    Registry.registerData(data)
+    expect(Registry.getTask(0).item.id).toBe(0);
+    expect(Registry.getTask(0).index).toBe(0);
+    expect(Registry.getTask(19).item.id).toBe(19);
+    expect(Registry.getTask(19).index).toBe(19);
 })
 
-test('Deleting object from registry',()=>{
-    Registry.del('1')
-    let obj=Registry.get('1');
-    expect(obj).toBeUndefined()
-})
-test('Deleting All Object from registry',()=>{
-    Registry.add('1',{id:1,name:'First Element'})
-    Registry.add('2',{id:1,name:'First Element'})
-    Registry.delAll()
-    let obj=Registry.get('1');
-    expect(obj).toBeUndefined()
-    obj=Registry.get('2');
-    expect(obj).toBeUndefined()
-})
