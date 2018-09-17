@@ -53,7 +53,9 @@ export default class LinkViewPort extends Component{
 
     refreshData(){
         if ( this.props.links!=this.state.links ||
-            this.props.data!=this.state.data ){
+            this.props.data!=this.state.data 
+            || this.props.dayWidth!=this.state.dadayWidtht){
+            this.state.dayWidth=this.props.dayWidth;
             this.state.links=this.props.links
             this.state.data=this.props.data
             if (this.state.links && this.state.data)
