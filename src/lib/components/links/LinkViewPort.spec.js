@@ -1,7 +1,7 @@
 import React from 'react'
 import LinkViewPort from './LinkViewPort'
 import Registry from 'libs/helpers/registry/Registry'
-import { shallow } from 'enzyme';
+import { shallow,mount } from 'enzyme';
 
 
 describe('Testing LinksViewPort ', function () {
@@ -24,7 +24,7 @@ describe('Testing LinksViewPort ', function () {
             links.push({id:i,start:i,end:i})
         }
         Registry.registerLinks(data)
-        const wrapper =shallow(<LinkViewPort    
+        const wrapper =mount(<LinkViewPort    
                                 startRow={0}
                                 endRow={0}
                                 data={data} 
@@ -33,9 +33,10 @@ describe('Testing LinksViewPort ', function () {
                                 links={links} />);
         expect(wrapper.instance().cache).toHaveLength(20);
         let renderItems=wrapper.instance().cache;
-        // for (let i=0;i<renderItems.length;i++){
-        //     expect(renderItems[i]).toHaveLength(20);
-        // }
+        expect(wrapper.find('.timeline-link')).toHaveLength(20)
+        // wrapper.find('.timeline-link').forEach((node)=>{
+        //     expect(node).toHaveLength(20)
+        // })
     })
 
 })

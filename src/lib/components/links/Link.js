@@ -34,7 +34,7 @@ class Link extends Component{
         let stroke =this.props.selected?'#ee63f3':this.props.color//'#7ED321'
         let middleCoor=this.linkCoordinates();
 
-        return (<g    pointerEvents="none" >   
+        return (<g   className="timeline-link" pointerEvents="none" >   
             <path d={this.calculatePath(middleCoor)} stroke='black'  strokeLinejoin="round" fill="transparent" strokeWidth="2" />    
             <circle cx={this.props.start.x} cy={this.props.start.y} r="4" fill='white'  stroke='black' strokeWidth="1" />    
             <circle cx={this.props.end.x} cy={this.props.end.y} r="4" fill='white' stroke='black' strokeWidth="1"   />  
