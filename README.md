@@ -1,7 +1,6 @@
 
 # react-gantt-timeline
 A react timeline gantt component.
-
 [![npm](https://img.shields.io/npm/v/react-gantt-timeline.svg?style=flat-square)](http://npm.im/react-gantt-timeline)
 [![MIT License](https://img.shields.io/npm/l/react-list.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 [![Travis](https://travis-ci.org/guiqui/react-timeline.svg?branch=master)](https://travis-ci.org/guiqui/react-timeline)
@@ -10,11 +9,10 @@ A react timeline gantt component.
 
 ## Intro
 
+
 ![alt text](https://guiqui.github.io/react-timeline/demo.gif)
 
-- Here is a demo [video](https://youtu.be/VXURUDmfTR0)
-
-An awesome blazing fast timeline component.
+An awesome blazing fast timeline - gantt component.
 - Super fast. 😛
 - Infinite scrolling.
 - Made to be use with Redux.
@@ -23,6 +21,8 @@ An awesome blazing fast timeline component.
 - Can render more than a 100k records.
 - Implemented with virtual rendering.
 - Support Day Week and Month view.
+
+- Here is a demo [video](https://youtu.be/VXURUDmfTR0)
 
 ## Under test
 - Gantt lines and constrains.
