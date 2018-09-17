@@ -2,7 +2,9 @@ import React from 'react'
 import DataTask from './DataTask'
 import DateHelper from 'libs/helpers/DateHelper'
 import {MODE_NONE,MODE_MOVE,MOVE_RESIZE_LEFT,MOVE_RESIZE_RIGHT} from 'libs/Const'
+import {LINK_POS_LEFT,LINK_POS_RIGHT } from 'libs/Const'
 import { shallow } from 'enzyme';
+
 
 describe('Testing Firing Events ', function () {
     it('Initialise Properly and not null pointer',()=>{
@@ -175,6 +177,66 @@ describe('Testing Firing Events ', function () {
         expect(new_start_date.getTime()-onUpdateItem.mock.calls[0][1].start.getTime()<10).toBe(true)
         expect(new_end_date.getTime()-onUpdateItem.mock.calls[0][1].end.getTime()<10).toBe(true)
 
+
+    })
+
+
+    it('Starting Creation of Task',()=>{
+        let onStartCreateLink=jest.fn();
+        let stopPropagation=jest.fn();
+        let item={name:'this Item'}
+        let dayWidth=30;
+        let nowposition=0;
+        const wrapper =shallow(<DataTask 
+                                    nowposition={nowposition}
+                                    dayWidth={dayWidth}
+                                    onStartCreateLink={onStartCreateLink}
+                                    item={item}
+                                    left={0}
+                                    width={80}
+                                    color='red'/>);
+        expect(wrapper.state().dragging).toBe(false);    
+        let taskSide= wrapper.find('.timeLine-main-data-task-side-linker')
+        expect(taskSide.length).toBe(2);
+        taskSide.first().simulate('mousedown',{button:0,stopPropagation:stopPropagation});
+        expect(onStartCreateLink.mock.calls.length).toBe(1);
+        expect(onStartCreateLink.mock.calls[0][0]).toBe(item) 
+        expect(onStartCreateLink.mock.calls[0][1]).toBe(LINK_POS_LEFT)
+        expect(stopPropagation.mock.calls.length).toBe(1);
+        taskSide.last().simulate('mousedown',{button:0,stopPropagation:stopPropagation});
+        expect(onStartCreateLink.mock.calls.length).toBe(2);
+        expect(onStartCreateLink.mock.calls[1][0]).toBe(item) 
+        expect(onStartCreateLink.mock.calls[1][1]).toBe(LINK_POS_RIGHT)
+        expect(stopPropagation.mock.calls.length).toBe(2);
+
+    })
+    it('Finishing Creation of Task',()=>{
+        let onFinishCreateLink=jest.fn();
+        let stopPropagation=jest.fn();
+        let item={name:'this Item'}
+        let dayWidth=30;
+        let nowposition=0;
+        const wrapper =shallow(<DataTask 
+                                    nowposition={nowposition}
+                                    dayWidth={dayWidth}
+                                    onFinishCreateLink={onFinishCreateLink}
+                                    item={item}
+                                    left={0}
+                                    width={80}
+                                    color='red'/>);
+        expect(wrapper.state().dragging).toBe(false);    
+        let taskSide= wrapper.find('.timeLine-main-data-task-side-linker')
+        expect(taskSide.length).toBe(2);
+        taskSide.first().simulate('mouseup',{button:0,stopPropagation:stopPropagation});
+        expect(onFinishCreateLink.mock.calls.length).toBe(1);
+        expect(onFinishCreateLink.mock.calls[0][0]).toBe(item) 
+        expect(onFinishCreateLink.mock.calls[0][1]).toBe(LINK_POS_LEFT)
+        expect(stopPropagation.mock.calls.length).toBe(1);
+        taskSide.last().simulate('mouseup',{button:0,stopPropagation:stopPropagation});
+        expect(onFinishCreateLink.mock.calls.length).toBe(2);
+        expect(onFinishCreateLink.mock.calls[1][0]).toBe(item) 
+        expect(onFinishCreateLink.mock.calls[1][1]).toBe(LINK_POS_RIGHT)
+        expect(stopPropagation.mock.calls.length).toBe(2);
 
     })
     
