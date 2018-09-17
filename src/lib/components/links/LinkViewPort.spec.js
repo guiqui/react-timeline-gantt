@@ -13,7 +13,7 @@ describe('Testing LinksViewPort ', function () {
 
     })
 
-    it('Initialise Properly and not null pointer',()=>{
+    it('Render properly when data is pass',()=>{
         let data=[]
         for(let i=0;i<20;i++){
             data.push({name: `Task Today`,id:i,start:new Date(),end:new Date().setDate(new Date().getDate(),5) ,color:'red'})
@@ -24,9 +24,18 @@ describe('Testing LinksViewPort ', function () {
             links.push({id:i,start:i,end:i})
         }
         Registry.registerLinks(data)
-        const wrapper =shallow(<LinkViewPort data={data} links={links} />);
+        const wrapper =shallow(<LinkViewPort    
+                                startRow={0}
+                                endRow={0}
+                                data={data} 
+                                nowposition={0}
+                                dayWidth={30}
+                                links={links} />);
         expect(wrapper.instance().cache).toHaveLength(20);
-
+        let renderItems=wrapper.instance().cache;
+        // for (let i=0;i<renderItems.length;i++){
+        //     expect(renderItems[i]).toHaveLength(20);
+        // }
     })
 
 })
