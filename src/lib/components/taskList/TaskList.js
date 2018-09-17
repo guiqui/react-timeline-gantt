@@ -26,6 +26,7 @@ export class TaskRow extends Component{
              <div>
                 {this.props.label}
             </div>
+            
         </div>)    
     }
 }
