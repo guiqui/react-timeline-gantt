@@ -24,9 +24,9 @@ describe('TimeLine Initialization ', function () {
         expect(wrapper.state().currentday).toBe(0);
         expect(wrapper.state().nowposition).toBe(0);
         expect(wrapper.state().startRow).toBe(0);
-        expect(wrapper.state().endRow).toBe(30);
+        expect(wrapper.state().endRow).toBe(10);
         expect(wrapper.state().scrollLeft).toBe(0);
-        expect(wrapper.state().numVisibleRows).toBe(30);
+        expect(wrapper.state().numVisibleRows).toBe(40);
         expect(wrapper.state().numVisibleDays).toBe(60);
         expect(wrapper.instance().initialise).toBe(false)
         wrapper.instance().onSize({width:500,height:500})
@@ -35,9 +35,9 @@ describe('TimeLine Initialization ', function () {
         expect(wrapper.state().numVisibleRows).toBe(Math.ceil(500/itemheight));
         expect(wrapper.state().numVisibleDays).toBe(Math.ceil(500/24)+BUFFER_DAYS);
         expect(wrapper.instance().pxToScroll).toBe((1-(500/DATA_CONTAINER_WIDTH)) * DATA_CONTAINER_WIDTH-1);
-        wrapper.instance().onSize({width:500,height:10})
-        expect(wrapper.state().numVisibleRows).toBe(Math.ceil(10 / itemheight));
-        expect(wrapper.state().endRow).toBe(30);
+        wrapper.instance().onSize({width:500,height:1000})
+        expect(wrapper.state().numVisibleRows).toBe(Math.ceil(1000 / itemheight));
+        expect(wrapper.state().endRow).toBe(1);
     
     })    
 })
@@ -114,7 +114,7 @@ describe('TimeLine Scroll Up ', function () {
         expect(wrapper.state().nowposition).toBe(0);
         expect(wrapper.state().scrollTop).toBe(0);
         expect(wrapper.state().startRow).toBe(0);
-        expect(wrapper.state().endRow).toBe(30);
+        expect(wrapper.state().endRow).toBe(17);
         let numVisibleRows=Math.ceil(500/itemheight)
         expect(wrapper.state().numVisibleRows).toBe(numVisibleRows);
         //Test moving 10
@@ -137,11 +137,11 @@ describe('TimeLine Scroll Up ', function () {
         wrapper.instance().verticalChange(451)
         expect(wrapper.state().scrollTop).toBe(451);
         expect(wrapper.state().startRow).toBe(15);
-        expect(wrapper.state().endRow).toBe(numVisibleRows+2);
+        expect(wrapper.state().endRow).toBe(numVisibleRows+3);
         wrapper.instance().verticalChange(481)
         expect(wrapper.state().scrollTop).toBe(481);
         expect(wrapper.state().startRow).toBe(16);
-        expect(wrapper.state().endRow).toBe(numVisibleRows+2);
+        expect(wrapper.state().endRow).toBe(numVisibleRows+3);
  
         
   

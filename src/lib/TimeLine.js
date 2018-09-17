@@ -42,12 +42,12 @@ class TimeLine extends Component{
             // if we accumulat 2 scroll to the left nowposition will be 2* DATA_CONTAINER_WIDTH
             nowposition:0,
             startRow:0,//
-            endRow:30,
+            endRow:10,
             months:DateHelper.calculateMonthData(0,30,0,dayWidth),
             sideStyle:{width:200},
             scrollLeft:0,
             scrollTop:0,
-            numVisibleRows:30,
+            numVisibleRows:40,
             numVisibleDays:60,
             dayWidth:dayWidth,
             interactiveMode:false,
@@ -96,9 +96,13 @@ class TimeLine extends Component{
 
          }
         this.setStartEnd();
+        let newNumVisibleRows=Math.ceil(size.height / this.props.itemheight);
+        let rowInfo=this.calculateStartEndRows(newNumVisibleRows,this.props.data,this.state.scrollTop);
         this.setState({
-            numVisibleRows:Math.ceil(size.height / this.props.itemheight),
+            numVisibleRows:newNumVisibleRows,
             numVisibleDays:this.calcNumVisibleDays(size),
+            startRow:rowInfo.start,
+            endRow:rowInfo.end,
             size:size
         })
     }
@@ -107,21 +111,25 @@ class TimeLine extends Component{
      //   VIEWPORT CHANGES  //
     /////////////////////////
 
-    verticalChange=(scrollTop)=>{ ///Needs serious refactoring to be able to centralise changes 
+    verticalChange=(scrollTop)=>{ 
         if (scrollTop==this.state.scrollTop)
             return;
         //Check if we have scrolling rows
-        let new_start=Math.trunc(scrollTop/this.props.itemheight)
-        let new_end =new_start+this.state.numVisibleRows>=this.props.data.length?this.props.data.length-1:new_start+this.state.numVisibleRows;
-        if (new_start!==this.state.start){
-            //Got you
+        let rowInfo=this.calculateStartEndRows(this.state.numVisibleRows,this.props.data,scrollTop);
+        if (rowInfo.start!==this.state.start){
             this.setState(
                 this.state={
                     scrollTop:scrollTop,
-                    startRow:new_start,
-                    endRow:new_end,
+                    startRow:rowInfo.start,
+                    endRow:rowInfo.end,
             })
         }
+    }
+
+    calculateStartEndRows=(numVisibleRows,data,scrollTop)=>{
+        let new_start=Math.trunc(scrollTop/this.props.itemheight)
+        let new_end =new_start+numVisibleRows>=data.length?data.length:new_start+numVisibleRows;
+        return {start:new_start,end:new_end}
     }
 
     
