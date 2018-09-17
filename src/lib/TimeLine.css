@@ -156,13 +156,14 @@
     justify-content: center;
 }
 .timeLine-main-data-task-side-linker{
-    width:10px;
-    height: 10px;
+    width:9px;
+    height: 9px;
     border-radius: 5px;
     cursor: progress;
 }
 .timeLine-main-data-task-side-linker:hover{
-    background-color: black;
+    background-color: grey;
+    border: solid 0.5px black
 }
 /* .timeLine-main-data-task:hover {
     background-color:chocolate;
