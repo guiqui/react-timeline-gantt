@@ -1,5 +1,7 @@
 
 # react-gantt-timeline
+A react timeline gantt component.
+
 [![npm](https://img.shields.io/npm/v/react-gantt-timeline.svg?style=flat-square)](http://npm.im/react-gantt-timeline)
 [![MIT License](https://img.shields.io/npm/l/react-list.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 [![Travis](https://travis-ci.org/guiqui/react-timeline.svg?branch=master)](https://travis-ci.org/guiqui/react-timeline)
@@ -10,6 +12,8 @@
 
 ![alt text](https://guiqui.github.io/react-timeline/demo.gif)
 
+- Here is a demo [video](https://youtu.be/VXURUDmfTR0)
+
 An awesome blazing fast timeline component.
 - Super fast. 😛
 - Infinite scrolling.
@@ -18,12 +22,15 @@ An awesome blazing fast timeline component.
 - Support paging.
 - Can render more than a 100k records.
 - Implemented with virtual rendering.
+- Support Day Week and Month view.
 
+## Under development
+- Gantt lines and constrains.
 ## Road Map
 - Full Test coverage.
 - Hierachical data.
-- Day and week view.
-- Gantt lines and constrains.
+- Zoom to task
+
 ## Demo
 Check out a working demo [here](https://guiqui.github.io/react-timeline/index.html)
 
@@ -54,6 +61,11 @@ Each item of the array needs to contain the following elements.
 | onUpdateItem  | item:Object,props:Object  |  This even is trigger when a item has been updated, it recive the item to be updated and the properties and values to by apply|
 
 ## Other properties 
+| Property      | value   | Descriptions                        |
+| ------------- |:-------:| -----------------------------------:|
+| mode          | string    |set the zoom lever of the timeline.The possible values are:"month","week","day"  |
+| itemHeigth    | number    | The height of the row 30px by default           |
+
 
 ## Some Demo Code
 - [![Edit n09l7m400j](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/n09l7m400j) Crud Demo.
