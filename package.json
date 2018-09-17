@@ -1,6 +1,6 @@
 {
   "name": "react-gantt-timeline",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
