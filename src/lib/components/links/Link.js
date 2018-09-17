@@ -35,9 +35,9 @@ class Link extends Component{
         let middleCoor=this.linkCoordinates();
 
         return (<g   className="timeline-link" pointerEvents="none" >   
-            <path d={this.calculatePath(middleCoor)} stroke='black'  strokeLinejoin="round" fill="transparent" strokeWidth="2" />    
+            <path d={this.calculatePath(middleCoor)} stroke='black'  strokeLinejoin="round" fill="transparent" strokeWidth="1"  markerEnd="url(#arrow)"/>    
             <circle cx={this.props.start.x} cy={this.props.start.y} r="4" fill='white'  stroke='black' strokeWidth="1" />    
-            <circle cx={this.props.end.x} cy={this.props.end.y} r="4" fill='white' stroke='black' strokeWidth="1"   />  
+            {/* <circle cx={this.props.end.x} cy={this.props.end.y} r="4" fill='white' stroke='black' strokeWidth="1"   />   */}
         </g>) 
     }
 }
