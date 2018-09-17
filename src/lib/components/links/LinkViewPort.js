@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import Registry from 'libs/helpers/registry/Registry'
 import Link from 'libs/components/links/Link'
 import CreateLink from 'libs/components/links/CreateLink'
-
+import {LINK_POS_LEFT,LINK_POS_RIGHT } from 'libs/Const'
 import DateHelper from 'libs/helpers/DateHelper'
 
 export default class LinkViewPort extends Component{
@@ -12,9 +12,10 @@ export default class LinkViewPort extends Component{
         this.state={links:[],data:[]}
     }
 
-    renderLink(startItem,endItem,key){
-        let startPosition = this.getItemPosition(startItem.index,startItem.item.end)
-        let endPosition   = this.getItemPosition(endItem.index,endItem.item.start) 
+    renderLink(startItem,endItem,link,key){
+        
+        let startPosition = this.getItemPosition(startItem.index,link.startPosition==LINK_POS_LEFT?startItem.item.start:startItem.item.end)
+        let endPosition   = this.getItemPosition(endItem.index,link.endPosition==LINK_POS_LEFT?endItem.item.start:endItem.item.end) 
         return<Link key={key} start={{x:startPosition.x,y:startPosition.y}} end={{x:endPosition.x,y:endPosition.y}} />  
     }
 
@@ -31,8 +32,8 @@ export default class LinkViewPort extends Component{
         let startItem,endItem={}
         if (this.state.data.length==0)
             return;
-        for (let i=0;i<this.props.links.length;i++){
-            let link=this.props.links[i];
+        for (let i=0;i<this.state.links.length;i++){
+            let link=this.state.links[i];
             if (!link)
                 if (renderLinks[link.id])
             continue;
@@ -42,7 +43,7 @@ export default class LinkViewPort extends Component{
             endItem=Registry.getTask(link.end)
             if (!endItem)
                 continue
-            this.cache.push( this.renderLink(startItem,endItem,i)  )
+            this.cache.push( this.renderLink(startItem,endItem,link,i)  )
             renderLinks[link.id]=""
         
         }
@@ -87,11 +88,10 @@ export default class LinkViewPort extends Component{
                 startPosition =   this.getItemPosition(startItem.index,startItem.item.end)
                 if (this.state.changingTask.item.id==item.link.start)
                     startPosition.x=this.state.changingTask.position.end
-                endPosition   =  this.getItemPosition(endItem.index,endItem.item.end)
+                endPosition   =  this.getItemPosition(endItem.index,endItem.item.start)
                 if (this.state.changingTask.item.id==item.link.end)
                     endPosition.x=this.state.changingTask.position.start
-                console.log(endPosition)
-                this.cache[item.index]=(<Link key={-i} start={{x:startPosition.x,y:startPosition.y}} end={{x:endPosition.x,y:endPosition.y}} />  )
+                this.cache[item.index]=(<Link key={-i-1} start={{x:startPosition.x,y:startPosition.y}} end={{x:endPosition.x,y:endPosition.y}} />  )
                 this.cache=[...this.cache]
             }
         }

@@ -35,14 +35,14 @@ class Generator{
             let endDate=new Date(starDate.getTime());
             endDate.setDate(starDate.getDate() + Math.random() * 20);
             let id=ObjectHelper.genID();
-            let record={id:id,name: `Task ${i}`,start:starDate,end:endDate ,color:this.getRandomColor()}
+            let record={id:id,name: `Task ${i}`,start:starDate,end:endDate,color:this.getRandomColor()}
             result.push(record)
             return id;
     }
 
     addLink(startId,endId,list){
             let id=ObjectHelper.genID();
-            let record={id:id,start:startId,end:endId}
+            let record={id:id,start:startId,startPosition:0,end:endId,endPosition:1}
             list.push(record)
             return id;
     }
