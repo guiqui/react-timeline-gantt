@@ -249,12 +249,26 @@ class TimeLine extends Component{
             this.props.onUpdateItem(item,props)
     }
 
-    onStartCreateLink=(task)=>{
-        console.log(`Createing Link ${task}`)
+    onStartCreateLink=(task,position)=>{
+        console.log(`Start Link ${task}`)
         this.setState({
             interactiveMode:true,
-            taskToCreate:task
+            taskToCreate:{task:task,position:position}
         })
+        
+    }
+
+ 
+    onFinishCreateLink=(task,position)=>{
+        console.log(`End Link ${task}`)
+        if (this.props.onUpdateLink && task){
+            this.props.onUpdateLink({start:this.state.taskToCreate,end:{task:task,position:position}})
+        }
+        this.setState({
+            interactiveMode:false,
+            taskToCreate:null
+        })
+
         
     }
 
@@ -265,19 +279,6 @@ class TimeLine extends Component{
 
     }
 
-    onFinishCreateLink=(task)=>{
-        console.log(`Createing Link ${task}`)
-        if (this.props.onUpdateLink && task){
-            this.props.onUpdateLink({start:this.state.taskToCreate.id,end:task.id})
-        }
-        this.setState({
-            interactiveMode:false,
-            taskToCreate:null
-        })
-
-        
-    }
- 
     calcNumVisibleDays=(size)=>{
         return Math.ceil(size.width / this.state.dayWidth)+BUFFER_DAYS
     }

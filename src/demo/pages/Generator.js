@@ -47,8 +47,8 @@ class Generator{
             return id;
     }
 
-    createLink(startId,endId){
-        return {id:ObjectHelper.genID(),start:startId,end:endId}
+    createLink(start,end){
+        return {id:ObjectHelper.genID(),start:start.task.id,startPosition:start.position,end:end.task.id,endPosition:end.position}
     }
 
 

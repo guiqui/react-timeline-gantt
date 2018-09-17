@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import Registry from 'libs/helpers/registry/Registry'
 import Link from 'libs/components/links/Link'
 import CreateLink from 'libs/components/links/CreateLink'
-import {LINK_POS_LEFT,LINK_POS_RIGHT } from 'libs/Const'
+import {LINK_POS_LEFT } from 'libs/Const'
 import DateHelper from 'libs/helpers/DateHelper'
 
 export default class LinkViewPort extends Component{
@@ -63,8 +63,8 @@ export default class LinkViewPort extends Component{
 
     renderCreateLink=()=>{
         if (this.props.interactiveMode){
-            let record=Registry.getTask(this.props.taskToCreate.id)
-            let position =this.getItemPosition(record.index,record.item.end)
+            let record=Registry.getTask(this.props.taskToCreate.task.id)
+            let position =this.getItemPosition(record.index,this.props.taskToCreate.position==LINK_POS_LEFT?record.item.start:record.item.end)
             return <CreateLink  start={position} onFinishCreateLink={this.props.onFinishCreateLink}/>
         }
     }
@@ -85,12 +85,12 @@ export default class LinkViewPort extends Component{
                 item=links[i];
                 startItem=Registry.getTask(item.link.start)
                 endItem=Registry.getTask(item.link.end)
-                startPosition =   this.getItemPosition(startItem.index,startItem.item.end)
+                startPosition =   this.getItemPosition(startItem.index,item.link.startPosition==LINK_POS_LEFT?startItem.item.start:startItem.item.end)
                 if (this.state.changingTask.item.id==item.link.start)
-                    startPosition.x=this.state.changingTask.position.end
-                endPosition   =  this.getItemPosition(endItem.index,endItem.item.start)
+                    startPosition.x=  item.link.startPosition==LINK_POS_LEFT? this.state.changingTask.position.start:this.state.changingTask.position.end;
+                endPosition   =  this.getItemPosition(endItem.index,item.link.endPosition==LINK_POS_LEFT?endItem.item.start:endItem.item.end)
                 if (this.state.changingTask.item.id==item.link.end)
-                    endPosition.x=this.state.changingTask.position.start
+                    endPosition.x=  item.link.endPosition==LINK_POS_LEFT? this.state.changingTask.position.start:this.state.changingTask.position.end
                 this.cache[item.index]=(<Link key={-i-1} start={{x:startPosition.x,y:startPosition.y}} end={{x:endPosition.x,y:endPosition.y}} />  )
                 this.cache=[...this.cache]
             }
