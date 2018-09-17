@@ -11,7 +11,8 @@ A react timeline gantt component.
 ## Intro
 
 ![alt text](https://guiqui.github.io/react-timeline/demo.gif)
-Here is a demo [video](https://youtu.be/VXURUDmfTR0)
+
+- Here is a demo [video](https://youtu.be/VXURUDmfTR0)
 
 An awesome blazing fast timeline component.
 - Super fast. 😛
