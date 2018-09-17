@@ -64,7 +64,7 @@ class App extends Component{
       <div className="app-container">
        
         <div className="nav-container">
-          <div className="mode-container-title">Gantt Time Lime Demo</div>
+          <div className="mode-container-title">Gantt TimeLine Demo</div>
           <div className="mode-container">
             <div className="mode-container-item mode-container-item-left" 
                 onClick={(e)=>this.modeChange('day')}
