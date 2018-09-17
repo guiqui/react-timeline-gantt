@@ -36,13 +36,18 @@ export default class LinkViewPort extends Component{
             let link=this.state.links[i];
             if (!link)
                 if (renderLinks[link.id])
-            continue;
+                    continue;
             startItem=Registry.getTask(link.start)
-            if (!startItem)
+            if (!startItem){
+                this.cache.push(null)
                 continue
+            }
             endItem=Registry.getTask(link.end)
-            if (!endItem)
+            if (!endItem){
+                this.cache.push(null)
                 continue
+            }
+                
             this.cache.push( this.renderLink(startItem,endItem,link,i)  )
             renderLinks[link.id]=""
         
@@ -52,7 +57,7 @@ export default class LinkViewPort extends Component{
     refreshData(){
         if ( this.props.links!=this.state.links ||
             this.props.data!=this.state.data 
-            || this.props.dayWidth!=this.state.dadayWidtht){
+            || this.props.dayWidth!=this.state.dayWidth){
             this.state.dayWidth=this.props.dayWidth;
             this.state.links=this.props.links
             this.state.data=this.props.data
@@ -91,6 +96,7 @@ export default class LinkViewPort extends Component{
                 endPosition   =  this.getItemPosition(endItem.index,item.link.endPosition==LINK_POS_LEFT?endItem.item.start:endItem.item.end)
                 if (this.state.changingTask.item.id==item.link.end)
                     endPosition.x=  item.link.endPosition==LINK_POS_LEFT? this.state.changingTask.position.start:this.state.changingTask.position.end
+                
                 this.cache[item.index]=(<Link key={-i-1} start={{x:startPosition.x,y:startPosition.y}} end={{x:endPosition.x,y:endPosition.y}} />  )
                 this.cache=[...this.cache]
             }
@@ -100,6 +106,8 @@ export default class LinkViewPort extends Component{
     render(){
         this.refreshData();
         this.renderChangingTaskLinks()
+        if(this.cache && this.cache.length>0)
+            console.log(`Changing ${this.cache[0]}`)
         return  (<svg   x={0} y={0} width="100%"  
                         pointerEvents="none" 
                         style={{position:'absolute', top:60, userSelect: 'none',height:'100%' }} >
