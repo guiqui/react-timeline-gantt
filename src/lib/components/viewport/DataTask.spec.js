@@ -10,8 +10,6 @@ describe('Testing Firing Events ', function () {
     it('Initialise Properly and not null pointer',()=>{
         const wrapper =shallow(<DataTask />);
         expect(wrapper.find('.timeLine-main-data-task')).toBeDefined()
-       // expect(wrapper.instance().containerStyle.height).toBe(10);
-
     })    
 
     it('Initialise Properly and not null pointer',()=>{
