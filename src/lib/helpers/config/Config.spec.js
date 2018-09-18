@@ -12,6 +12,6 @@ describe('Test Configuration Class',()=>{
         Config.load(newvalues);
         let actualConfig=Config.values;
         expect(actualConfig['header']['month']['style']['backgroundColor']).toBe('yellow')
-        expect(actualConfig['header']['dayOfWeek']['style']['backgroundColor']).toBe('blue')
+        expect(actualConfig['header']['dayOfWeek']['style']['backgroundColor']).toBe('chocolate')
     })
 })
