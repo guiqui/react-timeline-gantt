@@ -3,6 +3,19 @@ import TimeLine from 'libs/TimeLine';
 import Generator from './Generator'
 import './App.css'
 
+
+const config={
+  header:{
+    month:{style:{backgroundColor:"red"}},
+    dayOfWeek:{},
+    dayTime:{}
+  },
+  taskList:{
+
+  },
+  dataViewPort:{}
+}
+
 class App extends Component{
   constructor(props){
     super(props)
