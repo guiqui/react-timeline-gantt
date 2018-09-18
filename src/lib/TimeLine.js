@@ -11,7 +11,7 @@ import {BUFFER_DAYS,DATA_CONTAINER_WIDTH} from 'libs/Const'
 import {VIEW_MODE_DAY,VIEW_MODE_WEEK,VIEW_MODE_MONTH}from 'libs/Const'
 import {DAY_MONTH_MODE,DAY_WEEK_MODE,DAY_DAY_MODE} from 'libs/Const'
 import DataController from 'libs/controller/DataController'
-
+import Config from 'libs/helpers/config/Config'
 import DateHelper from 'libs/helpers/DateHelper'
 import './TimeLine.css'
 
@@ -35,6 +35,7 @@ class TimeLine extends Component{
         this.pxToScroll=1900;
         //Initialising state
         let dayWidth=this.getDayWidth(this.props.mode);
+        Config.load(this.props.config)
    
         this.state={
             currentday:0,//Day that is in the 0px horizontal    

@@ -1,8 +1,16 @@
 const defvalues={
     header:{
-      month:{style:{backgroundColor:"red"}},
-      dayOfWeek:{style:{backgroundColor:"blue"}},
-      dayTime:{}
+        month:{
+            dateFormat:'MMM  YYYY',
+            style:{
+                backgroundColor:"#333333",
+                fontSize:10,
+                color:'white',
+                textAlign:'center'
+            }
+        },
+        dayOfWeek:{style:{backgroundColor:"blue"}},
+        dayTime:{}
     },
     taskList:{
   
@@ -12,7 +20,7 @@ const defvalues={
 
 class Config {
     constructor(){
-        this.data={}
+        this.data=defvalues;
     }
 
     load=(values)=>{

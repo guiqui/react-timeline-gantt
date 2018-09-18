@@ -1,4 +1,5 @@
 import {BUFFER_DAYS} from 'libs/Const'
+import Config from 'libs/helpers/config/Config'
 import moment  from 'moment'  
 const MIL_IN_HOUR=1000*3600;
 class DateHelper{
@@ -51,7 +52,7 @@ class DateHelper{
             currentKey=currentMonth.format("M-YYYY")     
             result['data'].push({
                 key:currentKey,
-                month:currentMonth.format("MMM  YYYY"),
+                month:currentMonth.format(Config.values.header.month.dateFormat),
                 left:this.dayToPosition(i-currentMonth.date()+1,now,dayWidth),
                 width:currentMonth.daysInMonth()*dayWidth
 

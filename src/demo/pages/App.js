@@ -6,8 +6,15 @@ import './App.css'
 
 const config={
   header:{
-    month:{style:{backgroundColor:"red"}},
-    dayOfWeek:{},
+    month:{
+        dateFormat:'MMMM  YYYY',
+        style:
+          {
+            background:"linear-gradient( silver, grey)",
+            textShadow:'0.5px 0.5px black',
+            fontSize:12}
+          },
+    dayOfWeek:{style:{backgroundColor:"blue"}},
     dayTime:{}
   },
   taskList:{
@@ -92,6 +99,7 @@ class App extends Component{
         </div>
         <div className="time-line-container">
           <TimeLine  
+            config={config}
             data={this.state.timeLineData} 
             links={this.state.links} 
             onNeedData={this.onNeedData} 

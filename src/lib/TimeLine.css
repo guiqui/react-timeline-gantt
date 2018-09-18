@@ -66,13 +66,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color:#333333;
-    font-size: 10px;
-    text-align: center;
     border-right:solid 1px white;
     height:20px;
-    color: white;
-    text-align: center;
     z-index: 91;
 }
 

@@ -3,15 +3,16 @@ import moment from  'moment'
 import {BUFFER_DAYS,DATA_CONTAINER_WIDTH} from 'libs/Const'
 import {VIEW_MODE_DAY,VIEW_MODE_WEEK,VIEW_MODE_MONTH}from 'libs/Const'
 import {HOUR_DAY_WEEK,HOUR_DAY_DAY}from 'libs/Const'
-
+import Config from 'libs/helpers/config/Config'
 
 export class HeaderMonthItem extends Component{
     constructor(props){
         super(props);
+        
     }
     render(){
         return (
-        <div className="timeLine-main-header-month-item" style={{ left:this.props.left,width:this.props.width}}>
+        <div className="timeLine-main-header-month-item" style={ {...Config.values.header.month.style,left:this.props.left,width:this.props.width}}>
             {this.props.label}
         </div>)
     }
