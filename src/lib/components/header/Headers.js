@@ -27,30 +27,32 @@ export class HeaderDayItem extends Component{
         return this.props.mode==VIEW_MODE_MONTH?'dd':'dddd D';
     }
 
-    renderDay=()=>{
-        return <div className={this.props.day == 0 ? "timeLine-main-header-day-month timeLine-main-header-day-selected": "timeLine-main-header-day-month" }   >
-            {moment().add(this.props.day , 'days').format('D')}
-            </div>  
+    renderDayMonth=()=>{
+        let style=  Config.values.header.dayTime.style;
+        style=this.props.day == 0 ?{...style,...Config.values.header.dayTime.selectedStyle}:style
+        return  <div className="timeLine-main-header-day-month" style={style}>
+                    {moment().add(this.props.day , 'days').format('D')}
+                </div>  
     }
 
-    renderTimeWeeKElements=()=>{
+    renderDayWeek=()=>{
         let result=[]
         for(let i=0;i<24;i++){
-            result.push(<div key={i} className="timeLine-main-header-time-item" style={{width:HOUR_DAY_WEEK}}>{i}</div>)
+            result.push(<div key={i} className="timeLine-main-header-time-item" style={{...Config.values.header.dayTime.style,width:HOUR_DAY_WEEK}}>{i}</div>)
         }
         return result;
     }
 
     renderTimeWeek=()=>{
         return <div className="timeLine-main-header-time">
-                {this.renderTimeWeeKElements()}
+                {this.renderDayWeek()}
             </div>  
     }
 
-    renderTimeDayElements=()=>{
+    renderDayDay=()=>{
         let result=[]
         for(let i=0;i<24;i++){
-            result.push(<div key={i} className="timeLine-main-header-time-item" style={{width:HOUR_DAY_DAY}}>{`${i}:00`}</div>)
+            result.push(<div key={i} className="timeLine-main-header-time-item" style={{...Config.values.header.dayTime.style,width:HOUR_DAY_DAY}}>{`${i}:00`}</div>)
         }
         return result;
     }
@@ -59,24 +61,24 @@ export class HeaderDayItem extends Component{
     renderBottomInfo=()=>{
         switch(this.props.mode){
             case VIEW_MODE_MONTH:
-                return this.renderDay()
+                return this.renderDayMonth()
             case VIEW_MODE_WEEK:
                 return <div className="timeLine-main-header-time">
-                        {this.renderTimeWeeKElements()}
+                        {this.renderDayWeek()}
                         </div>  
             case VIEW_MODE_DAY:
                 return <div className="timeLine-main-header-time">
-                        {this.renderTimeDayElements()}
+                        {this.renderDayDay()}
                         </div>  
             default:
-                return this.renderDay()
+                return this.renderDayMonth()
         }
     }
 
     render(){
         return (
         <div className="timeLine-main-header-day-item" style={{ left:this.props.left,width:this.props.width}}>
-            <div className="timeLine-main-header-day-week"  >
+            <div className="timeLine-main-header-day-week"  style={Config.values.header.dayOfWeek.style} >
             {moment().add(this.props.day , 'days').format(this.getFormat())}
             </div>    
             {this.renderBottomInfo()} 

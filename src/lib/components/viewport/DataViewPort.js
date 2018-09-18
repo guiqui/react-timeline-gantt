@@ -3,6 +3,7 @@ import {DATA_CONTAINER_WIDTH} from 'libs/Const'
 import DataTask from 'libs/components/viewport/DataTask'
 import DateHelper from 'libs/helpers/DateHelper'
 import sizeMe from 'react-sizeme'
+import Config from 'libs/helpers/config/Config'
 
 export class DataRow extends Component{
     constructor(props){
@@ -12,7 +13,7 @@ export class DataRow extends Component{
     render(){
         return (
         <div className="timeLine-main-data-row" 
-            style={{top:this.props.top,height:this.props.itemheight}}>
+            style={{...Config.values.dataViewPort.rows.style,top:this.props.top,height:this.props.itemheight}}>
         {this.props.children}
         </div>)    
     }

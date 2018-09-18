@@ -9,14 +9,42 @@ const defvalues={
                 textAlign:'center'
             }
         },
-        dayOfWeek:{style:{backgroundColor:"blue"}},
-        dayTime:{}
+        dayOfWeek:{
+            style:{
+                backgroundColor:"chocolate"
+            },
+            selectedStyle:{
+                backgroundColor:"#b13525",
+                fontWeight: 'bold' 
+            }
+        },
+        dayTime:{
+            style:{
+              background:"grey",
+              fontSize:9
+            },
+            selectedStyle:{
+                backgroundColor:"#b13525",
+                fontWeight: 'bold'
+            }
+          }
     },
     taskList:{
   
     },
-    dataViewPort:{}
+    dataViewPort:{
+        rows:{
+          style:{
+            backgroundColor:"#fbf9f9",
+            borderBottom:'solid 0.5px #cfcfcd'
+          }
+        }
+      },
+    links:{}
   }
+
+
+  
 
 class Config {
     constructor(){

@@ -7,20 +7,43 @@ import './App.css'
 const config={
   header:{
     month:{
-        dateFormat:'MMMM  YYYY',
-        style:
-          {
-            background:"linear-gradient( silver, grey)",
-            textShadow:'0.5px 0.5px black',
-            fontSize:12}
-          },
-    dayOfWeek:{style:{backgroundColor:"blue"}},
-    dayTime:{}
+      dateFormat:'MMMM  YYYY',
+      style:{
+        background:"linear-gradient( grey, black)",
+        textShadow:'0.5px 0.5px black',
+        fontSize:12
+      }
+    },
+    dayOfWeek:{
+      style:{
+        background:"linear-gradient( orange, grey)",
+        fontSize:9
+      }
+    },
+    dayTime:{
+      style:{
+        background:"linear-gradient( grey, black)",
+        fontSize:9,
+        color:"orange"
+      },
+      selectedStyle:{
+        background:"linear-gradient( #d011dd ,#d011dd)",
+        fontWeight: 'bold',
+        color:'white'
+      }
+    }
   },
   taskList:{
 
   },
-  dataViewPort:{}
+  dataViewPort:{
+    rows:{
+      style:{
+        backgroundColor:"white",
+        borderBottom:'solid 0.5px silver'
+      }
+    }
+  }
 }
 
 class App extends Component{
@@ -99,7 +122,7 @@ class App extends Component{
         </div>
         <div className="time-line-container">
           <TimeLine  
-            config={config}
+              config={config}
             data={this.state.timeLineData} 
             links={this.state.links} 
             onNeedData={this.onNeedData} 
