@@ -98,11 +98,12 @@ class TimeLine extends Component{
          }
         this.setStartEnd();
         let newNumVisibleRows=Math.ceil(size.height / this.props.itemheight);
+        let newNumVisibleDays=this.calcNumVisibleDays(size)
         let rowInfo=this.calculateStartEndRows(newNumVisibleRows,this.props.data,this.state.scrollTop);
-        let months=DateHelper.calculateMonthData(this.state.currentday,this.state.currentday+newNumVisibleRows,this.state.nowposition,this.state.dayWidth)
+        let months=DateHelper.calculateMonthData(this.state.currentday,this.state.currentday+newNumVisibleDays,this.state.nowposition,this.state.dayWidth)
         this.setState({
             numVisibleRows:newNumVisibleRows,
-            numVisibleDays:this.calcNumVisibleDays(size),
+            numVisibleDays:newNumVisibleDays,
             startRow:rowInfo.start,
             endRow:rowInfo.end,
             months:months,
