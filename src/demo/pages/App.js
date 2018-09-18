@@ -34,7 +34,12 @@ const config={
     }
   },
   taskList:{
-
+    title:{
+        label:"Task Todo",
+        style:{
+          background:"linear-gradient( grey, black)"
+        }
+    }
   },
   dataViewPort:{
     rows:{

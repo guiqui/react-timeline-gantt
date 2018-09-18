@@ -30,6 +30,16 @@ const defvalues={
           }
     },
     taskList:{
+        title:{
+            label:"Projects",
+            style:{
+                backgroundColor: '#333333',
+                borderBottom: 'solid 1px silver',
+                color: 'white',
+                textAlign: 'center'
+            }
+        }
+        
   
     },
     dataViewPort:{

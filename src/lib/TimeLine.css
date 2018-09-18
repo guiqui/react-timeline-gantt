@@ -213,10 +213,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #333333;;
-    border-bottom: solid 1px silver;
-    color: white;
-    text-align: center;
+   
 }
 
 .timeLine-side-task-viewPort{

@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-
+import Config from 'libs/helpers/config/Config'
 
 export class VerticalLine extends Component{
     constructor(props){
@@ -63,9 +63,9 @@ export default class TaskList extends Component{
         this.containerStyle=this.getContainerStyle(data.length)
         return(
             <div className="timeLine-side"> 
-                <div className="timeLine-side-title">
+                <div className="timeLine-side-title" style={Config.values.taskList.title.style}>
                     <div>
-                       Projects
+                      {Config.values.taskList.title.label}
                     </div>  
                 </div>    
                 <div ref="taskViewPort"  className="timeLine-side-task-viewPort" onScroll={this.doScroll}  >                
