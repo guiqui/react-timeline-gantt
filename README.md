@@ -9,7 +9,7 @@
 
 A react timeline gantt component.
 
-![alt text](https://guiqui.github.io/react-timeline/demo.gif)
+![alt text](https://github.com/guiqui/react-timeline-gantt/blob/master/docs/demo.gif)
 
 ## Intro
 React-timeline-gantt is an awesome blazing fast timeline - gantt component 😛.
