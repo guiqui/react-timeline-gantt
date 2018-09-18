@@ -106,8 +106,6 @@ export default class LinkViewPort extends Component{
     render(){
         this.refreshData();
         this.renderChangingTaskLinks()
-        if(this.cache && this.cache.length>0)
-            console.log(`Changing ${this.cache[0]}`)
         return  (<svg   x={0} y={0} width="100%"  
                         pointerEvents="none" 
                         style={{position:'absolute', top:60, userSelect: 'none',height:'100%' }} >

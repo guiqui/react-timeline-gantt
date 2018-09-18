@@ -39,6 +39,22 @@ const config={
         style:{
           background:"linear-gradient( grey, black)"
         }
+    },
+    task:{
+      style:{
+          backgroundColor: 'grey',
+          color:'white'
+      }
+    },
+    verticalSeparator:{
+        style:{
+            backgroundColor: '#fbf9f9',
+        },
+        grip:{
+          style:{
+            backgroundColor: 'red',
+          }
+        }
     }
   },
   dataViewPort:{

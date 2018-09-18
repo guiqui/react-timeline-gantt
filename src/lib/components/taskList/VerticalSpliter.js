@@ -1,4 +1,5 @@
 import React,{Component} from 'react'
+import Config from 'libs/helpers/config/Config'
 export default class VerticalSpliter extends Component{
     constructor(props){
         super(props);
@@ -41,12 +42,13 @@ export default class VerticalSpliter extends Component{
 
     render(){
         return (
-            <div className="verticalResizer"                 
+            <div className="verticalResizer"   
+                style={Config.values.taskList.verticalSeparator.style}              
                 onMouseDown={this.doMouseDown}>   
-                <div className="squareGrip"></div>
-                <div className="squareGrip"></div>
-                <div className="squareGrip"></div>
-                <div className="squareGrip"></div>
+                <div className="squareGrip" style={Config.values.taskList.verticalSeparator.grip.style} ></div>
+                <div className="squareGrip" style={Config.values.taskList.verticalSeparator.grip.style}></div>
+                <div className="squareGrip" style={Config.values.taskList.verticalSeparator.grip.style}></div>
+                <div className="squareGrip" style={Config.values.taskList.verticalSeparator.grip.style}></div>
             </div>)
     }
     

@@ -17,11 +17,11 @@ export class TaskRow extends Component{
         super(props);
     }
     render(){
-        let backgroundColor='#fbf9f9'
+       
         return (
         <div className="timeLine-side-task-row" 
               contentEditable suppressContentEditableWarning
-             style={{top:this.props.top,height:this.props.itemheight,backgroundColor:backgroundColor}}
+             style={{...Config.values.taskList.task.style,top:this.props.top,height:this.props.itemheight}}
              onClick={(e)=>this.props.onSelectItem(this.props.item)}>
              <div>
                 {this.props.label}

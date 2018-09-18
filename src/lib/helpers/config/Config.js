@@ -38,6 +38,21 @@ const defvalues={
                 color: 'white',
                 textAlign: 'center'
             }
+        },
+        task:{
+            style:{
+                backgroundColor: '#fbf9f9',
+            }
+        },
+        verticalSeparator:{
+            style:{
+                backgroundColor: '#333333',
+                grip:{
+                    style:{
+                      backgroundColor: '#cfcfcd',
+                    }
+                  }
+            }
         }
         
   
