@@ -65,6 +65,7 @@ const defvalues={
           }
         },
         task:{
+            showLabel:false,
             style:{
                 position: 'absolute',
                 borderRadius:14,
