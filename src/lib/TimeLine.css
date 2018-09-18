@@ -194,14 +194,13 @@
     justify-content: center;
     align-items: center;
     cursor: col-resize;
-    background-color:  #333333;
     border-right:solid 1px rgb(207, 207, 205);
     height: 100%;
 
 }
 .squareGrip{
     flex: 0 0 auto;
-    background-color: rgb(207, 207, 205);
+   
     border-radius: 50%;
     height: 5px;
     width: 5px;

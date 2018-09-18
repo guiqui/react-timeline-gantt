@@ -47,12 +47,12 @@ const defvalues={
         verticalSeparator:{
             style:{
                 backgroundColor: '#333333',
-                grip:{
-                    style:{
-                      backgroundColor: '#cfcfcd',
-                    }
-                  }
-            }
+            },
+            grip:{
+                style:{
+                  backgroundColor: '#cfcfcd',
+                }
+              }
         }
         
   
