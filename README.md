@@ -1,39 +1,36 @@
 
+
 # react-gantt-timeline
-A react timeline gantt component.
 [![npm](https://img.shields.io/npm/v/react-gantt-timeline.svg?style=flat-square)](http://npm.im/react-gantt-timeline)
 [![MIT License](https://img.shields.io/npm/l/react-list.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 [![Travis](https://travis-ci.org/guiqui/react-timeline.svg?branch=master)](https://travis-ci.org/guiqui/react-timeline)
 [![codecov](https://codecov.io/gh/guiqui/react-timeline/branch/master/graph/badge.svg)](https://codecov.io/gh/guiqui/react-timeline)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9149e301e65b44cebf2e7b49316aee10)](https://www.codacy.com/app/gquiman/react-timeline?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=guiqui/react-timeline&amp;utm_campaign=Badge_Grade)
 
-## Intro
-
+A react timeline gantt component.
 
 ![alt text](https://guiqui.github.io/react-timeline/demo.gif)
 
-An awesome blazing fast timeline - gantt component.
-- Super fast. 😛
+## Intro
+React-timeline-gantt is an awesome blazing fast timeline - gantt component 😛.
+These are the feature currently supported:
+- Virtual rendering. Can render really fast a huge number of records.
 - Infinite scrolling.
-- Made to be use with Redux.
+- Calendar View
+- Zoom mode can be set to Day ,week or Month.
+- Redux Compatible.Implement all necessary call backs to trigger actions and update store.
 - Task update and resizing.
+- Task dependencies.
 - Support paging.
-- Can render more than a 100k records.
-- Implemented with virtual rendering.
-- Support Day Week and Month view.
 
-- Here is a demo [video](https://youtu.be/VXURUDmfTR0)
+ Here is a demo  [video](https://youtu.be/ASGD1FXOafw) that shows how to use the component.
+ Here is a working  [demo](https://guiqui.github.io/react-timeline/index.html) .
 
-## Under test
-- Gantt lines and constrains.
-## Under development
-- Hierachical data.
+
 ## Road Map
-- Full Test coverage.
-- Zoom to task
-
-## Demo
-Check out a working demo [here](https://guiqui.github.io/react-timeline/index.html)
+- Hierarchical tasks.(currently under development)
+- Style customisation.(currently under development)
+- Zoom to task.Plan for release 4.~
 
 ## Installation
 ```javascript
@@ -57,9 +54,9 @@ Each item of the array needs to contain the following elements.
 ## Timeline Events
 | name      | params   | Descriptions                        |
 | ------------- |:-------:| -----------------------------------:|
-| onNeedData    | start:Date,end :date   | Is trigger everytime the timeline load a new period, provide the start and end date of the period to load, this method is useful for implementing pagin or filter your data to only show tasks for the relevant period      |
+| onNeedData    | start:Date,end :date   | Is trigger every time the timeline load a new period, provide the start and end date of the period to load, this method is useful for implementing paging or filter your data to only show tasks for the relevant period      |
 | onSelectItem  | item:Object    | This even is trigger when a item is selected by the time line           |
-| onUpdateItem  | item:Object,props:Object  |  This even is trigger when a item has been updated, it recive the item to be updated and the properties and values to by apply|
+| onUpdateItem  | item:Object,props:Object  |  This even is trigger when a item has been updated, it receive the item to be updated and the properties and values to by apply|
 
 ## Other properties 
 | Property      | value   | Descriptions                        |
