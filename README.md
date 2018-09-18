@@ -24,7 +24,7 @@ These are the feature currently supported:
 - Support paging.
 
  Here is a demo  [video](https://youtu.be/ASGD1FXOafw) that shows how to use the component.
- Here is a working  [demo](https://guiqui.github.io/react-timeline/index.html) .
+ Here is a working  [demo](https://guiqui.github.io/react-timeline-gantt/index.html) .
 
 
 ## Road Map
