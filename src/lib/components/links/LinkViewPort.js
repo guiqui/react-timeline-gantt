@@ -112,10 +112,10 @@ export default class LinkViewPort extends Component{
                         pointerEvents="none" 
                         style={{position:'absolute', top:60, userSelect: 'none',height:'100%' }} >
                         <defs>
-                        <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="9" markerHeight="9"
-                            orient="auto-start-reverse">
-                            <path d="M 0 0 L 10 5 L 0 10 z"  strokeLinejoin="round"  />
-                        </marker>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="9" markerHeight="9"
+                                orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z"  strokeLinejoin="round"  />
+                            </marker>
                         </defs>
                         <g  transform={`matrix(1,0,0,1,${-this.props.scrollLeft},${-this.props.scrollTop})`}>
                             {this.cache}

@@ -2,21 +2,14 @@ import React,{Component} from 'react'
 
 
 
-
+const SSHAPE_SIDE_WIDTH=20;
 
 class Link extends Component{
     constructor(props){
         super(props);
     }
 
-
-
-    calculatePath=(coodinate)=>{
-        return `M${this.props.start.x} ${this.props.start.y}  ${coodinate.cpt1.x} ${coodinate.cpt1.y} ${coodinate.cpt2.x} ${coodinate.cpt2.y} ${this.props.end.x} ${this.props.end.y}`;
-    }
-
-
-    linkCoordinates=()=>{
+    calcNormCoordinates=()=>{
         let cpt1={x:0,y:0}
         let cpt2={x:0,y:0}
         let middle=0;
@@ -26,18 +19,42 @@ class Link extends Component{
         return {cpt1:cpt1,cpt2:cpt2}
     }
    
+    calcSCoordinates=()=>{
+
+        let cpt1={x:this.props.start.x+SSHAPE_SIDE_WIDTH,y:this.props.start.y}
+        let halfY=(this.props.end.y-this.props.start.y)/2
+        let cpt2={x:cpt1.x,y:cpt1.y+halfY}
+        let cpt3={x:this.props.end.x-SSHAPE_SIDE_WIDTH,y:cpt2.y}
+        let cpt4={x:cpt3.x,y:cpt3.y+halfY}
+        return {cpt1:cpt1,cpt2:cpt2,cpt3:cpt3,cpt4:cpt4}
+    }
+
+    getPath=()=>{
+        let coordinates=null
+        if (this.props.start.x>this.props.end.x){
+            coordinates=this.calcSCoordinates();
+            return `M${this.props.start.x} ${this.props.start.y}  ${coordinates.cpt1.x} ${coordinates.cpt1.y} ${coordinates.cpt2.x} ${coordinates.cpt2.y} ${coordinates.cpt3.x} ${coordinates.cpt3.y} ${coordinates.cpt4.x} ${coordinates.cpt4.y} ${this.props.end.x} ${this.props.end.y}`;
+        }
+        else{
+            coordinates=this.calcNormCoordinates()
+            return `M${this.props.start.x} ${this.props.start.y}  ${coordinates.cpt1.x} ${coordinates.cpt1.y} ${coordinates.cpt2.x} ${coordinates.cpt2.y} ${this.props.end.x} ${this.props.end.y}`;
+        }
+
+
+    }
+
+
     // onMouseDown=(e){
     //     DrawComander.cmp_selectItem(this.props.item)
     // }
 
     render(){
-        let stroke =this.props.selected?'#ee63f3':this.props.color//'#7ED321'
-        let middleCoor=this.linkCoordinates();
+
+
 
         return (<g   className="timeline-link" pointerEvents="none" >   
-            <path d={this.calculatePath(middleCoor)} stroke='black'  strokeLinejoin="round" fill="transparent" strokeWidth="1"  markerEnd="url(#arrow)"/>    
-            <circle cx={this.props.start.x} cy={this.props.start.y} r="4" fill='white'  stroke='black' strokeWidth="1" />    
-            {/* <circle cx={this.props.end.x} cy={this.props.end.y} r="4" fill='white' stroke='black' strokeWidth="1"   />   */}
+            <path d={this.getPath()} stroke='black'  strokeLinejoin="round" fill="transparent" strokeWidth="1"  markerEnd="url(#arrow)"/>    
+            <circle cx={this.props.start.x} cy={this.props.start.y} r="3" fill='white'  stroke='black' strokeWidth="1" />    
         </g>) 
     }
 }

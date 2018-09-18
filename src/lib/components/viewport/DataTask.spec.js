@@ -197,15 +197,13 @@ describe('Testing Firing Events ', function () {
         let taskSide= wrapper.find('.timeLine-main-data-task-side-linker')
         expect(taskSide.length).toBe(2);
         taskSide.first().simulate('mousedown',{button:0,stopPropagation:stopPropagation});
+        expect(onStartCreateLink.mock.calls.length).toBe(0);
+
+        taskSide.last().simulate('mousedown',{button:0,stopPropagation:stopPropagation});
         expect(onStartCreateLink.mock.calls.length).toBe(1);
         expect(onStartCreateLink.mock.calls[0][0]).toBe(item) 
-        expect(onStartCreateLink.mock.calls[0][1]).toBe(LINK_POS_LEFT)
+        expect(onStartCreateLink.mock.calls[0][1]).toBe(LINK_POS_RIGHT)
         expect(stopPropagation.mock.calls.length).toBe(1);
-        taskSide.last().simulate('mousedown',{button:0,stopPropagation:stopPropagation});
-        expect(onStartCreateLink.mock.calls.length).toBe(2);
-        expect(onStartCreateLink.mock.calls[1][0]).toBe(item) 
-        expect(onStartCreateLink.mock.calls[1][1]).toBe(LINK_POS_RIGHT)
-        expect(stopPropagation.mock.calls.length).toBe(2);
 
     })
     it('Finishing Creation of Task',()=>{
@@ -230,11 +228,10 @@ describe('Testing Firing Events ', function () {
         expect(onFinishCreateLink.mock.calls[0][0]).toBe(item) 
         expect(onFinishCreateLink.mock.calls[0][1]).toBe(LINK_POS_LEFT)
         expect(stopPropagation.mock.calls.length).toBe(1);
+        //This side dont accept mouse up
         taskSide.last().simulate('mouseup',{button:0,stopPropagation:stopPropagation});
-        expect(onFinishCreateLink.mock.calls.length).toBe(2);
-        expect(onFinishCreateLink.mock.calls[1][0]).toBe(item) 
-        expect(onFinishCreateLink.mock.calls[1][1]).toBe(LINK_POS_RIGHT)
-        expect(stopPropagation.mock.calls.length).toBe(2);
+        expect(onFinishCreateLink.mock.calls.length).toBe(1);
+
 
     })
     
