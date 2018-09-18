@@ -47,6 +47,12 @@ const config={
         backgroundColor:"white",
         borderBottom:'solid 0.5px silver'
       }
+    },
+    task:{
+      style:{
+          borderRadius:1,
+          boxShadow: '2px 2px 8px #888888'
+      }
     }
   }
 }

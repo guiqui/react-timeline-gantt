@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import DateHelper from 'libs/helpers/DateHelper'
 import {MODE_NONE,MODE_MOVE,MOVE_RESIZE_LEFT,MOVE_RESIZE_RIGHT} from 'libs/Const'
 import {LINK_POS_LEFT,LINK_POS_RIGHT } from 'libs/Const'
+import Config from 'libs/helpers/config/Config'
 
 export default class DataTask extends Component{
     constructor(props){
@@ -91,16 +92,16 @@ export default class DataTask extends Component{
     calculateStyle(){
 
         if(this.state.dragging){
-            return {backgroundColor: this.props.color,left:this.state.left,width:this.state.width,height:this.props.height-5,top:2}
+            return {...Config.values.dataViewPort.task.style,backgroundColor: this.props.color,left:this.state.left,width:this.state.width,height:this.props.height-5,top:2}
         }else{
-            return {backgroundColor: this.props.color,left:this.props.left,width:this.props.width,height:this.props.height-5,top:2}
+            return {...Config.values.dataViewPort.task.style,backgroundColor: this.props.color,left:this.props.left,width:this.props.width,height:this.props.height-5,top:2}
        }
      
     }
     render(){
         let style=this.calculateStyle()
         return (
-        <div className="timeLine-main-data-task" 
+        <div 
             onMouseDown={(e)=>this.doMouseDown(e,MODE_MOVE)}
             onClick={(e)=>{this.props.onSelectItem(this.props.item)}}
             style={style}>

@@ -48,6 +48,14 @@ const defvalues={
             backgroundColor:"#fbf9f9",
             borderBottom:'solid 0.5px #cfcfcd'
           }
+        },
+        task:{
+            style:{
+                position: 'absolute',
+                borderRadius:14,
+                color: 'white',
+                textAlign:'center'
+            }
         }
       },
     links:{}
