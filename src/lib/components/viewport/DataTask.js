@@ -112,7 +112,7 @@ export default class DataTask extends Component{
                     onMouseUp={(e)=>this.onCreateLinkMouseUp(e,LINK_POS_LEFT)}/>
             </div>
             <div>
-            {Config.values.dataViewPort.task.showLabel?"ddd":this.props.item.name}
+            {Config.values.dataViewPort.task.showLabel?this.props.item.name:""}
             </div>
             <div className="timeLine-main-data-task-side" 
                  style={{top:0,left:style.width-3,height:style.height}}
