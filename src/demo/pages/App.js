@@ -68,7 +68,8 @@ const config={
       showLabel:true,
       style:{
           borderRadius:1,
-          boxShadow: '2px 2px 8px #888888'
+          boxShadow: '2px 2px 8px #888888',
+          overflow:'hidden'
       }
     }
   }
