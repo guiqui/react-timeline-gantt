@@ -39,19 +39,10 @@ class Link extends Component{
             coordinates=this.calcNormCoordinates()
             return `M${this.props.start.x} ${this.props.start.y}  ${coordinates.cpt1.x} ${coordinates.cpt1.y} ${coordinates.cpt2.x} ${coordinates.cpt2.y} ${this.props.end.x} ${this.props.end.y}`;
         }
-
-
     }
 
 
-    // onMouseDown=(e){
-    //     DrawComander.cmp_selectItem(this.props.item)
-    // }
-
     render(){
-
-
-
         return (<g   className="timeline-link" pointerEvents="none" >   
             <path d={this.getPath()} stroke='black'  strokeLinejoin="round" fill="transparent" strokeWidth="1"  markerEnd="url(#arrow)"/>    
             <circle cx={this.props.start.x} cy={this.props.start.y} r="3" fill='white'  stroke='black' strokeWidth="1" />    
