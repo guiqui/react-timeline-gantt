@@ -8,12 +8,13 @@ import { shallow } from 'enzyme';
 
 describe('Testing Firing Events ', function () {
     it('Initialise Properly and not null pointer',()=>{
-        const wrapper =shallow(<DataTask />);
+        const wrapper =shallow(<DataTask item={{}}/>);
         expect(wrapper.find('.timeLine-main-data-task')).toBeDefined()
     })    
 
     it('Initialise Properly and not null pointer',()=>{
         const wrapper =shallow(<DataTask  left={0}
+                                            item={{}}
                                             width={80}
                                             color='red'/>);
         let style=wrapper.instance().calculateStyle();                                  
