@@ -16,7 +16,6 @@ React-timeline-gantt is a component built to display and manage calendar gantt c
 It use virtual rendering to be reactive an efficient.
 
 The component is capable of:
-- The component is capable of:
 - Can handle 100  thousands 
 - Infinite calendar scrolling
 - Three Zoom levels : day, week, month
@@ -31,11 +30,6 @@ The component is capable of:
  
  To play with a live [demo](https://guiqui.github.io/react-timeline-gantt/index.html) .
 
-
-## Road Map
-- Hierarchical tasks.(currently under development)
-- Style customisation.(currently under development)
-- Zoom to task.Plan for release 4.~
 
 ## Installation
 ```javascript
@@ -58,7 +52,7 @@ The first thing to once the component has been install and all it dependencies i
 An example of data definition:
 ```javascript
  let data=[ {id:1,start:new Date(), end:new Date()+1 ,name:'Demo Task 1'},
-			{id:2,start:new Date(), end:new Date()+1 ,name:'Demo Task 2'},]
+			{id:2,start:new Date(), end:new Date()+1 ,name:'Demo Task 2'}]
 ```
 
 **Links** :is also an array of objects that contains links between task. Each one of the object that are part of the array need to have the following compulsory fields:
@@ -72,8 +66,18 @@ An example of data definition:
 An example of data definition:
 ```javascript
  let links=[ {id:1,start:1, end:2},
-			{id:2,start:1, end:3,]
+			{id:2,start:1, end:3}]
 ```
+
+Once the data is define we just need to declare the component and populate it with both data providers.
+
+```javascript
+
+<TimeLine  data={data} links={links}/>);
+```
+Here is the demo code:
+
+ [![Edit 1y2on87jj](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/1y2on87jj)
 
 ## Timeline Events
 | name      | params   | Descriptions                        |
