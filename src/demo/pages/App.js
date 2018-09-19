@@ -76,80 +76,96 @@ const config={
 }
 
 class App extends Component{
-  constructor(props) {
-    super(props);
-    let d1 = new Date();
-    let d2 = new Date();
-    d2.setDate(d2.getDate() + 5);
-    let d3 = new Date();
-    d3.setDate(d3.getDate() + 8);
-    let d4 = new Date();
-    d4.setDate(d4.getDate() + 20);
-
-    let data = [
-      {
-        id: 1,
-        start: d1,
-        end: d2,
-        name: "Demo Task 1"
-      },
-      {
-        id: 2,
-        start: d3,
-        end: d4,
-        name: "Demo Task 2",
-        color: "orange"
-      }
-    ];
-
-    this.state = { data: data, links: [] };
-  }
-  genID() {
-    function S4() {
-      return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+  constructor(props){
+    super(props)
+    let result=Generator.generateData()
+    this.data=result.data;
+    this.state={
+      itemheight:20,
+      timeLineData:[],
+      selectedItem:null,
+      timelineMode:"month",
+      links:result.links
     }
-    return (S4() +S4() +"-" +S4() +"-4" +S4().substr(0, 3) +"-" +S4() +
-      "-" + S4() +S4() +S4()
-    ).toLowerCase();
   }
-  createLink(start, end) {
-    return {
-      id: this.genID(),
-      start: start.task.id,
-      startPosition: start.position,
-      end: end.task.id,
-      endPosition: end.position
-    };
-  }
-  onUpdateTask = (item, props) => {
-    item.start = props.start? props.start:item.start ;
-    item.end = props.end? props.end:item.end ;
-    item.name = props.name? props.name:item.name ;
-    this.setState({ data: [...this.state.data] });
-  };
-  onCreateLink = item => {
-    let newLink = this.createLink(item.start, item.end);
-    this.setState({ links: [...this.state.links, newLink] });
-  };
 
-  render() {
+  handleDayWidth=(e)=>{
+    this.setState({daysWidth:parseInt(e.target.value)})
+  }
+  handleItemHeight=(e)=>{
+    this.setState({itemheight:parseInt(e.target.value)})
+  }
+  
+  onNeedData=(start,end)=>{
+      let result = this.data.filter((item)=>{
+        return  (item.start<start && item.end>end) ||
+                (item.start>start && item.start<end) ||
+                (item.end>start && item.end<end)})
+      console.log('Calculating ')
+      this.setState({timeLineData:result})
+  }
+  
+  onSelectItem=(item)=>{
+    console.log(`Select Item ${item}`)
+    this.setState({selectedItem:item})
+  }
+
+  onUpdateItem=(item,props)=>{
+    item.start=props.start;
+    item.end=props.end;
+    this.setState({timeLineData:[...this.state.timeLineData]})
+    console.log(`Update Item ${item}`)
+  }
+  onUpdateLink=(item)=>{
+    
+    let newLink=Generator.createLink(item.start,item.end)
+    this.setState({links:[...this.state.links,newLink]})
+    console.log(`Update Item ${item}`)
+  }
+  getbuttonStyle(value){
+    return this.state.timelineMode==value?{backgroundColor:"grey",boder:'solid 1px #223344'}:{}
+  }
+
+  modeChange=(value)=>{
+    this.setState({timelineMode:value})
+  }
+
+  render(){
+
     return (
       <div className="app-container">
-        <h1>Getting Started Demo</h1>
-        {/* DayWidth<input type="range" min="30" max="500" value={this.state.daysWidth} onChange={this.handleDayWidth} step="1"/>
-       Item Height<input type="range" min="30" max="500" value={this.state.itemheight} onChange={this.handleItemHeight} step="1"/> */}
+       
+        <div className="nav-container">
+          <div className="mode-container-title">Gantt TimeLine Demo</div>
+          <div className="mode-container">
+            <div className="mode-container-item mode-container-item-left" 
+                onClick={(e)=>this.modeChange('day')}
+                style={this.getbuttonStyle('day')}>Day</div>
+            <div className="mode-container-item" 
+                onClick={(e)=>this.modeChange('week')}
+                style={this.getbuttonStyle('week')} >Week</div>
+            <div className="mode-container-item mode-container-item-right" 
+                onClick={(e)=>this.modeChange('month')}
+                style={this.getbuttonStyle('month')}>Month</div>
+          </div>
+        </div>
         <div className="time-line-container">
-          <TimeLine
-            // config={config}
-            data={this.state.data}
-            links={this.state.links}
-            onUpdateTask={this.onUpdateTask}
-            onCreateLink={this.onCreateLink}
-          />
+          <TimeLine  
+              // config={config}
+            data={this.state.timeLineData} 
+            links={this.state.links} 
+            onNeedData={this.onNeedData} 
+            onSelectItem={this.onSelectItem}
+            onUpdateItem={this.onUpdateItem}
+            onUpdateLink={this.onUpdateLink}
+            mode={this.state.timelineMode}
+            itemheight={this.state.itemheight} 
+            selectedItem={this.state.selectedItem}/>
         </div>
       </div>
-    );
+    )
   }
+
 }
 
 export default App;
