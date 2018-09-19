@@ -5,6 +5,7 @@ node_js:
 install:
   - npm install -g codecov
   - npm install moment
+  - npm install react-sizeme
 cache:
   directories:
     - node_modules

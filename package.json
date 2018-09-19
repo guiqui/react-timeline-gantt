@@ -1,6 +1,6 @@
 {
   "name": "react-gantt-timeline",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -15,7 +15,9 @@
   "peerDependencies": {
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "css-layout": "^1.1.1"
+    "css-layout": "^1.1.1",
+    "react-sizeme": "^2.5.2",
+    "moment": "^2.22.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -51,18 +53,14 @@
   "license": "MIT",
   "keywords": [
     "react",
-    "list",
     "timeline",
     "gantt",
     "virtual",
     "virtualize",
     "planning",
     "scheduler",
-    "calendar"
+    "calendar",
+    "project management"
   ],
-  "homepage": "https://github.com/guiqui/react-timeline",
-  "dependencies": {
-    "react-sizeme": "^2.5.2",
-    "moment": "^2.22.1"
-  }
+  "homepage": "https://github.com/guiqui/react-timeline-gantt"
 }

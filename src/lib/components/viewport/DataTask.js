@@ -111,7 +111,7 @@ export default class DataTask extends Component{
                 <div  className="timeLine-main-data-task-side-linker" 
                     onMouseUp={(e)=>this.onCreateLinkMouseUp(e,LINK_POS_LEFT)}/>
             </div>
-            <div>
+            <div style={{overflow:'hidden'}}>
             {Config.values.dataViewPort.task.showLabel?this.props.item.name:""}
             </div>
             <div className="timeLine-main-data-task-side" 

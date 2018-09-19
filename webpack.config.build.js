@@ -14,7 +14,8 @@ module.exports ={
     alias: {
         'moment' : path.resolve(__dirname, './node_modules/moment'),         
         'react': path.resolve(__dirname, './node_modules/react'),
-        'react-dom': path.resolve(__dirname, './node_modules/react-dom'),      
+        'react-dom': path.resolve(__dirname, './node_modules/react-dom'),    
+        'react-sizeme': path.resolve(__dirname, './node_modules/react-sizeme'),     
          libs: path.resolve(__dirname, 'src/lib/'),
     }  
   },  
@@ -32,6 +33,12 @@ module.exports ={
           amd: "ReactDOM",          
           root: "ReactDOM"      
       } ,
+      "react-sizeme": {          
+        commonjs: "react-sizeme",          
+        commonjs2: "react-sizeme",          
+        amd: "ReactDOM",          
+        root: "ReactDOM"      
+    },
       moment: {          
         commonjs: "moment",          
         commonjs2: "moment",          
