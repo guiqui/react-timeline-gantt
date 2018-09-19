@@ -110,13 +110,13 @@ class App extends Component{
     this.setState({selectedItem:item})
   }
 
-  onUpdateItem=(item,props)=>{
+  onUpdateTask=(item,props)=>{
     item.start=props.start;
     item.end=props.end;
     this.setState({timeLineData:[...this.state.timeLineData]})
     console.log(`Update Item ${item}`)
   }
-  onUpdateLink=(item)=>{
+  onCreateLink=(item)=>{
     
     let newLink=Generator.createLink(item.start,item.end)
     this.setState({links:[...this.state.links,newLink]})
@@ -156,8 +156,8 @@ class App extends Component{
             links={this.state.links} 
             onNeedData={this.onNeedData} 
             onSelectItem={this.onSelectItem}
-            onUpdateItem={this.onUpdateItem}
-            onUpdateLink={this.onUpdateLink}
+            onUpdateTask={this.onUpdateTask}
+            onCreateLink={this.onCreateLink}
             mode={this.state.timelineMode}
             itemheight={this.state.itemheight} 
             selectedItem={this.state.selectedItem}/>
