@@ -89,7 +89,11 @@ export default class LinkViewPort extends Component{
             for (let i=0;i<links.length;i++){
                 item=links[i];
                 startItem=Registry.getTask(item.link.start)
+                if (!startItem)
+                    continue
                 endItem=Registry.getTask(item.link.end)
+                if (!endItem)
+                    continue
                 startPosition =   this.getItemPosition(startItem.index,startItem.item.end)
                 if (this.state.changingTask.item.id==item.link.start)
                     startPosition.x= this.state.changingTask.position.end;
