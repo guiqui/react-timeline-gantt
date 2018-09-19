@@ -9,7 +9,7 @@
 
 A react timeline gantt component.
 
-![alt text](https://github.com/guiqui/react-timeline-gantt/blob/master/docs/demo.gif)
+![screencast](https://guiqui.github.io/react-timeline-gantt/demo.gif)
 
 ## About
 React-timeline-gantt is a component built to display and manage calendar gantt charts.
