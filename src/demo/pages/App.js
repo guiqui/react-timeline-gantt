@@ -151,7 +151,7 @@ class App extends Component{
         </div>
         <div className="time-line-container">
           <TimeLine  
-              config={config}
+              // config={config}
             data={this.state.timeLineData} 
             links={this.state.links} 
             onNeedData={this.onNeedData} 
