@@ -33,7 +33,8 @@ export default class DataTask extends Component{
 
     doMouseDown(e,mode){
         
-        
+        if(!this.props.onUpdateTask)
+            return;
         if (e.button === 0){
             e.stopPropagation();
             this.props.onChildDrag(true)
@@ -85,7 +86,7 @@ export default class DataTask extends Component{
         this.props.onChildDrag(false)
         let new_start_date=DateHelper.pixelToDate(this.state.left,this.props.nowposition,this.props.dayWidth);
         let new_end_date=DateHelper.pixelToDate(this.state.left+this.state.width,this.props.nowposition,this.props.dayWidth);
-        this.props.onUpdateItem(this.props.item,{start:new_start_date,end:new_end_date})
+        this.props.onUpdateTask(this.props.item,{start:new_start_date,end:new_end_date})
         this.setState({dragging:false,mode:MODE_NONE})
     }
     

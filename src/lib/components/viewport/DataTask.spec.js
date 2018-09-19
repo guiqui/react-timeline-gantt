@@ -27,7 +27,7 @@ describe('Testing Firing Events ', function () {
 
     it('Move and handle mouse event properly',()=>{
         let onChildDrag=jest.fn();
-        let onUpdateItem=jest.fn();
+        let onUpdateTask=jest.fn();
         let onTaskChanging=jest.fn();
         let item={name:'this Item'}
         let dayWidth=30;
@@ -37,7 +37,7 @@ describe('Testing Firing Events ', function () {
                                     nowposition={nowposition}
                                     dayWidth={dayWidth}
                                     onChildDrag={onChildDrag}
-                                    onUpdateItem={onUpdateItem}
+                                    onUpdateTask={onUpdateTask}
                                     onTaskChanging={onTaskChanging}
                                     item={item}
                                     left={0}
@@ -66,19 +66,19 @@ describe('Testing Firing Events ', function () {
         expect(wrapper.state().mode).toBe(MODE_NONE); 
         expect(onChildDrag.mock.calls.length).toBe(2);
         expect(onChildDrag.mock.calls[1][0]).toBe(false) 
-        expect(onUpdateItem.mock.calls.length).toBe(1);
-        expect(onUpdateItem.mock.calls[0][0]).toBe(item)
+        expect(onUpdateTask.mock.calls.length).toBe(1);
+        expect(onUpdateTask.mock.calls[0][0]).toBe(item)
         let new_start_date=DateHelper.pixelToDate(10,nowposition,dayWidth);
         let new_end_date=DateHelper.pixelToDate(90,nowposition,dayWidth);
 
-        expect(new_start_date.getTime()-onUpdateItem.mock.calls[0][1].start.getTime()<10).toBe(true)
-        expect(new_end_date.getTime()-onUpdateItem.mock.calls[0][1].end.getTime()<10).toBe(true)
+        expect(new_start_date.getTime()-onUpdateTask.mock.calls[0][1].start.getTime()<10).toBe(true)
+        expect(new_end_date.getTime()-onUpdateTask.mock.calls[0][1].end.getTime()<10).toBe(true)
 
 
     })
     it('Resize Left and handle mouse event properly',()=>{
         let onChildDrag=jest.fn();
-        let onUpdateItem=jest.fn();
+        let onUpdateTask=jest.fn();
         let onTaskChanging=jest.fn();
         let item={name:'this Item'}
         let dayWidth=30;
@@ -88,7 +88,7 @@ describe('Testing Firing Events ', function () {
                                     nowposition={nowposition}
                                     dayWidth={dayWidth}
                                     onChildDrag={onChildDrag}
-                                    onUpdateItem={onUpdateItem}
+                                    onUpdateTask={onUpdateTask}
                                     onTaskChanging={onTaskChanging}
                                     item={item}
                                     left={0}
@@ -117,19 +117,19 @@ describe('Testing Firing Events ', function () {
         expect(wrapper.state().mode).toBe(MODE_NONE); 
         expect(onChildDrag.mock.calls.length).toBe(2);
         expect(onChildDrag.mock.calls[1][0]).toBe(false) 
-        expect(onUpdateItem.mock.calls.length).toBe(1);
-        expect(onUpdateItem.mock.calls[0][0]).toBe(item)
+        expect(onUpdateTask.mock.calls.length).toBe(1);
+        expect(onUpdateTask.mock.calls[0][0]).toBe(item)
         let new_start_date=DateHelper.pixelToDate(10,nowposition,dayWidth);
         let new_end_date=DateHelper.pixelToDate(70,nowposition,dayWidth);
 
-        expect(new_start_date.getTime()-onUpdateItem.mock.calls[0][1].start.getTime()<10).toBe(true)
-        expect(new_end_date.getTime()-onUpdateItem.mock.calls[0][1].end.getTime()<10).toBe(true)
+        expect(new_start_date.getTime()-onUpdateTask.mock.calls[0][1].start.getTime()<10).toBe(true)
+        expect(new_end_date.getTime()-onUpdateTask.mock.calls[0][1].end.getTime()<10).toBe(true)
 
 
     })
     it('Resize Right and handle mouse event properly',()=>{
         let onChildDrag=jest.fn();
-        let onUpdateItem=jest.fn();
+        let onUpdateTask=jest.fn();
         let onTaskChanging=jest.fn();
         let item={name:'this Item'}
         let dayWidth=30;
@@ -139,7 +139,7 @@ describe('Testing Firing Events ', function () {
                                     nowposition={nowposition}
                                     dayWidth={dayWidth}
                                     onChildDrag={onChildDrag}
-                                    onUpdateItem={onUpdateItem}
+                                    onUpdateTask={onUpdateTask}
                                     onTaskChanging={onTaskChanging}
                                     item={item}
                                     left={0}
@@ -168,13 +168,13 @@ describe('Testing Firing Events ', function () {
         expect(wrapper.state().mode).toBe(MODE_NONE); 
         expect(onChildDrag.mock.calls.length).toBe(2);
         expect(onChildDrag.mock.calls[1][0]).toBe(false) 
-        expect(onUpdateItem.mock.calls.length).toBe(1);
-        expect(onUpdateItem.mock.calls[0][0]).toBe(item)
+        expect(onUpdateTask.mock.calls.length).toBe(1);
+        expect(onUpdateTask.mock.calls[0][0]).toBe(item)
         let new_start_date=DateHelper.pixelToDate(0,nowposition,dayWidth);
         let new_end_date=DateHelper.pixelToDate(90,nowposition,dayWidth);
 
-        expect(new_start_date.getTime()-onUpdateItem.mock.calls[0][1].start.getTime()<10).toBe(true)
-        expect(new_end_date.getTime()-onUpdateItem.mock.calls[0][1].end.getTime()<10).toBe(true)
+        expect(new_start_date.getTime()-onUpdateTask.mock.calls[0][1].start.getTime()<10).toBe(true)
+        expect(new_end_date.getTime()-onUpdateTask.mock.calls[0][1].end.getTime()<10).toBe(true)
 
 
     })

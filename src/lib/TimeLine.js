@@ -257,11 +257,7 @@ class TimeLine extends Component{
             this.props.onSelectItem(item)
     }
 
-    onUpdateItem=(item,props)=>{
-        if (this.props.onUpdateItem)
-            this.props.onUpdateItem(item,props)
-    }
-
+ 
     onStartCreateLink=(task,position)=>{
         console.log(`Start Link ${task}`)
         this.setState({
@@ -274,8 +270,8 @@ class TimeLine extends Component{
  
     onFinishCreateLink=(task,position)=>{
         console.log(`End Link ${task}`)
-        if (this.props.onUpdateLink && task){
-            this.props.onUpdateLink({start:this.state.taskToCreate,end:{task:task,position:position}})
+        if (this.props.onCreateLink && task){
+            this.props.onCreateLink({start:this.state.taskToCreate,end:{task:task,position:position}})
         }
         this.setState({
             interactiveMode:false,
@@ -338,7 +334,7 @@ class TimeLine extends Component{
                     data={this.props.data}
                     selectedItem={this.props.selectedItem}
                     onSelectItem={this.onSelectItem}
-                    onUpdateItem={this.onUpdateItem}
+                    onUpdateTask={this.props.onUpdateTask}
                     onScroll={this.verticalChange}/>
                 <VerticalSpliter onTaskListSizing={this.onTaskListSizing}/>
             </div>       
@@ -367,7 +363,7 @@ class TimeLine extends Component{
                     onMouseUp={this.doMouseUp} 
                     onMouseLeave ={this.doMouseLeave}
                     onSelectItem={this.onSelectItem}
-                    onUpdateItem={this.onUpdateItem}
+                    onUpdateTask={this.props.onUpdateTask}
                     onTaskChanging={this.onTaskChanging}
                     onStartCreateLink={this.onStartCreateLink}
                     onFinishCreateLink={this.onFinishCreateLink}
