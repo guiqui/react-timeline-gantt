@@ -19,7 +19,7 @@ The component is capable of:
 - Can handle 100  thousands records.
 - Infinite calendar scrolling
 - Three Zoom levels : day, week, month
-- Fully customizable.
+- Fully customisable.
 - Support all CRUD operations.
 - Task and Link creation.
 - Support Paging.
