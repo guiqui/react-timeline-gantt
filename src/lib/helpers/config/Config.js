@@ -70,7 +70,8 @@ const defvalues={
                 position: 'absolute',
                 borderRadius:14,
                 color: 'white',
-                textAlign:'center'
+                textAlign:'center',
+                backgroundColor:'grey'
             }
         }
       },

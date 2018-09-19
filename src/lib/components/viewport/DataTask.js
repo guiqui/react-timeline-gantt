@@ -90,11 +90,12 @@ export default class DataTask extends Component{
     }
     
     calculateStyle(){
+        let backgroundColor= this.props.color?this.props.color:Config.values.dataViewPort.task.style.backgroundColor
 
         if(this.state.dragging){
-            return {...Config.values.dataViewPort.task.style,backgroundColor: this.props.color,left:this.state.left,width:this.state.width,height:this.props.height-5,top:2}
+            return {...Config.values.dataViewPort.task.style,backgroundColor: backgroundColor,left:this.state.left,width:this.state.width,height:this.props.height-5,top:2}
         }else{
-            return {...Config.values.dataViewPort.task.style,backgroundColor: this.props.color,left:this.props.left,width:this.props.width,height:this.props.height-5,top:2}
+            return {...Config.values.dataViewPort.task.style,backgroundColor: backgroundColor,left:this.props.left,width:this.props.width,height:this.props.height-5,top:2}
        }
      
     }
