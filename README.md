@@ -41,19 +41,38 @@ The component is capable of:
 ```javascript
 npm install react-gantt-timeline
 ```
-## Timeline Data
-The timeline data can be set with the data property of the time line.
-The data needs to be an array of object.
-Each item of the array needs to contain the following elements.
+The component has the following dependencies: moment, react-sizeme
+
+## Getting started
+The first thing to once the component has been install and all it dependencies is create the data that the timeline component consume.The time line has two data providers **data** and **links**.
+
+**Data** :is an array of objects that contains the task to be shown. Each one of the object that are part of the array need to have the following compulsory fields
 
 | Property      | value   | Descriptions                        |
-| ------------- |:-------:| -----------------------------------:|
-| start         | date    | The start date of the task          |
-| end           | date    | The end date of the task            |
-| name          | string  | The name of the task to be diplayed |
+| ------------- |:-------:| :-----------------------------------|
+| id            | String/Number    | An unique identifier for the class|
+| start         | Date    | The start date of the task          |
+| end           | Date    | The end date of the task            |
+| name          | String  | The name of the task to be diplayed |
 
+An example of data definition:
 ```javascript
- let data=[ {start:new Date(), end:new Date()+1 ,name:'Demo Task'}]
+ let data=[ {id:1,start:new Date(), end:new Date()+1 ,name:'Demo Task 1'},
+			{id:2,start:new Date(), end:new Date()+1 ,name:'Demo Task 2'},]
+```
+
+**Links** :is also an array of objects that contains links between task. Each one of the object that are part of the array need to have the following compulsory fields:
+
+| Property      | value   | Descriptions                        |
+| ------------- |:-------:| :-----------------------------------|
+| id            | String/Number    | An unique identifier for the class|
+| start         | String/Number      | The id of the start task        |
+| end           | String/Number      | The id of the end task          |
+
+An example of data definition:
+```javascript
+ let links=[ {id:1,start:1, end:2},
+			{id:2,start:1, end:3,]
 ```
 
 ## Timeline Events
