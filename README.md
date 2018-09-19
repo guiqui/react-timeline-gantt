@@ -81,13 +81,26 @@ Here is the demo code:
  [![Edit 1y2on87jj](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/1y2on87jj)
 
 ## Handling Inserts,Updates and Deletes
-The React-timeline-gantt was build to be use under a Flux architecture, this means that the component should not be managing the state of the application is up the store and only the store to modify the state of the application. What our component does is to give you callbacks to know when the component is asking for a change.
+The React-timeline-gantt was build to be use under a Flux architecture, this means that the component should not be managing the state of the application, is up the store and only the store to modify the state of the application. What our component does is to give you callbacks to know when the component is asking for a change.
+
+The TimeLine component is responsible for  two things:
+
+ - Updating task:Changing name ,start and end date
+ - Creating Links
+ 
+Adding,Deleting Task or links can be manage with logic outside the component.
+For this reason  the react-timeline-gantt component provides the following callbacks:
+ 
 
 | name      | params   | Descriptions                        |
 | ------------- |:-------:| -----------------------------------:|
-| onNeedData    | start:Date,end :date   | Is trigger every time the timeline load a new period, provide the start and end date of the period to load, this method is useful for implementing paging or filter your data to only show tasks for the relevant period      |
-| onSelectItem  | item:Object    | This even is trigger when a item is selected by the time line           |
-| onUpdateItem  | item:Object,props:Object  |  This even is trigger when a item has been updated, it receive the item to be updated and the properties and values to by apply|
+| onCreateLink  | link:Object    | This callback is trigger when the component is notifying the creating of a link between two tasks    |
+| onUpdateTask | task:Object,props:Object  |  This callback is trigger when the component is notifying the updating of a Task, Sen the task we want to changes, and the properties we want to change|
+
+Here is an example:
+
+[![Edit 3rl69y5ylq](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/3rl69y5ylq)
+
 
 ## Other properties 
 | Property      | value   | Descriptions                        |
