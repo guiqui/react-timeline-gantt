@@ -80,7 +80,9 @@ Here is the demo code:
 
  [![Edit 1y2on87jj](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/1y2on87jj)
 
-## Timeline Events
+## Handling Inserts,Updates and Deletes
+The React-timeline-gantt was build to be use under a Flux architecture, this means that the component should not be managing the state of the application is up the store and only the store to modify the state of the application. What our component does is to give you callbacks to know when the component is asking for a change.
+
 | name      | params   | Descriptions                        |
 | ------------- |:-------:| -----------------------------------:|
 | onNeedData    | start:Date,end :date   | Is trigger every time the timeline load a new period, provide the start and end date of the period to load, this method is useful for implementing paging or filter your data to only show tasks for the relevant period      |
