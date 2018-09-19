@@ -16,7 +16,7 @@ React-timeline-gantt is a component built to display and manage calendar gantt c
 It use virtual rendering to be reactive an efficient.
 
 The component is capable of:
-- Can handle 100  thousands 
+- Can handle 100  thousands records.
 - Infinite calendar scrolling
 - Three Zoom levels : day, week, month
 - Fully customizable.
