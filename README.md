@@ -48,6 +48,7 @@ The first thing to once the component has been install and all it dependencies i
 | start         | Date    | The start date of the task          |
 | end           | Date    | The end date of the task            |
 | name          | String  | The name of the task to be diplayed |
+| color (optional)| String  | The color of the task to be diplayed |
 
 An example of data definition:
 ```javascript
