@@ -74,8 +74,8 @@ export default class DataTask extends Component{
                     newWidth=this.state.width-delta;
                     break;
             }
-            
-            let changeObj={item:this.props.item,position:{start:newLeft,end:newLeft+newWidth}};
+            //the coordinates need to be global
+            let changeObj={item:this.props.item,position:{start:newLeft-this.props.nowposition,end:newLeft+newWidth-this.props.nowposition}};
             this.props.onTaskChanging(changeObj);
             this.setState({left:newLeft,width: newWidth}) 
             this.draggingPosition=e.clientX;

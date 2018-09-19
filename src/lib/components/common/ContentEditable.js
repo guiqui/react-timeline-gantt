@@ -14,13 +14,12 @@ export default class ContentEditable extends Component{
             this.refs.textInput.focus();
             this.isFocus=true;
         }
-           
     }
 
     onFocus=()=>{
-    
         this.setState({editing:true})
     }   
+
     onBlur=()=>{
         this.finishEditing()
     }    
@@ -31,11 +30,12 @@ export default class ContentEditable extends Component{
             this.finishEditing()
         }
     }
+
     finishEditing=()=>{
         this.isFocus=false;
         this.setState({editing:false})
-        if(this.props.finishEditing)
-            this.props.finishEditing(this.state.value)
+        if(this.props.onChange)
+            this.props.onChange(this.state.value)
     }
 
     handleChange=(e)=> {
@@ -43,11 +43,18 @@ export default class ContentEditable extends Component{
     }
 
     renderDiv=()=>{
-        return <div  tabindex={this.props.index} 
+        return <div  tabIndex={this.props.index} 
                     onClick={this.onFocus} 
                     onFocus={this.onFocus} 
                     style={{width:'100%'}}> {this.state.value}</div>
     }
+    shouldComponentUpdate(nextProps, nextState){
+        if (nextProps.value!=this.props.value){
+            this.state.value=nextProps.value;
+        }
+        return true;
+    }
+
     renderEditor=()=>{
 
         return <input ref='textInput' onBlur={this.onBlur} 

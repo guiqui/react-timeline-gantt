@@ -20,7 +20,7 @@ export default class LinkViewPort extends Component{
     }
 
     getItemPosition=(index,date)=>{
-        let x=DateHelper.dateToPixel(date,this.props.nowposition,this.props.dayWidth)
+        let x=DateHelper.dateToPixel(date,0,this.props.dayWidth)
         let y=index*this.props.itemheight+this.props.itemheight/2
         return{x:x,y:y}
     }
@@ -90,12 +90,12 @@ export default class LinkViewPort extends Component{
                 item=links[i];
                 startItem=Registry.getTask(item.link.start)
                 endItem=Registry.getTask(item.link.end)
-                startPosition =   this.getItemPosition(startItem.index,item.link.startPosition==LINK_POS_LEFT?startItem.item.start:startItem.item.end)
+                startPosition =   this.getItemPosition(startItem.index,startItem.item.end)
                 if (this.state.changingTask.item.id==item.link.start)
-                    startPosition.x=  item.link.startPosition==LINK_POS_LEFT? this.state.changingTask.position.start:this.state.changingTask.position.end;
-                endPosition   =  this.getItemPosition(endItem.index,item.link.endPosition==LINK_POS_LEFT?endItem.item.start:endItem.item.end)
+                    startPosition.x= this.state.changingTask.position.end;
+                endPosition   =  this.getItemPosition(endItem.index,endItem.item.start)
                 if (this.state.changingTask.item.id==item.link.end)
-                    endPosition.x=  item.link.endPosition==LINK_POS_LEFT? this.state.changingTask.position.start:this.state.changingTask.position.end
+                    endPosition.x= this.state.changingTask.position.start;
                 
                 this.cache[item.index]=(<Link key={-i-1} start={{x:startPosition.x,y:startPosition.y}} end={{x:endPosition.x,y:endPosition.y}} />  )
                 this.cache=[...this.cache]

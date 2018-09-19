@@ -108,19 +108,8 @@ class App extends Component{
     function S4() {
       return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
     }
-    return (
-      S4() +
-      S4() +
-      "-" +
-      S4() +
-      "-4" +
-      S4().substr(0, 3) +
-      "-" +
-      S4() +
-      "-" +
-      S4() +
-      S4() +
-      S4()
+    return (S4() +S4() +"-" +S4() +"-4" +S4().substr(0, 3) +"-" +S4() +
+      "-" + S4() +S4() +S4()
     ).toLowerCase();
   }
   createLink(start, end) {
@@ -133,8 +122,9 @@ class App extends Component{
     };
   }
   onUpdateTask = (item, props) => {
-    item.start = props.start;
-    item.end = props.end;
+    item.start = props.start? props.start:item.start ;
+    item.end = props.end? props.end:item.end ;
+    item.name = props.name? props.name:item.name ;
     this.setState({ data: [...this.state.data] });
   };
   onCreateLink = item => {
@@ -150,6 +140,7 @@ class App extends Component{
        Item Height<input type="range" min="30" max="500" value={this.state.itemheight} onChange={this.handleItemHeight} step="1"/> */}
         <div className="time-line-container">
           <TimeLine
+            // config={config}
             data={this.state.data}
             links={this.state.links}
             onUpdateTask={this.onUpdateTask}

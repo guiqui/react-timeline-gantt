@@ -17,6 +17,13 @@ export class TaskRow extends Component{
     constructor(props){
         super(props);
     }
+    onChange=(value)=>{
+        if (this.props.onUpdateTask){
+            this.props.onUpdateTask(this.props.item,{name:value})
+        }
+
+    }
+
     render(){
        
         return (
@@ -26,7 +33,7 @@ export class TaskRow extends Component{
 
              <ContentEditable value={this.props.label} 
                               index={this.props.index}
-                             />
+                              onChange={this.onChange}/>
     
             
         </div>)    
@@ -53,6 +60,7 @@ export default class TaskList extends Component{
                                  top={i*this.props.itemheight} 
                                  itemheight={this.props.itemheight} 
                                  isSelected={this.props.selectedItem==item}
+                                 onUpdateTask={this.props.onUpdateTask}
                                  onSelectItem={this.props.onSelectItem}></TaskRow>);
                         
         }
