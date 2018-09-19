@@ -115,7 +115,7 @@ export default class LinkViewPort extends Component{
                                 <path d="M 0 0 L 10 5 L 0 10 z"  strokeLinejoin="round"  />
                             </marker>
                         </defs>
-                        <g  transform={`matrix(1,0,0,1,${-this.props.scrollLeft},${-this.props.scrollTop})`}>
+                        <g  transform={`matrix(1,0,0,1,${-(this.props.scrollLeft-this.props.nowposition)},${-this.props.scrollTop})`}>
                             {this.cache}
                             {this.renderCreateLink()}
                         </g>
