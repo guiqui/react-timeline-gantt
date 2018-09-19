@@ -11,20 +11,25 @@ A react timeline gantt component.
 
 ![alt text](https://github.com/guiqui/react-timeline-gantt/blob/master/docs/demo.gif)
 
-## Intro
-React-timeline-gantt is an awesome blazing fast timeline - gantt component 😛.
-These are the feature currently supported:
-- Virtual rendering. Can render really fast a huge number of records.
-- Infinite scrolling.
-- Calendar View
-- Zoom mode can be set to Day ,week or Month.
-- Redux Compatible.Implement all necessary call backs to trigger actions and update store.
-- Task update and resizing.
-- Task dependencies.
-- Support paging.
+## About
+React-timeline-gantt is a component built to display and manage calendar gantt charts.
+It use virtual rendering to be reactive an efficient.
 
- Here is a demo  [video](https://youtu.be/ASGD1FXOafw) that shows how to use the component.
- Here is a working  [demo](https://guiqui.github.io/react-timeline-gantt/index.html) .
+The component is capable of:
+- The component is capable of:
+- Can handle 100  thousands 
+- Infinite calendar scrolling
+- Three Zoom levels : day, week, month
+- Fully customizable.
+- Support all CRUD operations.
+- Task and Link creation.
+- Support Paging.
+- Can be easily integrated with Redux
+
+
+ To watch a demo take a look at [video](https://youtu.be/ASGD1FXOafw) that shows how to use the component.
+ 
+ To play with a live [demo](https://guiqui.github.io/react-timeline-gantt/index.html) .
 
 
 ## Road Map
