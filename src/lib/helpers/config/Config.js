@@ -75,7 +75,11 @@ const defvalues={
             }
         }
       },
-    links:{}
+    links:{
+        color:'black',
+        selectedColor:'#ff00fa',
+
+    }
   }
 
 

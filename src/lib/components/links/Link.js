@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-
+import Config from 'libs/helpers/config/Config'
 
 
 const SSHAPE_SIDE_WIDTH=20;
@@ -49,16 +49,32 @@ class Link extends Component{
 
 
     render(){
-        return (<g   className="timeline-link"   pointerEvents="stroke" >   
-            <path 
+        let pathColor=this.props.isSelected?Config.values.links.selectedColor:Config.values.links.color;
+        return (<g   className="timeline-link"  pointerEvents="all"  >   
+              <path 
+                pointerEvents="stroke"
                 onMouseDown={this.onSelect}
-                stroke='black'
+                stroke='white'
+                d={this.getPath()} 
+                strokeLinejoin="round" 
+                fill="transparent" 
+                strokeWidth="4"  
+                cursor="pointer"/> 
+            
+            <path 
+                pointerEvents="stroke"
+                onMouseDown={this.onSelect}
+                stroke={pathColor}
                 d={this.getPath()} 
                 strokeLinejoin="round" 
                 fill="transparent" 
                 strokeWidth="1"  
+                cursor="pointer"
                 markerEnd="url(#arrow)"/>    
-            <circle cx={this.props.start.x} cy={this.props.start.y} r="3" fill='white'  stroke='black' strokeWidth="1" />    
+                
+            <circle cx={this.props.start.x} 
+                    cy={this.props.start.y} r="3" fill='white'  
+                    stroke={pathColor} strokeWidth="1" />    
         </g>) 
     }
 }
