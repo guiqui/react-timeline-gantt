@@ -2,7 +2,6 @@ import React,{Component} from 'react'
 import Registry from 'libs/helpers/registry/Registry'
 import Link from 'libs/components/links/Link'
 import CreateLink from 'libs/components/links/CreateLink'
-import {LINK_POS_LEFT } from 'libs/Const'
 import DateHelper from 'libs/helpers/DateHelper'
 
 export default class LinkViewPort extends Component{
@@ -16,7 +15,12 @@ export default class LinkViewPort extends Component{
         
         let startPosition = this.getItemPosition(startItem.index,startItem.item.end)
         let endPosition   = this.getItemPosition(endItem.index,endItem.item.start) 
-        return<Link key={key} start={{x:startPosition.x,y:startPosition.y}} end={{x:endPosition.x,y:endPosition.y}} />  
+        return<Link key={key} 
+                    item={link}
+                    start={{x:startPosition.x,y:startPosition.y}} 
+                    end={{x:endPosition.x,y:endPosition.y}} 
+                    isSelected={this.props.selectedItem==link}
+                    onSelectItem={this.props.onSelectItem}/>  
     }
 
     getItemPosition=(index,date)=>{
@@ -101,7 +105,12 @@ export default class LinkViewPort extends Component{
                 if (this.state.changingTask.item.id==item.link.end)
                     endPosition.x= this.state.changingTask.position.start;
                 
-                this.cache[item.index]=(<Link key={-i-1} start={{x:startPosition.x,y:startPosition.y}} end={{x:endPosition.x,y:endPosition.y}} />  )
+                this.cache[item.index]=(<Link   key={-i-1} 
+                                                item={item}
+                                                start={{x:startPosition.x,y:startPosition.y}} 
+                                                end={{x:endPosition.x,y:endPosition.y}} 
+                                                isSelected={this.props.selectedItem==item}
+                                                onSelectItem={this.props.onSelectItem}/>  )
                 this.cache=[...this.cache]
             }
         }

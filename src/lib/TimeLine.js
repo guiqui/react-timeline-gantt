@@ -253,7 +253,7 @@ class TimeLine extends Component{
     /////////////////////
     
     onSelectItem=(item)=>{
-        if (this.props.onSelectItem)
+        if (this.props.onSelectItem && item!=this.props.selectedItem)
             this.props.onSelectItem(item)
     }
 
@@ -381,7 +381,10 @@ class TimeLine extends Component{
                     taskToCreate={this.state.taskToCreate}
                     onFinishCreateLink={this.onFinishCreateLink}
                     changingTask={this.state.changingTask}
+                    selectedItem={this.props.selectedItem}
+                    onSelectItem={this.onSelectItem}
                     itemheight={this.props.itemheight}
+                    onSelectItem={this.onSelectItem}
                     links={this.props.links}/>
             </div>
         </div>)

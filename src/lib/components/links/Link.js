@@ -41,10 +41,23 @@ class Link extends Component{
         }
     }
 
+    onSelect=(e)=>{
+        if (this.props.onSelectItem)
+            this.props.onSelectItem(this.props.item)
+
+    }
+
 
     render(){
-        return (<g   className="timeline-link" pointerEvents="none" >   
-            <path d={this.getPath()} stroke='black'  strokeLinejoin="round" fill="transparent" strokeWidth="1"  markerEnd="url(#arrow)"/>    
+        return (<g   className="timeline-link"   pointerEvents="stroke" >   
+            <path 
+                onMouseDown={this.onSelect}
+                stroke='black'
+                d={this.getPath()} 
+                strokeLinejoin="round" 
+                fill="transparent" 
+                strokeWidth="1"  
+                markerEnd="url(#arrow)"/>    
             <circle cx={this.props.start.x} cy={this.props.start.y} r="3" fill='white'  stroke='black' strokeWidth="1" />    
         </g>) 
     }

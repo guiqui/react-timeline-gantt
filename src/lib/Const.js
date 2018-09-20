@@ -16,5 +16,3 @@ export const HOUR_DAY_WEEK          =20;
 export const DAY_DAY_MODE           =1440 //each hour 60 px
 export const HOUR_DAY_DAY           =60;
 
-export const LINK_POS_LEFT           =0;
-export const LINK_POS_RIGHT          =1;
