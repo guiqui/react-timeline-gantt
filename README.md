@@ -105,19 +105,18 @@ Here is a simple demo of how to handle updates task and link creation:
  - You can create a task by clicking in the black dot at the end of a task and drag and drop it to the beginning of another task.A demo of how it works can be seen  [here](https://youtu.be/ASGD1FXOafw)
 
 
-## Customisation
 To customise the  look and feel the react-timeline-gantt component provides a configuration object that can be pass as a property.
-Here is an example :
+Here is the structure of the config object  :
 ```javascript
 {
-	header:{
-		month:{
-			dateFormat:'MMM YYYY',
-			style:{backgroundColor:"#333333",fontSize:10,color:'white',textAlign:'center'}
+	header:{ //Targert the time header containing the information month/day of the week, day and time.
+		month:{//Tartget the month elements
+			dateFormat:'MMM YYYY',//The format used to diplay the month information
+			style:{backgroundColor:"#333333"} //The style applied to the month elements
 		},
-		dayOfWeek:{
-			style:{backgroundColor:"chocolate"},
-			selectedStyle:{backgroundColor:"#b13525",fontWeight:  'bold'}
+		dayOfWeek:{//Tartget elements displaying the day of week info
+			style:{backgroundColor:"chocolate"}, //The style applied to the day of week elements
+			selectedStyle:{backgroundColor:"#b13525"}//The style applied to the day of week elements when is selected
 		},
 		dayTime:{
 			style:{background:"grey",fontSize:9},
@@ -156,6 +155,9 @@ Here is an example :
 	}
 }
 ```
+
+![configMap](https://guiqui.github.io/react-timeline-gantt/ConfigMap.png)
+Each part of the object address a part of the interface:
 
 
 ## Other properties 
