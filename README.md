@@ -156,8 +156,10 @@ Here is the structure of the config object  :
 }
 ```
 
+This diagram shows the different elements of timeline component and where are they place:
+
 ![configMap](https://guiqui.github.io/react-timeline-gantt/ConfigMap.png)
-Each part of the object address a part of the interface:
+
 
 
 ## Other properties 
