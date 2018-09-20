@@ -19,7 +19,7 @@ The component is capable of:
 - Can handle 100  thousands records.
 - Infinite calendar scrolling
 - Three Zoom levels : day, week, month
-- Fully customizable.
+- Fully customisable.
 - Support all CRUD operations.
 - Task and Link creation.
 - Support Paging.
@@ -103,6 +103,59 @@ Here is a simple demo of how to handle updates task and link creation:
 
  - When you drag a task or resize an update will be triggered.
  - You can create a task by clicking in the black dot at the end of a task and drag and drop it to the beginning of another task.A demo of how it works can be seen  [here](https://youtu.be/ASGD1FXOafw)
+
+
+## Customisation
+To customise the  look and feel the react-timeline-gantt component provides a configuration object that can be pass as a property.
+Here is an example :
+```javascript
+{
+	header:{
+		month:{
+			dateFormat:'MMM YYYY',
+			style:{backgroundColor:"#333333",fontSize:10,color:'white',textAlign:'center'}
+		},
+		dayOfWeek:{
+			style:{backgroundColor:"chocolate"},
+			selectedStyle:{backgroundColor:"#b13525",fontWeight:  'bold'}
+		},
+		dayTime:{
+			style:{background:"grey",fontSize:9},
+			selectedStyle:{backgroundColor:"#b13525",fontWeight:  'bold'}
+		}
+	},
+	taskList:{
+		title:{
+			label:"Projects",
+			style:{backgroundColor:  '#333333',borderBottom:  'solid 1px silver',
+				   color:  'white',textAlign:  'center'}
+		},
+		task:{
+			style:{backgroundColor:  '#fbf9f9'}
+		},
+		verticalSeparator:{
+			style:{backgroundColor:  '#333333',},
+			grip:{
+				style:{backgroundColor:  '#cfcfcd'}
+			}
+		}
+	},
+	dataViewPort:{
+		rows:{
+			style:{backgroundColor:"#fbf9f9",borderBottom:'solid 0.5px #cfcfcd'}
+			},
+		task:{
+			showLabel:false,
+			style:{position:  'absolute',borderRadius:14,color:  'white',
+				   textAlign:'center',backgroundColor:'grey'}
+		}
+	},
+	links:{
+		color:'black',
+		selectedColor:'#ff00fa'
+	}
+}
+```
 
 
 ## Other properties 
