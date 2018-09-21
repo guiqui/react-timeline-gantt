@@ -97,6 +97,7 @@ For this reason  the react-timeline-gantt component provides the following callb
 | onCreateLink  | link:Object    | This callback is trigger when the component is notifying the creating of a link between two tasks    |
 | onUpdateTask | task:Object,props:Object  |  This callback is trigger when the component is notifying the updating of a Task, Sen the task we want to changes, and the properties we want to change|
 | onSelectItem  | item:Object    | This callback is trigger when an item is selected this can be a task or a link   |
+
 Here is a simple demo of how to handle updates task and link creation:
 
 [![Edit 3rl69y5ylq](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/3rl69y5ylq)
