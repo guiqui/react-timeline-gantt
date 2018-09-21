@@ -66,9 +66,18 @@ const defvalues={
         },
         task:{
             showLabel:false,
+            
             style:{
                 position: 'absolute',
                 borderRadius:14,
+                color: 'white',
+                textAlign:'center',
+                backgroundColor:'grey'
+            },
+            selectedStyle:{
+                position: 'absolute',
+                borderRadius:14,
+                border:'solid 1px #ff00fa',
                 color: 'white',
                 textAlign:'center',
                 backgroundColor:'grey'

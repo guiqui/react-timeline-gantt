@@ -1,5 +1,4 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react'      
 import TimeLine from './TimeLine'
 import {BUFFER_DAYS,DATA_CONTAINER_WIDTH} from 'libs/Const'
 import { shallow ,mount} from 'enzyme';
@@ -24,7 +23,7 @@ describe('TimeLine Initialization ', function () {
         expect(wrapper.state().currentday).toBe(0);
         expect(wrapper.state().nowposition).toBe(0);
         expect(wrapper.state().startRow).toBe(0);
-        expect(wrapper.state().endRow).toBe(10);
+        expect(wrapper.state().endRow).toBe(1);
         expect(wrapper.state().scrollLeft).toBe(0);
         expect(wrapper.state().numVisibleRows).toBe(40);
         expect(wrapper.state().numVisibleDays).toBe(60);

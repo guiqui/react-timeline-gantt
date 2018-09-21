@@ -123,6 +123,25 @@ html{
 
 }
 
+.operation-button-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+    justify-self: flex-end;
+  
+}
+.mode-button{
+    background-color: #333333;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    margin: 0px 3px;
+}
+.mode-button:hover{
+    background-color: rgb(202, 33, 212);
+}
+
 .mode-container-item-left{
     border-top-left-radius: 17px;
     border-bottom-left-radius: 17px;

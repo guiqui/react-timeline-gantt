@@ -25,18 +25,15 @@ class TimeLine extends Component{
         super(props);
         this.dragging=false;
         this.draggingPosition=0;
-        //Initianlising Data Provider
-        //this.dataProvider=new TimeDataProvider();
         this.dc=new DataController();
         this.dc.onNeedData=this.onNeedData;
-        //this.dataProvider.onPageLoad=this.onPageLoad;
         this.initialise=false;
         //This variable define the number of pixels the viewport can scroll till arrive to the end of the context
         this.pxToScroll=1900;
-        //Initialising state
+       
         let dayWidth=this.getDayWidth(this.props.mode);
         Config.load(this.props.config)
-   
+        //Initialising state
         this.state={
             currentday:0,//Day that is in the 0px horizontal    
             //nowposition is the reference position, this variable support the infinit scrolling by accumulatning scroll times and redefining the 0 position 
@@ -312,6 +309,9 @@ class TimeLine extends Component{
     checkNeeeData=()=>{
         if (this.props.data!=this.state.data){
             this.state.data=this.props.data;
+            let rowInfo=this.calculateStartEndRows(this.state.numVisibleRows,this.props.data,this.state.scrollTop);
+            this.state.startRow=rowInfo.start;
+            this.state.endRow=rowInfo.end;
             Registry.registerData(this.state.data)
         }
         if (this.props.links!=this.state.links){
