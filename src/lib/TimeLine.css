@@ -146,6 +146,8 @@
     height: 8px;
     border-radius: 4px;
     cursor: default;
+    z-index: 100;
+    
 }
 .timeLine-main-data-task-side-linker:hover{
     background-color: black;
