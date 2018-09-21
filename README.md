@@ -96,7 +96,7 @@ For this reason  the react-timeline-gantt component provides the following callb
 | ------------- |:-------:| -----------------------------------:|
 | onCreateLink  | link:Object    | This callback is trigger when the component is notifying the creating of a link between two tasks    |
 | onUpdateTask | task:Object,props:Object  |  This callback is trigger when the component is notifying the updating of a Task, Sen the task we want to changes, and the properties we want to change|
-
+| onSelectItem  | item:Object    | This callback is trigger when an item is selected this can be a task or a link   |
 Here is a simple demo of how to handle updates task and link creation:
 
 [![Edit 3rl69y5ylq](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/3rl69y5ylq)
@@ -104,7 +104,11 @@ Here is a simple demo of how to handle updates task and link creation:
  - When you drag a task or resize an update will be triggered.
  - You can create a task by clicking in the black dot at the end of a task and drag and drop it to the beginning of another task.A demo of how it works can be seen  [here](https://youtu.be/ASGD1FXOafw)
 
+Here is a full crud example: This demo illustrate how to do a simple application  
+[![Edit 3x8nl16p65](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/3x8nl16p65)
 
+
+## Customisation
 To customise the  look and feel the react-timeline-gantt component provides a configuration object that can be pass as a property.
 Here is the structure of the config object  :
 ```javascript
