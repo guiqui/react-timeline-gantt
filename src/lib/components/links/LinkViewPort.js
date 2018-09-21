@@ -8,7 +8,7 @@ export default class LinkViewPort extends Component{
     constructor(props){
         super(props);
         this.cache=[];
-        this.state={links:[],data:[]}
+        this.state={links:[],data:[],selectedItem:null}
     }
 
     renderLink(startItem,endItem,link,key){
@@ -61,7 +61,9 @@ export default class LinkViewPort extends Component{
     refreshData(){
         if ( this.props.links!=this.state.links ||
             this.props.data!=this.state.data 
-            || this.props.dayWidth!=this.state.dayWidth){
+            || this.props.dayWidth!=this.state.dayWidth
+            ||this.props.selectedItem!=this.state.selectedItem){
+            this.state.selectedItem=this.props.selectedItem
             this.state.dayWidth=this.props.dayWidth;
             this.state.links=this.props.links
             this.state.data=this.props.data
