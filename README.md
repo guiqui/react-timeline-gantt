@@ -106,7 +106,24 @@ Here is a simple demo of how to handle updates task and link creation:
  - You can create a task by clicking in the black dot at the end of a task and drag and drop it to the beginning of another task.A demo of how it works can be seen  [here](https://youtu.be/ASGD1FXOafw)
 
 Here is a full crud example: This demo illustrate how to do a simple application  
+
 [![Edit 3x8nl16p65](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/3x8nl16p65)
+
+Here is a fully working Redux demo
+
+[![Edit 613vkoq8nr](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/613vkoq8nr)
+
+## Paging
+Paging is manage using the event onHorizonChange.The timeline component preload a certain date range of data, once the user start scrolling when the timeline realise that needs data for a new range, it trigger the onHorizonChange event.
+This method then can be use to support serverside paging or client filtering.
+
+| name      | params   | Descriptions                        |
+| ------------- |:-------:| -----------------------------------:|
+| onHorizonChange  | start,end:Date   | This callback is trigger when the component is notifying that needs to load data for  a new range of dates.
+
+Here is a demo app that shows how to use onHorizonChange, to only display the relvant data for a period:
+
+![Edit n09l7m400j](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/n09l7m400j) Crud Demo.
 
 
 ## Customisation
@@ -170,10 +187,6 @@ This diagram shows the different elements of timeline component and where are th
 ## Other properties 
 | Property      | value   | Descriptions                        |
 | ------------- |:-------:| -----------------------------------:|
-| mode          | string    |set the zoom lever of the timeline.The possible values are:"month","week","day"  |
-| itemHeigth    | number    | The height of the row 30px by default           |
+| mode          | string    |set the zoom lever of the timeline.The possible values are:"month","week","day"  |   |
 
 
-## Some Demo Code
-- [![Edit n09l7m400j](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/n09l7m400j) Crud Demo.
-- Coming up a redux demo.
