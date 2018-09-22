@@ -106,9 +106,11 @@ Here is a simple demo of how to handle updates task and link creation:
  - You can create a task by clicking in the black dot at the end of a task and drag and drop it to the beginning of another task.A demo of how it works can be seen  [here](https://youtu.be/ASGD1FXOafw)
 
 Here is a full crud example: This demo illustrate how to do a simple application  
+
 [![Edit 3x8nl16p65](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/3x8nl16p65)
 
-Here is a fully working Redux demo 
+Here is a fully working Redux demo
+
 [![Edit 613vkoq8nr](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/613vkoq8nr)
 
 ## Paging
