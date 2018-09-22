@@ -114,7 +114,14 @@ Here is a fully working Redux demo
 [![Edit 613vkoq8nr](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/613vkoq8nr)
 
 ## Paging
- Coming Up!
+Paging is manage using the event onHorizonChange.The timeline component preload a certain date range of data, once the user start scrolling when the timeline relise that need data for a new range it trigger the onHorizonChange.
+This method them can be use to support serverside paging or client filtering.
+
+| name      | params   | Descriptions                        |
+| ------------- |:-------:| -----------------------------------:|
+| onHorizonChange  | start,end:Date   | This callback is trigger when the component is notifying that needs to load data for  a new range of dates.
+
+
 ## Customisation
 To customise the  look and feel the react-timeline-gantt component provides a configuration object that can be pass as a property.
 Here is the structure of the config object  :
@@ -176,10 +183,6 @@ This diagram shows the different elements of timeline component and where are th
 ## Other properties 
 | Property      | value   | Descriptions                        |
 | ------------- |:-------:| -----------------------------------:|
-| mode          | string    |set the zoom lever of the timeline.The possible values are:"month","week","day"  |
-| itemHeigth    | number    | The height of the row 30px by default           |
+| mode          | string    |set the zoom lever of the timeline.The possible values are:"month","week","day"  |   |
 
 
-## Some Demo Code
-- [![Edit n09l7m400j](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/n09l7m400j) Crud Demo.
-- Coming up a redux demo.
