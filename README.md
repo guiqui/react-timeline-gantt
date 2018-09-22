@@ -114,8 +114,8 @@ Here is a fully working Redux demo
 [![Edit 613vkoq8nr](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/613vkoq8nr)
 
 ## Paging
-Paging is manage using the event onHorizonChange.The timeline component preload a certain date range of data, once the user start scrolling when the timeline relise that need data for a new range it trigger the onHorizonChange.
-This method them can be use to support serverside paging or client filtering.
+Paging is manage using the event onHorizonChange.The timeline component preload a certain date range of data, once the user start scrolling when the timeline realise that needs data for a new range, it trigger the onHorizonChange event.
+This method then can be use to support serverside paging or client filtering.
 
 | name      | params   | Descriptions                        |
 | ------------- |:-------:| -----------------------------------:|
