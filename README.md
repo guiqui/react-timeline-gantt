@@ -121,6 +121,10 @@ This method then can be use to support serverside paging or client filtering.
 | ------------- |:-------:| -----------------------------------:|
 | onHorizonChange  | start,end:Date   | This callback is trigger when the component is notifying that needs to load data for  a new range of dates.
 
+Here is a demo app that shows how to use onHorizonChange, to only display the relvant data for a period:
+
+![Edit n09l7m400j](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/n09l7m400j) Crud Demo.
+
 
 ## Customisation
 To customise the  look and feel the react-timeline-gantt component provides a configuration object that can be pass as a property.
