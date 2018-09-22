@@ -108,7 +108,11 @@ Here is a simple demo of how to handle updates task and link creation:
 Here is a full crud example: This demo illustrate how to do a simple application  
 [![Edit 3x8nl16p65](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/3x8nl16p65)
 
+Here is a fully working Redux demo 
+[![Edit 613vkoq8nr](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/613vkoq8nr)
 
+## Paging
+ Coming Up!
 ## Customisation
 To customise the  look and feel the react-timeline-gantt component provides a configuration object that can be pass as a property.
 Here is the structure of the config object  :
