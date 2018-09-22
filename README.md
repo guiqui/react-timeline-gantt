@@ -123,8 +123,7 @@ This method then can be use to support serverside paging or client filtering.
 
 Here is a demo app that shows how to use onHorizonChange, to only display the relvant data for a period:
 
-![Edit n09l7m400j](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/n09l7m400j) Crud Demo.
-
+[![Edit n09l7m400j](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/n09l7m400j)
 
 ## Customisation
 To customise the  look and feel the react-timeline-gantt component provides a configuration object that can be pass as a property.
