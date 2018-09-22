@@ -26,7 +26,7 @@ class TimeLine extends Component{
         this.dragging=false;
         this.draggingPosition=0;
         this.dc=new DataController();
-        this.dc.onNeedData=this.onNeedData;
+        this.dc.onHorizonChange=this.onHorizonChange;
         this.initialise=false;
         //This variable define the number of pixels the viewport can scroll till arrive to the end of the context
         this.pxToScroll=1900;
@@ -204,9 +204,9 @@ class TimeLine extends Component{
         this.pxToScroll=(1-(size.width/DATA_CONTAINER_WIDTH)) * DATA_CONTAINER_WIDTH -1;
     }
 
-    onNeedData=(lowerLimit,upLimit)=>{
-        if (this.props.onNeedData)
-            this.props.onNeedData(lowerLimit,upLimit)
+    onHorizonChange=(lowerLimit,upLimit)=>{
+        if (this.props.onHorizonChange)
+            this.props.onHorizonChange(lowerLimit,upLimit)
     }
     
       /////////////////////
@@ -221,6 +221,7 @@ class TimeLine extends Component{
     doMouseMove=(e)=>{
         if(this.dragging){
             let delta=this.draggingPosition-e.clientX;
+                   
             if (delta!==0){
                 this.draggingPosition=e.clientX;
                 this.horizontalChange(this.state.scrollLeft+delta);
@@ -233,7 +234,9 @@ class TimeLine extends Component{
     }
 
     doMouseLeave=(e)=>{
-        this.dragging=false;
+        // if (!e.relatedTarget.nodeName)
+        //     this.dragging=false;
+       this.dragging=false;
     }
 
     //Child communicating states

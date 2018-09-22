@@ -50,7 +50,7 @@ class Link extends Component{
 
     render(){
         let pathColor=this.props.isSelected?Config.values.links.selectedColor:Config.values.links.color;
-        return (<g   className="timeline-link"  pointerEvents="all"  >   
+        return (<g   className="timeline-link"   >   
               <path 
                 pointerEvents="stroke"
                 onMouseDown={this.onSelect}
@@ -72,9 +72,9 @@ class Link extends Component{
                 cursor="pointer"
                 markerEnd="url(#arrow)"/>    
                 
-            <circle cx={this.props.start.x} 
+            {/* <circle cx={this.props.start.x} 
                     cy={this.props.start.y} r="3" fill='white'  
-                    stroke={pathColor} strokeWidth="1" />    
+                    stroke={pathColor} strokeWidth="1" />     */}
         </g>) 
     }
 }

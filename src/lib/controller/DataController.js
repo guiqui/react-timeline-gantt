@@ -45,6 +45,6 @@ export default class DataController{
         console.log('load data');
         let lowerLimit=DateHelper.pixelToDate(this.lower_limit,this.nowposition,this.daywidth)
         let upLimit=DateHelper.pixelToDate(this.upper_limit,this.nowposition,this.daywidth)
-        this.onNeedData(lowerLimit,upLimit)
+        this.onHorizonChange(lowerLimit,upLimit)
     }   
 }

@@ -96,7 +96,7 @@ class App extends Component{
     this.setState({itemheight:parseInt(e.target.value)})
   }
   
-  onNeedData=(start,end)=>{
+  onHorizonChange=(start,end)=>{
       let result = this.data.filter((item)=>{
         return  (item.start<start && item.end>end) ||
                 (item.start>start && item.start<end) ||
@@ -136,7 +136,7 @@ class App extends Component{
       <div className="app-container">
        
         <div className="nav-container">
-          <div className="mode-container-title">Gantt TimeLine Demo</div>
+          <div className="mode-container-title">On Horizon Change Demo with client side Filtering</div>
           <div className="operation-button-container">
             <div className="mode-button" >
               <svg height={30}  width={30} viewBox="0 0 48 48">
@@ -166,7 +166,7 @@ class App extends Component{
               // config={config}
             data={this.state.timeLineData} 
             links={this.state.links} 
-            onNeedData={this.onNeedData} 
+            onHorizonChange={this.onHorizonChange} 
             onSelectItem={this.onSelectItem}
             onUpdateTask={this.onUpdateTask}
             onCreateLink={this.onCreateLink}

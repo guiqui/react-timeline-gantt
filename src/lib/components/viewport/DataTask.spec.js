@@ -55,7 +55,7 @@ describe('Testing Firing Events ', function () {
         expect(onChildDrag.mock.calls.length).toBe(1);
         expect(onChildDrag.mock.calls[0][0]).toBe(true)  
 
-        wrapper.instance().doMouseMove({button:0,clientX:20})      
+        wrapper.instance().doMouseMove({button:0,clientX:20,stopPropagation:stopPropagation})      
         expect(wrapper.state().left).toBe(10);   
         expect(wrapper.instance().draggingPosition).toBe(20);
         let style=wrapper.instance().calculateStyle();     
@@ -80,10 +80,10 @@ describe('Testing Firing Events ', function () {
         let onChildDrag=jest.fn();
         let onUpdateTask=jest.fn();
         let onTaskChanging=jest.fn();
+        let stopPropagation=jest.fn();
         let item={name:'this Item'}
         let dayWidth=30;
         let nowposition=0;
-        let stopPropagation=jest.fn();
         const wrapper =shallow(<DataTask 
                                     nowposition={nowposition}
                                     dayWidth={dayWidth}
@@ -106,7 +106,7 @@ describe('Testing Firing Events ', function () {
         expect(onChildDrag.mock.calls.length).toBe(1);
         expect(onChildDrag.mock.calls[0][0]).toBe(true)  
 
-        wrapper.instance().doMouseMove({button:0,clientX:20})      
+        wrapper.instance().doMouseMove({button:0,clientX:20,stopPropagation:stopPropagation})      
         expect(wrapper.state().left).toBe(10);   
         expect(wrapper.instance().draggingPosition).toBe(20);
         let style=wrapper.instance().calculateStyle();     
@@ -157,7 +157,7 @@ describe('Testing Firing Events ', function () {
         expect(onChildDrag.mock.calls.length).toBe(1);
         expect(onChildDrag.mock.calls[0][0]).toBe(true)  
 
-        wrapper.instance().doMouseMove({button:0,clientX:20})      
+        wrapper.instance().doMouseMove({button:0,clientX:20,stopPropagation:stopPropagation})      
         expect(wrapper.state().left).toBe(0);   
         expect(wrapper.instance().draggingPosition).toBe(20);
         let style=wrapper.instance().calculateStyle();     

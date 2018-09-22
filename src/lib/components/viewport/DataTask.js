@@ -57,7 +57,8 @@ export default class DataTask extends Component{
       }
 
     doMouseMove(e){
-       if(this.state.dragging){
+        if(this.state.dragging){
+            e.stopPropagation();
             let delta=this.draggingPosition-e.clientX;
             let newLeft=this.state.left;
             let newWidth=this.state.width;

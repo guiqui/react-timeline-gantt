@@ -5,7 +5,7 @@ describe('Test DataController ', function () {
   test('Initialise Properly ',()=>{
     let dataController=new DataController();
     const mockCallback = jest.fn();
-    dataController.onNeedData=mockCallback;
+    dataController.onHorizonChange=mockCallback;
     //start,end,nowposition,daywidth
     dataController.initialise(0,101,2,30);
     expect(dataController.nowposition).toBe(2)
@@ -26,7 +26,7 @@ describe('Test DataController ', function () {
   test('Testing changing Start End date ',()=>{
     let dataController=new DataController();
     const mockCallback = jest.fn();
-    dataController.onNeedData=mockCallback;
+    dataController.onHorizonChange=mockCallback;
     //start,end,nowposition,daywidth
     dataController.initialise(0,100,0,30);
     dataController.setStartEnd(-100,0,0,30)
