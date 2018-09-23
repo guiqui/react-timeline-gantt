@@ -188,7 +188,9 @@ This diagram shows the different elements of timeline component and where are th
 
 ![configMap](https://guiqui.github.io/react-timeline-gantt/ConfigMap.png)
 
+Here is a demo:
 
+[![Edit 2w93lvmqv0](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/2w93lvmqv0)
 
 ## Other properties 
 | Property      | value   | Descriptions                        |
