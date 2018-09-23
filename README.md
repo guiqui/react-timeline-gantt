@@ -168,7 +168,7 @@ Here is the structure of the config object  :
 			showLabel:false,//If the task display the a lable
 			style:{position:  'absolute',borderRadius:14,color:  'white',
 				   textAlign:'center',backgroundColor:'grey'},
-			 selectedStyle:{}/the style tp be applied  when selected
+			 selectedStyle:{}//the style tp be applied  when selected
 		}
 	},
 	links:{//The link between two task
