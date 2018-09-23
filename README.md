@@ -195,6 +195,6 @@ Here is a demo:
 ## Other properties 
 | Property      | value   | Descriptions                        |
 | ------------- |:-------:| -----------------------------------:|
-| mode          | string    |set the zoom lever of the timeline.The possible values are:"month","week","day"  |   |
+| mode          | string    |set the zoom level.The possible values are:"month","week","day"  |   |
 
 
