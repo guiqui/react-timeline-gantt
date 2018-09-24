@@ -30,7 +30,7 @@ The component is capable of:
  
  To play with a live [demo](https://guiqui.github.io/react-timeline-gantt/index.html) .
 
-## Coming in version 3.9
+## Coming up in version 3.9
 - Subtask implementation
 - Add start and end date columns to the task list
 - Beter UX to create links
