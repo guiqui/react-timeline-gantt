@@ -6,6 +6,10 @@
 [![Travis](https://travis-ci.org/guiqui/react-timeline-gantt.svg?branch=master)](https://travis-ci.org/guiqui/react-timeline)
 [![codecov](https://codecov.io/gh/guiqui/react-timeline-gantt/branch/master/graph/badge.svg)](https://codecov.io/gh/guiqui/react-timeline-gantt)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9149e301e65b44cebf2e7b49316aee10)](https://www.codacy.com/app/gquiman/react-timeline-gantt?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=guiqui/react-timeline-gantt&amp;utm_campaign=Badge_Grade)
+<img src="https://opencollective.com/react-timeline-gantt/tiers/backer/badge.svg?label=backer&color=brightgreen" />
+
+
+
 
 A react timeline gantt component.
 
@@ -29,6 +33,9 @@ The component is capable of:
  To watch a demo take a look at [video](https://youtu.be/ASGD1FXOafw) that shows how to use the component.
  
  To play with a live [demo](https://guiqui.github.io/react-timeline-gantt/index.html) .
+## Backers
+
+Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/react-gantt-timeline#backer)] 
 
 ## Coming up in version 3.9
 - Subtask implementation
