@@ -37,6 +37,7 @@ The component is capable of:
 
 Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/react-gantt-timeline#backer)] 
 
+
 ## Coming up in version 3.9
 - Subtask implementation
 - Add start and end date columns to the task list
