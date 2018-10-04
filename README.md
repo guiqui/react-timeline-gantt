@@ -35,7 +35,7 @@ The component is capable of:
  To play with a live [demo](https://guiqui.github.io/react-timeline-gantt/index.html) .
 ## Backers
 
-Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/react-gantt-timeline#backer)] 
+Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/react-timeline-gantt/)] 
 
 
 ## Coming up in version 3.9
