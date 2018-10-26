@@ -87,7 +87,7 @@ Once the data is define we just need to declare the component and populate it wi
 
 ```javascript
 
-<TimeLine  data={data} links={links}/>);
+<TimeLine data={data} links={links} />
 ```
 Here is the demo code:
 
@@ -194,7 +194,7 @@ Here is the structure of the config object  :
 Once the object is defined we just need to pass the config object to the timeline config property.
 
 ```javascript
-<TimeLine  data={data} links={links}/>);
+<TimeLine data={data} links={links} />
 ```
 
 This diagram shows the different elements of timeline component and where are they place:
