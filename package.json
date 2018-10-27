@@ -10,7 +10,8 @@
     "build": "webpack --mode production  --config webpack.config.build.js",
     "lint": "eslint src",
     "test": "jest && codecov",
-    "prepublish": "rm -rf ./dist && npm run build"
+    "prepublish": "rm -rf ./dist && npm run build",
+    "postinstall": "opencollective-postinstall"
   },
   "peerDependencies": {
     "react": "^16.3.2",
@@ -62,5 +63,13 @@
     "calendar",
     "project management"
   ],
-  "homepage": "https://github.com/guiqui/react-timeline-gantt"
+  "homepage": "https://github.com/guiqui/react-timeline-gantt",
+  "dependencies": {
+    "opencollective-postinstall": "^2.0.1",
+    "opencollective": "^1.0.3"
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/react-timeline-gantt"
+  }
 }
