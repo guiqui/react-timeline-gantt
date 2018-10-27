@@ -6,7 +6,7 @@
 [![Travis](https://travis-ci.org/guiqui/react-timeline-gantt.svg?branch=master)](https://travis-ci.org/guiqui/react-timeline-gantt)
 [![codecov](https://codecov.io/gh/guiqui/react-timeline-gantt/branch/master/graph/badge.svg)](https://codecov.io/gh/guiqui/react-timeline-gantt)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9149e301e65b44cebf2e7b49316aee10)](https://www.codacy.com/app/gquiman/react-timeline-gantt?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=guiqui/react-timeline-gantt&amp;utm_campaign=Badge_Grade)
-<img src="https://opencollective.com/react-timeline-gantt/tiers/backer/badge.svg?label=backer&color=brightgreen" />
+[![Backers on Open Collective](https://opencollective.com/react-timeline-gantt/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/react-timeline-gantt/sponsors/badge.svg)](#sponsors) 
 
 
 
@@ -33,9 +33,7 @@ The component is capable of:
  To watch a demo take a look at [video](https://youtu.be/ASGD1FXOafw) that shows how to use the component.
  
  To play with a live [demo](https://guiqui.github.io/react-timeline-gantt/index.html) .
-## Backers
 
-Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/react-timeline-gantt/)] 
 
 
 ## Coming up in version 3.9
@@ -209,5 +207,35 @@ Here is a demo:
 | Property      | value   | Descriptions                        |
 | ------------- |:-------:| -----------------------------------:|
 | mode          | string    |set the zoom level.The possible values are:"month","week","day"  |   |
+
+
+
+## Contributors
+
+This project exists thanks to all the people who contribute. 
+<a href="https://github.com/guiqui/react-timeline-gantt/contributors"><img src="https://opencollective.com/react-timeline-gantt/contributors.svg?width=890&button=false" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/react-timeline-gantt#backer)]
+
+<a href="https://opencollective.com/react-timeline-gantt#backers" target="_blank"><img src="https://opencollective.com/react-timeline-gantt/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/react-timeline-gantt#sponsor)]
+
+<a href="https://opencollective.com/react-timeline-gantt/sponsor/0/website" target="_blank"><img src="https://opencollective.com/react-timeline-gantt/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/react-timeline-gantt/sponsor/1/website" target="_blank"><img src="https://opencollective.com/react-timeline-gantt/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/react-timeline-gantt/sponsor/2/website" target="_blank"><img src="https://opencollective.com/react-timeline-gantt/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/react-timeline-gantt/sponsor/3/website" target="_blank"><img src="https://opencollective.com/react-timeline-gantt/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/react-timeline-gantt/sponsor/4/website" target="_blank"><img src="https://opencollective.com/react-timeline-gantt/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/react-timeline-gantt/sponsor/5/website" target="_blank"><img src="https://opencollective.com/react-timeline-gantt/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/react-timeline-gantt/sponsor/6/website" target="_blank"><img src="https://opencollective.com/react-timeline-gantt/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/react-timeline-gantt/sponsor/7/website" target="_blank"><img src="https://opencollective.com/react-timeline-gantt/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/react-timeline-gantt/sponsor/8/website" target="_blank"><img src="https://opencollective.com/react-timeline-gantt/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/react-timeline-gantt/sponsor/9/website" target="_blank"><img src="https://opencollective.com/react-timeline-gantt/sponsor/9/avatar.svg"></a>
 
 
