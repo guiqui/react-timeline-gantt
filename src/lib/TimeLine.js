@@ -8,8 +8,8 @@ import LinkViewPort from 'libs/components/links/LinkViewPort'
 import TaskList from 'libs/components/taskList/TaskList'
 import Registry from 'libs/helpers/registry/Registry'
 import {BUFFER_DAYS,DATA_CONTAINER_WIDTH} from 'libs/Const'
-import {VIEW_MODE_DAY,VIEW_MODE_WEEK,VIEW_MODE_MONTH}from 'libs/Const'
-import {DAY_MONTH_MODE,DAY_WEEK_MODE,DAY_DAY_MODE} from 'libs/Const'
+import {VIEW_MODE_DAY,VIEW_MODE_WEEK,VIEW_MODE_MONTH,VIEW_MODE_YEAR}from 'libs/Const'
+import {DAY_MONTH_MODE,DAY_WEEK_MODE,DAY_DAY_MODE,DAY_YEAR_MODE} from 'libs/Const'
 import DataController from 'libs/controller/DataController'
 import Config from 'libs/helpers/config/Config'
 import DateHelper from 'libs/helpers/DateHelper'
@@ -41,7 +41,7 @@ class TimeLine extends Component{
             nowposition:0,
             startRow:0,//
             endRow:10,
-            months:DateHelper.calculateMonthData(0,30,0,dayWidth),
+            headerData:DateHelper.calculateCalendar(0,30,0,dayWidth),
             sideStyle:{width:200},
             scrollLeft:0,
             scrollTop:0,
@@ -65,12 +65,15 @@ class TimeLine extends Component{
 
     getDayWidth(mode){
         switch(mode){
+
             case VIEW_MODE_DAY:
                 return DAY_DAY_MODE;
             case VIEW_MODE_WEEK:
                 return DAY_WEEK_MODE;
             case VIEW_MODE_MONTH:
                 return DAY_MONTH_MODE;
+            case VIEW_MODE_YEAR:
+                return DAY_YEAR_MODE;
             default:
                 return DAY_MONTH_MODE;
         }
@@ -97,13 +100,13 @@ class TimeLine extends Component{
         let newNumVisibleRows=Math.ceil(size.height / this.props.itemheight);
         let newNumVisibleDays=this.calcNumVisibleDays(size)
         let rowInfo=this.calculateStartEndRows(newNumVisibleRows,this.props.data,this.state.scrollTop);
-        let months=DateHelper.calculateMonthData(this.state.currentday,this.state.currentday+newNumVisibleDays,this.state.nowposition,this.state.dayWidth)
+        let headerData=DateHelper.calculateCalendar(this.state.currentday,this.state.currentday+newNumVisibleDays,this.state.nowposition,this.state.dayWidth)
         this.setState({
             numVisibleRows:newNumVisibleRows,
             numVisibleDays:newNumVisibleDays,
             startRow:rowInfo.start,
             endRow:rowInfo.end,
-            months:months,
+            headerData:headerData,
             size:size
         })
     }
@@ -145,7 +148,7 @@ class TimeLine extends Component{
     horizontalChange=(newScrollLeft)=>{
         let new_nowposition=this.state.nowposition;
         let new_left=-1;
-        let months=this.state.months;
+        let headerData=this.state.headerData;
         let new_startRow=this.state.startRow;
         let new_endRow=this.state.endRow;
         
@@ -164,15 +167,12 @@ class TimeLine extends Component{
 
         //Get the day of the left position
         let currentIndx=Math.trunc((newScrollLeft-this.state.nowposition) /this.state.dayWidth)
- 
-        //Check if we need to change moths and load new data
-        if (this.changingMonth(currentIndx,currentIndx+this.state.numVisibleDays)){
-            months=DateHelper.calculateMonthData(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition,this.state.dayWidth)
-        }else{ 
-            if(new_left !=-1)
-                months=DateHelper.calculateMonthData(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition,this.state.dayWidth)
+        
+        //Do we need to recalculate header data
+        if((newScrollLeft<headerData.startLimit)||(newScrollLeft +this.state.size.width>headerData.endLimit)){
+            headerData=DateHelper.calculateCalendar(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition,this.state.dayWidth)
         }
-
+  
         //Calculate rows to render
         new_startRow=Math.trunc(this.state.scrollTop/this.props.itemheight)
         new_endRow =new_startRow+this.state.numVisibleRows>=this.props.data.length?this.props.data.length-1:new_startRow+this.state.numVisibleRows;
@@ -183,7 +183,7 @@ class TimeLine extends Component{
             this.state={
                 currentday:currentIndx,
                 nowposition:new_nowposition,
-                months:months,
+                headerData:headerData,
                 scrollLeft: new_left,
                 startRow:new_startRow,
                 endRow:new_endRow,
@@ -191,11 +191,6 @@ class TimeLine extends Component{
         
     }
 
-    changingMonth=(start,end)=>{
-        let startMonth=moment().add(start, 'days').format("M-YYYY");  
-        let endMonth=moment().add(end, 'days').format("M-YYYY");
-        return (!(startMonth in this.state.months.keys) || !(endMonth in this.state.months.keys))
-    }
 
   
 
@@ -306,7 +301,7 @@ class TimeLine extends Component{
             let scrollLeft=(this.state.currentday*this.state.dayWidth+this.state.nowposition)%this.pxToScroll
             // we recalculate the new scroll Left value
             this.state.scrollLeft=scrollLeft;
-            this.state.months=DateHelper.calculateMonthData(this.state.currentday,this.state.currentday+this.state.numVisibleDays,this.state.nowposition,this.state.dayWidth)
+            this.state.headerData=DateHelper.calculateCalendar(this.state.currentday,this.state.currentday+this.state.numVisibleDays,this.state.nowposition,this.state.dayWidth)
         }
     }
     checkNeeeData=()=>{
@@ -342,7 +337,7 @@ class TimeLine extends Component{
                 <VerticalSpliter onTaskListSizing={this.onTaskListSizing}/>
             </div>       
             <div className="timeLine-main">
-                <Header months={this.state.months} 
+                <Header headerData={this.state.headerData} 
                         numVisibleDays={this.state.numVisibleDays}
                         currentday={this.state.currentday}
                         nowposition={this.state.nowposition}

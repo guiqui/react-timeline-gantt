@@ -40,11 +40,14 @@ class DateHelper{
         return new Date(year, month, 0).getDate();
     }
 
-    calculateMonthData(start,end,now,dayWidth){
+    calculateCalendar(start,end,now,dayWidth){
         //startMonth daysinMonth 
         let result={}
         result['data']=[]
         result['keys']={}
+    
+        result.startLimit=this.dayToPosition((start-BUFFER_DAYS) ,now,dayWidth)
+        result.endLimit=this.dayToPosition((end+BUFFER_DAYS) ,now,dayWidth)
         let currentMonth='';
         let currentKey='';
         for (let i=start-BUFFER_DAYS;i<end+BUFFER_DAYS;i++ ){
