@@ -30,9 +30,6 @@ export default class Header extends PureComponent {
  
     }
 
-
-
-
     getFormat(mode,position){
 
         switch (mode){
