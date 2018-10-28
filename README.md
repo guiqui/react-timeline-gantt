@@ -35,8 +35,11 @@ The component is capable of:
  To play with a live [demo](https://guiqui.github.io/react-timeline-gantt/index.html) .
 
 
+## New in version 0.3.9
+- Better an optimize header
+- Add year option to header
 
-## Coming up in version 3.9
+## Coming up in version 0.4.0
 - Subtask implementation
 - Add start and end date columns to the task list
 - Beter UX to create links
@@ -142,15 +145,14 @@ Here is the structure of the config object  :
 ```javascript
 {
 	header:{ //Targert the time header containing the information month/day of the week, day and time.
-		month:{//Tartget the month elements
-			dateFormat:'MMM YYYY',//The format used to diplay the month information
+		top:{//Tartget the month elements
 			style:{backgroundColor:"#333333"} //The style applied to the month elements
 		},
-		dayOfWeek:{//Tartget elements displaying the day of week info
+		middle:{//Tartget elements displaying the day of week info
 			style:{backgroundColor:"chocolate"}, //The style applied to the day of week elements
 			selectedStyle:{backgroundColor:"#b13525"}//The style applied to the day of week elements when is selected
 		},
-		dayTime:{//Tartget elements displaying the day number or time 
+		bottom:{//Tartget elements displaying the day number or time 
 			style:{background:"grey",fontSize:9},//the style tp be applied 
 			selectedStyle:{backgroundColor:"#b13525",fontWeight:  'bold'}//the style tp be applied  when selected
 		}
@@ -206,7 +208,7 @@ Here is a demo:
 ## Other properties 
 | Property      | value   | Descriptions                        |
 | ------------- |:-------:| -----------------------------------:|
-| mode          | string    |set the zoom level.The possible values are:"month","week","day"  |   |
+| mode          | string    |set the zoom level.The possible values are:"month","week","day","year"  |   |
 
 
 
