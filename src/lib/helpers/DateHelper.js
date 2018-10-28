@@ -1,11 +1,7 @@
-import {BUFFER_DAYS} from 'libs/Const'
-import Config from 'libs/helpers/config/Config'
-import moment  from 'moment'  
+  
 const MIL_IN_HOUR=1000*3600;
 class DateHelper{
-    constructor(){
-        month:{};
-    }
+
 
     dateToPixel(input,nowposition,daywidth){
         let nowDate=this.getToday();//
@@ -40,33 +36,21 @@ class DateHelper{
         return new Date(year, month, 0).getDate();
     }
 
-    calculateMonthData(start,end,now,dayWidth){
-        //startMonth daysinMonth 
-        let result={}
-        result['data']=[]
-        result['keys']={}
-        let currentMonth='';
-        let currentKey='';
-        for (let i=start-BUFFER_DAYS;i<end+BUFFER_DAYS;i++ ){
-            currentMonth=moment().add(i, 'days')       ;
-            currentKey=currentMonth.format("M-YYYY")     
-            result['data'].push({
-                key:currentKey,
-                month:currentMonth.format(Config.values.header.month.dateFormat),
-                left:this.dayToPosition(i-currentMonth.date()+1,now,dayWidth),
-                width:currentMonth.daysInMonth()*dayWidth
-
-            })
-            result['keys'][currentKey]=currentKey;
-            i=i+currentMonth.daysInMonth()-currentMonth.date();
-        }
-        return result;
-    }
 
     dayToPosition=(day,now,dayWidth)=>{
         return day * dayWidth +now;
 
     }
+
+    daysInYear=(year)=> 
+    {
+        return this.isLeapYear(year) ? 366 : 365;
+    }
+
+    isLeapYear(year) {
+        return year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0);
+    }
+
 
 }
 const helper=new DateHelper();

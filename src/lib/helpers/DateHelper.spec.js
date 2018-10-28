@@ -114,24 +114,3 @@ describe('Test date difference',()=>{
         expect(result).toBe(10)
     })
 })
-describe('Test Month Calculation',()=>{
-    test('Month calculation wheh all 0',()=>{
-        //(start,end,now,dayWidth)
-        let result= DateHelper.calculateMonthData(0,0,0,0)
-        expect(result).toBeDefined()
-    })
-
-    test('Month calculation wheh all 0',()=>{
-        //(start,end,now,dayWidth)
-        let today=new Date()
-        let dayofMonth=today.getDate()
-        let month=today.getMonth()+1
-        let year=today.getFullYear()
-        let result= DateHelper.calculateMonthData(0,40,0,50)
-        let daysInMonth=DateHelper.daysInMonth (month, year) ;
-        expect(result.keys[`${month}-${year}`]).toBe(`${month}-${year}`)
-        expect(result.data[0].key).toBe((`${month}-${year}`))
-        expect(result.data[0].left).toBe((-dayofMonth+1)*50)
-        expect(result.data[0].width).toBe(daysInMonth*50)
-    })
-})

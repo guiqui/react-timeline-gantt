@@ -41,16 +41,3 @@ describe('Testing LinksViewPort ', function () {
 
 })
 
-{/* <LinkViewPort 
-scrollLeft={this.state.scrollLeft}
-scrollTop={this.state.scrollTop}
-startRow={this.state.startRow}
-endRow={this.state.endRow}
-data={this.props.data}
-nowposition={this.state.nowposition}
-dayWidth={this.state.dayWidth}
-interactiveMode={this.state.interactiveMode}
-taskToCreate={this.state.taskToCreate}
-onFinishCreateLink={this.onFinishCreateLink}
-changingTask={this.state.changingTask}
-links={this.props.links}/> */}

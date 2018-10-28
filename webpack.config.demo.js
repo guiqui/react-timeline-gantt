@@ -16,7 +16,7 @@ module.exports ={
   devServer:{
     inline:true,
     contentBase:'./demo',
-    port:4444,
+    port:4242,
     historyApiFallback: true,
   }
   ,

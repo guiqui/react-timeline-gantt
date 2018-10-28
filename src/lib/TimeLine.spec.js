@@ -37,7 +37,6 @@ describe('TimeLine Initialization ', function () {
         wrapper.instance().onSize({width:500,height:1000})
         expect(wrapper.state().numVisibleRows).toBe(Math.ceil(1000 / itemheight));
         expect(wrapper.state().endRow).toBe(1);
-        expect(wrapper.state().months.data).toHaveLength(2)
         
     
     })    
@@ -190,7 +189,7 @@ describe('Testing Mode change ', function () {
         wrapper.instance().onSize({width:500,height:500})
         expect(wrapper.state().nowposition).toBe(0);
         expect(wrapper.state().scrollLeft).toBe(0);
-        expect(wrapper.state().numVisibleDays).toBe(23);
+        expect(wrapper.state().numVisibleDays).toBe(51);
         expect(wrapper.state().numVisibleRows).toBe(17);
         expect(wrapper.state().mode).toBe("month");
         wrapper.setProps({mode:"week"})
@@ -198,14 +197,14 @@ describe('Testing Mode change ', function () {
         expect(wrapper.state().nowposition).toBe(-0);
         expect(wrapper.state().scrollLeft).toBe(0);
         expect(wrapper.state().numVisibleRows).toBe(17);
-        expect(wrapper.state().numVisibleDays).toBe(4);
+        expect(wrapper.state().numVisibleDays).toBe(32);
         wrapper.setProps({mode:"day"})
         wrapper.instance().checkMode()
         expect(wrapper.state().mode).toBe("day");
         expect(wrapper.state().nowposition).toBe(-0);
         expect(wrapper.state().scrollLeft).toBe(0);
         expect(wrapper.state().numVisibleRows).toBe(17);
-        expect(wrapper.state().numVisibleDays).toBe(3);
+        expect(wrapper.state().numVisibleDays).toBe(31);
 
 
     })    
@@ -227,7 +226,7 @@ describe('Testing Mode change ', function () {
         wrapper.instance().doMouseUp()
         expect(wrapper.state().nowposition).toBe(4499);
         expect(wrapper.state().scrollLeft).toBe(4499);
-        expect(wrapper.state().numVisibleDays).toBe(23);
+        expect(wrapper.state().numVisibleDays).toBe(51);
         expect(wrapper.state().numVisibleRows).toBe(17);
         expect(wrapper.state().mode).toBe("month");
         wrapper.setProps({mode:"week"})
@@ -235,14 +234,14 @@ describe('Testing Mode change ', function () {
         expect(wrapper.state().nowposition).toBe(13497);
         expect(wrapper.state().scrollLeft).toBe(3897);
         expect(wrapper.state().numVisibleRows).toBe(17);
-        expect(wrapper.state().numVisibleDays).toBe(4);
+        expect(wrapper.state().numVisibleDays).toBe(32);
         wrapper.setProps({mode:"day"})
         wrapper.instance().checkMode()
         expect(wrapper.state().mode).toBe("day");
         expect(wrapper.state().nowposition).toBe(31493);
         expect(wrapper.state().scrollLeft).toBe(2693);
         expect(wrapper.state().numVisibleRows).toBe(17);
-        expect(wrapper.state().numVisibleDays).toBe(3);
+        expect(wrapper.state().numVisibleDays).toBe(31);
 
 
     })    

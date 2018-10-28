@@ -1,0 +1,19 @@
+.header-top{
+    height: 20px;
+
+    border-bottom: solid 0.5px silver;
+}
+
+.header-middle{
+    height: 20px;
+    background-color: chocolate;
+    color: white;
+    font-size:10px;
+    border-bottom: solid 0.5px silver;
+    
+}
+.header-bottom{
+    height: 20px;
+    font-size:10px;
+    border-bottom: solid 0.5px silver;
+}

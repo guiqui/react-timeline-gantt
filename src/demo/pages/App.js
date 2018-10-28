@@ -208,9 +208,12 @@ class App extends Component{
             <div className="mode-container-item" 
                 onClick={(e)=>this.modeChange('week')}
                 style={this.getbuttonStyle('week')} >Week</div>
-            <div className="mode-container-item mode-container-item-right" 
+            <div className="mode-container-item" 
                 onClick={(e)=>this.modeChange('month')}
                 style={this.getbuttonStyle('month')}>Month</div>
+             <div className="mode-container-item mode-container-item-right" 
+                onClick={(e)=>this.modeChange('year')}
+                style={this.getbuttonStyle('year')}>Year</div>
           </div>
         </div>
         <div className="time-line-container">

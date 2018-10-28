@@ -1,7 +1,6 @@
 const defvalues={
     header:{
-        month:{
-            dateFormat:'MMM  YYYY',
+        top:{
             style:{
                 backgroundColor:"#333333",
                 fontSize:10,
@@ -9,7 +8,7 @@ const defvalues={
                 textAlign:'center'
             }
         },
-        dayOfWeek:{
+        middle:{
             style:{
                 backgroundColor:"chocolate"
             },
@@ -18,9 +17,10 @@ const defvalues={
                 fontWeight: 'bold' 
             }
         },
-        dayTime:{
+        bottom:{
             style:{
               background:"grey",
+              color:'white',
               fontSize:9
             },
             selectedStyle:{
