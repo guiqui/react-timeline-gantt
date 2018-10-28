@@ -39,24 +39,6 @@ class DateHelper{
     }
 
 
-    calculateCalendar(start,end,now,dayWidth,mode){
-        //startMonth daysinMonth 
-        let result={}
-        result['data']=[]
-       
-        if (mode=='year'){
-            result.startLimit=this.dayToPosition((start-HEADERS_YEAR_BUFFER_DAYS) ,now,dayWidth)
-            result.endLimit=this.dayToPosition((end+HEADERS_YEAR_BUFFER_DAYS) ,now,dayWidth)
-        }else{
-            result.startLimit=this.dayToPosition((start-HEADERS_MONTH_BUFFER_DAYS) ,now,dayWidth)
-            result.endLimit=this.dayToPosition((end+HEADERS_MONTH_BUFFER_DAYS) ,now,dayWidth)
-
-        }
-        
-        return result;
-    }
-
-
     dayToPosition=(day,now,dayWidth)=>{
         return day * dayWidth +now;
 

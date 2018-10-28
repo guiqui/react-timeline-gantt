@@ -27,6 +27,8 @@ export class HeaderItem extends PureComponent{
 export default class Header extends PureComponent {
     constructor (props){
         super(props)
+        this.setBoundaries();
+ 
     }
 
 
@@ -128,7 +130,7 @@ export default class Header extends PureComponent {
         let box=null
 
         let start=this.props.currentday;
-        let end=start+this.props.numVisibleDays;
+        let end=this.props.currentday+this.props.numVisibleDays;
        
         for (let i=start-HEADERS_YEAR_BUFFER_DAYS;i<end+HEADERS_YEAR_BUFFER_DAYS;i++ ){
             //The unit of iteration is day 
@@ -192,10 +194,23 @@ export default class Header extends PureComponent {
         
     }
 
+    setBoundaries=()=>{
+        this.start=this.props.currentday-HEADERS_YEAR_BUFFER_DAYS;
+        this.end=this.props.currentday+this.props.numVisibleDays+HEADERS_YEAR_BUFFER_DAYS
+    }
+    
+    needToRender=()=>{
+        return (this.props.currentday<this.start)|| (this.props.currentday+this.props.numVisibleDays>  this.end)
+    }
+
     render(){
         if (this.refs.Header)
             this.refs.Header.scrollLeft=this.props.scrollLeft;
-    
+        //Check boundaries to see if wee need to recalcualte header
+        // if (this.needToRender()|| !this.cache){
+        //     this.cache=this.renderHeader();
+        //     this.setBoundaries();
+        // }
         return  <div id="timeline-header" ref="Header"  className="timeLine-main-header-viewPort">
                     {this.renderHeader()}
                 </div>

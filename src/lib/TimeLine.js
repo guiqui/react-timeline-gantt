@@ -40,7 +40,6 @@ class TimeLine extends Component{
             nowposition:0,
             startRow:0,//
             endRow:10,
-            headerData:DateHelper.calculateCalendar(0,30,0,dayWidth,VIEW_MODE_MONTH),
             sideStyle:{width:200},
             scrollLeft:0,
             scrollTop:0,
@@ -103,13 +102,11 @@ class TimeLine extends Component{
         let newNumVisibleRows=Math.ceil(size.height / this.props.itemheight);
         let newNumVisibleDays=this.calcNumVisibleDays(size)
         let rowInfo=this.calculateStartEndRows(newNumVisibleRows,this.props.data,this.state.scrollTop);
-        let headerData=DateHelper.calculateCalendar(this.state.currentday,this.state.currentday+newNumVisibleDays,this.state.nowposition,this.state.dayWidth,this.state.mode)
         this.setState({
             numVisibleRows:newNumVisibleRows,
             numVisibleDays:newNumVisibleDays,
             startRow:rowInfo.start,
             endRow:rowInfo.end,
-            headerData:headerData,
             size:size
         })
     }
@@ -171,10 +168,6 @@ class TimeLine extends Component{
         //Get the day of the left position
         let currentIndx=Math.trunc((newScrollLeft-this.state.nowposition) /this.state.dayWidth)
         
-        //Do we need to recalculate header data
-        if((newScrollLeft<headerData.startLimit)||(newScrollLeft +this.state.size.width>headerData.endLimit)){
-            headerData=DateHelper.calculateCalendar(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition,this.state.dayWidth,this.state.mode)
-        }
   
         //Calculate rows to render
         new_startRow=Math.trunc(this.state.scrollTop/this.props.itemheight)
@@ -304,8 +297,7 @@ class TimeLine extends Component{
             let scrollLeft=(this.state.currentday*this.state.dayWidth+this.state.nowposition)%this.pxToScroll
             // we recalculate the new scroll Left value
             this.state.scrollLeft=scrollLeft;
-            this.state.headerData=DateHelper.calculateCalendar(this.state.currentday,this.state.currentday+this.state.numVisibleDays,this.state.nowposition,this.state.dayWidth,this.state.mode)
-        }
+         }
     }
     checkNeeeData=()=>{
         if (this.props.data!=this.state.data){
