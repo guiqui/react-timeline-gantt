@@ -47,52 +47,15 @@ class DateHelper{
         if (mode=='year'){
             result.startLimit=this.dayToPosition((start-HEADERS_YEAR_BUFFER_DAYS) ,now,dayWidth)
             result.endLimit=this.dayToPosition((end+HEADERS_YEAR_BUFFER_DAYS) ,now,dayWidth)
-            result['data']=this.calculateYearCalendar(start,end,now,dayWidth);
         }else{
             result.startLimit=this.dayToPosition((start-HEADERS_MONTH_BUFFER_DAYS) ,now,dayWidth)
             result.endLimit=this.dayToPosition((end+HEADERS_MONTH_BUFFER_DAYS) ,now,dayWidth)
-            result['data']=this.calculateMonthCalendar(start,end,now,dayWidth);
+
         }
         
         return result;
     }
 
-    calculateMonthCalendar(start,end,now,dayWidth){
-        let result=[]
-        let currentMonth='';
-        let currentKey='';
-        for (let i=start-HEADERS_MONTH_BUFFER_DAYS;i<end+HEADERS_MONTH_BUFFER_DAYS;i++ ){
-            currentMonth=moment().add(i, 'days')       ;
-            currentKey=currentMonth.format("M-YYYY")     
-            result.push({
-                key:currentKey,
-                month:currentMonth.format(Config.values.header.top.dateFormat),
-                left:this.dayToPosition(i-currentMonth.date()+1,now,dayWidth),
-                width:currentMonth.daysInMonth()*dayWidth
-
-            })
-            i=i+currentMonth.daysInMonth()-currentMonth.date();
-        }
-        return result
-    }
-    calculateYearCalendar(start,end,now,dayWidth){
-        let result=[]
-        let currentMonth='';
-        let currentKey='';
-        for (let i=start-HEADERS_YEAR_BUFFER_DAYS;i<end+HEADERS_YEAR_BUFFER_DAYS;i++ ){
-            currentMonth=moment().add(i, 'days')       ;
-            currentKey=currentMonth.format("M-YYYY")     
-            result.push({
-                key:currentKey,
-                month:currentMonth.format(Config.values.header.top.dateFormat),
-                left:this.dayToPosition(i-currentMonth.date()+1,now,dayWidth),
-                width:currentMonth.daysInMonth()*dayWidth
-
-            })
-            i=i+currentMonth.daysInMonth()-currentMonth.date();
-        }
-        return  result;
-    }
 
     dayToPosition=(day,now,dayWidth)=>{
         return day * dayWidth +now;

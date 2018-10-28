@@ -163,7 +163,16 @@ export default class Header extends PureComponent {
     }
 
 
+    renderTime=(left,width,mode,key)=>{
+        let result=[]
+        let hourWidth=width/24;
+        for(let i=0;i<24;i++){
 
+            result.push(<HeaderItem key={i} left={left}   width={hourWidth}  label={mode=='shorttime'?i:`${i}:00`}/>)
+            left=left+hourWidth;
+        }
+        return <div key={key} style={{position:'absolute',height:20,left:left,width:width}}> {result}</div>;
+    }
     getBox(date,mode,lastLeft){
         let increment=this.getModeIncrement(date,mode)*this.props.dayWidth
         if(!lastLeft){
@@ -212,7 +221,12 @@ export default class Header extends PureComponent {
                 currentBottom=currentDate.format(this.getFormat(bottom));
                 box=this.getBox(currentDate,bottom,lastLeft.bottom)
                 lastLeft.bottom=box.left+box.width;
-                result.bottom.push(<HeaderItem key={i} left={box.left}   width={box.width}  label={currentBottom}/>)
+                if (bottom == 'shorttime' ||bottom == 'fulltime'){
+                    result.bottom.push(this.renderTime(box.left,box.width,bottom,i))
+                }else{
+                    result.bottom.push(<HeaderItem key={i} left={box.left}   width={box.width}  label={currentBottom}/>)
+                }
+                
             }            
     
         }
