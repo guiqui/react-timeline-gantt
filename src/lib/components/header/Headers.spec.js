@@ -28,7 +28,7 @@ describe('Header Init ',()=>{
                                     scrollLeft={0} />);
         let startDate=moment().add(-BUFFER_DAYS, 'days')
         let endDate=moment().add(30+BUFFER_DAYS, 'days')
-        let years = startDate.year() -endDate.year()+1;  
+        let years = endDate.year()-startDate.year()+1 ;  
         expect(wrapper.find('.header-top').children()).toHaveLength(years);
         let months = Math.ceil(endDate.diff(startDate,'months', true))+1
         expect(wrapper.find('.header-middle').children()).toHaveLength(months);
@@ -51,52 +51,12 @@ describe('Header Init ',()=>{
         let endDate=moment().add(30+BUFFER_DAYS, 'days')
         let months = Math.ceil(endDate.diff(startDate,'months', true))+1; 
         expect(wrapper.find('.header-top').children()).toHaveLength(months);
-        let days = Math.round(endDate.diff(startDate,'days', true)); 
+        let days = Math.trunc(endDate.diff(startDate,'days', true)); 
         expect(wrapper.find('.header-middle').children()).toHaveLength(days);
         
         expect(wrapper.find('.header-bottom').children()).toHaveLength(days);
 
     })
-    it ('When mode is week it draws correctly',()=>{
-        //calculateMonthData(start,end,now,dayWidth)
-        let now=0;
-        let dayWidth=30;
-        const wrapper = shallow(<Headers 
-                                    numVisibleDays={30}
-                                    currentday={0}
-                                    nowposition={now}
-                                    dayWidth={dayWidth}
-                                    mode={VIEW_MODE_WEEK}
-                                    scrollLeft={0} />);
-        let startDate=moment().add(-BUFFER_DAYS, 'days')
-        let endDate=moment().add(30+BUFFER_DAYS, 'days')
-        let weeks = Math.ceil(endDate.diff(startDate,'weeks', true))+1
-        expect(wrapper.find('.header-top').children()).toHaveLength(weeks);
-        let days = Math.round(endDate.diff(startDate,'days', true)); 
-        expect(wrapper.find('.header-middle').children()).toHaveLength(days);
-        
-        expect(wrapper.find('.header-bottom').children()).toHaveLength(days);
-
-    })
-    it ('When mode is day it draws correctly',()=>{
-        //calculateMonthData(start,end,now,dayWidth)
-        let now=0;
-        let dayWidth=30;
-        const wrapper = shallow(<Headers 
-                                    numVisibleDays={30}
-                                    currentday={0}
-                                    nowposition={now}
-                                    dayWidth={dayWidth}
-                                    mode={VIEW_MODE_DAY}
-                                    scrollLeft={0} />);
-        let startDate=moment().add(-BUFFER_DAYS, 'days')
-        let endDate=moment().add(30+BUFFER_DAYS, 'days')
-        let weeks = Math.ceil(endDate.diff(startDate,'weeks', true))+1
-        expect(wrapper.find('.header-top').children()).toHaveLength(weeks);
-        let days = Math.ceil(endDate.diff(startDate,'days', true)); 
-        expect(wrapper.find('.header-middle').children()).toHaveLength(days);
-        
-        expect(wrapper.find('.header-bottom').children()).toHaveLength(days);
-
-    })
+    
+    
 })

@@ -1,7 +1,6 @@
 const defvalues={
     header:{
         top:{
-            dateFormat:'MMM  YYYY',
             style:{
                 backgroundColor:"#333333",
                 fontSize:10,
@@ -21,6 +20,7 @@ const defvalues={
         bottom:{
             style:{
               background:"grey",
+              color:'white',
               fontSize:9
             },
             selectedStyle:{
