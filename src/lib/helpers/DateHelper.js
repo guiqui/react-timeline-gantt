@@ -1,11 +1,9 @@
-import {BUFFER_DAYS} from 'libs/Const'
+import {HEADERS_MONTH_BUFFER_DAYS,HEADERS_YEAR_BUFFER_DAYS} from 'libs/Const'
 import Config from 'libs/helpers/config/Config'
 import moment  from 'moment'  
 const MIL_IN_HOUR=1000*3600;
 class DateHelper{
-    constructor(){
-        month:{};
-    }
+
 
     dateToPixel(input,nowposition,daywidth){
         let nowDate=this.getToday();//
@@ -40,36 +38,76 @@ class DateHelper{
         return new Date(year, month, 0).getDate();
     }
 
-    calculateCalendar(start,end,now,dayWidth){
+
+    calculateCalendar(start,end,now,dayWidth,mode){
         //startMonth daysinMonth 
         let result={}
         result['data']=[]
-        result['keys']={}
-    
-        result.startLimit=this.dayToPosition((start-BUFFER_DAYS) ,now,dayWidth)
-        result.endLimit=this.dayToPosition((end+BUFFER_DAYS) ,now,dayWidth)
+       
+        if (mode=='year'){
+            result.startLimit=this.dayToPosition((start-HEADERS_YEAR_BUFFER_DAYS) ,now,dayWidth)
+            result.endLimit=this.dayToPosition((end+HEADERS_YEAR_BUFFER_DAYS) ,now,dayWidth)
+            result['data']=this.calculateYearCalendar(start,end,now,dayWidth);
+        }else{
+            result.startLimit=this.dayToPosition((start-HEADERS_MONTH_BUFFER_DAYS) ,now,dayWidth)
+            result.endLimit=this.dayToPosition((end+HEADERS_MONTH_BUFFER_DAYS) ,now,dayWidth)
+            result['data']=this.calculateMonthCalendar(start,end,now,dayWidth);
+        }
+        
+        return result;
+    }
+
+    calculateMonthCalendar(start,end,now,dayWidth){
+        let result=[]
         let currentMonth='';
         let currentKey='';
-        for (let i=start-BUFFER_DAYS;i<end+BUFFER_DAYS;i++ ){
+        for (let i=start-HEADERS_MONTH_BUFFER_DAYS;i<end+HEADERS_MONTH_BUFFER_DAYS;i++ ){
             currentMonth=moment().add(i, 'days')       ;
             currentKey=currentMonth.format("M-YYYY")     
-            result['data'].push({
+            result.push({
                 key:currentKey,
-                month:currentMonth.format(Config.values.header.month.dateFormat),
+                month:currentMonth.format(Config.values.header.top.dateFormat),
                 left:this.dayToPosition(i-currentMonth.date()+1,now,dayWidth),
                 width:currentMonth.daysInMonth()*dayWidth
 
             })
-            result['keys'][currentKey]=currentKey;
             i=i+currentMonth.daysInMonth()-currentMonth.date();
         }
-        return result;
+        return result
+    }
+    calculateYearCalendar(start,end,now,dayWidth){
+        let result=[]
+        let currentMonth='';
+        let currentKey='';
+        for (let i=start-HEADERS_YEAR_BUFFER_DAYS;i<end+HEADERS_YEAR_BUFFER_DAYS;i++ ){
+            currentMonth=moment().add(i, 'days')       ;
+            currentKey=currentMonth.format("M-YYYY")     
+            result.push({
+                key:currentKey,
+                month:currentMonth.format(Config.values.header.top.dateFormat),
+                left:this.dayToPosition(i-currentMonth.date()+1,now,dayWidth),
+                width:currentMonth.daysInMonth()*dayWidth
+
+            })
+            i=i+currentMonth.daysInMonth()-currentMonth.date();
+        }
+        return  result;
     }
 
     dayToPosition=(day,now,dayWidth)=>{
         return day * dayWidth +now;
 
     }
+
+    daysInYear=(year)=> 
+    {
+        return this.isLeapYear(year) ? 366 : 365;
+    }
+
+    isLeapYear(year) {
+        return year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0);
+    }
+
 
 }
 const helper=new DateHelper();

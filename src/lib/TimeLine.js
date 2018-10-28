@@ -1,13 +1,12 @@
 import React,{Component} from 'react'
 import PropTypes from 'prop-types'
-import moment  from 'moment'  
 import VerticalSpliter from 'libs/components/taskList/VerticalSpliter'
 import Header from 'libs/components/header/Headers'
 import DataViewPort from 'libs/components/viewport/DataViewPort'
 import LinkViewPort from 'libs/components/links/LinkViewPort'
 import TaskList from 'libs/components/taskList/TaskList'
 import Registry from 'libs/helpers/registry/Registry'
-import {BUFFER_DAYS,DATA_CONTAINER_WIDTH} from 'libs/Const'
+import {HEADERS_MONTH_BUFFER_DAYS,HEADERS_YEAR_BUFFER_DAYS,DATA_CONTAINER_WIDTH} from 'libs/Const'
 import {VIEW_MODE_DAY,VIEW_MODE_WEEK,VIEW_MODE_MONTH,VIEW_MODE_YEAR}from 'libs/Const'
 import {DAY_MONTH_MODE,DAY_WEEK_MODE,DAY_DAY_MODE,DAY_YEAR_MODE} from 'libs/Const'
 import DataController from 'libs/controller/DataController'
@@ -41,7 +40,7 @@ class TimeLine extends Component{
             nowposition:0,
             startRow:0,//
             endRow:10,
-            headerData:DateHelper.calculateCalendar(0,30,0,dayWidth),
+            headerData:DateHelper.calculateCalendar(0,30,0,dayWidth,VIEW_MODE_MONTH),
             sideStyle:{width:200},
             scrollLeft:0,
             scrollTop:0,
@@ -61,6 +60,10 @@ class TimeLine extends Component{
       ////////////////////
      //     ON MODE    //
     ////////////////////
+
+    getBufferDays=()=>{
+        return this.setStartEnd.mode==VIEW_MODE_YEAR?HEADERS_YEAR_BUFFER_DAYS:HEADERS_MONTH_BUFFER_DAYS
+    }
 
 
     getDayWidth(mode){
@@ -100,7 +103,7 @@ class TimeLine extends Component{
         let newNumVisibleRows=Math.ceil(size.height / this.props.itemheight);
         let newNumVisibleDays=this.calcNumVisibleDays(size)
         let rowInfo=this.calculateStartEndRows(newNumVisibleRows,this.props.data,this.state.scrollTop);
-        let headerData=DateHelper.calculateCalendar(this.state.currentday,this.state.currentday+newNumVisibleDays,this.state.nowposition,this.state.dayWidth)
+        let headerData=DateHelper.calculateCalendar(this.state.currentday,this.state.currentday+newNumVisibleDays,this.state.nowposition,this.state.dayWidth,this.state.mode)
         this.setState({
             numVisibleRows:newNumVisibleRows,
             numVisibleDays:newNumVisibleDays,
@@ -170,7 +173,7 @@ class TimeLine extends Component{
         
         //Do we need to recalculate header data
         if((newScrollLeft<headerData.startLimit)||(newScrollLeft +this.state.size.width>headerData.endLimit)){
-            headerData=DateHelper.calculateCalendar(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition,this.state.dayWidth)
+            headerData=DateHelper.calculateCalendar(currentIndx,currentIndx+this.state.numVisibleDays,new_nowposition,this.state.dayWidth,this.state.mode)
         }
   
         //Calculate rows to render
@@ -284,7 +287,7 @@ class TimeLine extends Component{
     }
 
     calcNumVisibleDays=(size)=>{
-        return Math.ceil(size.width / this.state.dayWidth)+BUFFER_DAYS
+        return Math.ceil(size.width / this.state.dayWidth)+this.getBufferDays()
     }
     checkMode(){
         if(this.props.mode!=this.state.mode && this.props.mode){
@@ -301,7 +304,7 @@ class TimeLine extends Component{
             let scrollLeft=(this.state.currentday*this.state.dayWidth+this.state.nowposition)%this.pxToScroll
             // we recalculate the new scroll Left value
             this.state.scrollLeft=scrollLeft;
-            this.state.headerData=DateHelper.calculateCalendar(this.state.currentday,this.state.currentday+this.state.numVisibleDays,this.state.nowposition,this.state.dayWidth)
+            this.state.headerData=DateHelper.calculateCalendar(this.state.currentday,this.state.currentday+this.state.numVisibleDays,this.state.nowposition,this.state.dayWidth,this.state.mode)
         }
     }
     checkNeeeData=()=>{
