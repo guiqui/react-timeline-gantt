@@ -1,6 +1,6 @@
 import React,{PureComponent} from 'react'
 import moment from  'moment'
-import {HEADERS_MONTH_BUFFER_DAYS,HEADERS_YEAR_BUFFER_DAYS,DATA_CONTAINER_WIDTH} from 'libs/Const'
+import {BUFFER_DAYS,DATA_CONTAINER_WIDTH} from 'libs/Const'
 import {VIEW_MODE_DAY,VIEW_MODE_WEEK,VIEW_MODE_MONTH,VIEW_MODE_YEAR}from 'libs/Const'
 import {HOUR_DAY_WEEK,HOUR_DAY_DAY}from 'libs/Const'
 import Config from 'libs/helpers/config/Config'
@@ -132,7 +132,7 @@ export default class Header extends PureComponent {
         let start=this.props.currentday;
         let end=this.props.currentday+this.props.numVisibleDays;
        
-        for (let i=start-HEADERS_YEAR_BUFFER_DAYS;i<end+HEADERS_YEAR_BUFFER_DAYS;i++ ){
+        for (let i=start-BUFFER_DAYS;i<end+BUFFER_DAYS;i++ ){
             //The unit of iteration is day 
             currentDate=moment().add(i, 'days')       
             if (currentTop!=currentDate.format(this.getFormat(top),'top')){
@@ -195,8 +195,8 @@ export default class Header extends PureComponent {
     }
 
     setBoundaries=()=>{
-        this.start=this.props.currentday-HEADERS_YEAR_BUFFER_DAYS;
-        this.end=this.props.currentday+this.props.numVisibleDays+HEADERS_YEAR_BUFFER_DAYS
+        this.start=this.props.currentday-BUFFER_DAYS;
+        this.end=this.props.currentday+this.props.numVisibleDays+BUFFER_DAYS
     }
     
     needToRender=()=>{

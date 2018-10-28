@@ -37,7 +37,6 @@ describe('TimeLine Initialization ', function () {
         wrapper.instance().onSize({width:500,height:1000})
         expect(wrapper.state().numVisibleRows).toBe(Math.ceil(1000 / itemheight));
         expect(wrapper.state().endRow).toBe(1);
-        expect(wrapper.state().months.data).toHaveLength(2)
         
     
     })    

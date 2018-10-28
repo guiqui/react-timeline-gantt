@@ -6,7 +6,7 @@ import DataViewPort from 'libs/components/viewport/DataViewPort'
 import LinkViewPort from 'libs/components/links/LinkViewPort'
 import TaskList from 'libs/components/taskList/TaskList'
 import Registry from 'libs/helpers/registry/Registry'
-import {HEADERS_MONTH_BUFFER_DAYS,HEADERS_YEAR_BUFFER_DAYS,DATA_CONTAINER_WIDTH} from 'libs/Const'
+import {BUFFER_DAYS,DATA_CONTAINER_WIDTH} from 'libs/Const'
 import {VIEW_MODE_DAY,VIEW_MODE_WEEK,VIEW_MODE_MONTH,VIEW_MODE_YEAR}from 'libs/Const'
 import {DAY_MONTH_MODE,DAY_WEEK_MODE,DAY_DAY_MODE,DAY_YEAR_MODE} from 'libs/Const'
 import DataController from 'libs/controller/DataController'
@@ -60,9 +60,7 @@ class TimeLine extends Component{
      //     ON MODE    //
     ////////////////////
 
-    getBufferDays=()=>{
-        return this.setStartEnd.mode==VIEW_MODE_YEAR?HEADERS_YEAR_BUFFER_DAYS:HEADERS_MONTH_BUFFER_DAYS
-    }
+   
 
 
     getDayWidth(mode){
@@ -280,7 +278,7 @@ class TimeLine extends Component{
     }
 
     calcNumVisibleDays=(size)=>{
-        return Math.ceil(size.width / this.state.dayWidth)+this.getBufferDays()
+        return Math.ceil(size.width / this.state.dayWidth)+BUFFER_DAYS
     }
     checkMode(){
         if(this.props.mode!=this.state.mode && this.props.mode){

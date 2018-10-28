@@ -4,8 +4,7 @@ export const MODE_MOVE              =1;
 export const MOVE_RESIZE_LEFT       =2;
 export const MOVE_RESIZE_RIGHT      =3;
 
-export const HEADERS_MONTH_BUFFER_DAYS            =30;
-export const HEADERS_YEAR_BUFFER_DAYS             =30;
+export const BUFFER_DAYS             =30;
 
 export const DATA_CONTAINER_WIDTH   =5000;
 
