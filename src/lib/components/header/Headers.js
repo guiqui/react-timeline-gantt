@@ -8,77 +8,6 @@ import DateHelper from 'libs/helpers/DateHelper'
 import './Header.css'
 
 
-// export class HeaderDayItem extends PureComponent{
-//     constructor(props){
-//         super(props);
-//     }
-//     getFormat=()=>{
-//         return this.props.mode==VIEW_MODE_MONTH?'dd':'dddd D';
-//     }
-
-//     renderMonthMode=()=>{
-//         let style=  Config.values.header.dayTime.style;
-//         style=this.props.day == 0 ?{...style,...Config.values.header.dayTime.selectedStyle}:style
-//         return  <div className="timeLine-main-header-day-month" style={style}>
-//                     {moment().add(this.props.day , 'days').format('D')}
-//                 </div>  
-//     }
-
-//     renderWeekMode=()=>{
-//         let result=[]
-//         for(let i=0;i<24;i++){
-//             result.push(<div key={i} className="timeLine-main-header-time-item" style={{...Config.values.header.dayTime.style,width:HOUR_DAY_WEEK}}>{i}</div>)
-//         }
-//         return result;
-//     }
-
-//     renderTimeWeek=()=>{
-//         return <div className="timeLine-main-header-time">
-//                 {this.renderWeekMode()}
-//             </div>  
-//     }
-
-//     renderDayMode=()=>{
-//         let result=[]
-//         for(let i=0;i<24;i++){
-//             result.push(<div key={i} className="timeLine-main-header-time-item" style={{...Config.values.header.dayTime.style,width:HOUR_DAY_DAY}}>{`${i}:00`}</div>)
-//         }
-//         return result;
-//     }
-
-
-//     renderBottomInfo=()=>{
-//         switch(this.props.mode){
-//             case VIEW_MODE_YEAR:
-//                 //return this.renderYearMode()
-//             case VIEW_MODE_MONTH:
-//                 return this.renderMonthMode()
-//             case VIEW_MODE_WEEK:
-//                 return <div className="timeLine-main-header-time">
-//                         {this.renderWeekMode()}
-//                         </div>  
-//             case VIEW_MODE_DAY:
-//                 return <div className="timeLine-main-header-time">
-//                         {this.renderDayMode()}
-//                         </div>  
-//             default:
-//                 return this.renderMonthMode()
-//         }
-//     }
-
-//     render(){
-//         return (
-//         <div className="timeLine-main-header-day-item" style={{ left:this.props.left,width:this.props.width}}>
-//             <div className="timeLine-main-header-day-week"  style={Config.values.header.dayOfWeek.style} >
-//             {moment().add(this.props.day , 'days').format(this.getFormat())}
-//             </div>    
-//             {this.renderBottomInfo()} 
- 
-//         </div>)
-          
-//     }
-// }
-
 export class HeaderItem extends PureComponent{
     constructor(props){
         super(props);
@@ -166,10 +95,11 @@ export default class Header extends PureComponent {
     renderTime=(left,width,mode,key)=>{
         let result=[]
         let hourWidth=width/24;
+        let iterLeft=0;
         for(let i=0;i<24;i++){
 
-            result.push(<HeaderItem key={i} left={left}   width={hourWidth}  label={mode=='shorttime'?i:`${i}:00`}/>)
-            left=left+hourWidth;
+            result.push(<HeaderItem key={i} left={iterLeft}   width={hourWidth}  label={mode=='shorttime'?i:`${i}:00`}/>)
+            iterLeft=iterLeft+hourWidth;
         }
         return <div key={key} style={{position:'absolute',height:20,left:left,width:width}}> {result}</div>;
     }
