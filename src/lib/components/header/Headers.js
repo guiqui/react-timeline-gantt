@@ -37,12 +37,12 @@ export default class Header extends PureComponent {
                 return 'YYYY'
             case 'month':
                 if (position =='top')
-                    return 'M-YYYY'
+                    return 'MMMM YYYY'
                 else
                     return 'MMMM' 
             case 'week':
                 if (position =='top')
-                    return 'ww M-YYYY'
+                    return 'ww MMMM YYYY'
                 else
                     return 'ww'
             case 'dayweek':
@@ -131,8 +131,8 @@ export default class Header extends PureComponent {
         for (let i=start-BUFFER_DAYS;i<end+BUFFER_DAYS;i++ ){
             //The unit of iteration is day 
             currentDate=moment().add(i, 'days')       
-            if (currentTop!=currentDate.format(this.getFormat(top),'top')){
-                currentTop=currentDate.format(this.getFormat(top),'top');
+            if (currentTop!=currentDate.format(this.getFormat(top,'top'))){
+                currentTop=currentDate.format(this.getFormat(top,'top'));
                 box=this.getBox(currentDate,top,lastLeft.top)
                 lastLeft.top=box.left+box.width;
                 result.top.push(<HeaderItem key={i} left={box.left}   width={box.width}  label={currentTop}/>)
