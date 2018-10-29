@@ -35,9 +35,9 @@ The component is capable of:
  To play with a live [demo](https://guiqui.github.io/react-timeline-gantt/index.html) .
 
 
-## New in version 0.3.9
-- Better an optimize header
-- Add year option to header
+## Release Notes version 0.3.9
+- Better and optimize header
+- Add "year" mode option.
 
 ## Coming up in version 0.4.0
 - Subtask implementation
