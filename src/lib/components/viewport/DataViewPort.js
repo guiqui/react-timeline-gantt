@@ -92,6 +92,16 @@ export  class DataViewPort extends Component{
     doMouseMove=(e)=>{
         this.props.onMouseMove(e,this.refs.dataViewPort)
     }
+
+    doTouchStart=(e)=>{
+        if (!this.childDragging) {
+            this.props.onTouchStart(e)
+        }
+    }
+    doTouchMove=(e)=>{
+        this.props.onTouchMove(e,this.refs.dataViewPort)
+    }
+
     componentDidMount(){
         this.refs.dataViewPort.scrollLeft=0;
     }
@@ -108,7 +118,12 @@ export  class DataViewPort extends Component{
                     onMouseDown={this.doMouseDown} 
                     onMouseMove={this.doMouseMove}
                     onMouseUp={this.props.onMouseUp} 
-                    onMouseLeave ={this.props.onMouseLeave}>   
+                    onMouseLeave ={this.props.onMouseLeave}
+                    onTouchStart={this.doTouchStart}
+                    onTouchMove={this.doTouchMove}
+                    onTouchEnd={this.props.onTouchEnd}
+                    onTouchCancel={this.props.onTouchCancel}
+                    >   
                                  
             <div className="timeLine-main-data-container" style={{height:height,width:DATA_CONTAINER_WIDTH,maxWidth:DATA_CONTAINER_WIDTH}}>                   
                 {this.renderRows()} 

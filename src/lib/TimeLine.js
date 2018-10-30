@@ -206,7 +206,6 @@ class TimeLine extends Component{
         this.dragging=true;
         this.draggingPosition=e.clientX;
     }
-
     doMouseMove=(e)=>{
         if(this.dragging){
             let delta=this.draggingPosition-e.clientX;
@@ -217,8 +216,33 @@ class TimeLine extends Component{
             }
         }
     }
-
     doMouseUp=(e)=>{
+        this.dragging=false;
+    }
+    doMouseLeave=(e)=>{
+        // if (!e.relatedTarget.nodeName)
+        //     this.dragging=false;
+       this.dragging=false;
+    }
+    
+    doTouchStart=(e)=>{
+        this.dragging=true;
+        this.draggingPosition=e.touches[0].clientX;
+    }
+    doTouchEnd=(e)=>{
+        this.dragging=false;
+    }
+    doTouchMove=(e)=>{
+        if(this.dragging){
+            let delta=this.draggingPosition-e.touches[0].clientX;
+                   
+            if (delta!==0){
+                this.draggingPosition=e.touches[0].clientX;
+                this.horizontalChange(this.state.scrollLeft+delta);
+            }
+        }
+    }
+    doTouchCancel=(e)=>{
         this.dragging=false;
     }
 
@@ -353,6 +377,10 @@ class TimeLine extends Component{
                     onMouseMove={this.doMouseMove}
                     onMouseUp={this.doMouseUp} 
                     onMouseLeave ={this.doMouseLeave}
+                    onTouchStart={this.doTouchStart}
+                    onTouchMove={this.doTouchMove}
+                    onTouchEnd={this.doTouchEnd}
+                    onTouchCancel={this.doTouchCancel}
                     onSelectItem={this.onSelectItem}
                     onUpdateTask={this.props.onUpdateTask}
                     onTaskChanging={this.onTaskChanging}
