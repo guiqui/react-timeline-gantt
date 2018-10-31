@@ -6,6 +6,8 @@ install:
   - npm install -g codecov
   - npm install moment
   - npm install react-sizeme
+  - npm install  webpack-cli
+  - npm install  webpack
 cache:
   directories:
     - node_modules
