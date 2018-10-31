@@ -30,9 +30,9 @@ describe('Header Init ',()=>{
         let endDate=moment().add(30+BUFFER_DAYS, 'days')
         let years = endDate.year()-startDate.year()+1 ;  
         expect(wrapper.find('.header-top').children()).toHaveLength(years);
-        let months = Math.ceil(endDate.diff(startDate,'months', true))+1
+        let months = Math.ceil(endDate.diff(startDate,'months', true))
         expect(wrapper.find('.header-middle').children()).toHaveLength(months);
-        let weeks = Math.ceil(endDate.diff(startDate,'weeks', true))+1
+        let weeks = Math.ceil(endDate.diff(startDate,'weeks', true))
         expect(wrapper.find('.header-bottom').children()).toHaveLength(weeks);
 
     })
@@ -49,7 +49,7 @@ describe('Header Init ',()=>{
                                     scrollLeft={0} />);
         let startDate=moment().add(-BUFFER_DAYS, 'days')
         let endDate=moment().add(30+BUFFER_DAYS, 'days')
-        let months = Math.ceil(endDate.diff(startDate,'months', true))+1; 
+        let months = Math.ceil(endDate.diff(startDate,'months', true)); 
         expect(wrapper.find('.header-top').children()).toHaveLength(months);
         let days = Math.trunc(endDate.diff(startDate,'days', true)); 
         expect(wrapper.find('.header-middle').children()).toHaveLength(days);
