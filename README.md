@@ -38,8 +38,9 @@ The component is capable of:
 ## Release Notes version 0.3.9
 - Better and optimize header
 - Add "year" mode option.
-
-## Coming up in version 0.4.0
+## Release Notes version 0.4.0
+- Touch Event Support for scrolling and task movement
+## Coming up in version 0.4.1
 - Subtask implementation
 - Add start and end date columns to the task list
 - Beter UX to create links
