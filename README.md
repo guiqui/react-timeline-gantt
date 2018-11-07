@@ -7,7 +7,7 @@
 [![codecov](https://codecov.io/gh/guiqui/react-timeline-gantt/branch/master/graph/badge.svg)](https://codecov.io/gh/guiqui/react-timeline-gantt)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9149e301e65b44cebf2e7b49316aee10)](https://www.codacy.com/app/gquiman/react-timeline-gantt?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=guiqui/react-timeline-gantt&amp;utm_campaign=Badge_Grade)
 [![Backers on Open Collective](https://opencollective.com/react-timeline-gantt/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/react-timeline-gantt/sponsors/badge.svg)](#sponsors) 
-[![downloads](https://img.shields.io/npm/dt/react-timeline-gantt.svg?maxAge=2592000)](https://www.npmjs.com/package/react-timeline-gantt)
+[![downloads](https://img.shields.io/npm/dt/react-gantt-timeline.svg?maxAge=2592000)](https://www.npmjs.com/package/react-gantt-timeline)
 
 
 A react timeline gantt component.
