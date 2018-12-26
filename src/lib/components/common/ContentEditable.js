@@ -10,8 +10,8 @@ export default class ContentEditable extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.refs.textInput && !this.isFocus) {
-      this.refs.textInput.focus();
+    if (this.textInput && !this.isFocus) {
+      this.textInput.focus();
       this.isFocus = true;
     }
   }

@@ -63,7 +63,7 @@ export default class TaskList extends Component {
     return result;
   }
   doScroll = () => {
-    this.props.onScroll(this.refs.taskViewPort.scrollTop);
+    this.props.onScroll(this.taskViewPort.scrollTop);
   };
   render() {
     let data = this.props.data ? this.props.data : [];

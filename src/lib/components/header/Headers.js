@@ -191,7 +191,7 @@ export default class Header extends PureComponent {
   };
 
   render() {
-    if (this.refs.Header) this.refs.Header.scrollLeft = this.props.scrollLeft;
+    if (this.Header) this.Header.scrollLeft = this.props.scrollLeft;
     //Check boundaries to see if wee need to recalcualte header
     // if (this.needToRender()|| !this.cache){
     //     this.cache=this.renderHeader();

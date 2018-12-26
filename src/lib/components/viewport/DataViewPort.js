@@ -96,7 +96,7 @@ export class DataViewPort extends Component {
     }
   };
   doMouseMove = e => {
-    this.props.onMouseMove(e, this.refs.dataViewPort);
+    this.props.onMouseMove(e, this.dataViewPort);
   };
 
   doTouchStart = e => {
@@ -105,17 +105,17 @@ export class DataViewPort extends Component {
     }
   };
   doTouchMove = e => {
-    this.props.onTouchMove(e, this.refs.dataViewPort);
+    this.props.onTouchMove(e, this.dataViewPort);
   };
 
   componentDidMount() {
-    this.refs.dataViewPort.scrollLeft = 0;
+    this.dataViewPort.scrollLeft = 0;
   }
 
   render() {
-    if (this.refs.dataViewPort) {
-      this.refs.dataViewPort.scrollLeft = this.props.scrollLeft;
-      this.refs.dataViewPort.scrollTop = this.props.scrollTop;
+    if (this.dataViewPort) {
+      this.dataViewPort.scrollLeft = this.props.scrollLeft;
+      this.dataViewPort.scrollTop = this.props.scrollTop;
     }
 
     let height = this.getContainerHeight(this.props.data.length);
