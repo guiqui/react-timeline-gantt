@@ -41,6 +41,7 @@
     "jest-fetch-mock": "^1.6.4",
     "jest-junit": "^5.0.0",
     "json-loader": "^0.5.7",
+    "merge": ">=1.2.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-test-renderer": "^16.4.0",
@@ -49,8 +50,7 @@
     "url-loader": "^1.0.1",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1",
-    "webpack-dev-server": "^3.1.4",
-    "merge": ">=1.2.1"
+    "webpack-dev-server": "^3.1.4"
   },
   "author": "Guillermo  Quiros",
   "license": "MIT",
@@ -67,8 +67,10 @@
   ],
   "homepage": "https://github.com/guiqui/react-timeline-gantt",
   "dependencies": {
+    "moment": "^2.23.0",
     "opencollective": "^1.0.3",
-    "opencollective-postinstall": "^2.0.1"
+    "opencollective-postinstall": "^2.0.1",
+    "react-sizeme": "^2.5.2"
   },
   "collective": {
     "type": "opencollective",
