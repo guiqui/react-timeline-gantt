@@ -118,7 +118,7 @@ class TimeLine extends Component{
             return;
         //Check if we have scrolling rows
         let rowInfo=this.calculateStartEndRows(this.state.numVisibleRows,this.props.data,scrollTop);
-        if (rowInfo.start!==this.state.start){
+        if (rowInfo.start!==this.state.startRow){
             this.setState(
                 this.state={
                     scrollTop:scrollTop,
