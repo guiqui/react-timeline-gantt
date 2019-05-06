@@ -46,7 +46,7 @@ The component is capable of:
 - Scroll up/donw in viewPort
 
 ## Installation
-```javascript
+```bash
 npm install react-gantt-timeline
 ```
 The component has the following dependencies: moment, react-sizeme
