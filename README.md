@@ -34,7 +34,8 @@ The component is capable of:
  To play with a live [demo](https://guiqui.github.io/react-timeline-gantt/index.html) .
  
  ## Golden Sponsor
-![screencast](https://guiqui.github.io/react-timeline-gantt/demo.gif)
+ [![alt text](https://guiqui.github.io/react-timeline-gantt/K8Stu.png)](https://www.uxxu.io)
+
 
 ## Release Notes version 0.3.9
 - Better and optimize header
