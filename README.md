@@ -32,7 +32,9 @@ The component is capable of:
  To watch a demo take a look at [video](https://youtu.be/ASGD1FXOafw) that shows how to use the component.
  
  To play with a live [demo](https://guiqui.github.io/react-timeline-gantt/index.html) .
-
+ 
+ ## Golden Sponsor
+![screencast](https://guiqui.github.io/react-timeline-gantt/demo.gif)
 
 ## Release Notes version 0.3.9
 - Better and optimize header
