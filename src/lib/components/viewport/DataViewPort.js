@@ -64,7 +64,7 @@ export  class DataViewPort extends Component{
             let new_position=DateHelper.dateToPixel(item.start,this.props.nowposition,this.props.dayWidth);
             let new_width=DateHelper.dateToPixel(item.end,this.props.nowposition,this.props.dayWidth)-new_position;
             result.push(<DataRow key={i} label={item.name} top={i*this.props.itemheight} left={20} itemheight={this.props.itemheight} >
-                    <DataTask item={item} label={item.name}  
+                    <DataTask className={item.class} metadata={item.metadata} item={item} label={item.name}  
                               nowposition={this.props.nowposition} 
                               dayWidth={this.props.dayWidth}
                               color={item.color} 
