@@ -124,6 +124,10 @@ export default class DataTask extends Component{
         console.log('end')
         this.dragEnd();
     }
+
+    getClass(){
+        return this.props.className;
+    }
     
     calculateStyle(){
         let configStyle=this.props.isSelected?Config.values.dataViewPort.task.selectedStyle:Config.values.dataViewPort.task.style;
@@ -138,9 +142,10 @@ export default class DataTask extends Component{
      
     }
     render(){
-        let style=this.calculateStyle()
+        let style=this.calculateStyle();
+        let className=this.getClass();
         return (
-        <div 
+        <div className={className}
             onMouseDown={(e)=>this.doMouseDown(e,MODE_MOVE)}
             onTouchStart={(e)=>this.doTouchStart(e,MODE_MOVE)}
             onClick={(e)=>{this.props.onSelectItem(this.props.item)}}
