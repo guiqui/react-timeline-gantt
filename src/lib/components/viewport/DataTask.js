@@ -145,7 +145,7 @@ export default class DataTask extends Component{
         let style=this.calculateStyle();
         let className=this.getClass();
         return (
-        <div className={className}
+        <div className={className} metadata={this.props.metadata}
             onMouseDown={(e)=>this.doMouseDown(e,MODE_MOVE)}
             onTouchStart={(e)=>this.doTouchStart(e,MODE_MOVE)}
             onClick={(e)=>{this.props.onSelectItem(this.props.item)}}
