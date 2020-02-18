@@ -87,11 +87,7 @@ html {
   flex-direction: row;
   width: 100%;
   background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%);
-  background: -webkit-linear-gradient(
-    top,
-    #eeeeee 0%,
-    #cccccc 100%
-  ); /* Chrome10-25,Safari5.1-6 */
+  background: -webkit-linear-gradient(top, #eeeeee 0%, #cccccc 100%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, #eeeeee 0%, #cccccc 100%);
   height: 50px;
   color: grey;

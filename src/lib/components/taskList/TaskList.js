@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import Config from "libs/helpers/config/Config";
-import ContentEditable from "libs/components/common/ContentEditable";
+import React, { Component } from 'react';
+import Config from 'libs/helpers/config/Config';
+import ContentEditable from 'libs/components/common/ContentEditable';
 
 export class VerticalLine extends Component {
   constructor(props) {
@@ -8,12 +8,7 @@ export class VerticalLine extends Component {
   }
 
   render() {
-    return (
-      <div
-        className="timeLine-main-data-verticalLine"
-        style={{ left: this.props.left }}
-      />
-    );
+    return <div className="timeLine-main-data-verticalLine" style={{ left: this.props.left }} />;
   }
 }
 
@@ -22,7 +17,7 @@ export class TaskRow extends Component {
     super(props);
   }
 
-  onChange = value => {
+  onChange = (value) => {
     if (this.props.onUpdateTask) {
       this.props.onUpdateTask(this.props.item, { name: value });
     }
@@ -37,18 +32,14 @@ export class TaskRow extends Component {
           top: this.props.top,
           height: this.props.itemheight
         }}
-        onClick={e => this.props.onSelectItem(this.props.item)}
+        onClick={(e) => this.props.onSelectItem(this.props.item)}
       >
         {this.props.nonEditable ? (
-          <div tabIndex={this.props.index} style={{ width: "100%" }}>
+          <div tabIndex={this.props.index} style={{ width: '100%' }}>
             {this.props.label}
           </div>
         ) : (
-          <ContentEditable
-            value={this.props.label}
-            index={this.props.index}
-            onChange={this.onChange}
-          />
+          <ContentEditable value={this.props.label} index={this.props.index} onChange={this.onChange} />
         )}
       </div>
     );
@@ -97,21 +88,11 @@ export default class TaskList extends Component {
     this.containerStyle = this.getContainerStyle(data.length);
     return (
       <div className="timeLine-side">
-        <div
-          className="timeLine-side-title"
-          style={Config.values.taskList.title.style}
-        >
+        <div className="timeLine-side-title" style={Config.values.taskList.title.style}>
           <div>{Config.values.taskList.title.label}</div>
         </div>
-        <div
-          ref="taskViewPort"
-          className="timeLine-side-task-viewPort"
-          onScroll={this.doScroll}
-        >
-          <div
-            className="timeLine-side-task-container"
-            style={this.containerStyle}
-          >
+        <div ref="taskViewPort" className="timeLine-side-task-viewPort" onScroll={this.doScroll}>
+          <div className="timeLine-side-task-container" style={this.containerStyle}>
             {this.renderTaskRow(data)}
           </div>
         </div>

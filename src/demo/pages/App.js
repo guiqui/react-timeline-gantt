@@ -1,57 +1,57 @@
-import React, { Component } from "react";
-import TimeLine from "libs/TimeLine";
-import Generator from "./Generator";
-import "./App.css";
+import React, { Component } from 'react';
+import TimeLine from 'libs/TimeLine';
+import Generator from './Generator';
+import './App.css';
 
 const config = {
   header: {
     month: {
-      dateFormat: "MMMM  YYYY",
+      dateFormat: 'MMMM  YYYY',
       style: {
-        background: "linear-gradient( grey, black)",
-        textShadow: "0.5px 0.5px black",
+        background: 'linear-gradient( grey, black)',
+        textShadow: '0.5px 0.5px black',
         fontSize: 12
       }
     },
     dayOfWeek: {
       style: {
-        background: "linear-gradient( orange, grey)",
+        background: 'linear-gradient( orange, grey)',
         fontSize: 9
       }
     },
     dayTime: {
       style: {
-        background: "linear-gradient( grey, black)",
+        background: 'linear-gradient( grey, black)',
         fontSize: 9,
-        color: "orange"
+        color: 'orange'
       },
       selectedStyle: {
-        background: "linear-gradient( #d011dd ,#d011dd)",
-        fontWeight: "bold",
-        color: "white"
+        background: 'linear-gradient( #d011dd ,#d011dd)',
+        fontWeight: 'bold',
+        color: 'white'
       }
     }
   },
   taskList: {
     title: {
-      label: "Task Todo",
+      label: 'Task Todo',
       style: {
-        background: "linear-gradient( grey, black)"
+        background: 'linear-gradient( grey, black)'
       }
     },
     task: {
       style: {
-        backgroundColor: "grey",
-        color: "white"
+        backgroundColor: 'grey',
+        color: 'white'
       }
     },
     verticalSeparator: {
       style: {
-        backgroundColor: "#fbf9f9"
+        backgroundColor: '#fbf9f9'
       },
       grip: {
         style: {
-          backgroundColor: "red"
+          backgroundColor: 'red'
         }
       }
     }
@@ -59,15 +59,15 @@ const config = {
   dataViewPort: {
     rows: {
       style: {
-        backgroundColor: "white",
-        borderBottom: "solid 0.5px silver"
+        backgroundColor: 'white',
+        borderBottom: 'solid 0.5px silver'
       }
     },
     task: {
       showLabel: true,
       style: {
         borderRadius: 1,
-        boxShadow: "2px 2px 8px #888888"
+        boxShadow: '2px 2px 8px #888888'
       }
     }
   }
@@ -82,33 +82,29 @@ class App extends Component {
       itemheight: 20,
       data: [],
       selectedItem: null,
-      timelineMode: "month",
+      timelineMode: 'month',
       links: result.links,
       nonEditableName: false
     };
   }
 
-  handleDayWidth = e => {
+  handleDayWidth = (e) => {
     this.setState({ daysWidth: parseInt(e.target.value) });
   };
 
-  handleItemHeight = e => {
+  handleItemHeight = (e) => {
     this.setState({ itemheight: parseInt(e.target.value) });
   };
 
   onHorizonChange = (start, end) => {
-    let result = this.data.filter(item => {
-      return (
-        (item.start < start && item.end > end) ||
-        (item.start > start && item.start < end) ||
-        (item.end > start && item.end < end)
-      );
+    let result = this.data.filter((item) => {
+      return (item.start < start && item.end > end) || (item.start > start && item.start < end) || (item.end > start && item.end < end);
     });
-    console.log("Calculating ");
+    console.log('Calculating ');
     this.setState({ data: result });
   };
 
-  onSelectItem = item => {
+  onSelectItem = (item) => {
     console.log(`Select Item ${item}`);
     this.setState({ selectedItem: item });
   };
@@ -120,19 +116,17 @@ class App extends Component {
     console.log(`Update Item ${item}`);
   };
 
-  onCreateLink = item => {
+  onCreateLink = (item) => {
     let newLink = Generator.createLink(item.start, item.end);
     this.setState({ links: [...this.state.links, newLink] });
     console.log(`Update Item ${item}`);
   };
 
   getbuttonStyle(value) {
-    return this.state.timelineMode == value
-      ? { backgroundColor: "grey", boder: "solid 1px #223344" }
-      : {};
+    return this.state.timelineMode == value ? { backgroundColor: 'grey', boder: 'solid 1px #223344' } : {};
   }
 
-  modeChange = value => {
+  modeChange = (value) => {
     this.setState({ timelineMode: value });
   };
 
@@ -140,20 +134,7 @@ class App extends Component {
     function S4() {
       return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
     }
-    return (
-      S4() +
-      S4() +
-      "-" +
-      S4() +
-      "-4" +
-      S4().substr(0, 3) +
-      "-" +
-      S4() +
-      "-" +
-      S4() +
-      S4() +
-      S4()
-    ).toLowerCase();
+    return (S4() + S4() + '-' + S4() + '-4' + S4().substr(0, 3) + '-' + S4() + '-' + S4() + S4() + S4()).toLowerCase();
   }
 
   getRandomDate() {
@@ -163,8 +144,8 @@ class App extends Component {
   }
 
   getRandomColor() {
-    var letters = "0123456789ABCDEF";
-    var color = "#";
+    var letters = '0123456789ABCDEF';
+    var color = '#';
     for (var i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
@@ -176,14 +157,14 @@ class App extends Component {
       id: this.state.data.length + 1,
       start: new Date(),
       end: this.getRandomDate(),
-      name: "New Task",
+      name: 'New Task',
       color: this.getRandomColor()
     };
     this.setState({ data: [newTask, ...this.state.data] });
   };
 
   delete = () => {
-    console.log("On delete");
+    console.log('On delete');
     if (this.state.selectedItem) {
       let index = this.state.links.indexOf(this.state.selectedItem);
       if (index > -1) {
@@ -215,10 +196,7 @@ class App extends Component {
               </div>
               <div className="mode-button" onClick={this.delete}>
                 <svg height={30} width={30} viewBox="0 0 48 48">
-                  <path
-                    fill="silver"
-                    d="M24 4C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm10 22H14v-4h20v4z"
-                  />
+                  <path fill="silver" d="M24 4C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm10 22H14v-4h20v4z" />
                 </svg>
               </div>
             </div>
@@ -226,42 +204,34 @@ class App extends Component {
           <div className="mode-container">
             <div
               className="mode-container-item mode-container-item-left"
-              onClick={e => this.modeChange("day")}
-              style={this.getbuttonStyle("day")}
+              onClick={(e) => this.modeChange('day')}
+              style={this.getbuttonStyle('day')}
             >
               Day
             </div>
-            <div
-              className="mode-container-item"
-              onClick={e => this.modeChange("week")}
-              style={this.getbuttonStyle("week")}
-            >
+            <div className="mode-container-item" onClick={(e) => this.modeChange('week')} style={this.getbuttonStyle('week')}>
               Week
             </div>
-            <div
-              className="mode-container-item"
-              onClick={e => this.modeChange("month")}
-              style={this.getbuttonStyle("month")}
-            >
+            <div className="mode-container-item" onClick={(e) => this.modeChange('month')} style={this.getbuttonStyle('month')}>
               Month
             </div>
             <div
               className="mode-container-item mode-container-item-right"
-              onClick={e => this.modeChange("year")}
-              style={this.getbuttonStyle("year")}
+              onClick={(e) => this.modeChange('year')}
+              style={this.getbuttonStyle('year')}
             >
               Year
             </div>
             <div
               className="mode-container-item mode-container-item-editable-toggle"
-              style={{ marginLeft: "20px" }}
+              style={{ marginLeft: '20px' }}
               onClick={() => {
                 this.setState({
                   nonEditableName: !this.state.nonEditableName
                 });
               }}
             >
-              {this.state.nonEditableName ? "Enable" : "Disable"} name edition
+              {this.state.nonEditableName ? 'Enable' : 'Disable'} name edition
             </div>
           </div>
         </div>

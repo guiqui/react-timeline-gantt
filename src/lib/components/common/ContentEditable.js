@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 export default class ContentEditable extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +24,7 @@ export default class ContentEditable extends Component {
     this.finishEditing();
   };
 
-  handleKey = e => {
+  handleKey = (e) => {
     const keyCode = e.keyCode || e.which;
     if (keyCode === 13) {
       this.finishEditing();
@@ -37,19 +37,14 @@ export default class ContentEditable extends Component {
     if (this.props.onChange) this.props.onChange(this.state.value);
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({ value: e.target.value });
   };
 
   renderDiv = () => {
     return (
-      <div
-        tabIndex={this.props.index}
-        onClick={this.onFocus}
-        onFocus={this.onFocus}
-        style={{ width: "100%" }}
-      >
-        {" "}
+      <div tabIndex={this.props.index} onClick={this.onFocus} onFocus={this.onFocus} style={{ width: '100%' }}>
+        {' '}
         {this.state.value}
       </div>
     );
@@ -67,7 +62,7 @@ export default class ContentEditable extends Component {
       <input
         ref="textInput"
         onBlur={this.onBlur}
-        style={{ width: "100%", outlineColor: "black", outlineStyle: "oinset" }}
+        style={{ width: '100%', outlineColor: 'black', outlineStyle: 'oinset' }}
         type="text"
         name="name"
         value={this.state.value}
