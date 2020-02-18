@@ -1,6 +1,6 @@
 {
   "name": "react-gantt-timeline",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -28,7 +28,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
-    "css-loader": "^0.28.11",
+    "css-loader": "^3.4.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",
@@ -37,7 +37,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.9.1",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^23.1.0",
+    "jest": "^25.1.0",
     "jest-fetch-mock": "^1.6.4",
     "jest-junit": "^5.0.0",
     "json-loader": "^0.5.7",
@@ -67,6 +67,7 @@
   ],
   "homepage": "https://github.com/guiqui/react-timeline-gantt",
   "dependencies": {
+    "jest-config": "^25.1.0",
     "moment": "^2.24.0",
     "opencollective": "^1.0.3",
     "opencollective-postinstall": "^2.0.1",
