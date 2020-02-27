@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Config from 'libs/helpers/config/Config';
 import ContentEditable from 'libs/components/common/ContentEditable';
+import DateHelper from 'libs/helpers/DateHelper';
 
 export class VerticalLine extends Component {
   constructor(props) {
@@ -39,8 +40,8 @@ export class TaskRow extends Component {
             {this.props.label}
           </div>
         ) : (
-          <ContentEditable value={this.props.label} index={this.props.index} onChange={this.onChange} />
-        )}
+            <ContentEditable value={this.props.label} index={this.props.index} onChange={this.onChange} />
+          )}
       </div>
     );
   }
@@ -58,23 +59,55 @@ export default class TaskList extends Component {
 
   renderTaskRow(data) {
     let result = [];
-    for (let i = this.props.startRow; i < this.props.endRow + 1; i++) {
-      let item = data[i];
-      if (!item) break;
-      result.push(
-        <TaskRow
-          key={i}
-          index={i}
-          item={item}
-          label={item.name}
-          top={i * this.props.itemheight}
-          itemheight={this.props.itemheight}
-          isSelected={this.props.selectedItem == item}
-          onUpdateTask={this.props.onUpdateTask}
-          onSelectItem={this.props.onSelectItem}
-          nonEditable={this.props.nonEditable}
-        />
-      );
+    if (Config.data.dataViewPort.groupByName) {
+      const groups = {};
+      for (let i = this.props.startRow; i < this.props.endRow + 1; i++) {
+        let item = this.props.data[i];
+        if (!item) break;
+        if (groups[item.name] !== undefined) {
+          groups[item.name].push(item);
+        } else {
+          groups[item.name] = [item];
+        }
+      }
+      Object.keys(groups).forEach((key, i) => {
+        const group = groups[key]
+        group.forEach(item => {
+          result.push(
+            <TaskRow
+              key={i + item.id}
+              index={item.name + i}
+              item={item}
+              label={item.name}
+              top={i * this.props.itemheight}
+              itemheight={this.props.itemheight}
+              isSelected={this.props.selectedItem == item}
+              onUpdateTask={this.props.onUpdateTask}
+              onSelectItem={this.props.onSelectItem}
+              nonEditable={this.props.nonEditable}
+            />
+          );
+        });
+      });
+    } else {
+      for (let i = this.props.startRow; i < this.props.endRow + 1; i++) {
+        let item = data[i];
+        if (!item) break;
+        result.push(
+          <TaskRow
+            key={i}
+            index={i}
+            item={item}
+            label={item.name}
+            top={i * this.props.itemheight}
+            itemheight={this.props.itemheight}
+            isSelected={this.props.selectedItem == item}
+            onUpdateTask={this.props.onUpdateTask}
+            onSelectItem={this.props.onSelectItem}
+            nonEditable={this.props.nonEditable}
+          />
+        );
+      }
     }
     return result;
   }

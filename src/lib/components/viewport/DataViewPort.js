@@ -36,37 +36,84 @@ export class DataViewPort extends Component {
 
   renderRows = () => {
     let result = [];
-    for (let i = this.props.startRow; i < this.props.endRow + 1; i++) {
-      let item = this.props.data[i];
-      if (!item) break;
-      //FIXME PAINT IN BOUNDARIES
+    if (Config.data.dataViewPort.groupByName) {
+      const groups = {};
+      for (let i = this.props.startRow; i < this.props.endRow + 1; i++) {
+        let item = this.props.data[i];
+        if (!item) break;
+        if (groups[item.name] !== undefined) {
+          groups[item.name].push(item);
+        } else {
+          groups[item.name] = [item];
+        }
+      }
+      Object.keys(groups).forEach((key, i) => {
+        const group = groups[key]
+        result.push(
+          <DataRow key={key} label={key} top={i * this.props.itemheight} left={20} itemheight={this.props.itemheight}>
+            {
+              group.map(item => {
+                let new_position = DateHelper.dateToPixel(item.start, this.props.nowposition, this.props.dayWidth);
+                let new_width = DateHelper.dateToPixel(item.end, this.props.nowposition, this.props.dayWidth) - new_position;
+                return <DataTask
+                  key={item.id}
+                  item={item}
+                  label={item.name}
+                  nowposition={this.props.nowposition}
+                  dayWidth={this.props.dayWidth}
+                  color={item.color}
+                  left={new_position}
+                  width={new_width}
+                  height={this.props.itemheight}
+                  onChildDrag={this.onChildDrag}
+                  isSelected={this.props.selectedItem == item}
+                  onSelectItem={this.props.onSelectItem}
+                  onStartCreateLink={this.props.onStartCreateLink}
+                  onFinishCreateLink={this.props.onFinishCreateLink}
+                  onTaskChanging={this.props.onTaskChanging}
+                  onUpdateTask={this.props.onUpdateTask}
+                >
+                  {' '}
+                </DataTask>
+              })
+            }
+          </DataRow>
+        );
+      });
+    } else {
+      for (let i = this.props.startRow; i < this.props.endRow + 1; i++) {
+        let item = this.props.data[i];
+        if (!item) break;
+        //FIXME PAINT IN BOUNDARIES
 
-      let new_position = DateHelper.dateToPixel(item.start, this.props.nowposition, this.props.dayWidth);
-      let new_width = DateHelper.dateToPixel(item.end, this.props.nowposition, this.props.dayWidth) - new_position;
-      result.push(
-        <DataRow key={i} label={item.name} top={i * this.props.itemheight} left={20} itemheight={this.props.itemheight}>
-          <DataTask
-            item={item}
-            label={item.name}
-            nowposition={this.props.nowposition}
-            dayWidth={this.props.dayWidth}
-            color={item.color}
-            left={new_position}
-            width={new_width}
-            height={this.props.itemheight}
-            onChildDrag={this.onChildDrag}
-            isSelected={this.props.selectedItem == item}
-            onSelectItem={this.props.onSelectItem}
-            onStartCreateLink={this.props.onStartCreateLink}
-            onFinishCreateLink={this.props.onFinishCreateLink}
-            onTaskChanging={this.props.onTaskChanging}
-            onUpdateTask={this.props.onUpdateTask}
-          >
-            {' '}
-          </DataTask>
-        </DataRow>
-      );
+        let new_position = DateHelper.dateToPixel(item.start, this.props.nowposition, this.props.dayWidth);
+        let new_width = DateHelper.dateToPixel(item.end, this.props.nowposition, this.props.dayWidth) - new_position;
+        result.push(
+          <DataRow key={i} label={item.name} top={i * this.props.itemheight} left={20} itemheight={this.props.itemheight}>
+            <DataTask
+              item={item}
+              label={item.name}
+              nowposition={this.props.nowposition}
+              dayWidth={this.props.dayWidth}
+              color={item.color}
+              left={new_position}
+              width={new_width}
+              height={this.props.itemheight}
+              onChildDrag={this.onChildDrag}
+              isSelected={this.props.selectedItem == item}
+              onSelectItem={this.props.onSelectItem}
+              onStartCreateLink={this.props.onStartCreateLink}
+              onFinishCreateLink={this.props.onFinishCreateLink}
+              onTaskChanging={this.props.onTaskChanging}
+              onUpdateTask={this.props.onUpdateTask}
+            >
+              {' '}
+            </DataTask>
+          </DataRow>
+        );
+      }
     }
+
     return result;
   };
 
