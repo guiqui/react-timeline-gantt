@@ -4,66 +4,30 @@ class Registry {
         this.link = {}
     }
 
-    registerData(list, groupByName) {
+    registerData(list) {
         if (!list)
             return;
         this.data = {}
-        if (groupByName) {
-            const groups = {};
-            for (let i = 0; i < list.length; i++) {
-                let item = list[i];
-                if (!item) break;
-                if (groups[item.name] !== undefined) {
-                    groups[item.name].push(item);
-                } else {
-                    groups[item.name] = [item];
-                }
-            }
-            Object.values(groups).forEach((group, i) => {
-                group.forEach(item => {
-                    this.data[item.id] = { item, index: i };
-                });
+        const groups = this.groupData(list, 0, list.length);
+        Object.values(groups).forEach((group, i) => {
+            group.forEach(item => {
+                this.data[item.id] = { item, index: i };
             });
-        } else {
-            for (let i = 0; i < list.length; i++) {
-                this.data[list[i].id] = { item: list[i], index: i };
-            }
-        }
+        });
     }
-    registerLinks(list, groupByName) {
+
+    registerLinks(list) {
         if (!list)
             return
         this.link = {}
         let start = 0;
         let end = 0;
-        if (groupByName) {
-            const groups = {};
-            for (let i = 0; i < list.length; i++) {
-                let item = list[i];
-                if (!item) break;
-                if (groups[item.id] !== undefined) {
-                    groups[item.id].push(item);
-                } else {
-                    groups[item.id] = [item];
-                }
-            }
-            Object.values(groups).forEach((group, i) => {
-                group.forEach(item => {
-                    start = item.start;
-                    end = item.end;
-                    let value = { link: item, index: i }
-                    this.createAddTo(start, this.link, value, i)
-                    this.createAddTo(end, this.link, value, i)
-                });
-            });
-        } else {
-            for (let i = 0; i < list.length; i++) {
-                start = list[i].start;
-                end = list[i].end;
-                let value = { link: list[i], index: i }
-                this.createAddTo(start, this.link, value, i)
-                this.createAddTo(end, this.link, value, i)
-            }
+        for (let i = 0; i < list.length; i++) {
+            start = list[i].start;
+            end = list[i].end;
+            let value = { link: list[i], index: i }
+            this.createAddTo(start, this.link, value, i)
+            this.createAddTo(end, this.link, value, i)
         }
     }
     createAddTo(id, list, value, index) {
@@ -78,6 +42,20 @@ class Registry {
     }
     getLinks(id) {
         return this.link[id]
+    }
+    groupData(list, startIndex, endIndex) {
+        const groups = {};
+        for (let i = startIndex; i < endIndex; i++) {
+            let item = list[i];
+            if (!item) break;
+            const key = item.groupName !== undefined ? item.groupName : item.id;
+            if (groups[key] !== undefined) {
+                groups[key].push(item);
+            } else {
+                groups[key] = [item];
+            }
+        }
+        return groups;
     }
 
 }

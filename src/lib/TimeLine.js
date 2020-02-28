@@ -303,18 +303,16 @@ class TimeLine extends Component {
     }
   }
   checkNeeeData = () => {
-    let groupByName = this.props.config && this.props.config.dataViewPort && this.props.config.dataViewPort.groupByName;
-
     if (this.props.data != this.state.data) {
       this.state.data = this.props.data;
       let rowInfo = this.calculateStartEndRows(this.state.numVisibleRows, this.props.data, this.state.scrollTop);
       this.state.startRow = rowInfo.start;
       this.state.endRow = rowInfo.end;
-      Registry.registerData(this.state.data, groupByName);
+      Registry.registerData(this.state.data);
     }
     if (this.props.links != this.state.links) {
       this.state.links = this.props.links;
-      Registry.registerLinks(this.props.links, groupByName);
+      Registry.registerLinks(this.props.links);
     }
   };
   render() {

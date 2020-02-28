@@ -56,7 +56,6 @@ const defvalues = {
     }
   },
   dataViewPort: {    
-    groupByName: false,
     rows: {
       style: {
         backgroundColor: '#fbf9f9',
