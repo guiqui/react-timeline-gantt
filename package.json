@@ -15,7 +15,7 @@
   },
   "peerDependencies": {
     "css-layout": "^1.1.1",
-    "moment": "^2.22.1",
+    "date-fns": "^2.10.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-sizeme": "^2.5.2"
@@ -68,7 +68,7 @@
   "homepage": "https://github.com/guiqui/react-timeline-gantt",
   "dependencies": {
     "jest-config": "^25.1.0",
-    "moment": "^2.24.0",
+    "date-fns": "^2.10.0",
     "opencollective": "^1.0.3",
     "opencollective-postinstall": "^2.0.1",
     "react-sizeme": "^2.5.2"
