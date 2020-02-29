@@ -10,7 +10,7 @@
     "build": "webpack --mode production  --config webpack.config.build.js",
     "lint": "eslint src",
     "test": "jest && codecov",
-    "prepublish": "npm run build",
+    "prepublish": "rm -rf ./dist && npm run build",
     "postinstall": "opencollective-postinstall"
   },
   "peerDependencies": {
