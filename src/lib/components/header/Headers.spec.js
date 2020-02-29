@@ -1,10 +1,9 @@
 import React from 'react';
 import Headers from './Headers';
-import DateHelper from 'libs/helpers/DateHelper';
 import { BUFFER_DAYS } from 'libs/Const';
-import { VIEW_MODE_DAY, VIEW_MODE_WEEK, VIEW_MODE_MONTH, VIEW_MODE_YEAR } from 'libs/Const';
-import moment from 'moment';
-import { shallow, mount } from 'enzyme';
+import { VIEW_MODE_MONTH, VIEW_MODE_YEAR } from 'libs/Const';
+import { addDays, differenceInMonths, differenceInDays } from 'date-fns';
+import { shallow } from 'enzyme';
 
 describe('Header Init ', () => {
   it('It mount properly when no property is given', () => {
@@ -21,13 +20,13 @@ describe('Header Init ', () => {
     const wrapper = shallow(
       <Headers numVisibleDays={30} currentday={0} nowposition={now} dayWidth={dayWidth} mode={VIEW_MODE_YEAR} scrollLeft={0} />
     );
-    let startDate = moment().add(-BUFFER_DAYS, 'days');
-    let endDate = moment().add(30 + BUFFER_DAYS, 'days');
-    let years = endDate.year() - startDate.year() + 1;
+    let startDate = addDays(new Date(), -BUFFER_DAYS);
+    let endDate = addDays(new Date(), 30 + BUFFER_DAYS);
+    let years = getYear(endDate) - getYear(startDate) + 1;
     expect(wrapper.find('.header-top').children()).toHaveLength(years);
-    let months = Math.ceil(endDate.diff(startDate, 'months', true));
+    let months = differenceInMonths(endDate, startDate);
     expect(wrapper.find('.header-middle').children()).toHaveLength(months);
-    let weeks = Math.ceil(endDate.diff(startDate, 'weeks', true));
+    let weeks = differenceInWeeks(endDate, startDate);
     expect(wrapper.find('.header-bottom').children()).toHaveLength(weeks);
   });
   it('When mode is month it draws correctly', () => {
@@ -37,11 +36,11 @@ describe('Header Init ', () => {
     const wrapper = shallow(
       <Headers numVisibleDays={30} currentday={0} nowposition={now} dayWidth={dayWidth} mode={VIEW_MODE_MONTH} scrollLeft={0} />
     );
-    let startDate = moment().add(-BUFFER_DAYS, 'days');
-    let endDate = moment().add(30 + BUFFER_DAYS, 'days');
-    let months = Math.ceil(endDate.diff(startDate, 'months', true));
+    let startDate = addDays(new Date(), -BUFFER_DAYS);
+    let endDate = addDays(new Date(), 30 + BUFFER_DAYS);
+    let months = differenceInMonths(endDate, startDate);
     expect(wrapper.find('.header-top').children()).toHaveLength(months);
-    let days = Math.trunc(endDate.diff(startDate, 'days', true));
+    let days = Math.trunc(differenceInDays(startDate, endDate));
     expect(wrapper.find('.header-middle').children()).toHaveLength(days);
 
     expect(wrapper.find('.header-bottom').children()).toHaveLength(days);

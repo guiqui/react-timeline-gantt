@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
-import moment from 'moment';
 import { BUFFER_DAYS, DATA_CONTAINER_WIDTH } from 'libs/Const';
 import { VIEW_MODE_DAY, VIEW_MODE_WEEK, VIEW_MODE_MONTH, VIEW_MODE_YEAR } from 'libs/Const';
 import Config from 'libs/helpers/config/Config';
 import DateHelper from 'libs/helpers/DateHelper';
 import './Header.css';
+import { startOfWeek, startOfMonth, startOfYear, format, addDays, getDaysInMonth, startOfDay, differenceInCalendarDays } from 'date-fns';
 
 export class HeaderItem extends PureComponent {
   constructor(props) {
@@ -39,17 +39,17 @@ export default class Header extends PureComponent {
   getFormat(mode, position) {
     switch (mode) {
       case 'year':
-        return 'YYYY';
+        return 'yyyy';
       case 'month':
-        if (position == 'top') return 'MMMM YYYY';
-        else return 'MMMM';
+        if (position == 'top') return 'mmmm yyyy';
+        else return 'mmmm';
       case 'week':
-        if (position == 'top') return 'ww MMMM YYYY';
+        if (position == 'top') return 'ww mmmm yyyy';
         else return 'ww';
       case 'dayweek':
         return 'dd';
       case 'daymonth':
-        return 'D';
+        return 'd';
     }
   }
 
@@ -58,7 +58,7 @@ export default class Header extends PureComponent {
       case 'year':
         return DateHelper.daysInYear(date.year());
       case 'month':
-        return date.daysInMonth();
+        return getDaysInMonth(date);
       case 'week':
         return 7;
       default:
@@ -67,17 +67,13 @@ export default class Header extends PureComponent {
   }
 
   getStartDate = (date, mode) => {
-    let year = null;
     switch (mode) {
       case 'year':
-        year = date.year();
-        return moment([year, 0, 1]);
+        return startOfYear(date);
       case 'month':
-        year = date.year();
-        let month = date.month();
-        return moment([year, month, 1]);
+        return startOfMonth(date);
       case 'week':
-        return date.subtract(date.day(), 'days');
+        return startOfWeek(date)
       default:
         return date;
     }
@@ -102,9 +98,9 @@ export default class Header extends PureComponent {
     let increment = this.getModeIncrement(date, mode) * this.props.dayWidth;
     if (!lastLeft) {
       let starDate = this.getStartDate(date, mode);
-      starDate = starDate.startOf('day');
-      let now = moment().startOf('day');
-      let daysInBetween = starDate.diff(now, 'days');
+      starDate = startOfDay(starDate);
+      let now = startOfDay(new Date());
+      let daysInBetween = differenceInCalendarDays(starDate, now);
       lastLeft = DateHelper.dayToPosition(daysInBetween, this.props.nowposition, this.props.dayWidth);
     }
 
@@ -125,23 +121,23 @@ export default class Header extends PureComponent {
 
     for (let i = start - BUFFER_DAYS; i < end + BUFFER_DAYS; i++) {
       //The unit of iteration is day
-      currentDate = moment().add(i, 'days');
-      if (currentTop != currentDate.format(this.getFormat(top, 'top'))) {
-        currentTop = currentDate.format(this.getFormat(top, 'top'));
+      currentDate = addDays(new Date(), i);
+      if (currentTop != format(currentDate, this.getFormat(top, 'top'))) {
+        currentTop = format(currentDate, this.getFormat(top, 'top'));
         box = this.getBox(currentDate, top, lastLeft.top);
         lastLeft.top = box.left + box.width;
         result.top.push(<HeaderItem key={i} left={box.left} width={box.width} label={currentTop} />);
       }
 
-      if (currentMiddle != currentDate.format(this.getFormat(middle))) {
-        currentMiddle = currentDate.format(this.getFormat(middle));
+      if (currentMiddle != format(currentDate, this.getFormat(middle))) {
+        currentMiddle = format(currentDate, this.getFormat(middle));
         box = this.getBox(currentDate, middle, lastLeft.middle);
         lastLeft.middle = box.left + box.width;
         result.middle.push(<HeaderItem key={i} left={box.left} width={box.width} label={currentMiddle} />);
       }
 
-      if (currentBottom != currentDate.format(this.getFormat(bottom))) {
-        currentBottom = currentDate.format(this.getFormat(bottom));
+      if (currentBottom != format(currentDate, this.getFormat(bottom))) {
+        currentBottom = format(currentDate, this.getFormat(bottom));
         box = this.getBox(currentDate, bottom, lastLeft.bottom);
         lastLeft.bottom = box.left + box.width;
         if (bottom == 'shorttime' || bottom == 'fulltime') {
