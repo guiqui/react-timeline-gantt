@@ -108,6 +108,7 @@ describe('TimeLine Scroll Up ', function() {
     expect(wrapper.state().scrollTop).toBe(0);
     expect(wrapper.state().startRow).toBe(0);
     expect(wrapper.state().endRow).toBe(17);
+    expect(wrapper.state().size.width).toBe(500);
     let numVisibleRows = Math.ceil(500 / itemheight);
     expect(wrapper.state().numVisibleRows).toBe(numVisibleRows);
     //Test moving 10

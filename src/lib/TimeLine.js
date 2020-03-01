@@ -108,11 +108,11 @@ class TimeLine extends Component {
     let rowInfo = this.calculateStartEndRows(this.state.numVisibleRows, this.props.data, scrollTop);
     if (rowInfo.start !== this.state.start) {
       this.setState(
-        (this.state = {
+       {
           scrollTop: scrollTop,
           startRow: rowInfo.start,
           endRow: rowInfo.end
-        })
+        }
       );
     }
   };
@@ -162,14 +162,14 @@ class TimeLine extends Component {
     //Got you
     this.setStartEnd();
     this.setState(
-      (this.state = {
+       {
         currentday: currentIndx,
         nowposition: new_nowposition,
         headerData: headerData,
         scrollLeft: new_left,
         startRow: new_startRow,
         endRow: new_endRow
-      })
+      }
     );
   };
 
@@ -318,6 +318,10 @@ class TimeLine extends Component {
   render() {
     this.checkMode();
     this.checkNeeeData();
+    console.log('On render')
+    if(!this.state.size){
+      console.log(this.state)
+    }
     return (
       <div className="timeLine">
         <div className="timeLine-side-main" style={this.state.sideStyle}>

@@ -28,7 +28,7 @@ describe('Header Init ', () => {
     let months = Math.ceil(endDate.diff(startDate, 'months', true));
     expect(wrapper.find('.header-middle').children()).toHaveLength(months);
     let weeks = Math.ceil(endDate.diff(startDate, 'weeks', true));
-    expect(wrapper.find('.header-bottom').children()).toHaveLength(weeks);
+    expect(wrapper.find('.header-bottom').children()).toHaveLength(weeks+1);
   });
   it('When mode is month it draws correctly', () => {
     //calculateMonthData(start,end,now,dayWidth)
