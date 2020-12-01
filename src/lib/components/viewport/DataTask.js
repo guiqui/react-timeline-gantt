@@ -51,7 +51,7 @@ export default class DataTask extends Component {
       dragging: true,
       mode: mode,
       left: this.props.left,
-      width: this.props.width
+      width: this.props.width,
     });
   }
   dragProcess(x) {
@@ -74,7 +74,7 @@ export default class DataTask extends Component {
     //the coordinates need to be global
     let changeObj = {
       item: this.props.item,
-      position: { start: newLeft - this.props.nowposition, end: newLeft + newWidth - this.props.nowposition }
+      position: { start: newLeft - this.props.nowposition, end: newLeft + newWidth - this.props.nowposition },
     };
     this.props.onTaskChanging(changeObj);
     this.setState({ left: newLeft, width: newWidth });
@@ -134,7 +134,7 @@ export default class DataTask extends Component {
         left: this.state.left,
         width: this.state.width,
         height: this.props.height - 5,
-        top: 2
+        top: 2,
       };
     } else {
       return { ...configStyle, backgroundColor, left: this.props.left, width: this.props.width, height: this.props.height - 5, top: 2 };
@@ -163,7 +163,9 @@ export default class DataTask extends Component {
             onTouchEnd={(e) => this.onCreateLinkTouchEnd(e, LINK_POS_LEFT)}
           />
         </div>
-        <div style={{ overflow: 'hidden' }}>{Config.values.dataViewPort.task.showLabel ? this.props.item.name : ''}</div>
+        <div style={{ overflow: 'hidden' }}>
+          {Config.values.dataViewPort.task.showLabel ? this.props.item.customLabel ?? this.props.item.name : ''}
+        </div>
         <div
           className="timeLine-main-data-task-side"
           style={{ top: 0, left: style.width - 3, height: style.height }}
