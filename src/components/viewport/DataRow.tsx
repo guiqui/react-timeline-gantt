@@ -10,7 +10,14 @@ export default class DataRow extends Component<any, any> {
       return (
         <div
           className="timeLine-main-data-row"
-          style={{ ...Config.values.dataViewPort.rows.style, top: this.props.top, height: this.props.itemheight }}
+          style={{ 
+              ...Config.values.dataViewPort.rows.style, 
+              top: this.props.top, 
+              height: this.props.itemheight, 
+              borderBottom: '2px dashed #d3d3d350', 
+              strokeDasharray: 1000, 
+              strokeDashoffset: 1000 
+            }}
         >
           {this.props.children}
         </div>

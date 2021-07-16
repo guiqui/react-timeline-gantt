@@ -58,8 +58,6 @@ const defvalues = {
   dataViewPort: {
     rows: {
       style: {
-        backgroundColor: '#fbf9f9',
-        borderBottom: 'solid 0.5px #cfcfcd'
       }
     },
     task: {

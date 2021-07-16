@@ -149,12 +149,12 @@ export class TimeLine extends Component<any, any> {
     //Calculating if we need to roll up the scroll
     if (newScrollLeft > this.pxToScroll) {
       //ContenLegnth-viewportLengt
-      new_nowposition = this.state.nowposition - this.pxToScroll;
+      new_nowposition = this.state.nowposition - this.pxToScroll + 4;
       new_left = 0;
     } else {
       if (newScrollLeft <= 0) {
         //ContenLegnth-viewportLengt
-        new_nowposition = this.state.nowposition + this.pxToScroll;
+        new_nowposition = this.state.nowposition + this.pxToScroll - 4;
         new_left = this.pxToScroll;
       } else {
         new_left = newScrollLeft;

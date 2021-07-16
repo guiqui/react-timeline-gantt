@@ -86,6 +86,7 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
 
   useEffect(() => {
     if (dataViewRef.current) {
+      console.log(props.scrollLeft)
       dataViewRef.current.scrollLeft = props.scrollLeft;
       dataViewRef.current.scrollTop = props.scrollTop;
     }

@@ -1,10 +1,37 @@
 import React, { Component } from 'react';
 import Registry from '../../helpers/registry/Registry';
-import Link from './Link';
+import {Link, Task} from '../../types/index';
 import CreateLink from './CreateLink';
 import DateHelper from '../../helpers/DateHelper';
+import LinkComponent from './Link';
 
-export default class LinkViewPort extends Component<any, any> {
+
+export interface LinkViewPortProps {
+  selectedItem: any;
+  onSelectItem: (item: any) => void;
+
+  itemheight: number;
+  dayWidth: number;
+
+  scrollLeft: number;
+  scrollTop: number;
+
+  links: Link[];
+  data: Task[];
+
+  nowposition: number;
+
+  startRow?: number;
+  endRow?: number;
+
+  interactiveMode: any;
+  changingTask: any;
+  taskToCreate: any;
+  onFinishCreateLink: any;
+}
+
+
+export default class LinkViewPort extends Component<LinkViewPortProps, any> {
   cache: any[];
   constructor(props: any) {
     super(props);
@@ -16,7 +43,7 @@ export default class LinkViewPort extends Component<any, any> {
     let startPosition = this.getItemPosition(startItem.index, startItem.item.end);
     let endPosition = this.getItemPosition(endItem.index, endItem.item.start);
     return (
-      <Link
+      <LinkComponent
         key={key}
         item={link}
         start={{ x: startPosition.x, y: startPosition.y }}
@@ -108,7 +135,7 @@ export default class LinkViewPort extends Component<any, any> {
         if (this.state.changingTask.item.id == item.link.end) endPosition.x = this.state.changingTask.position.start;
 
         this.cache[item.index] = (
-          <Link
+          <LinkComponent
             key={-i - 1}
             item={item}
             start={{ x: startPosition.x, y: startPosition.y }}

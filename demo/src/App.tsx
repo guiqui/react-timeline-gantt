@@ -73,7 +73,20 @@ const config = {
   }
 };
 
-const DATA : any[] = [];
+const DATA : any[] = [
+  {
+    id: 1,
+    name: "Test",
+    start: new Date(2021, 2, 12),
+    end: new Date(2021, 5, 9)
+  },
+  {
+    id: 1,
+    name: "Test",
+    start: new Date(2021, 7, 12),
+    end: new Date(2021, 12, 9)
+  }
+];
 
 class App extends Component<any, any> {
   constructor(props: any) {
