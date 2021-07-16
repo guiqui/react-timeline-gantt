@@ -63,6 +63,8 @@ export class TimeLine extends Component<any, any> {
   ////////////////////
   //     ON MODE    //
   ////////////////////
+  
+
 
   getDayWidth(mode: any) {
     switch (mode) {
@@ -328,14 +330,15 @@ export class TimeLine extends Component<any, any> {
     }
   };
   render() {
-    this.checkMode();
+  /*  this.checkMode();
     this.checkNeeeData();
     console.log('On render')
     if(!this.state.size){
       console.log(this.state)
-    }
+    }*/
     return (
       <TimelineContext.Provider value={{
+          mode: this.state.mode,
           scrollLeft: this.state.scrollLeft,
           moveTimeline: this.horizontalChange
       }}>
