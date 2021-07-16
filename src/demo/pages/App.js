@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TimeLine from 'libs/TimeLine';
+import TimeLine from '../../TimeLine';
 import Generator from './Generator';
 import './App.css';
 
