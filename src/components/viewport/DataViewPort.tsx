@@ -6,10 +6,11 @@ import DateHelper from '../../helpers/DateHelper';
 import Config from '../../helpers/config/Config';
 import sizeMe from 'react-sizeme';
 import { useContext } from 'react';
-
+import { getBackgroundPosition, getBackgroundWidth } from '../../utils'
 import { TimelineContext } from '../../context'
+import styled from 'styled-components'
 
-export const DataViewPort : React.FC<any> = (props) => {
+export const BaseDataViewPort : React.FC<any> = (props) => {
 
   const dataViewRef = useRef<HTMLDivElement>(null)
 
@@ -95,7 +96,7 @@ export const DataViewPort : React.FC<any> = (props) => {
       <div
         ref={dataViewRef}
         id="timeLinedataViewPort"
-        className="timeLine-main-data-viewPort"
+        className={`${props.className} timeLine-main-data-viewPort`}
         onWheel={(evt) => {
           //
           moveTimeline?.((scrollLeft || 0) + evt.deltaX)
@@ -111,7 +112,12 @@ export const DataViewPort : React.FC<any> = (props) => {
       >
         <div
           className="timeLine-main-data-container"
-          style={{ height: height, width: DATA_CONTAINER_WIDTH, maxWidth: DATA_CONTAINER_WIDTH }}
+          style={{ 
+            backgroundSize: `${(getBackgroundWidth(props.mode || 'month') * props.dayWidth) * 2}px 100%`,
+            backgroundPositionX: getBackgroundPosition(props.mode || 'month'),
+            height: '100%', 
+            width: DATA_CONTAINER_WIDTH,
+            maxWidth: DATA_CONTAINER_WIDTH }}
         >
           {renderRows()}
         </div>
@@ -119,5 +125,18 @@ export const DataViewPort : React.FC<any> = (props) => {
     );
   
 }
+
+export const DataViewPort = styled(BaseDataViewPort)`
+.timeLine-main-data-container{
+  background: linear-gradient(
+    to right,
+    #5d9634,
+    #5d9634 50%,
+    #538c2b 50%,
+    #538c2b
+  );
+  }
+
+`
 
 export default sizeMe({ monitorWidth: true, monitorHeight: true })(DataViewPort);
