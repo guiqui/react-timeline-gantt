@@ -14,7 +14,7 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
 
   const dataViewRef = useRef<HTMLDivElement>(null)
 
-  const { moveTimeline, scrollLeft } = useContext(TimelineContext)
+  const { mode, style, moveTimeline, scrollLeft } = useContext(TimelineContext)
 
   const [ childDragging, setChildDragging ] = useState<boolean>(false) 
   
@@ -92,6 +92,17 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
     }
   }, [props.scrollLeft, props.scrollTop])
 
+  const backgroundStyle : any = (mode && style?.background) ? style?.background?.(mode) :  {
+    background: `linear-gradient(
+      to right,
+      #5d9634,
+      #5d9634 50%,
+      #538c2b 50%,
+      #538c2b
+    )`,
+    backgroundSize: `${(getBackgroundWidth(props.mode || 'month') * props.dayWidth) * 2}px 100%`,
+    backgroundPositionX: getBackgroundPosition(props.mode || 'month'),
+  } 
     let height = getContainerHeight(props.data.length);
     return (
       <div
@@ -114,8 +125,7 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
         <div
           className="timeLine-main-data-container"
           style={{ 
-            backgroundSize: `${(getBackgroundWidth(props.mode || 'month') * props.dayWidth) * 2}px 100%`,
-            backgroundPositionX: getBackgroundPosition(props.mode || 'month'),
+            ...backgroundStyle,
             height: '100%', 
             width: DATA_CONTAINER_WIDTH,
             maxWidth: DATA_CONTAINER_WIDTH }}
@@ -129,13 +139,7 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
 
 export const DataViewPort = styled(BaseDataViewPort)`
 .timeLine-main-data-container{
-  background: linear-gradient(
-    to right,
-    #5d9634,
-    #5d9634 50%,
-    #538c2b 50%,
-    #538c2b
-  );
+  background: ;
   }
 
 `

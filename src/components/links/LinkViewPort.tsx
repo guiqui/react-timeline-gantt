@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, useContext, useEffect } from 'react';
 import Registry from '../../helpers/registry/Registry';
 import {Link, Task} from '../../types/index';
 import CreateLink from './CreateLink';
 import DateHelper from '../../helpers/DateHelper';
 import LinkComponent from './Link';
+import { TimelineContext } from '../../context';
+import { useState } from 'react';
 
 
 export interface LinkViewPortProps {
@@ -26,97 +28,90 @@ export interface LinkViewPortProps {
 
   interactiveMode: any;
   changingTask: any;
-  taskToCreate: any;
+  taskToCreate: {task: Task, position: any};
   onFinishCreateLink: any;
 }
 
+export interface LinkViewPortState {
+  links: Link[];
+  data: Task[];
+  selectedItem: any
+  dayWidth?: number;
+  changingTask?: any;
+}
 
-export default class LinkViewPort extends Component<LinkViewPortProps, any> {
-  cache: any[];
-  constructor(props: any) {
-    super(props);
-    this.cache = [];
-    this.state = { links: [], data: [], selectedItem: null };
-  }
 
-  renderLink(startItem: { index: any; item: { end: any; }; }, endItem: { index?: any; item?: any; }, link: any, key: React.Key | null | undefined) {
-    let startPosition = this.getItemPosition(startItem.index, startItem.item.end);
-    let endPosition = this.getItemPosition(endItem.index, endItem.item.start);
+ const LinkViewPort : React.FC<LinkViewPortProps> = (props) => {
+   
+  const { links, data, dayWidth } = useContext(TimelineContext)
+
+  const [ selectedItem, setSelectedItem ] = useState<any>(null)
+  const [ changingTask, setChangingTask ] = useState<any>()
+
+  const [ cache, setCache ] = useState<any[]>([])
+
+  const renderLink = (startItem: { index: any; item: { end: any; }; }, endItem: { index?: any; item?: any; }, link: any, key: React.Key | null | undefined) => {
+    let startPosition = getItemPosition(startItem.index, startItem.item.end);
+    let endPosition = getItemPosition(endItem.index, endItem.item.start);
     return (
       <LinkComponent
         key={key}
         item={link}
         start={{ x: startPosition.x, y: startPosition.y }}
         end={{ x: endPosition.x, y: endPosition.y }}
-        isSelected={this.props.selectedItem == link}
-        onSelectItem={this.props.onSelectItem}
+        isSelected={props.selectedItem == link}
+        onSelectItem={props.onSelectItem}
       />
     );
   }
 
-  getItemPosition = (index: number, date: any) => {
-    let x = DateHelper.dateToPixel(date, 0, this.props.dayWidth);
-    let y = index * this.props.itemheight + this.props.itemheight / 2;
+  const getItemPosition = (index: number, date: any) => {
+    let x = DateHelper.dateToPixel(date, 0, props.dayWidth);
+    let y = index * props.itemheight + props.itemheight / 2;
     return { x: x, y: y };
   };
 
-  renderLinks() {
-    this.cache  = [];
+  const renderLinks = () => {
+    setCache([])
     let renderLinks : any = {};
     let startItem,
       endItem = {};
-    if (this.state.data.length == 0) return;
-    for (let i = 0; i < this.state.links.length; i++) {
-      let link = this.state.links[i];
-      if (!link) if (renderLinks[link.id]) continue;
+    if (data?.length == 0) return;
+    for (let i = 0; i < (links || []).length; i++) {
+      let link = links?.[i];
+      if (!link) return;
+      if (renderLinks[link.id]) continue;
       startItem = Registry.getTask(link.start);
       if (!startItem) {
-        this.cache.push(null);
+        setCache(cache.concat([null]))
         continue;
       }
       endItem = Registry.getTask(link.end);
       if (!endItem) {
-        this.cache.push(null);
+        setCache(cache.concat([null]))
         continue;
       }
 
-      this.cache.push(this.renderLink(startItem, endItem, link, i));
+      setCache(cache.concat(renderLinks(startItem, endItem, link, i)))
       renderLinks[link.id] = '';
     }
   }
 
-  refreshData() {
-    if (
-      this.props.links != this.state.links ||
-      this.props.data != this.state.data ||
-      this.props.dayWidth != this.state.dayWidth ||
-      this.props.selectedItem != this.state.selectedItem
-    ) {
+ 
 
-      this.setState({
-        selectedItem: this.props.selectedItem,
-        dayWidth: this.props.dayWidth,
-        links: this.props.links,
-        data: this.props.data
-      })
-  
-      if (this.state.links && this.state.data) this.renderLinks();
-    }
-  }
-
-  renderCreateLink = () => {
-    if (this.props.interactiveMode) {
-      let record = Registry.getTask(this.props.taskToCreate.task.id);
-      let position = this.getItemPosition(record.index, record.item.end);
-      return <CreateLink start={position} onFinishCreateLink={this.props.onFinishCreateLink} />;
+  const renderCreateLink = () => {
+    if (props.interactiveMode) {
+      let record = Registry.getTask(props.taskToCreate.task?.id);
+      let position = getItemPosition(record?.index, record?.item.end);
+      return <CreateLink start={position} onFinishCreateLink={props.onFinishCreateLink} />;
     }
   };
 
-  renderChangingTaskLinks = () => {
-    if (this.props.changingTask != this.state.changingTask) {
-      this.setState({changingTask: this.props.changingTask})
+  const renderChangingTaskLinks = () => {
+    if (props.changingTask != changingTask) {
+      setChangingTask(props.changingTask)
       //Get Links from task
-      let links = Registry.getLinks(this.state.changingTask.item.id);
+      let links = Registry.getLinks(props.changingTask.item.id);
       if (!links) return;
       let item = null;
       let startItem = null;
@@ -129,29 +124,32 @@ export default class LinkViewPort extends Component<LinkViewPortProps, any> {
         if (!startItem) continue;
         endItem = Registry.getTask(item.link.end);
         if (!endItem) continue;
-        startPosition = this.getItemPosition(startItem.index, startItem.item.end);
-        if (this.state.changingTask.item.id == item.link.start) startPosition.x = this.state.changingTask.position.end;
-        endPosition = this.getItemPosition(endItem.index, endItem.item.start);
-        if (this.state.changingTask.item.id == item.link.end) endPosition.x = this.state.changingTask.position.start;
+        startPosition = getItemPosition(startItem.index, startItem.item.end);
+        if (changingTask.item.id == item.link.start) startPosition.x = changingTask.position.end;
+        endPosition = getItemPosition(endItem.index, endItem.item.start);
+        if (changingTask.item.id == item.link.end) endPosition.x = changingTask.position.start;
 
-        this.cache[item.index] = (
+        cache[item.index] = (
           <LinkComponent
             key={-i - 1}
             item={item}
             start={{ x: startPosition.x, y: startPosition.y }}
             end={{ x: endPosition.x, y: endPosition.y }}
-            isSelected={this.props.selectedItem == item}
-            onSelectItem={this.props.onSelectItem}
+            isSelected={props.selectedItem == item}
+            onSelectItem={props.onSelectItem}
           />
         );
-        this.cache = [...this.cache];
+       
+        setCache(cache)
       }
     }
   };
 
-  render() {
-    this.refreshData();
-    this.renderChangingTaskLinks();
+  useEffect(() => {
+
+    renderChangingTaskLinks();
+  },[props.changingTask])
+
     return (
       <svg x={0} y={0} width="100%" pointerEvents="none" style={{ position: 'absolute', top: 60, userSelect: 'none', height: '100%' }}>
         <defs>
@@ -159,11 +157,12 @@ export default class LinkViewPort extends Component<LinkViewPortProps, any> {
             <path d="M 0 0 L 10 5 L 0 10 z" strokeLinejoin="round" />
           </marker>
         </defs>
-        <g transform={`matrix(1,0,0,1,${-(this.props.scrollLeft - this.props.nowposition)},${-this.props.scrollTop})`}>
-          {this.cache}
-          {this.renderCreateLink()}
+        <g transform={`matrix(1,0,0,1,${-(props.scrollLeft - props.nowposition)},${-props.scrollTop})`}>
+          {cache}
+          {renderCreateLink()}
         </g>
       </svg>
     );
-  }
+  
 }
+export default LinkViewPort

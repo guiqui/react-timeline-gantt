@@ -36,6 +36,7 @@
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.9",
     "@types/styled-components": "^5.1.11",
+    "@types/uuid": "^8.3.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^9.0.0",
     "babel-jest": "^23.4.2",
@@ -87,7 +88,8 @@
     "opencollective": "^1.0.3",
     "opencollective-postinstall": "^2.0.1",
     "react-sizeme": "^3.0.1",
-    "styled-components": "^5.3.0"
+    "styled-components": "^5.3.0",
+    "uuid": "^8.3.2"
   },
   "collective": {
     "type": "opencollective",

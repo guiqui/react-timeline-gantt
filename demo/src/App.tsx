@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react'
-import TimeLine from '../../src';
+import TimeLine, { ModeSelector } from '../../src';
 import logo from './logo.svg'
 import './App.css'
 
@@ -192,6 +192,28 @@ class App extends Component<any, any> {
     }
   };
 
+  getStripes(){
+    let count = 7;
+    
+    let onColor = '#5d9634';
+    let offColor = '#538c2b';
+
+    let stripes = [];
+    for(var i = 0; i < count; i++){
+      let color = (i == 0 || i == 6) ? onColor : offColor
+
+      stripes.push(`
+        #ffffff ${i * 24}px,
+        #ffffff ${(i * 24) + 0.5}px,
+        ${color} ${(i * 24) + 0.5}px,
+        ${color} ${((i + 1)* 24) - 0.5}px,
+        #ffffff ${i * 24 - 0.5}px,
+        #ffffff ${(i * 24)}px`)
+    }
+    console.log(stripes.join(','))
+    return stripes.join(',')
+  }
+
   render() {
     return (
       <div className="app-container">
@@ -214,42 +236,21 @@ class App extends Component<any, any> {
               </div>
             </div>
           </div>
-          <div className="mode-container">
-            <div
-              className="mode-container-item mode-container-item-left"
-              onClick={(e) => this.modeChange('day')}
-              style={this.getbuttonStyle('day')}
-            >
-              Day
-            </div>
-            <div className="mode-container-item" onClick={(e) => this.modeChange('week')} style={this.getbuttonStyle('week')}>
-              Week
-            </div>
-            <div className="mode-container-item" onClick={(e) => this.modeChange('month')} style={this.getbuttonStyle('month')}>
-              Month
-            </div>
-            <div
-              className="mode-container-item mode-container-item-right"
-              onClick={(e) => this.modeChange('year')}
-              style={this.getbuttonStyle('year')}
-            >
-              Year
-            </div>
-            <div
-              className="mode-container-item mode-container-item-editable-toggle"
-              style={{ marginLeft: '20px' }}
-              onClick={() => {
-                this.setState({
-                  nonEditableName: !this.state.nonEditableName
-                });
-              }}
-            >
-              {this.state.nonEditableName ? 'Enable' : 'Disable'} name edition
-            </div>
-          </div>
+          <ModeSelector
+            onChange={(mode) => this.setState({mode})} />
         </div>
         <div className="time-line-container">
           <TimeLine
+            style={{
+              background: (mode: string) => ({
+                background: `linear-gradient(
+                  to right,
+                  ${this.getStripes()}
+                )`,
+                backgroundSize: `${24 * 7}px 100%`,
+                backgroundPosition: `${24}px 0`
+              })
+            }}
             // config={config}
             data={this.state.data}
             links={this.state.links}

@@ -13,9 +13,11 @@ import DataController from './controller/DataController';
 import Config from './helpers/config/Config';
 import DateHelper from './helpers/DateHelper';
 import { TimelineContext } from './context'
+import { v4 } from 'uuid';
 import './TimeLine.css';
+import { Task, TimeLineProps } from './types';
 
-export class TimeLine extends Component<any, any> {
+export class TimeLine extends Component<TimeLineProps, any> {
   dragging: boolean;
   draggingPosition: number;
   dc: any;
@@ -100,7 +102,7 @@ export class TimeLine extends Component<any, any> {
     this.setStartEnd();
     let newNumVisibleRows = Math.ceil(size.height / this.props.itemheight);
     let newNumVisibleDays = this.calcNumVisibleDays(size);
-    let rowInfo = this.calculateStartEndRows(newNumVisibleRows, this.props.data, this.state.scrollTop);
+    let rowInfo = this.calculateStartEndRows(newNumVisibleRows, this.props.data || [], this.state.scrollTop);
     this.setState({
       numVisibleRows: newNumVisibleRows,
       numVisibleDays: newNumVisibleDays,
@@ -117,7 +119,7 @@ export class TimeLine extends Component<any, any> {
   verticalChange = (scrollTop: any) => {
     if (scrollTop == this.state.scrollTop) return;
     //Check if we have scrolling rows
-    let rowInfo = this.calculateStartEndRows(this.state.numVisibleRows, this.props.data, scrollTop);
+    let rowInfo = this.calculateStartEndRows(this.state.numVisibleRows, this.props.data || [], scrollTop);
     if (rowInfo.start !== this.state.start) {
       this.setState(
        {
@@ -129,7 +131,7 @@ export class TimeLine extends Component<any, any> {
     }
   };
 
-  calculateStartEndRows = (numVisibleRows: number, data: string | any[], scrollTop: number) => {
+  calculateStartEndRows = (numVisibleRows: number, data: Task[], scrollTop: number) => {
     let new_start = Math.trunc(scrollTop / this.props.itemheight);
     let new_end = new_start + numVisibleRows >= data.length ? data.length : new_start + numVisibleRows;
     return { start: new_start, end: new_end };
@@ -167,8 +169,8 @@ export class TimeLine extends Component<any, any> {
     //Calculate rows to render
     new_startRow = Math.trunc(this.state.scrollTop / this.props.itemheight);
     new_endRow =
-      new_startRow + this.state.numVisibleRows >= this.props.data.length
-        ? this.props.data.length - 1
+      new_startRow + this.state.numVisibleRows >= (this.props.data || []).length
+        ? (this.props.data || []).length - 1
         : new_startRow + this.state.numVisibleRows;
     //If we need updates then change the state and the scroll position
     //Got you
@@ -260,21 +262,22 @@ export class TimeLine extends Component<any, any> {
     if (this.props.onSelectItem && item != this.props.selectedItem) this.props.onSelectItem(item);
   };
 
-  onStartCreateLink = (task: any, position: any) => {
-    console.log(`Start Link ${task}`);
+  onStartCreateLink = (task: Task, position: any) => {
+    console.log(`=> Start Link`, task, position);
     this.setState({
       interactiveMode: true,
       taskToCreate: { task: task, position: position }
     });
   };
 
-  onFinishCreateLink = (task: { id: any; }, position: any) => {
+  onFinishCreateLink = (task: Task, position: any) => {
     console.log(`End Link ${task}`);
     if (this.props.onCreateLink && task &&
       this.state.taskToCreate &&this.state.taskToCreate.task.id!=task.id) {
       this.props.onCreateLink({
+        id: v4(),
         start: this.state.taskToCreate,
-        end: { task: task, position: position }
+        end: task.id //{ task: task, position: position }
       });
     }
     this.setState({
@@ -284,6 +287,7 @@ export class TimeLine extends Component<any, any> {
   };
 
   onTaskChanging = (changingTask: any) => {
+    console.log("Changing task", changingTask)
     this.setState({
       changingTask: changingTask
     });
@@ -292,15 +296,20 @@ export class TimeLine extends Component<any, any> {
   calcNumVisibleDays = (size: { width: number; }) => {
     return Math.ceil(size.width / this.state.dayWidth) + BUFFER_DAYS;
   };
-  checkMode() {
-    if (this.props.mode != this.state.mode && this.props.mode) {
-      let newDayWidth = this.getDayWidth(this.state.mode);
+
+  changeMode(mode: string) {
+    console.log("Change mode")
+    if (mode != this.state.mode) {
+      let newDayWidth = this.getDayWidth(mode);
       //to recalculate the now position we have to see how mwny scroll has happen
       //to do so we calculate the diff of days between current day and now
       //And we calculate how many times we have scroll
-      let scrollTime = Math.ceil((-this.state.currentday * this.state.dayWidth) / this.pxToScroll);
+
+      //Posible bug here now
+
+      let scrollTime = Math.ceil((-this.state.currentday * newDayWidth) / this.pxToScroll);
       //We readjust now postion to the new number of scrolls
-      let scrollLeft = (this.state.currentday * this.state.dayWidth + this.state.nowposition) % this.pxToScroll;
+      let scrollLeft = (this.state.currentday * newDayWidth + this.state.nowposition) % this.pxToScroll;
       // we recalculate the new scroll Left value
 
       this.setState({
@@ -314,7 +323,7 @@ export class TimeLine extends Component<any, any> {
   }
   checkNeeeData = () => {
     if (this.props.data != this.state.data) {
-      let rowInfo = this.calculateStartEndRows(this.state.numVisibleRows, this.props.data, this.state.scrollTop);
+      let rowInfo = this.calculateStartEndRows(this.state.numVisibleRows, this.props.data || [], this.state.scrollTop);
      
       Registry.registerData(this.state.data);
 
@@ -338,9 +347,11 @@ export class TimeLine extends Component<any, any> {
     }*/
     return (
       <TimelineContext.Provider value={{
-          mode: this.state.mode,
-          scrollLeft: this.state.scrollLeft,
-          moveTimeline: this.horizontalChange
+        style: this.props.style,
+        mode: this.state.mode,
+        scrollLeft: this.state.scrollLeft,
+        moveTimeline: this.horizontalChange,
+        changeMode: this.changeMode.bind(this)
       }}>
       <div className="timeLine" style={{flex: 1}}>
         <div className="timeLine-side-main" style={this.state.sideStyle}>
@@ -403,7 +414,7 @@ export class TimeLine extends Component<any, any> {
             scrollTop={this.state.scrollTop}
             startRow={this.state.startRow}
             endRow={this.state.endRow}
-            data={this.props.data}
+            data={this.props.data || []}
             nowposition={this.state.nowposition}
             dayWidth={this.state.dayWidth}
             interactiveMode={this.state.interactiveMode}
@@ -413,7 +424,7 @@ export class TimeLine extends Component<any, any> {
             selectedItem={this.props.selectedItem}
             onSelectItem={this.onSelectItem}
             itemheight={this.props.itemheight}
-            links={this.props.links}
+            links={this.props.links || []}
           />
         </div>
       </div>

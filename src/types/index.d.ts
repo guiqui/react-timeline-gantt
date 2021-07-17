@@ -5,7 +5,21 @@ export default class TimeLine extends React.Component<TimeLineProps> {
 
 }
 
+type TimelineBackground = {background?: string, backgroundPosition?: string, backgroundSize?: string } | string 
+
+type TimelineHeader = {format: string, item?: (date: Date) => any}
+
+type TimelineStyle = {
+    background?: (mode: string) => TimelineBackground | TimelineBackground
+    header?: TimelineHeader[]
+}
+
 type TimeLineProps = {
+    nonEditableName?: any;
+    style?: TimelineStyle;
+    mode: string;
+    itemheight: number;
+    selectedItem?: any;
     data?: Task[];
     links?: Link[];
     config?: Config;
