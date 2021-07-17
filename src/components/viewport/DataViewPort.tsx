@@ -1,23 +1,32 @@
-import React, { Component, createRef, useEffect, useRef, useState } from 'react';
+import React, { createRef, useEffect, useRef, useState } from 'react';
 import { DATA_CONTAINER_WIDTH } from '../../Const';
 import DataTask from './DataTask';
 import DataRow from './DataRow';
 import DateHelper from '../../helpers/DateHelper';
 import Config from '../../helpers/config/Config';
-import sizeMe from 'react-sizeme';
 import { useContext } from 'react';
 import { getBackgroundPosition, getBackgroundWidth } from '../../utils'
 import { TimelineContext } from '../../context'
 import styled from 'styled-components'
+import useResizeAware from 'react-resize-aware'
 
 export const BaseDataViewPort : React.FC<any> = (props) => {
 
   const dataViewRef = useRef<HTMLDivElement>(null)
 
-  const { mode, style, moveTimeline, scrollLeft } = useContext(TimelineContext)
+  const { mode, style, dayWidth, moveTimeline, scrollLeft } = useContext(TimelineContext)
 
   const [ childDragging, setChildDragging ] = useState<boolean>(false) 
   
+
+  const reporter = (target?: HTMLElement | null) => {
+    let dimensions = {width: target?.clientWidth || null, height: target?.clientHeight || null}
+    if(dimensions.width && dimensions.height) props.onSize?.(dimensions)
+    return dimensions
+  }
+
+  const [ resizeListener, sizes ] = useResizeAware(reporter)
+
   const getContainerHeight = (rows: number) => {
     let new_height = rows > 0 ? rows * props.itemheight : 10;
     return new_height;
@@ -86,13 +95,12 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
 
   useEffect(() => {
     if (dataViewRef.current) {
-      console.log(props.scrollLeft)
       dataViewRef.current.scrollLeft = props.scrollLeft;
       dataViewRef.current.scrollTop = props.scrollTop;
     }
   }, [props.scrollLeft, props.scrollTop])
 
-  const backgroundStyle : any = (mode && style?.background) ? style?.background?.(mode) :  {
+  const backgroundStyle : any = (mode && style?.background) ? style?.background?.(mode, dayWidth || 0) :  {
     background: `linear-gradient(
       to right,
       #5d9634,
@@ -122,6 +130,7 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
         onTouchEnd={props.onTouchEnd}
         onTouchCancel={props.onTouchCancel}
       >
+        {resizeListener}
         <div
           className="timeLine-main-data-container"
           style={{ 
@@ -144,4 +153,7 @@ export const DataViewPort = styled(BaseDataViewPort)`
 
 `
 
-export default sizeMe({ monitorWidth: true, monitorHeight: true })(DataViewPort);
+export default DataViewPort; 
+
+
+//sizeMe({ monitorWidth: true, monitorHeight: true })(DataViewPort);

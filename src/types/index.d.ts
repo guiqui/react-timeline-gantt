@@ -1,20 +1,17 @@
 import React from "react";
 
 
-export default class TimeLine extends React.Component<TimeLineProps> {
-
-}
 
 type TimelineBackground = {background?: string, backgroundPosition?: string, backgroundSize?: string } | string 
 
 type TimelineHeader = {format: string, item?: (date: Date) => any}
 
 type TimelineStyle = {
-    background?: (mode: string) => TimelineBackground | TimelineBackground
+    background?: (mode: string, dayWidth: number) => TimelineBackground | TimelineBackground
     header?: TimelineHeader[]
 }
 
-type TimeLineProps = {
+type TimelineProps = {
     nonEditableName?: any;
     style?: TimelineStyle;
     mode: string;

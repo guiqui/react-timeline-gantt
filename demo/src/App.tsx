@@ -192,26 +192,33 @@ class App extends Component<any, any> {
     }
   };
 
-  getStripes(){
-    let count = 7;
+  getStripes(count: number, dayWidth: number){
     
     let onColor = '#5d9634';
     let offColor = '#538c2b';
 
     let stripes = [];
     for(var i = 0; i < count; i++){
-      let color = (i == 0 || i == 6) ? onColor : offColor
-
+      let color = (i == 0 || i == count - 1) ? onColor : offColor
+      let borderMultiplier = i * 1;
       stripes.push(`
-        #ffffff ${i * 24}px,
-        #ffffff ${(i * 24) + 0.5}px,
-        ${color} ${(i * 24) + 0.5}px,
-        ${color} ${((i + 1)* 24) - 0.5}px,
-        #ffffff ${i * 24 - 0.5}px,
-        #ffffff ${(i * 24)}px`)
+        ${i == 0 ? `#ffffff ${((i * dayWidth))}px,
+        #ffffff ${(i * dayWidth) +0.5 }px,` : ''}
+        ${color} ${(i * dayWidth) + 0.5}px,
+        ${color} ${(i * dayWidth) + dayWidth}px
+        ${true ? `, #ffffff ${(i * dayWidth) }px,
+        #ffffff ${(i * dayWidth) + 0.5}px` : ''}`)
     }
-    console.log(stripes.join(','))
     return stripes.join(',')
+  }
+
+  getOffset(mode: string){
+    switch(mode){
+      case 'year':
+        return 4;
+      default:
+        return 0;
+    }
   }
 
   render() {
@@ -237,19 +244,22 @@ class App extends Component<any, any> {
             </div>
           </div>
           <ModeSelector
-            onChange={(mode) => this.setState({mode})} />
+            onChange={(mode) => this.setState({timelineMode: mode})} />
         </div>
         <div className="time-line-container">
           <TimeLine
             style={{
-              background: (mode: string) => ({
+              background: (mode: string, dayWidth: number) => {
+                if(mode == 'year') dayWidth = dayWidth * 7
+                return {
                 background: `linear-gradient(
-                  to right,
-                  ${this.getStripes()}
+                  to right, 
+                  ${this.getStripes(2, dayWidth)}
                 )`,
-                backgroundSize: `${24 * 7}px 100%`,
-                backgroundPosition: `${24}px 0`
-              })
+                backgroundSize: `${dayWidth * 2}px 100%`,
+                backgroundPosition: `${this.getOffset(mode)}px 0`
+              }
+            }
             }}
             // config={config}
             data={this.state.data}

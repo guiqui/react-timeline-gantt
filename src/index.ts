@@ -2,6 +2,6 @@ export * from './TimeLine'
 
 export * from './components'
 
-import { TimeLine } from './TimeLine'
+import { Timeline } from './TimeLine'
 
-export default TimeLine
+export default Timeline

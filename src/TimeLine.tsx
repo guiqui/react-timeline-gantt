@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import VerticalSpliter from './components/taskList/VerticalSpliter';
 import Header from './components/header/Headers';
@@ -15,52 +15,64 @@ import DateHelper from './helpers/DateHelper';
 import { TimelineContext } from './context'
 import { v4 } from 'uuid';
 import './TimeLine.css';
-import { Task, TimeLineProps } from './types';
+import { Link, Task, TimelineProps } from './types';
+import { useState } from 'react';
+import { useRef } from 'react';
+import { getDayWidth } from './utils';
 
-export class TimeLine extends Component<TimeLineProps, any> {
-  dragging: boolean;
-  draggingPosition: number;
-  dc: any;
-  initialise: boolean;
-  pxToScroll: number;
-  scrollData: any;
-  static propTypes: { itemheight: PropTypes.Validator<number>; dayWidth: PropTypes.Validator<number>; nonEditableName: PropTypes.Requireable<boolean>; };
-  static defaultProps: { itemheight: number; dayWidth: number; nonEditableName: boolean; };
+export const Timeline : React.FC<TimelineProps> = (props) => {
+  const [ dragging, setDragging ] = useState<boolean>(false)
+  const [ draggingPosition, setDraggingPosition ] = useState<number>(0)
+  const [ pxToScroll, setPxToScroll ] = useState<number>(24000)
 
-  constructor(props: any) {
-    super(props);
-    this.dragging = false;
-    this.draggingPosition = 0;
-    this.dc = new DataController();
-    this.dc.onHorizonChange = this.onHorizonChange;
-    this.initialise = false;
-    //This variable define the number of pixels the viewport can scroll till arrive to the end of the context
-    this.pxToScroll = 1900;
+  const [ scrollTop, setScrollTop ] = useState<number>(0)
+  const [ scrollLeft, setScrollLeft ] = useState<number>(0)
 
-    let dayWidth = this.getDayWidth(this.props.mode);
-    Config.load(this.props.config);
-    //Initialising state
-    this.state = {
-      currentday: 0, //Day that is in the 0px horizontal
-      //nowposition is the reference position, this variable support the infinit scrolling by accumulatning scroll times and redefining the 0 position
-      // if we accumulat 2 scroll to the left nowposition will be 2* DATA_CONTAINER_WIDTH
-      nowposition: 0,
-      startRow: 0, //
-      endRow: 10,
-      sideStyle: { width: 200 },
-      scrollLeft: 0,
-      scrollTop: 0,
-      numVisibleRows: 40,
-      numVisibleDays: 60,
-      dayWidth: dayWidth,
-      interactiveMode: false,
-      taskToCreate: null,
-      links: [],
-      mode: this.props.mode ? this.props.mode : VIEW_MODE_MONTH,
-      size: { width: 1, height: 1 },
-      changingTask: null
-    };
-  }
+  const [ startRow, setStartRow ] = useState<number>();
+  const [ endRow, setEndRow ] = useState<number>();
+
+  const [ numVisibleRows, setNumVisibleRows ] = useState<number>(40)
+  const [ numVisibleDays, setNumVisibleDays ] = useState<number>(60)
+
+  const [ nowposition, setNowPosition ] = useState<number>(0)
+
+  const [sideStyle, setSideStyle ] = useState<any>({ width: 200 })
+
+  const dayWidth = useRef<number>(getDayWidth(props.mode))
+
+  const [currentday, setCurrentDay ] = useState<number>(0)
+
+  const [ interactiveMode, setInteractiveMode ] = useState<boolean>(false)
+
+  const [ mode, setMode ] = useState<string>(props.mode ? props.mode : VIEW_MODE_MONTH)
+
+  const [ size, setSize ] = useState<{ width: number, height: number }>({ width: 1, height: 1 })    
+
+  const [ taskToCreate, setTaskToCreate ] = useState<any>()
+  const [ changingTask, setChangingTask ] = useState<any>()
+
+  const dc = useRef<DataController>(new DataController())
+  
+  const [ scrollData, setScrollData ] = useState<any>()
+  const [ headerData, setHeaderData ] = useState<any>()
+
+  const [ data, setData ] = useState<Task[]>([])
+  const [ links, setLinks ] = useState<Link[]>([])
+
+
+  useEffect(() => {
+    dc.current.onHorizonChange = onHorizonChange;
+    Config.load(props.config);
+
+    dc.current.initialise(
+      scrollLeft + nowposition,
+      scrollLeft + nowposition + size.width,
+      nowposition,
+      dayWidth.current
+    );
+
+  }, [])
+
 
   ////////////////////
   //     ON MODE    //
@@ -68,380 +80,357 @@ export class TimeLine extends Component<TimeLineProps, any> {
   
 
 
-  getDayWidth(mode: any) {
-    switch (mode) {
-      case VIEW_MODE_DAY:
-        return DAY_DAY_MODE;
-      case VIEW_MODE_WEEK:
-        return DAY_WEEK_MODE;
-      case VIEW_MODE_MONTH:
-        return DAY_MONTH_MODE;
-      case VIEW_MODE_YEAR:
-        return DAY_YEAR_MODE;
-      default:
-        return DAY_MONTH_MODE;
-    }
-  }
-
   ////////////////////
   //     ON SIZE    //
   ////////////////////
 
-  onSize = (size: { width: any; height: number; }) => {
+  const onSize = (size: { width: any; height: number; }) => {
     //If size has changed
-    this.calculateVerticalScrollVariables(size);
-    if (!this.initialise) {
-      this.dc.initialise(
-        this.state.scrollLeft + this.state.nowposition,
-        this.state.scrollLeft + this.state.nowposition + size.width,
-        this.state.nowposition,
-        this.state.dayWidth
-      );
-      this.initialise = true;
-    }
-    this.setStartEnd();
-    let newNumVisibleRows = Math.ceil(size.height / this.props.itemheight);
-    let newNumVisibleDays = this.calcNumVisibleDays(size);
-    let rowInfo = this.calculateStartEndRows(newNumVisibleRows, this.props.data || [], this.state.scrollTop);
-    this.setState({
-      numVisibleRows: newNumVisibleRows,
-      numVisibleDays: newNumVisibleDays,
-      startRow: rowInfo.start,
-      endRow: rowInfo.end,
-      size: size
-    });
+
+    console.log(size, dayWidth)
+    calculateVerticalScrollVariables(size);
+    // if (!initialise) {
+    //   dc.current.initialise(
+    //     scrollLeft + nowposition,
+    //     scrollLeft + nowposition + size.width,
+    //     nowposition,
+    //     dayWidth
+    //   );
+    //   initialise = true;
+    // }
+    setStartEnd();
+    let newNumVisibleRows = Math.ceil(size.height / props.itemheight);
+    let newNumVisibleDays = calcNumVisibleDays(size, dayWidth.current);
+    let rowInfo = calculateStartEndRows(newNumVisibleRows, props.data || [], scrollTop);
+
+    setNumVisibleDays(newNumVisibleDays)
+    console.log("DAYS", newNumVisibleDays)
+    setNumVisibleRows(newNumVisibleRows)
+    setStartRow(rowInfo.start)
+    setEndRow(rowInfo.end)
+    setSize(size)
+
+
   };
 
   /////////////////////////
   //   VIEWPORT CHANGES  //
   /////////////////////////
 
-  verticalChange = (scrollTop: any) => {
-    if (scrollTop == this.state.scrollTop) return;
+  const verticalChange = (scrollTop: any) => {
+    if (scrollTop == scrollTop) return;
     //Check if we have scrolling rows
-    let rowInfo = this.calculateStartEndRows(this.state.numVisibleRows, this.props.data || [], scrollTop);
-    if (rowInfo.start !== this.state.start) {
-      this.setState(
-       {
-          scrollTop: scrollTop,
-          startRow: rowInfo.start,
-          endRow: rowInfo.end
-        }
-      );
+    let rowInfo = calculateStartEndRows(numVisibleRows, props.data || [], scrollTop);
+    if (rowInfo.start !== startRow) {
+      setScrollTop(scrollTop)
+
+      setStartRow(rowInfo.start)
+      setEndRow(rowInfo.end)
+
     }
   };
 
-  calculateStartEndRows = (numVisibleRows: number, data: Task[], scrollTop: number) => {
-    let new_start = Math.trunc(scrollTop / this.props.itemheight);
+  const calculateStartEndRows = (numVisibleRows: number, data: Task[], scrollTop: number) => {
+    let new_start = Math.trunc(scrollTop / props.itemheight);
     let new_end = new_start + numVisibleRows >= data.length ? data.length : new_start + numVisibleRows;
     return { start: new_start, end: new_end };
   };
 
-  setStartEnd = () => {
-    this.dc.setStartEnd(this.state.scrollLeft, this.state.scrollLeft + this.state.size.width, this.state.nowposition, this.state.dayWidth);
+  const setStartEnd = () => {
+    dc.current.setStartEnd(scrollLeft, scrollLeft + size.width, nowposition, dayWidth.current);
   };
 
-  horizontalChange = (newScrollLeft: number) => {
-    let new_nowposition = this.state.nowposition;
+ const horizontalChange = (newScrollLeft: number) => {
+    let new_nowposition = nowposition;
     let new_left = -1;
-    let headerData = this.state.headerData;
-    let new_startRow = this.state.startRow;
-    let new_endRow = this.state.endRow;
+    let new_startRow = startRow;
+    let new_endRow = endRow;
 
+    console.log(props.mode)
     //Calculating if we need to roll up the scroll
-    if (newScrollLeft > this.pxToScroll) {
+    if (newScrollLeft > pxToScroll) {
       //ContenLegnth-viewportLengt
-      new_nowposition = this.state.nowposition - this.pxToScroll + 4;
+      new_nowposition = nowposition - pxToScroll - 0 //((props.mode == 'month' || props.mode == 'week') ? 8 : 0)//- 1; //+
       new_left = 0;
     } else {
       if (newScrollLeft <= 0) {
         //ContenLegnth-viewportLengt
-        new_nowposition = this.state.nowposition + this.pxToScroll - 4;
-        new_left = this.pxToScroll;
+        new_nowposition = nowposition + pxToScroll + 14//((props.mode == 'month' || props.mode == 'week') ? 8 : 0) //; //-
+        new_left = pxToScroll;
       } else {
         new_left = newScrollLeft;
       }
     }
 
     //Get the day of the left position
-    let currentIndx = Math.trunc((newScrollLeft - this.state.nowposition) / this.state.dayWidth);
+    let currentIndx = Math.trunc((newScrollLeft - nowposition) / dayWidth.current);
 
     //Calculate rows to render
-    new_startRow = Math.trunc(this.state.scrollTop / this.props.itemheight);
+    new_startRow = Math.trunc(scrollTop / props.itemheight);
     new_endRow =
-      new_startRow + this.state.numVisibleRows >= (this.props.data || []).length
-        ? (this.props.data || []).length - 1
-        : new_startRow + this.state.numVisibleRows;
+      new_startRow + numVisibleRows >= (props.data || []).length
+        ? (props.data || []).length - 1
+        : new_startRow + numVisibleRows;
     //If we need updates then change the state and the scroll position
     //Got you
-    this.setStartEnd();
-    this.setState(
-       {
-        currentday: currentIndx,
-        nowposition: new_nowposition,
-        headerData: headerData,
-        scrollLeft: new_left,
-        startRow: new_startRow,
-        endRow: new_endRow
-      }
-    );
+    setStartEnd();
+
+    setCurrentDay(currentIndx)
+    setNowPosition(new_nowposition)
+    setHeaderData(headerData)
+    setScrollLeft(new_left)
+    setStartRow(new_startRow)
+    setEndRow(new_endRow)
+
   };
 
-  calculateVerticalScrollVariables = (size: { width: number; }) => {
+  const calculateVerticalScrollVariables = (size: { width: number; }) => {
     //The pixel to scroll verically is equal to the pecentage of what the viewport represent in the context multiply by the context width
-    this.pxToScroll = (1 - size.width / DATA_CONTAINER_WIDTH) * DATA_CONTAINER_WIDTH - 1;
+    setPxToScroll((1 - size.width / DATA_CONTAINER_WIDTH) * DATA_CONTAINER_WIDTH - 1);
   };
 
-  onHorizonChange = (lowerLimit: any, upLimit: any) => {
-    if (this.props.onHorizonChange) this.props.onHorizonChange(lowerLimit, upLimit);
+  const onHorizonChange = (lowerLimit: any, upLimit: any) => {
+    if (props.onHorizonChange) props.onHorizonChange(lowerLimit, upLimit);
   };
 
   /////////////////////
   //   MOUSE EVENTS  //
   /////////////////////
 
-  doMouseDown = (e: { clientX: number; }) => {
-    this.dragging = true;
-    this.draggingPosition = e.clientX;
+  const doMouseDown = (e: { clientX: number; }) => {
+    setDragging(true)
+    setDraggingPosition(e.clientX)
+
   };
-  doMouseMove = (e: { clientX: number; }) => {
-    if (this.dragging) {
-      let delta = this.draggingPosition - e.clientX;
+  const doMouseMove = (e: { clientX: number; }) => {
+    if (dragging) {
+      let delta = draggingPosition - e.clientX;
 
       if (delta !== 0) {
-        this.draggingPosition = e.clientX;
-        this.horizontalChange(this.state.scrollLeft + delta);
+        setDraggingPosition(e.clientX)
+        horizontalChange(scrollLeft + delta);
       }
     }
   };
-  doMouseUp = (e: any) => {
-    this.dragging = false;
+  const doMouseUp = (e: any) => {
+    setDragging(false)
   };
-  doMouseLeave = (e: any) => {
+  const doMouseLeave = (e: any) => {
     // if (!e.relatedTarget.nodeName)
-    //     this.dragging=false;
-    this.dragging = false;
+    //     dragging=false;
+    setDragging(false)
   };
 
-  doTouchStart = (e: { touches: { clientX: number; }[]; }) => {
-    this.dragging = true;
-    this.draggingPosition = e.touches[0].clientX;
+  const doTouchStart = (e: { touches: { clientX: number; }[]; }) => {
+    setDragging(true)
+    setDraggingPosition(e.touches[0].clientX)
+
   };
-  doTouchEnd = (e: any) => {
-    this.dragging = false;
+  const doTouchEnd = (e: any) => {
+    setDragging(false)
   };
-  doTouchMove = (e: { touches: { clientX: number; }[]; }) => {
-    if (this.dragging) {
-      let delta = this.draggingPosition - e.touches[0].clientX;
+  const doTouchMove = (e: { touches: { clientX: number; }[]; }) => {
+    if (dragging) {
+      let delta = draggingPosition - e.touches[0].clientX;
 
       if (delta !== 0) {
-        this.draggingPosition = e.touches[0].clientX;
-        this.horizontalChange(this.state.scrollLeft + delta);
+        setDraggingPosition(e.touches[0].clientX)
+        
+        horizontalChange(scrollLeft + delta);
       }
     }
   };
-  doTouchCancel = (e: any) => {
-    this.dragging = false;
+  const doTouchCancel = (e: any) => {
+    setDragging(false)
   };
 
 
   //Child communicating states
-  onTaskListSizing = (delta: number) => {
-    this.setState((prevState: any) => {
-      let result = { ...prevState };
-      result.sideStyle = { width: result.sideStyle.width - delta };
-      return result;
-    });
+  const onTaskListSizing = (delta: number) => {
+    setSideStyle({ width: sideStyle.width - delta })
+    
   };
 
   /////////////////////
   //   ITEMS EVENTS  //
   /////////////////////
 
-  onSelectItem = (item: any) => {
-    if (this.props.onSelectItem && item != this.props.selectedItem) this.props.onSelectItem(item);
+  const onSelectItem = (item: any) => {
+    if (props.onSelectItem && item != props.selectedItem) props.onSelectItem(item);
   };
 
-  onStartCreateLink = (task: Task, position: any) => {
+  const onStartCreateLink = (task: Task, position: any) => {
     console.log(`=> Start Link`, task, position);
-    this.setState({
-      interactiveMode: true,
-      taskToCreate: { task: task, position: position }
-    });
+    setInteractiveMode(true)
+    setTaskToCreate({ task: task, position: position })
+   
   };
 
-  onFinishCreateLink = (task: Task, position: any) => {
+  const onFinishCreateLink = (task: Task, position: any) => {
     console.log(`End Link ${task}`);
-    if (this.props.onCreateLink && task &&
-      this.state.taskToCreate &&this.state.taskToCreate.task.id!=task.id) {
-      this.props.onCreateLink({
+    if (props.onCreateLink && task &&
+      taskToCreate && taskToCreate.task.id!=task.id) {
+      props.onCreateLink({
         id: v4(),
-        start: this.state.taskToCreate,
+        start: taskToCreate,
         end: task.id //{ task: task, position: position }
       });
     }
-    this.setState({
-      interactiveMode: false,
-      taskToCreate: null
-    });
+    setInteractiveMode(false)
+    setTaskToCreate(null)
+    
   };
 
-  onTaskChanging = (changingTask: any) => {
+  const onTaskChanging = (changingTask: any) => {
     console.log("Changing task", changingTask)
-    this.setState({
-      changingTask: changingTask
-    });
+    setChangingTask(changingTask)
+    
   };
 
-  calcNumVisibleDays = (size: { width: number; }) => {
-    return Math.ceil(size.width / this.state.dayWidth) + BUFFER_DAYS;
+  const calcNumVisibleDays = (size: { width: number; }, newDayWidth?: number) => {
+    console.log(size, (newDayWidth || dayWidth))
+    return Math.ceil(size.width /(newDayWidth || dayWidth.current)) + BUFFER_DAYS;
   };
 
-  changeMode(mode: string) {
-    console.log("Change mode")
-    if (mode != this.state.mode) {
-      let newDayWidth = this.getDayWidth(mode);
+  const changeMode = (newMode: string) => {
+    console.log("Change mode", newMode)
+    if (newMode != mode) {
+      let newDayWidth = getDayWidth(newMode);
       //to recalculate the now position we have to see how mwny scroll has happen
       //to do so we calculate the diff of days between current day and now
       //And we calculate how many times we have scroll
 
       //Posible bug here now
 
-      let scrollTime = Math.ceil((-this.state.currentday * newDayWidth) / this.pxToScroll);
+      let scrollTime = Math.ceil((-currentday * newDayWidth) / pxToScroll);
       //We readjust now postion to the new number of scrolls
-      let scrollLeft = (this.state.currentday * newDayWidth + this.state.nowposition) % this.pxToScroll;
+      let scrollLeft = (currentday * newDayWidth + nowposition) % pxToScroll;
       // we recalculate the new scroll Left value
 
-      this.setState({
-        mode: this.props.mode,
-        dayWidth: newDayWidth,
-        numVisibleDays: this.calcNumVisibleDays(this.state.size),
-        nowposition: scrollTime * this.pxToScroll,
-        scrollLeft
-      })
+      console.log(newMode, newDayWidth)
+      setMode(newMode)
+      dayWidth.current = newDayWidth
+      setNumVisibleDays(calcNumVisibleDays(size, newDayWidth))
+      setNowPosition(scrollTime * pxToScroll)
+      setScrollLeft(scrollLeft)
+     
     }
   }
-  checkNeeeData = () => {
-    if (this.props.data != this.state.data) {
-      let rowInfo = this.calculateStartEndRows(this.state.numVisibleRows, this.props.data || [], this.state.scrollTop);
+  const checkNeedData = () => {
+    if (props.data != data) {
+      let rowInfo = calculateStartEndRows(numVisibleRows, props.data || [], scrollTop);
      
-      Registry.registerData(this.state.data);
+      Registry.registerData(data);
 
-      this.setState({
-        data: this.props.data,
-        startRow: rowInfo.start,
-        endRow: rowInfo.end
-      })
+      setData(props.data || [])
+      setStartRow(rowInfo.start)
+      setEndRow(rowInfo.end)
+
+
     }
-    if (this.props.links != this.state.links) {
-      this.setState({links: this.props.links})
-      Registry.registerLinks(this.props.links);
+    if (props.links != links) {
+      setLinks(props.links || [])
+      Registry.registerLinks(props.links);
     }
   };
-  render() {
-  /*  this.checkMode();
-    this.checkNeeeData();
+
+
+  useEffect(() => {
+    changeMode(props.mode)
+  }, [props.mode])
+  /*  checkMode();
+    checkNeeeData();
     console.log('On render')
-    if(!this.state.size){
-      console.log(this.state)
+    if(!size){
+      console.log(state)
     }*/
     return (
       <TimelineContext.Provider value={{
-        style: this.props.style,
-        mode: this.state.mode,
-        scrollLeft: this.state.scrollLeft,
-        moveTimeline: this.horizontalChange,
-        changeMode: this.changeMode.bind(this)
+        style: props.style,
+        mode: mode,
+        scrollLeft: scrollLeft,
+        moveTimeline: horizontalChange,
+        changeMode: changeMode,
+        dayWidth: dayWidth.current
       }}>
       <div className="timeLine" style={{flex: 1}}>
-        <div className="timeLine-side-main" style={this.state.sideStyle}>
+        <div className="timeLine-side-main" style={sideStyle}>
           <TaskList
-            ref="taskViewPort"
-            itemheight={this.props.itemheight}
-            startRow={this.state.startRow}
-            endRow={this.state.endRow}
-            data={this.props.data}
-            selectedItem={this.props.selectedItem}
-            onSelectItem={this.onSelectItem}
-            onUpdateTask={this.props.onUpdateTask}
-            onScroll={this.verticalChange}
-            nonEditable={this.props.nonEditableName}
+            itemheight={props.itemheight}
+            startRow={startRow}
+            endRow={endRow}
+            data={props.data}
+            selectedItem={props.selectedItem}
+            onSelectItem={onSelectItem}
+            onUpdateTask={props.onUpdateTask}
+            onScroll={verticalChange}
+            nonEditable={props.nonEditableName}
           />
-          <VerticalSpliter onTaskListSizing={this.onTaskListSizing} />
+          <VerticalSpliter onTaskListSizing={onTaskListSizing} />
         </div>
         <div className="timeLine-main">
           <Header
-            headerData={this.state.headerData}
-            numVisibleDays={this.state.numVisibleDays}
-            currentday={this.state.currentday}
-            nowposition={this.state.nowposition}
-            dayWidth={this.state.dayWidth}
-            mode={this.state.mode}
-            scrollLeft={this.state.scrollLeft}
+            headerData={headerData}
+            numVisibleDays={numVisibleDays}
+            currentday={currentday}
+            nowposition={nowposition}
+            dayWidth={dayWidth.current}
+            mode={mode}
+            scrollLeft={scrollLeft}
           />
           <DataViewPort
-            ref="dataViewPort"
-            scrollLeft={this.state.scrollLeft}
-            scrollTop={this.state.scrollTop}
-            itemheight={this.props.itemheight}
-            nowposition={this.state.nowposition}
-            startRow={this.state.startRow}
-            endRow={this.state.endRow}
-            data={this.props.data}
-            selectedItem={this.props.selectedItem}
-            dayWidth={this.state.dayWidth}
-            onScroll={this.scrollData}
-            onMouseDown={this.doMouseDown}
-            onMouseMove={this.doMouseMove}
-            onMouseUp={this.doMouseUp}
-            onMouseLeave={this.doMouseLeave}
-            onTouchStart={this.doTouchStart}
-            onTouchMove={this.doTouchMove}
-            onTouchEnd={this.doTouchEnd}
-            onTouchCancel={this.doTouchCancel}
-            onSelectItem={this.onSelectItem}
-            onUpdateTask={this.props.onUpdateTask}
-            onTaskChanging={this.onTaskChanging}
-            onStartCreateLink={this.onStartCreateLink}
-            onFinishCreateLink={this.onFinishCreateLink}
+            scrollLeft={scrollLeft}
+            scrollTop={scrollTop}
+            itemheight={props.itemheight}
+            nowposition={nowposition}
+            startRow={startRow}
+            endRow={endRow}
+            data={props.data}
+            selectedItem={props.selectedItem}
+            dayWidth={dayWidth}
+            onScroll={scrollData}
+            onMouseDown={doMouseDown}
+            onMouseMove={doMouseMove}
+            onMouseUp={doMouseUp}
+            onMouseLeave={doMouseLeave}
+            onTouchStart={doTouchStart}
+            onTouchMove={doTouchMove}
+            onTouchEnd={doTouchEnd}
+            onTouchCancel={doTouchCancel}
+            onSelectItem={onSelectItem}
+            onUpdateTask={props.onUpdateTask}
+            onTaskChanging={onTaskChanging}
+            onStartCreateLink={onStartCreateLink}
+            onFinishCreateLink={onFinishCreateLink}
             boundaries={{
-              lower: this.state.scrollLeft,
-              upper: this.state.scrollLeft + this.state.size.width
+              lower: scrollLeft,
+              upper: scrollLeft + size.width
             }}
+            onSize={onSize}
           />
           <LinkViewPort
-            scrollLeft={this.state.scrollLeft}
-            scrollTop={this.state.scrollTop}
-            startRow={this.state.startRow}
-            endRow={this.state.endRow}
-            data={this.props.data || []}
-            nowposition={this.state.nowposition}
-            dayWidth={this.state.dayWidth}
-            interactiveMode={this.state.interactiveMode}
-            taskToCreate={this.state.taskToCreate}
-            onFinishCreateLink={this.onFinishCreateLink}
-            changingTask={this.state.changingTask}
-            selectedItem={this.props.selectedItem}
-            onSelectItem={this.onSelectItem}
-            itemheight={this.props.itemheight}
-            links={this.props.links || []}
+            scrollLeft={scrollLeft}
+            scrollTop={scrollTop}
+            startRow={startRow}
+            endRow={endRow}
+            data={props.data || []}
+            nowposition={nowposition}
+            dayWidth={dayWidth.current}
+            interactiveMode={interactiveMode}
+            taskToCreate={taskToCreate}
+            onFinishCreateLink={onFinishCreateLink}
+            changingTask={changingTask}
+            selectedItem={props.selectedItem}
+            onSelectItem={onSelectItem}
+            itemheight={props.itemheight}
+            links={props.links || []}
           />
         </div>
       </div>
       </TimelineContext.Provider>
     );
-  }
+  
 }
 
-TimeLine.propTypes = {
-  itemheight: PropTypes.number.isRequired,
-  dayWidth: PropTypes.number.isRequired,
-  nonEditableName: PropTypes.bool
-};
 
-TimeLine.defaultProps = {
-  itemheight: 20,
-  dayWidth: 24,
-  nonEditableName: false
-};
 

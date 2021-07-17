@@ -15,8 +15,7 @@
     "css-layout": "^1.1.1",
     "moment": "^2.29.1",
     "react": "^17.x",
-    "react-dom": "^17.x",
-    "react-sizeme": "^2.5.2"
+    "react-dom": "^17.x"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
@@ -87,7 +86,7 @@
     "moment": "^2.24.0",
     "opencollective": "^1.0.3",
     "opencollective-postinstall": "^2.0.1",
-    "react-sizeme": "^3.0.1",
+    "react-resize-aware": "^3.1.0",
     "styled-components": "^5.3.0",
     "uuid": "^8.3.2"
   },
