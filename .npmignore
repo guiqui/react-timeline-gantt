@@ -1,10 +1,5 @@
-webpack.config.build.js
-webpack.config.demo.js
-webpack.config.prod.js
-_config.yml
 .travis.yml
 .eslintrc
-.babelrc
 .eslintrc.json
 .gitignore
 junit.xml
