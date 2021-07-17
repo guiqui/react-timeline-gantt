@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var DateHelper_1 = __importDefault(require("../../helpers/DateHelper"));
+var DateHelper_1 = __importDefault(require("../helpers/DateHelper"));
 var DAY_WIDTH = 24;
 describe('Test DateToPixel Fuctionality', function () {
     test('Test get today ', function () {
@@ -53,28 +53,28 @@ describe('Test DateToPixel Fuctionality', function () {
     test('When Today and now position  0', function () {
         var now = DateHelper_1.default.getToday();
         var result = DateHelper_1.default.dateToPixel(now, 0, DAY_WIDTH);
-        result = DateHelper_1.default.pixelToDate(result, 0, DAY_WIDTH);
-        expect(now.getTime() - result.getTime() < 10).toBe(true);
+        var date = DateHelper_1.default.pixelToDate(result, 0, DAY_WIDTH);
+        expect(now.getTime() - date.getTime() < 10).toBe(true);
     });
     test('When Today and now position  100 ', function () {
         var now = DateHelper_1.default.getToday();
         var result = DateHelper_1.default.dateToPixel(now, 100, DAY_WIDTH);
-        result = DateHelper_1.default.pixelToDate(result, 100, DAY_WIDTH);
-        expect(now.getTime() - result.getTime() < 10).toBe(true);
+        var date = DateHelper_1.default.pixelToDate(result, 100, DAY_WIDTH);
+        expect(now.getTime() - date.getTime() < 10).toBe(true);
     });
     test('When tomorrow and now position 0', function () {
         var tomorrow = DateHelper_1.default.getToday();
         tomorrow.setDate(tomorrow.getDate() + 1);
         var result = DateHelper_1.default.dateToPixel(tomorrow, 0, DAY_WIDTH);
-        result = DateHelper_1.default.pixelToDate(result, 0, DAY_WIDTH);
-        expect(tomorrow.getTime() - result.getTime() < 10).toBe(true);
+        var date = DateHelper_1.default.pixelToDate(result, 0, DAY_WIDTH);
+        expect(tomorrow.getTime() - date.getTime() < 10).toBe(true);
     });
     test('When tomorrow and now position 100', function () {
         var tomorrow = DateHelper_1.default.getToday();
         tomorrow.setDate(tomorrow.getDate() + 1);
         var result = DateHelper_1.default.dateToPixel(tomorrow, 100, DAY_WIDTH);
-        result = DateHelper_1.default.pixelToDate(result, 100, DAY_WIDTH);
-        expect(tomorrow.getTime() - result.getTime() < 10).toBe(true);
+        var date = DateHelper_1.default.pixelToDate(result, 100, DAY_WIDTH);
+        expect(tomorrow.getTime() - date.getTime() < 10).toBe(true);
     });
 });
 describe('Test date difference', function () {

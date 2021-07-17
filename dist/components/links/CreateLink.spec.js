@@ -29,7 +29,7 @@ describe('Testing Firing Events ', function () {
         wrapper.instance().doMouseMove({ clientX: 2, clientY: 3 });
         expect(wrapper.state().x).toBe(11);
         expect(wrapper.state().y).toBe(11);
-        wrapper.instance().doMouseUp();
+        wrapper.instance().doMouseUp({});
         expect(onFinishCreateLink.mock.calls.length).toBe(1);
     });
 });

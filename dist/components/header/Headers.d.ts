@@ -1,14 +1,14 @@
 import React from 'react';
 import './Header.css';
 export interface HeaderProps {
-    mode: string;
-    nowposition: number;
-    scrollLeft: number;
-    dayWidth: number;
-    currentday: number;
+    nowposition?: number;
+    scrollLeft?: number;
+    currentday?: number;
+    mode?: string;
+    dayWidth?: number;
     currentDate?: Date;
-    numVisibleDays: number;
-    headerData: any;
+    numVisibleDays?: number;
+    headerData?: any;
     currentPosition?: {
         x: number;
         y: number;

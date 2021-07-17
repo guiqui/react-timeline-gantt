@@ -4,22 +4,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(require("react"));
-var TimeLine_1 = __importDefault(require("./TimeLine"));
-var Const_1 = require("../../Const");
+var TimeLine_1 = require("./TimeLine");
+var Const_1 = require("./Const");
 var enzyme_1 = require("enzyme");
 describe('TimeLine Initialization ', function () {
     it('Initilise properly when all properties are null', function () {
-        var wrapper = enzyme_1.shallow(react_1.default.createElement(TimeLine_1.default, null));
+        var wrapper = enzyme_1.shallow(react_1.default.createElement(TimeLine_1.Timeline, null));
         expect(wrapper.find('.timeLine')).toBeDefined();
         expect(wrapper.find('.timeLine-main')).toBeDefined();
     });
     it('Initialise on Size', function () {
         var itemheight = 30;
-        var data = [{ name: "Task Today", start: new Date(), end: new Date().setDate(new Date().getDate(), 5), color: 'red' }];
+        var endDate = new Date();
+        endDate.setDate(new Date().getDate() + 5);
+        var data = [{ id: 1, name: "Task Today", start: new Date(), end: endDate, color: 'red' }];
         var onNeedData = function (start, end) {
             return data;
         };
-        var wrapper = enzyme_1.shallow(react_1.default.createElement(TimeLine_1.default, { data: data, itemheight: itemheight, onNeedData: onNeedData }));
+        var wrapper = enzyme_1.shallow(react_1.default.createElement(TimeLine_1.Timeline, { data: data, itemheight: itemheight, onNeedData: onNeedData }));
         //This needs to be improve
         expect(wrapper.state().currentday).toBe(0);
         expect(wrapper.state().nowposition).toBe(0);
@@ -40,19 +42,21 @@ describe('TimeLine Initialization ', function () {
         expect(wrapper.state().endRow).toBe(1);
     });
 });
-describe('TimeLine Scroll left ', function () {
+describe('Timeline Scroll left ', function () {
     it('Initilise properly when all properties are null', function () {
-        var wrapper = enzyme_1.shallow(react_1.default.createElement(TimeLine_1.default, null));
+        var wrapper = enzyme_1.shallow(react_1.default.createElement(TimeLine_1.Timeline, null));
         expect(wrapper.find('.timeLine')).toBeDefined();
         expect(wrapper.find('.timeLine-main')).toBeDefined();
     });
     it('Render and handle mouse move right and Right', function () {
         var itemheight = 30;
-        var data = [{ name: "Task Today", start: new Date(), end: new Date().setDate(new Date().getDate(), 5), color: 'red' }];
+        var endDate = new Date();
+        endDate.setDate(new Date().getDate() + 5);
+        var data = [{ id: 1, name: "Task Today", start: new Date(), end: endDate, color: 'red' }];
         var onNeedData = function (start, end) {
             return data;
         };
-        var wrapper = enzyme_1.mount(react_1.default.createElement(TimeLine_1.default, { data: data, itemheight: itemheight, links: [], onNeedData: onNeedData }));
+        var wrapper = enzyme_1.mount(react_1.default.createElement(TimeLine_1.Timeline, { data: data, itemheight: itemheight, links: [], onNeedData: onNeedData }));
         wrapper.instance().onSize({ width: 500, height: 500 });
         expect(wrapper.state().nowposition).toBe(0);
         expect(wrapper.state().scrollLeft).toBe(0);
@@ -89,17 +93,19 @@ describe('TimeLine Scroll left ', function () {
         wrapper.unmount();
     });
 });
-describe('TimeLine Scroll Up ', function () {
+describe('Timeline Scroll Up ', function () {
     it('Calculate Num of visible rows properly', function () {
         var itemheight = 30;
         var data = [];
         for (var i = 0; i < 20; i++) {
-            data.push({ name: "Task Today", start: new Date(), end: new Date().setDate(new Date().getDate(), 5), color: 'red' });
+            var endDate = new Date();
+            endDate.setDate(new Date().getDate() + 5);
+            data.push({ id: i, name: "Task Today", start: new Date(), end: endDate, color: 'red' });
         }
         var onNeedData = function (start, end) {
             return data;
         };
-        var wrapper = enzyme_1.shallow(react_1.default.createElement(TimeLine_1.default, { data: data, itemheight: itemheight, onNeedData: onNeedData }));
+        var wrapper = enzyme_1.shallow(react_1.default.createElement(TimeLine_1.Timeline, { data: data, itemheight: itemheight, onNeedData: onNeedData }));
         wrapper.instance().onSize({ width: 500, height: 500 });
         expect(wrapper.state().nowposition).toBe(0);
         expect(wrapper.state().scrollTop).toBe(0);
@@ -140,12 +146,14 @@ describe('Testing onTaskListSizing ', function () {
         var itemheight = 30;
         var data = [];
         for (var i = 0; i < 20; i++) {
-            data.push({ name: "Task Today", start: new Date(), end: new Date().setDate(new Date().getDate(), 5), color: 'red' });
+            var endDate = new Date();
+            endDate.setDate(new Date().getDate() + 5);
+            data.push({ id: i, name: "Task Today", start: new Date(), end: endDate, color: 'red' });
         }
         var onNeedData = function (start, end) {
             return data;
         };
-        var wrapper = enzyme_1.shallow(react_1.default.createElement(TimeLine_1.default, { data: data, itemheight: itemheight, onNeedData: onNeedData }));
+        var wrapper = enzyme_1.shallow(react_1.default.createElement(TimeLine_1.Timeline, { data: data, itemheight: itemheight, onNeedData: onNeedData }));
         wrapper.instance().onSize({ width: 500, height: 500 });
         expect(wrapper.state().sideStyle.width).toBe(200);
         wrapper.instance().onTaskListSizing(10);
@@ -159,12 +167,14 @@ describe('Testing Mode change ', function () {
         var itemheight = 30;
         var data = [];
         for (var i = 0; i < 20; i++) {
-            data.push({ name: "Task Today", start: new Date(), end: new Date().setDate(new Date().getDate(), 5), color: 'red' });
+            var endDate = new Date();
+            endDate.setDate(new Date().getDate() + 5);
+            data.push({ id: i, name: "Task Today", start: new Date(), end: endDate, color: 'red' });
         }
         var onNeedData = function (start, end) {
             return data;
         };
-        var wrapper = enzyme_1.shallow(react_1.default.createElement(TimeLine_1.default, { data: data, itemheight: itemheight, onNeedData: onNeedData }));
+        var wrapper = enzyme_1.shallow(react_1.default.createElement(TimeLine_1.Timeline, { data: data, itemheight: itemheight, onNeedData: onNeedData }));
         wrapper.instance().onSize({ width: 500, height: 500 });
         expect(wrapper.state().nowposition).toBe(0);
         expect(wrapper.state().scrollLeft).toBe(0);
@@ -189,16 +199,22 @@ describe('Testing Mode change ', function () {
         var itemheight = 30;
         var data = [];
         for (var i = 0; i < 20; i++) {
-            data.push({ name: "Task Today", start: new Date(), end: new Date().setDate(new Date().getDate(), 5), color: 'red' });
+            var endDate = new Date();
+            endDate.setDate(new Date().getDate() + 5);
+            data.push({ id: i, name: "Task Today", start: new Date(), end: endDate, color: 'red' });
         }
         var onNeedData = function (start, end) {
             return data;
         };
-        var wrapper = enzyme_1.shallow(react_1.default.createElement(TimeLine_1.default, { data: data, itemheight: itemheight, onNeedData: onNeedData }));
-        wrapper.instance().onSize({ width: 500, height: 500 });
-        wrapper.instance().doMouseDown({ clientX: 0 });
-        wrapper.instance().doMouseMove({ clientX: 501 });
-        wrapper.instance().doMouseUp();
+        var wrapper = enzyme_1.shallow(react_1.default.createElement(TimeLine_1.Timeline, { data: data, itemheight: itemheight, onNeedData: onNeedData }));
+        wrapper.simulate('resize', { width: 500, height: 500 });
+        //instance().onSize({ width: 500, height: 500 });
+        wrapper.simulate('mousedown', { clientX: 0 });
+        //wrapper.instance().doMouseDown({ clientX: 0 });
+        wrapper.simulate('mousemove', { clientX: 501 });
+        wrapper.simulate('mouseup', {});
+        // wrapper.instance().doMouseMove({ clientX: 501 });
+        // wrapper.instance().doMouseUp();
         expect(wrapper.state().nowposition).toBe(4499);
         expect(wrapper.state().scrollLeft).toBe(4499);
         expect(wrapper.state().numVisibleDays).toBe(51);

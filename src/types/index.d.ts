@@ -20,6 +20,10 @@ type TimelineProps = {
     data?: Task[];
     links?: Link[];
     config?: Config;
+
+    date?: Date;
+    onDateChange?: (date: Date) => void;
+
     onUpdateTask?: (task: Task, props: object) => void;
     onCreateLink?: (link: Link) => void;
     onSelectItem?: (item: object) => void;
@@ -37,8 +41,10 @@ type Task = {
 
 type Link = {
     id: string | number;
-    start: string | number;
-    end: string | number;
+    source: string | number;
+    sourceHandle?: string;
+    target?: string | number;
+    targetHandle: string;
 };
 
 export type Config = Partial<{

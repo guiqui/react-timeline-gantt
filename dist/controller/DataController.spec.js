@@ -3,8 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var DataController_1 = __importDefault(require("../../controller/DataController"));
-var DateHelper_1 = __importDefault(require("../../helpers/DateHelper"));
+var DataController_1 = __importDefault(require("../controller/DataController"));
+var DateHelper_1 = __importDefault(require("../helpers/DateHelper"));
 describe('Test DataController ', function () {
     test('Initialise Properly ', function () {
         var dataController = new DataController_1.default();

@@ -3,6 +3,7 @@ import DateHelper from '../../helpers/DateHelper';
 import { MODE_NONE, MODE_MOVE, MOVE_RESIZE_LEFT, MOVE_RESIZE_RIGHT } from '../../Const';
 import { LINK_POS_LEFT, LINK_POS_RIGHT } from '../../Const';
 import Config from '../../helpers/config/Config';
+import { debounce } from 'lodash';
 
 
 export interface DataTaskProps {
@@ -71,6 +72,13 @@ export default class DataTask extends Component<DataTaskProps, DataTaskState> {
     }
   }
 
+  updatePosition(){
+    let new_start_date = DateHelper.pixelToDate(this.state.left, this.props.nowposition, this.props.dayWidth || 0);
+    let new_end_date = DateHelper.pixelToDate(this.state.left + this.state.width, this.props.nowposition, this.props.dayWidth || 0);
+  
+    this.props.onUpdateTask(this.props.item, { start: new_start_date, end: new_end_date });
+  }
+
   dragStart(x: any, mode: any) {
     this.props.onChildDrag(true);
     this.draggingPosition = x;
@@ -103,15 +111,16 @@ export default class DataTask extends Component<DataTaskProps, DataTaskState> {
       item: this.props.item,
       position: { start: newLeft - this.props.nowposition, end: newLeft + newWidth - this.props.nowposition }
     };
+  
+    this.updatePosition()
+
     this.props.onTaskChanging(changeObj);
     this.setState({ left: newLeft, width: newWidth });
     this.draggingPosition = x;
   }
   dragEnd() {
     this.props.onChildDrag(false);
-    let new_start_date = DateHelper.pixelToDate(this.state.left, this.props.nowposition, this.props.dayWidth || 0);
-    let new_end_date = DateHelper.pixelToDate(this.state.left + this.state.width, this.props.nowposition, this.props.dayWidth || 0);
-    this.props.onUpdateTask(this.props.item, { start: new_start_date, end: new_end_date });
+    this.updatePosition()
     this.setState({ dragging: false, mode: MODE_NONE });
   }
 

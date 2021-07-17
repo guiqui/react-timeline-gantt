@@ -59,10 +59,7 @@ var defvalues = {
     },
     dataViewPort: {
         rows: {
-            style: {
-                backgroundColor: '#fbf9f9',
-                borderBottom: 'solid 0.5px #cfcfcd'
-            }
+            style: {}
         },
         task: {
             showLabel: false,

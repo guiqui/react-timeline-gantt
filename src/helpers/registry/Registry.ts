@@ -1,3 +1,4 @@
+import { Task } from "../../types";
 
 class Registry{
     private data : any = {}
@@ -6,7 +7,7 @@ class Registry{
     
     }
 
-    registerData(list: any){
+    registerData(list: Task[]){
         if (!list)
             return;
         this.data={}
@@ -37,6 +38,7 @@ class Registry{
     }
 
     getTask(id: any){
+        console.log(this.data, id)
         return this.data[id]
     }
     getLinks(id: any){

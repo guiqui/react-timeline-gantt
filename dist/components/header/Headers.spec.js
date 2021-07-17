@@ -26,9 +26,9 @@ describe('Header Init ', function () {
         var years = endDate.year() - startDate.year() + 1;
         expect(wrapper.find('.header-top').children()).toHaveLength(years);
         var months = Math.ceil(endDate.diff(startDate, 'months', true));
-        expect(wrapper.find('.header-middle').children()).toHaveLength(months);
+        expect(wrapper.find('.header-middle').children()).toHaveLength(months + 1);
         var weeks = Math.ceil(endDate.diff(startDate, 'weeks', true));
-        expect(wrapper.find('.header-bottom').children()).toHaveLength(weeks + 1);
+        expect(wrapper.find('.header-bottom').children()).toHaveLength(weeks * 2);
     });
     it('When mode is month it draws correctly', function () {
         //calculateMonthData(start,end,now,dayWidth)
@@ -38,9 +38,9 @@ describe('Header Init ', function () {
         var startDate = moment_1.default().add(-Const_1.BUFFER_DAYS, 'days');
         var endDate = moment_1.default().add(30 + Const_1.BUFFER_DAYS, 'days');
         var months = Math.ceil(endDate.diff(startDate, 'months', true));
-        expect(wrapper.find('.header-top').children()).toHaveLength(months);
+        expect(wrapper.find('.header-top').children()).toHaveLength(months + 1);
         var days = Math.trunc(endDate.diff(startDate, 'days', true));
         expect(wrapper.find('.header-middle').children()).toHaveLength(days);
-        expect(wrapper.find('.header-bottom').children()).toHaveLength(days);
+        expect(wrapper.find('.header-bottom').children()).toHaveLength(days * 2);
     });
 });

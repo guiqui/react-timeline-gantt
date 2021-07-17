@@ -71,6 +71,7 @@
     "jest-config": "^25.1.0",
     "lodash": "^4.17.21",
     "moment": "^2.24.0",
+    "nanoid": "^3.1.23",
     "react-resize-aware": "^3.1.0",
     "styled-components": "^5.3.0",
     "uuid": "^8.3.2"

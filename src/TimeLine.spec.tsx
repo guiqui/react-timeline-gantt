@@ -220,16 +220,23 @@ describe('Testing Mode change ', function() {
       return data;
     };
     const wrapper = shallow<any>(<Timeline data={data} itemheight={itemheight} onNeedData={onNeedData} />);
+
     
-    wrapper.instance().onSize({ width: 500, height: 500 });
-    wrapper.instance().doMouseDown({ clientX: 0 });
-    wrapper.instance().doMouseMove({ clientX: 501 });
-    wrapper.instance().doMouseUp();
+
+    wrapper.simulate('resize', {width: 500, height: 500})
+    //instance().onSize({ width: 500, height: 500 });
+    wrapper.simulate('mousedown', {clientX: 0})
+    //wrapper.instance().doMouseDown({ clientX: 0 });
+    wrapper.simulate('mousemove', {clientX: 501})
+    wrapper.simulate('mouseup', {})
+   // wrapper.instance().doMouseMove({ clientX: 501 });
+   // wrapper.instance().doMouseUp();
     expect(wrapper.state().nowposition).toBe(4499);
     expect(wrapper.state().scrollLeft).toBe(4499);
     expect(wrapper.state().numVisibleDays).toBe(51);
     expect(wrapper.state().numVisibleRows).toBe(17);
     expect(wrapper.state().mode).toBe('month');
+
     wrapper.setProps({ mode: 'week' });
     wrapper.instance().checkMode();
     expect(wrapper.state().nowposition).toBe(13497);

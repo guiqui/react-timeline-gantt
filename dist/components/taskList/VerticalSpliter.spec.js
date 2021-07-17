@@ -28,7 +28,7 @@ describe('Testing Firing Events ', function () {
         expect(stopPropagation.mock.calls.length).toBe(1);
         expect(mockCallback.mock.calls.length).toBe(1);
         expect(mockCallback.mock.calls[0][0]).toBe(-10);
-        wrapper.instance().doMouseUp();
+        wrapper.instance().doMouseUp({});
         expect(wrapper.state().dragging).toBe(false);
     });
 });

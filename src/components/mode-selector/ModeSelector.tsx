@@ -9,8 +9,6 @@ export const ModeSelector : React.FC<ModeSelectorProps> = (props) => {
 
     const { mode, changeMode } = useContext(TimelineContext)
 
-    console.log("change mode", changeMode)
-
     const onChange = (mode: string) => {
         changeMode?.(mode)
         props.onChange?.(mode)

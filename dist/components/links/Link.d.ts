@@ -29,7 +29,7 @@ declare class Link extends Component<any, any> {
             y: any;
         };
     };
-    getPath: () => string;
+    getPath: (coords?: any) => string;
     onSelect: (e: any) => void;
     render(): JSX.Element;
 }

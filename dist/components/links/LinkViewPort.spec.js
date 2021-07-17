@@ -17,7 +17,9 @@ describe('Testing LinksViewPort ', function () {
     it('Render properly when data is pass', function () {
         var data = [];
         for (var i = 0; i < 20; i++) {
-            data.push({ name: "Task Today", id: i, start: new Date(), end: new Date().setDate(new Date().getDate(), 5), color: 'red' });
+            var endDate = new Date();
+            endDate.setDate(new Date().getDate() + 5);
+            data.push({ name: "Task Today", id: i, start: new Date(), end: endDate, color: 'red' });
         }
         Registry_1.default.registerData(data);
         var links = [];

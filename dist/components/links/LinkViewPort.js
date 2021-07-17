@@ -1,19 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -33,127 +18,106 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
 var Registry_1 = __importDefault(require("../../helpers/registry/Registry"));
-var Link_1 = __importDefault(require("./Link"));
 var CreateLink_1 = __importDefault(require("./CreateLink"));
 var DateHelper_1 = __importDefault(require("../../helpers/DateHelper"));
-var LinkViewPort = /** @class */ (function (_super) {
-    __extends(LinkViewPort, _super);
-    function LinkViewPort(props) {
-        var _this = _super.call(this, props) || this;
-        _this.getItemPosition = function (index, date) {
-            var x = DateHelper_1.default.dateToPixel(date, 0, _this.props.dayWidth);
-            var y = index * _this.props.itemheight + _this.props.itemheight / 2;
-            return { x: x, y: y };
-        };
-        _this.renderCreateLink = function () {
-            if (_this.props.interactiveMode) {
-                var record = Registry_1.default.getTask(_this.props.taskToCreate.task.id);
-                var position = _this.getItemPosition(record.index, record.item.end);
-                return react_1.default.createElement(CreateLink_1.default, { start: position, onFinishCreateLink: _this.props.onFinishCreateLink });
-            }
-        };
-        _this.renderChangingTaskLinks = function () {
-            if (_this.props.changingTask != _this.state.changingTask) {
-                _this.setState({ changingTask: _this.props.changingTask });
-                //Get Links from task
-                var links = Registry_1.default.getLinks(_this.state.changingTask.item.id);
-                if (!links)
-                    return;
-                var item = null;
-                var startItem = null;
-                var endItem = null;
-                var startPosition = {};
-                var endPosition = {};
-                for (var i = 0; i < links.length; i++) {
-                    item = links[i];
-                    startItem = Registry_1.default.getTask(item.link.start);
-                    if (!startItem)
-                        continue;
-                    endItem = Registry_1.default.getTask(item.link.end);
-                    if (!endItem)
-                        continue;
-                    startPosition = _this.getItemPosition(startItem.index, startItem.item.end);
-                    if (_this.state.changingTask.item.id == item.link.start)
-                        startPosition.x = _this.state.changingTask.position.end;
-                    endPosition = _this.getItemPosition(endItem.index, endItem.item.start);
-                    if (_this.state.changingTask.item.id == item.link.end)
-                        endPosition.x = _this.state.changingTask.position.start;
-                    _this.cache[item.index] = (react_1.default.createElement(Link_1.default, { key: -i - 1, item: item, start: { x: startPosition.x, y: startPosition.y }, end: { x: endPosition.x, y: endPosition.y }, isSelected: _this.props.selectedItem == item, onSelectItem: _this.props.onSelectItem }));
-                    _this.cache = __spreadArray([], _this.cache);
-                }
-            }
-        };
-        _this.cache = [];
-        _this.state = { links: [], data: [], selectedItem: null };
-        return _this;
-    }
-    LinkViewPort.prototype.renderLink = function (startItem, endItem, link, key) {
-        var startPosition = this.getItemPosition(startItem.index, startItem.item.end);
-        var endPosition = this.getItemPosition(endItem.index, endItem.item.start);
-        return (react_1.default.createElement(Link_1.default, { key: key, item: link, start: { x: startPosition.x, y: startPosition.y }, end: { x: endPosition.x, y: endPosition.y }, isSelected: this.props.selectedItem == link, onSelectItem: this.props.onSelectItem }));
+var Link_1 = __importDefault(require("./Link"));
+var context_1 = require("../../context");
+var react_2 = require("react");
+var LinkViewPort = function (props) {
+    var _a = react_1.useContext(context_1.TimelineContext), links = _a.links, data = _a.data, dayWidth = _a.dayWidth;
+    var _b = react_2.useState(null), selectedItem = _b[0], setSelectedItem = _b[1];
+    var _c = react_2.useState(), changingTask = _c[0], setChangingTask = _c[1];
+    var _d = react_2.useState([]), cache = _d[0], setCache = _d[1];
+    var renderLink = function (startItem, endItem, link, key) {
+        var startPosition = getItemPosition(startItem.index, startItem.item.end);
+        var endPosition = getItemPosition(endItem.index, endItem.item.start);
+        return (react_1.default.createElement(Link_1.default, { key: key, item: link, start: { x: startPosition.x, y: startPosition.y }, end: { x: endPosition.x, y: endPosition.y }, isSelected: props.selectedItem == link, onSelectItem: props.onSelectItem }));
     };
-    LinkViewPort.prototype.renderLinks = function () {
-        this.cache = [];
+    var getItemPosition = function (index, date) {
+        var x = DateHelper_1.default.dateToPixel(date, 0, dayWidth || 0);
+        var y = index * (props.itemheight || 0) + (props.itemheight || 0) / 2;
+        return { x: x, y: y };
+    };
+    var renderLinks = function () {
+        setCache([]);
         var renderLinks = {};
         var startItem, endItem = {};
-        if (this.state.data.length == 0)
+        if ((data === null || data === void 0 ? void 0 : data.length) == 0)
             return;
-        for (var i = 0; i < this.state.links.length; i++) {
-            var link = this.state.links[i];
+        for (var i = 0; i < (links || []).length; i++) {
+            var link = links === null || links === void 0 ? void 0 : links[i];
             if (!link)
-                if (renderLinks[link.id])
-                    continue;
+                return;
+            if (renderLinks[link.id])
+                continue;
             startItem = Registry_1.default.getTask(link.start);
             if (!startItem) {
-                this.cache.push(null);
+                setCache(cache.concat([null]));
                 continue;
             }
             endItem = Registry_1.default.getTask(link.end);
             if (!endItem) {
-                this.cache.push(null);
+                setCache(cache.concat([null]));
                 continue;
             }
-            this.cache.push(this.renderLink(startItem, endItem, link, i));
+            setCache(cache.concat(renderLinks(startItem, endItem, link, i)));
             renderLinks[link.id] = '';
         }
     };
-    LinkViewPort.prototype.refreshData = function () {
-        if (this.props.links != this.state.links ||
-            this.props.data != this.state.data ||
-            this.props.dayWidth != this.state.dayWidth ||
-            this.props.selectedItem != this.state.selectedItem) {
-            this.setState({
-                selectedItem: this.props.selectedItem,
-                dayWidth: this.props.dayWidth,
-                links: this.props.links,
-                data: this.props.data
-            });
-            if (this.state.links && this.state.data)
-                this.renderLinks();
+    var renderCreateLink = function () {
+        var _a, _b;
+        if (props.interactiveMode) {
+            var record = Registry_1.default.getTask((_b = (_a = props.taskToCreate) === null || _a === void 0 ? void 0 : _a.task) === null || _b === void 0 ? void 0 : _b.id);
+            var position = getItemPosition(record === null || record === void 0 ? void 0 : record.index, record === null || record === void 0 ? void 0 : record.item.end);
+            return react_1.default.createElement(CreateLink_1.default, { start: position, onFinishCreateLink: props.onFinishCreateLink });
         }
     };
-    LinkViewPort.prototype.render = function () {
-        this.refreshData();
-        this.renderChangingTaskLinks();
-        return (react_1.default.createElement("svg", { x: 0, y: 0, width: "100%", pointerEvents: "none", style: { position: 'absolute', top: 60, userSelect: 'none', height: '100%' } },
-            react_1.default.createElement("defs", null,
-                react_1.default.createElement("marker", { id: "arrow", viewBox: "0 0 10 10", refX: "5", refY: "5", markerWidth: "9", markerHeight: "9", orient: "auto-start-reverse" },
-                    react_1.default.createElement("path", { d: "M 0 0 L 10 5 L 0 10 z", strokeLinejoin: "round" }))),
-            react_1.default.createElement("g", { transform: "matrix(1,0,0,1," + -(this.props.scrollLeft - this.props.nowposition) + "," + -this.props.scrollTop + ")" },
-                this.cache,
-                this.renderCreateLink())));
+    var renderChangingTaskLinks = function () {
+        if (props.changingTask != changingTask) {
+            setChangingTask(props.changingTask);
+            //Get Links from task
+            var links_1 = Registry_1.default.getLinks(props.changingTask.item.id);
+            if (!links_1)
+                return;
+            var item = null;
+            var startItem = null;
+            var endItem = null;
+            var startPosition = {};
+            var endPosition = {};
+            for (var i = 0; i < links_1.length; i++) {
+                item = links_1[i];
+                startItem = Registry_1.default.getTask(item.link.start);
+                if (!startItem)
+                    continue;
+                endItem = Registry_1.default.getTask(item.link.end);
+                if (!endItem)
+                    continue;
+                startPosition = getItemPosition(startItem.index, startItem.item.end);
+                if (changingTask.item.id == item.link.start)
+                    startPosition.x = changingTask.position.end;
+                endPosition = getItemPosition(endItem.index, endItem.item.start);
+                if (changingTask.item.id == item.link.end)
+                    endPosition.x = changingTask.position.start;
+                cache[item.index] = (react_1.default.createElement(Link_1.default, { key: -i - 1, item: item, start: { x: startPosition.x, y: startPosition.y }, end: { x: endPosition.x, y: endPosition.y }, isSelected: props.selectedItem == item, onSelectItem: props.onSelectItem }));
+                setCache(cache);
+            }
+        }
     };
-    return LinkViewPort;
-}(react_1.Component));
+    react_1.useEffect(function () {
+        renderChangingTaskLinks();
+    }, [props.changingTask]);
+    return (react_1.default.createElement("svg", { x: 0, y: 0, width: "100%", pointerEvents: "none", style: { position: 'absolute', top: 60, userSelect: 'none', height: '100%' } },
+        react_1.default.createElement("defs", null,
+            react_1.default.createElement("marker", { id: "arrow", viewBox: "0 0 10 10", refX: "5", refY: "5", markerWidth: "9", markerHeight: "9", orient: "auto-start-reverse" },
+                react_1.default.createElement("path", { d: "M 0 0 L 10 5 L 0 10 z", strokeLinejoin: "round" }))),
+        react_1.default.createElement("g", { transform: "matrix(1,0,0,1," + -((props.scrollLeft || 0) - (props.nowposition || 0)) + "," + -(props.scrollTop || 0) + ")" },
+            cache,
+            renderCreateLink())));
+};
 exports.default = LinkViewPort;

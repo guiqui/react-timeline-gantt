@@ -5,9 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var jest_fetch_mock_1 = __importDefault(require("jest-fetch-mock"));
 var enzyme_1 = __importDefault(require("enzyme"));
-var enzyme_adapter_react_16_1 = __importDefault(require("enzyme-adapter-react-16"));
+var enzyme_adapter_react_17_1 = __importDefault(require("@wojtekmaj/enzyme-adapter-react-17"));
 var McLocalStorageMock = /** @class */ (function () {
     function McLocalStorageMock() {
+        this.key = 0;
+        this.length = 0;
         this.store = {};
     }
     McLocalStorageMock.prototype.clear = function () {
@@ -24,6 +26,6 @@ var McLocalStorageMock = /** @class */ (function () {
     };
     return McLocalStorageMock;
 }());
-enzyme_1.default.configure({ adapter: new enzyme_adapter_react_16_1.default() });
-global.localStorage = new McLocalStorageMock;
+enzyme_1.default.configure({ adapter: new enzyme_adapter_react_17_1.default() });
+global.localStorage = new McLocalStorageMock();
 global.fetch = jest_fetch_mock_1.default;

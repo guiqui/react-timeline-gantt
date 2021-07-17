@@ -7,7 +7,7 @@ var Registry_1 = __importDefault(require("./Registry"));
 test('Registering Task', function () {
     var data = [];
     for (var i = 0; i < 20; i++) {
-        data.push({ name: "Task Today", id: i, start: new Date(), end: new Date().setDate(new Date().getDate(), 5), color: 'red' });
+        data.push({ name: "Task Today", id: i, start: new Date(), end: new Date().setDate(new Date().getDate() + 5), color: 'red' });
     }
     Registry_1.default.registerData(data);
     expect(Registry_1.default.getTask(0).item.id).toBe(0);

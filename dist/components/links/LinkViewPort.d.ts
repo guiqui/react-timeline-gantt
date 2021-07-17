@@ -1,23 +1,31 @@
-import React, { Component } from 'react';
-export default class LinkViewPort extends Component<any, any> {
-    cache: any[];
-    constructor(props: any);
-    renderLink(startItem: {
-        index: any;
-        item: {
-            end: any;
-        };
-    }, endItem: {
-        index?: any;
-        item?: any;
-    }, link: any, key: React.Key | null | undefined): JSX.Element;
-    getItemPosition: (index: number, date: any) => {
-        x: number;
-        y: number;
+import React from 'react';
+import { Link, Task } from '../../types/index';
+export interface LinkViewPortProps {
+    selectedItem?: any;
+    onSelectItem?: (item: any) => void;
+    dayWidth?: number;
+    itemheight?: number;
+    scrollLeft?: number;
+    scrollTop?: number;
+    links?: Link[];
+    data?: Task[];
+    nowposition?: number;
+    startRow?: number;
+    endRow?: number;
+    interactiveMode?: any;
+    changingTask?: any;
+    taskToCreate?: {
+        task: Task;
+        position: any;
     };
-    renderLinks(): void;
-    refreshData(): void;
-    renderCreateLink: () => JSX.Element | undefined;
-    renderChangingTaskLinks: () => void;
-    render(): JSX.Element;
+    onFinishCreateLink?: any;
 }
+export interface LinkViewPortState {
+    links: Link[];
+    data: Task[];
+    selectedItem: any;
+    dayWidth?: number;
+    changingTask?: any;
+}
+declare const LinkViewPort: React.FC<LinkViewPortProps>;
+export default LinkViewPort;

@@ -82,7 +82,7 @@ const DATA : any[] = [
     end: new Date(2021, 5, 9)
   },
   {
-    id: 1,
+    id: 2,
     color: 'orange',
     name: "Test",
     start: new Date(2021, 7, 12),
@@ -99,7 +99,8 @@ class App extends Component<any, any> {
       selectedItem: null,
       timelineMode: 'month',
       links: [],
-      nonEditableName: false
+      nonEditableName: false,
+      date: new Date()
     };
   }
 
@@ -132,6 +133,7 @@ class App extends Component<any, any> {
   };
 
   onCreateLink = (item: any) => {
+    this.setState({links: [...this.state.links, item]})
     /*let newLink = Generator.createLink(item.start, item.end);
     this.setState({ links: [...this.state.links, newLink] });*/
     console.log(`Update Item ${item}`);
@@ -223,6 +225,11 @@ class App extends Component<any, any> {
     }
   }
 
+  handleDateChange(date: Date){
+    this.setState({date})
+    console.log("Date", date)
+  }
+
   render() {
     return (
       <div className="app-container">
@@ -265,6 +272,8 @@ class App extends Component<any, any> {
             }}
             // config={config}
             data={this.state.data}
+            date={this.state.date}
+            onDateChange={this.handleDateChange.bind(this)}
             links={this.state.links}
             onHorizonChange={this.onHorizonChange}
             onSelectItem={this.onSelectItem}

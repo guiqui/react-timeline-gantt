@@ -23,7 +23,7 @@ describe('Testing LinksViewPort ', function() {
     Registry.registerData(data);
     let links : Link[] = [];
     for (let i = 0; i < 20; i++) {
-      links.push({ id: i, start: i, end: i });
+      links.push({ id: i, source: i, target: i });
     }
     Registry.registerLinks(data);
     const wrapper = mount<any>(<LinkViewPort startRow={0} endRow={0} data={data} nowposition={0} dayWidth={30} links={links} />);

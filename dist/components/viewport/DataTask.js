@@ -58,9 +58,10 @@ var DataTask = /** @class */ (function (_super) {
     function DataTask(props) {
         var _this = _super.call(this, props) || this;
         _this.onCreateLinkMouseDown = function (e, position) {
+            var _a, _b;
             if (e.button === 0) {
                 e.stopPropagation();
-                _this.props.onStartCreateLink(_this.props.item, position);
+                (_b = (_a = _this.props).onStartCreateLink) === null || _b === void 0 ? void 0 : _b.call(_a, _this.props.item, position);
             }
         };
         _this.onCreateLinkMouseUp = function (e, position) {
@@ -68,8 +69,9 @@ var DataTask = /** @class */ (function (_super) {
             _this.props.onFinishCreateLink(_this.props.item, position);
         };
         _this.onCreateLinkTouchStart = function (e, position) {
+            var _a, _b;
             e.stopPropagation();
-            _this.props.onStartCreateLink(_this.props.item, position);
+            (_b = (_a = _this.props).onStartCreateLink) === null || _b === void 0 ? void 0 : _b.call(_a, _this.props.item, position);
         };
         _this.onCreateLinkTouchEnd = function (e, position) {
             e.stopPropagation();
@@ -111,7 +113,7 @@ var DataTask = /** @class */ (function (_super) {
             _this.dragEnd();
         };
         _this.calculateStyle = _this.calculateStyle.bind(_this);
-        _this.state = { dragging: false, left: _this.props.left, width: _this.props.width, mode: Const_1.MODE_NONE };
+        _this.state = { dragging: false, left: _this.props.left || 0, width: _this.props.width || 0, mode: Const_1.MODE_NONE };
         return _this;
     }
     DataTask.prototype.componentDidUpdate = function (props, state) {
@@ -134,8 +136,8 @@ var DataTask = /** @class */ (function (_super) {
         this.setState({
             dragging: true,
             mode: mode,
-            left: this.props.left,
-            width: this.props.width
+            left: this.props.left || 0,
+            width: this.props.width || 0
         });
     };
     DataTask.prototype.dragProcess = function (x) {
@@ -165,8 +167,8 @@ var DataTask = /** @class */ (function (_super) {
     };
     DataTask.prototype.dragEnd = function () {
         this.props.onChildDrag(false);
-        var new_start_date = DateHelper_1.default.pixelToDate(this.state.left, this.props.nowposition, this.props.dayWidth);
-        var new_end_date = DateHelper_1.default.pixelToDate(this.state.left + this.state.width, this.props.nowposition, this.props.dayWidth);
+        var new_start_date = DateHelper_1.default.pixelToDate(this.state.left, this.props.nowposition, this.props.dayWidth || 0);
+        var new_end_date = DateHelper_1.default.pixelToDate(this.state.left + this.state.width, this.props.nowposition, this.props.dayWidth || 0);
         this.props.onUpdateTask(this.props.item, { start: new_start_date, end: new_end_date });
         this.setState({ dragging: false, mode: Const_1.MODE_NONE });
     };

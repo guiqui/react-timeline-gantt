@@ -61,7 +61,7 @@ var Link = /** @class */ (function (_super) {
             var cpt4 = { x: cpt3.x, y: cpt3.y + halfY };
             return { cpt1: cpt1, cpt2: cpt2, cpt3: cpt3, cpt4: cpt4 };
         };
-        _this.getPath = function () {
+        _this.getPath = function (coords) {
             var coordinates = null;
             if (_this.props.start.x > _this.props.end.x) {
                 coordinates = _this.calcSCoordinates();

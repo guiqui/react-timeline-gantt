@@ -41,8 +41,11 @@ var Config_1 = __importDefault(require("../../helpers/config/Config"));
 var DateHelper_1 = __importDefault(require("../../helpers/DateHelper"));
 require("./Header.css");
 var HeaderItem_1 = require("./HeaderItem");
+var context_1 = require("../../context");
+var BackgroundStripe_1 = require("./BackgroundStripe");
 var Header = function (props) {
     var headerRef = react_1.useRef(null);
+    var _a = react_1.useContext(context_1.TimelineContext), mode = _a.mode, dayWidth = _a.dayWidth;
     var getFormat = function (mode, position) {
         switch (mode) {
             case 'year':
@@ -108,19 +111,19 @@ var Header = function (props) {
     //TODO make mode timelinemode
     var getBox = function (date, mode, lastLeft) {
         if (lastLeft === void 0) { lastLeft = 0; }
-        var increment = getModeIncrement(date, mode) * props.dayWidth;
+        var increment = getModeIncrement(date, mode) * (dayWidth || 0);
         if (!lastLeft) {
             var starDate = getStartDate(date, mode);
             starDate = starDate.startOf('day');
             var now = moment_1.default().startOf('day');
             var daysInBetween = starDate.diff(now, 'days');
-            lastLeft = DateHelper_1.default.dayToPosition(daysInBetween, props.nowposition, props.dayWidth);
+            lastLeft = DateHelper_1.default.dayToPosition(daysInBetween, (props.nowposition || 0), (dayWidth || 0));
         }
         return { left: lastLeft, width: increment };
     };
     //TODO change type to enum of options
     var renderHeaderRows = function (top, middle, bottom) {
-        var result = { top: [], middle: [], bottom: [] };
+        var result = { top: [], middle: [], bottom: [], background: [] };
         var lastLeft = {};
         var currentTop = '';
         var currentMiddle = '';
@@ -128,8 +131,8 @@ var Header = function (props) {
         var currentDate = null;
         var box = null;
         var start = props.currentday;
-        var end = props.currentday + props.numVisibleDays;
-        for (var i = start - Const_1.BUFFER_DAYS; i < end + Const_1.BUFFER_DAYS; i++) {
+        var end = (props.currentday || 0) + (props.numVisibleDays || 0);
+        var _loop_1 = function (i) {
             //The unit of iteration is day
             currentDate = moment_1.default().add(i, 'days');
             if (currentTop != currentDate.format(getFormat(top, 'top'))) {
@@ -149,20 +152,27 @@ var Header = function (props) {
                 box = getBox(currentDate, bottom, lastLeft.bottom);
                 lastLeft.bottom = box.left + box.width;
                 if (bottom == 'shorttime' || bottom == 'fulltime') {
+                    var stripes = Array.apply(null, Array(24)).map(function () { }).map(function (x, ix) { return (react_1.default.createElement(BackgroundStripe_1.BackgroundStripe, { key: "tile-" + i + "-" + ix, background: ix % 2 == 0 ? '#5d9634' : '#538c2b', left: box.left + ((box.width / 24) * ix), width: box.width / 24 })); });
+                    result.background.push(stripes);
                     result.bottom.push(renderTime(box.left, box.width, bottom, i));
                 }
                 else {
+                    result.background.push(react_1.default.createElement(BackgroundStripe_1.BackgroundStripe, { key: "tile-" + i, left: box.left, width: box.width, background: i % 2 == 0 ? '#5d9634' : '#538c2b' }));
                     result.bottom.push(react_1.default.createElement(HeaderItem_1.HeaderItem, { key: i, left: box.left, width: box.width, label: currentBottom }));
                 }
             }
+        };
+        for (var i = (start || 0) - Const_1.BUFFER_DAYS; i < end + Const_1.BUFFER_DAYS; i++) {
+            _loop_1(i);
         }
         return (react_1.default.createElement("div", { className: "timeLine-main-header-container", style: { width: Const_1.DATA_CONTAINER_WIDTH, maxWidth: Const_1.DATA_CONTAINER_WIDTH } },
             react_1.default.createElement("div", { className: "header-top", style: __assign({}, Config_1.default.values.header.top.style) }, result.top),
             react_1.default.createElement("div", { className: "header-middle", style: __assign({}, Config_1.default.values.header.middle.style) }, result.middle),
-            react_1.default.createElement("div", { className: "header-bottom", style: __assign({}, Config_1.default.values.header.bottom.style) }, result.bottom)));
+            react_1.default.createElement("div", { className: "header-bottom", style: __assign({}, Config_1.default.values.header.bottom.style) }, result.bottom),
+            react_1.default.createElement("div", { className: "header-bottom", style: __assign({ height: '100%' }, Config_1.default.values.header.bottom.style) }, result.background)));
     };
     var renderHeader = function () {
-        switch (props.mode) {
+        switch (mode || props.mode) {
             case Const_2.VIEW_MODE_DAY:
                 return renderHeaderRows('week', 'dayweek', 'fulltime');
             case Const_2.VIEW_MODE_WEEK:
@@ -183,7 +193,7 @@ var Header = function (props) {
       return this.props.currentday < this.start || this.props.currentday + this.props.numVisibleDays > this.end;
     };*/
     if (headerRef.current)
-        headerRef.current.scrollLeft = props.scrollLeft;
+        headerRef.current.scrollLeft = (props.scrollLeft || 0);
     //Check boundaries to see if wee need to recalcualte header
     // if (this.needToRender()|| !this.cache){
     //     this.cache=this.renderHeader();

@@ -13,13 +13,13 @@ import DataController from './controller/DataController';
 import Config from './helpers/config/Config';
 import DateHelper from './helpers/DateHelper';
 import { TimelineContext } from './context'
-import { v4 } from 'uuid';
-import './TimeLine.css';
+import {nanoid} from 'nanoid'
 import { Link, Task, TimelineProps } from './types';
 import { useState } from 'react';
 import { useRef } from 'react';
 import { getDayWidth } from './utils';
 import { Box } from 'grommet';
+import './TimeLine.css';
 
 export const Timeline : React.FC<TimelineProps> = (props) => {
   const [ dragging, setDragging ] = useState<boolean>(false)
@@ -49,7 +49,7 @@ export const Timeline : React.FC<TimelineProps> = (props) => {
 
   const [ size, setSize ] = useState<{ width: number, height: number }>({ width: 1, height: 1 })    
 
-  const [ taskToCreate, setTaskToCreate ] = useState<any>()
+  const [ taskToCreate, setTaskToCreate ] = useState<{task: Task, position: string}>()
   const [ changingTask, setChangingTask ] = useState<any>()
 
   const dc = useRef<DataController>(new DataController())
@@ -147,7 +147,6 @@ export const Timeline : React.FC<TimelineProps> = (props) => {
     let new_startRow = startRow;
     let new_endRow = endRow;
 
-    console.log(props.mode)
     //Calculating if we need to roll up the scroll
     if (newScrollLeft > pxToScroll) {
       //ContenLegnth-viewportLengt
@@ -177,6 +176,17 @@ export const Timeline : React.FC<TimelineProps> = (props) => {
     setStartEnd();
 
     setCurrentDay(currentIndx)
+
+    let date = new Date()
+    let currentDate = props.date;
+    date.setHours(0, 0, 0, 0)
+    currentDate?.setHours(0, 0,0,0)
+
+    date.setDate(date.getDate() + currentIndx)
+    if(props.date?.getTime() != date.getTime()){
+      props.onDateChange?.(date)
+    }
+
     setNowPosition(new_nowposition)
     setHeaderData(headerData)
     setScrollLeft(new_left)
@@ -268,17 +278,22 @@ export const Timeline : React.FC<TimelineProps> = (props) => {
   };
 
   const onFinishCreateLink = (task: Task, position: any) => {
-    console.log(`End Link ${task}`);
+    console.log(`End Link`, task, taskToCreate, props.onCreateLink);
     if (props.onCreateLink && task &&
-      taskToCreate && taskToCreate.task.id!=task.id) {
-      props.onCreateLink({
-        id: v4(),
-        start: taskToCreate,
-        end: task.id //{ task: task, position: position }
-      });
+      taskToCreate && taskToCreate.task.id != task.id) {
+
+        let newLink = {
+          id: nanoid(),
+          source: taskToCreate.task.id,
+          sourceHandle: taskToCreate.position,
+          target: task.id, //{ task: task, position: position }
+          targetHandle: position
+        }
+        console.log("New link", newLink)
+      props.onCreateLink(newLink);
     }
     setInteractiveMode(false)
-    setTaskToCreate(null)
+    setTaskToCreate(undefined)
     
   };
 
@@ -317,24 +332,38 @@ export const Timeline : React.FC<TimelineProps> = (props) => {
      
     }
   }
-  const checkNeedData = () => {
-    if (props.data != data) {
-      let rowInfo = calculateStartEndRows(numVisibleRows, props.data || [], scrollTop);
+
+  //USEFUL
+  // let rowInfo = calculateStartEndRows(numVisibleRows, props.data || [], scrollTop);
+
+  // const checkNeedData = () => {
+  //   if (props.data != data) {
      
-      Registry.registerData(data);
+  //     Registry.registerData(data);
 
-      setData(props.data || [])
-      setStartRow(rowInfo.start)
-      setEndRow(rowInfo.end)
+  //     setData(props.data || [])
+  //     setStartRow(rowInfo.start)
+  //     setEndRow(rowInfo.end)
 
 
+  //   }
+  //   if (props.links != links) {
+  //     setLinks(props.links || [])
+  //     Registry.registerLinks(props.links);
+  //   }
+  // };
+
+  useEffect(() => {
+    if(props.data){
+    setData(props.data)
     }
-    if (props.links != links) {
-      setLinks(props.links || [])
-      Registry.registerLinks(props.links);
-    }
-  };
+  }, [props.data])
 
+  useEffect(() => {
+    if(props.links){
+    setLinks(props.links)
+    }
+  }, [props.links])
 
   useEffect(() => {
     if(props.mode){
@@ -347,8 +376,12 @@ export const Timeline : React.FC<TimelineProps> = (props) => {
     if(!size){
       console.log(state)
     }*/
+
+    console.log(data)
     return (
       <TimelineContext.Provider value={{
+        data,
+        links,
         style: props.style,
         mode: mode,
         scrollLeft: scrollLeft,

@@ -1,30 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -48,8 +22,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Timeline = void 0;
 var react_1 = __importStar(require("react"));
-var prop_types_1 = __importDefault(require("prop-types"));
 var VerticalSpliter_1 = __importDefault(require("./components/taskList/VerticalSpliter"));
 var Headers_1 = __importDefault(require("./components/header/Headers"));
 var DataViewPort_1 = __importDefault(require("./components/viewport/DataViewPort"));
@@ -58,309 +32,288 @@ var TaskList_1 = __importDefault(require("./components/taskList/TaskList"));
 var Registry_1 = __importDefault(require("./helpers/registry/Registry"));
 var Const_1 = require("./Const");
 var Const_2 = require("./Const");
-var Const_3 = require("./Const");
 var DataController_1 = __importDefault(require("./controller/DataController"));
 var Config_1 = __importDefault(require("./helpers/config/Config"));
+var context_1 = require("./context");
+var uuid_1 = require("uuid");
 require("./TimeLine.css");
-var TimeLine = /** @class */ (function (_super) {
-    __extends(TimeLine, _super);
-    function TimeLine(props) {
-        var _this = _super.call(this, props) || this;
-        ////////////////////
-        //     ON SIZE    //
-        ////////////////////
-        _this.onSize = function (size) {
-            //If size has changed
-            _this.calculateVerticalScrollVariables(size);
-            if (!_this.initialise) {
-                _this.dc.initialise(_this.state.scrollLeft + _this.state.nowposition, _this.state.scrollLeft + _this.state.nowposition + size.width, _this.state.nowposition, _this.state.dayWidth);
-                _this.initialise = true;
-            }
-            _this.setStartEnd();
-            var newNumVisibleRows = Math.ceil(size.height / _this.props.itemheight);
-            var newNumVisibleDays = _this.calcNumVisibleDays(size);
-            var rowInfo = _this.calculateStartEndRows(newNumVisibleRows, _this.props.data, _this.state.scrollTop);
-            _this.setState({
-                numVisibleRows: newNumVisibleRows,
-                numVisibleDays: newNumVisibleDays,
-                startRow: rowInfo.start,
-                endRow: rowInfo.end,
-                size: size
-            });
-        };
-        /////////////////////////
-        //   VIEWPORT CHANGES  //
-        /////////////////////////
-        _this.verticalChange = function (scrollTop) {
-            if (scrollTop == _this.state.scrollTop)
-                return;
-            //Check if we have scrolling rows
-            var rowInfo = _this.calculateStartEndRows(_this.state.numVisibleRows, _this.props.data, scrollTop);
-            if (rowInfo.start !== _this.state.start) {
-                _this.setState({
-                    scrollTop: scrollTop,
-                    startRow: rowInfo.start,
-                    endRow: rowInfo.end
-                });
-            }
-        };
-        _this.calculateStartEndRows = function (numVisibleRows, data, scrollTop) {
-            var new_start = Math.trunc(scrollTop / _this.props.itemheight);
-            var new_end = new_start + numVisibleRows >= data.length ? data.length : new_start + numVisibleRows;
-            return { start: new_start, end: new_end };
-        };
-        _this.setStartEnd = function () {
-            _this.dc.setStartEnd(_this.state.scrollLeft, _this.state.scrollLeft + _this.state.size.width, _this.state.nowposition, _this.state.dayWidth);
-        };
-        _this.horizontalChange = function (newScrollLeft) {
-            var new_nowposition = _this.state.nowposition;
-            var new_left = -1;
-            var headerData = _this.state.headerData;
-            var new_startRow = _this.state.startRow;
-            var new_endRow = _this.state.endRow;
-            //Calculating if we need to roll up the scroll
-            if (newScrollLeft > _this.pxToScroll) {
-                //ContenLegnth-viewportLengt
-                new_nowposition = _this.state.nowposition - _this.pxToScroll;
-                new_left = 0;
-            }
-            else {
-                if (newScrollLeft <= 0) {
-                    //ContenLegnth-viewportLengt
-                    new_nowposition = _this.state.nowposition + _this.pxToScroll;
-                    new_left = _this.pxToScroll;
-                }
-                else {
-                    new_left = newScrollLeft;
-                }
-            }
-            //Get the day of the left position
-            var currentIndx = Math.trunc((newScrollLeft - _this.state.nowposition) / _this.state.dayWidth);
-            //Calculate rows to render
-            new_startRow = Math.trunc(_this.state.scrollTop / _this.props.itemheight);
-            new_endRow =
-                new_startRow + _this.state.numVisibleRows >= _this.props.data.length
-                    ? _this.props.data.length - 1
-                    : new_startRow + _this.state.numVisibleRows;
-            //If we need updates then change the state and the scroll position
-            //Got you
-            _this.setStartEnd();
-            _this.setState({
-                currentday: currentIndx,
-                nowposition: new_nowposition,
-                headerData: headerData,
-                scrollLeft: new_left,
-                startRow: new_startRow,
-                endRow: new_endRow
-            });
-        };
-        _this.calculateVerticalScrollVariables = function (size) {
-            //The pixel to scroll verically is equal to the pecentage of what the viewport represent in the context multiply by the context width
-            _this.pxToScroll = (1 - size.width / Const_1.DATA_CONTAINER_WIDTH) * Const_1.DATA_CONTAINER_WIDTH - 1;
-        };
-        _this.onHorizonChange = function (lowerLimit, upLimit) {
-            if (_this.props.onHorizonChange)
-                _this.props.onHorizonChange(lowerLimit, upLimit);
-        };
-        /////////////////////
-        //   MOUSE EVENTS  //
-        /////////////////////
-        _this.doMouseDown = function (e) {
-            _this.dragging = true;
-            _this.draggingPosition = e.clientX;
-        };
-        _this.doMouseMove = function (e) {
-            if (_this.dragging) {
-                var delta = _this.draggingPosition - e.clientX;
-                if (delta !== 0) {
-                    _this.draggingPosition = e.clientX;
-                    _this.horizontalChange(_this.state.scrollLeft + delta);
-                }
-            }
-        };
-        _this.doMouseUp = function (e) {
-            _this.dragging = false;
-        };
-        _this.doMouseLeave = function (e) {
-            // if (!e.relatedTarget.nodeName)
-            //     this.dragging=false;
-            _this.dragging = false;
-        };
-        _this.doTouchStart = function (e) {
-            _this.dragging = true;
-            _this.draggingPosition = e.touches[0].clientX;
-        };
-        _this.doTouchEnd = function (e) {
-            _this.dragging = false;
-        };
-        _this.doTouchMove = function (e) {
-            if (_this.dragging) {
-                var delta = _this.draggingPosition - e.touches[0].clientX;
-                if (delta !== 0) {
-                    _this.draggingPosition = e.touches[0].clientX;
-                    _this.horizontalChange(_this.state.scrollLeft + delta);
-                }
-            }
-        };
-        _this.doTouchCancel = function (e) {
-            _this.dragging = false;
-        };
-        //Child communicating states
-        _this.onTaskListSizing = function (delta) {
-            _this.setState(function (prevState) {
-                var result = __assign({}, prevState);
-                result.sideStyle = { width: result.sideStyle.width - delta };
-                return result;
-            });
-        };
-        /////////////////////
-        //   ITEMS EVENTS  //
-        /////////////////////
-        _this.onSelectItem = function (item) {
-            if (_this.props.onSelectItem && item != _this.props.selectedItem)
-                _this.props.onSelectItem(item);
-        };
-        _this.onStartCreateLink = function (task, position) {
-            console.log("Start Link " + task);
-            _this.setState({
-                interactiveMode: true,
-                taskToCreate: { task: task, position: position }
-            });
-        };
-        _this.onFinishCreateLink = function (task, position) {
-            console.log("End Link " + task);
-            if (_this.props.onCreateLink && task &&
-                _this.state.taskToCreate && _this.state.taskToCreate.task.id != task.id) {
-                _this.props.onCreateLink({
-                    start: _this.state.taskToCreate,
-                    end: { task: task, position: position }
-                });
-            }
-            _this.setState({
-                interactiveMode: false,
-                taskToCreate: null
-            });
-        };
-        _this.onTaskChanging = function (changingTask) {
-            _this.setState({
-                changingTask: changingTask
-            });
-        };
-        _this.calcNumVisibleDays = function (size) {
-            return Math.ceil(size.width / _this.state.dayWidth) + Const_1.BUFFER_DAYS;
-        };
-        _this.checkNeeeData = function () {
-            if (_this.props.data != _this.state.data) {
-                var rowInfo = _this.calculateStartEndRows(_this.state.numVisibleRows, _this.props.data, _this.state.scrollTop);
-                Registry_1.default.registerData(_this.state.data);
-                _this.setState({
-                    data: _this.props.data,
-                    startRow: rowInfo.start,
-                    endRow: rowInfo.end
-                });
-            }
-            if (_this.props.links != _this.state.links) {
-                _this.setState({ links: _this.props.links });
-                Registry_1.default.registerLinks(_this.props.links);
-            }
-        };
-        _this.dragging = false;
-        _this.draggingPosition = 0;
-        _this.dc = new DataController_1.default();
-        _this.dc.onHorizonChange = _this.onHorizonChange;
-        _this.initialise = false;
-        //This variable define the number of pixels the viewport can scroll till arrive to the end of the context
-        _this.pxToScroll = 1900;
-        var dayWidth = _this.getDayWidth(_this.props.mode);
-        Config_1.default.load(_this.props.config);
-        //Initialising state
-        _this.state = {
-            currentday: 0,
-            //nowposition is the reference position, this variable support the infinit scrolling by accumulatning scroll times and redefining the 0 position
-            // if we accumulat 2 scroll to the left nowposition will be 2* DATA_CONTAINER_WIDTH
-            nowposition: 0,
-            startRow: 0,
-            endRow: 10,
-            sideStyle: { width: 200 },
-            scrollLeft: 0,
-            scrollTop: 0,
-            numVisibleRows: 40,
-            numVisibleDays: 60,
-            dayWidth: dayWidth,
-            interactiveMode: false,
-            taskToCreate: null,
-            links: [],
-            mode: _this.props.mode ? _this.props.mode : Const_2.VIEW_MODE_MONTH,
-            size: { width: 1, height: 1 },
-            changingTask: null
-        };
-        return _this;
-    }
+var react_2 = require("react");
+var react_3 = require("react");
+var utils_1 = require("./utils");
+var grommet_1 = require("grommet");
+var Timeline = function (props) {
+    var _a = react_2.useState(false), dragging = _a[0], setDragging = _a[1];
+    var _b = react_2.useState(0), draggingPosition = _b[0], setDraggingPosition = _b[1];
+    var _c = react_2.useState(24000), pxToScroll = _c[0], setPxToScroll = _c[1];
+    var _d = react_2.useState(0), scrollTop = _d[0], setScrollTop = _d[1];
+    var _e = react_2.useState(0), scrollLeft = _e[0], setScrollLeft = _e[1];
+    var _f = react_2.useState(), startRow = _f[0], setStartRow = _f[1];
+    var _g = react_2.useState(), endRow = _g[0], setEndRow = _g[1];
+    var _h = react_2.useState(40), numVisibleRows = _h[0], setNumVisibleRows = _h[1];
+    var _j = react_2.useState(60), numVisibleDays = _j[0], setNumVisibleDays = _j[1];
+    var _k = react_2.useState(0), nowposition = _k[0], setNowPosition = _k[1];
+    var _l = react_2.useState({ width: 200 }), sideStyle = _l[0], setSideStyle = _l[1];
+    var dayWidth = react_3.useRef(utils_1.getDayWidth(props.mode || 'month'));
+    var _m = react_2.useState(0), currentday = _m[0], setCurrentDay = _m[1];
+    var _o = react_2.useState(false), interactiveMode = _o[0], setInteractiveMode = _o[1];
+    var _p = react_2.useState(props.mode ? props.mode : Const_2.VIEW_MODE_MONTH), mode = _p[0], setMode = _p[1];
+    var _q = react_2.useState({ width: 1, height: 1 }), size = _q[0], setSize = _q[1];
+    var _r = react_2.useState(), taskToCreate = _r[0], setTaskToCreate = _r[1];
+    var _s = react_2.useState(), changingTask = _s[0], setChangingTask = _s[1];
+    var dc = react_3.useRef(new DataController_1.default());
+    var _t = react_2.useState(), scrollData = _t[0], setScrollData = _t[1];
+    var _u = react_2.useState(), headerData = _u[0], setHeaderData = _u[1];
+    var _v = react_2.useState([]), data = _v[0], setData = _v[1];
+    var _w = react_2.useState([]), links = _w[0], setLinks = _w[1];
+    react_1.useEffect(function () {
+        dc.current.onHorizonChange = onHorizonChange;
+        Config_1.default.load(props.config);
+        dc.current.initialise(scrollLeft + nowposition, scrollLeft + nowposition + size.width, nowposition, dayWidth.current);
+    }, []);
     ////////////////////
     //     ON MODE    //
     ////////////////////
-    TimeLine.prototype.getDayWidth = function (mode) {
-        switch (mode) {
-            case Const_2.VIEW_MODE_DAY:
-                return Const_3.DAY_DAY_MODE;
-            case Const_2.VIEW_MODE_WEEK:
-                return Const_3.DAY_WEEK_MODE;
-            case Const_2.VIEW_MODE_MONTH:
-                return Const_3.DAY_MONTH_MODE;
-            case Const_2.VIEW_MODE_YEAR:
-                return Const_3.DAY_YEAR_MODE;
-            default:
-                return Const_3.DAY_MONTH_MODE;
+    ////////////////////
+    //     ON SIZE    //
+    ////////////////////
+    var onSize = function (size) {
+        //If size has changed
+        console.log(size, dayWidth);
+        calculateVerticalScrollVariables(size);
+        // if (!initialise) {
+        //   dc.current.initialise(
+        //     scrollLeft + nowposition,
+        //     scrollLeft + nowposition + size.width,
+        //     nowposition,
+        //     dayWidth
+        //   );
+        //   initialise = true;
+        // }
+        setStartEnd();
+        var newNumVisibleRows = Math.ceil(size.height / (props.itemheight || 0));
+        var newNumVisibleDays = calcNumVisibleDays(size, dayWidth.current);
+        var rowInfo = calculateStartEndRows(newNumVisibleRows, props.data || [], scrollTop);
+        setNumVisibleDays(newNumVisibleDays);
+        console.log("DAYS", newNumVisibleDays);
+        setNumVisibleRows(newNumVisibleRows);
+        setStartRow(rowInfo.start);
+        setEndRow(rowInfo.end);
+        setSize(size);
+    };
+    /////////////////////////
+    //   VIEWPORT CHANGES  //
+    /////////////////////////
+    var verticalChange = function (scrollTop) {
+        if (scrollTop == scrollTop)
+            return;
+        //Check if we have scrolling rows
+        var rowInfo = calculateStartEndRows(numVisibleRows, props.data || [], scrollTop);
+        if (rowInfo.start !== startRow) {
+            setScrollTop(scrollTop);
+            setStartRow(rowInfo.start);
+            setEndRow(rowInfo.end);
         }
     };
-    TimeLine.prototype.checkMode = function () {
-        if (this.props.mode != this.state.mode && this.props.mode) {
-            var newDayWidth = this.getDayWidth(this.state.mode);
+    var calculateStartEndRows = function (numVisibleRows, data, scrollTop) {
+        var new_start = Math.trunc(scrollTop / (props.itemheight || 0));
+        var new_end = new_start + numVisibleRows >= data.length ? data.length : new_start + numVisibleRows;
+        return { start: new_start, end: new_end };
+    };
+    var setStartEnd = function () {
+        dc.current.setStartEnd(scrollLeft, scrollLeft + size.width, nowposition, dayWidth.current);
+    };
+    var horizontalChange = function (newScrollLeft) {
+        var new_nowposition = nowposition;
+        var new_left = -1;
+        var new_startRow = startRow;
+        var new_endRow = endRow;
+        console.log(props.mode);
+        //Calculating if we need to roll up the scroll
+        if (newScrollLeft > pxToScroll) {
+            //ContenLegnth-viewportLengt
+            new_nowposition = nowposition - pxToScroll - 0; //((props.mode == 'month' || props.mode == 'week') ? 8 : 0)//- 1; //+
+            new_left = 0;
+        }
+        else {
+            if (newScrollLeft <= 0) {
+                //ContenLegnth-viewportLengt
+                new_nowposition = nowposition + pxToScroll + 14; //((props.mode == 'month' || props.mode == 'week') ? 8 : 0) //; //-
+                new_left = pxToScroll;
+            }
+            else {
+                new_left = newScrollLeft;
+            }
+        }
+        //Get the day of the left position
+        var currentIndx = Math.trunc((newScrollLeft - nowposition) / dayWidth.current);
+        //Calculate rows to render
+        new_startRow = Math.trunc(scrollTop / (props.itemheight || 0));
+        new_endRow =
+            new_startRow + numVisibleRows >= (props.data || []).length
+                ? (props.data || []).length - 1
+                : new_startRow + numVisibleRows;
+        //If we need updates then change the state and the scroll position
+        //Got you
+        setStartEnd();
+        setCurrentDay(currentIndx);
+        setNowPosition(new_nowposition);
+        setHeaderData(headerData);
+        setScrollLeft(new_left);
+        setStartRow(new_startRow);
+        setEndRow(new_endRow);
+    };
+    var calculateVerticalScrollVariables = function (size) {
+        //The pixel to scroll verically is equal to the pecentage of what the viewport represent in the context multiply by the context width
+        setPxToScroll((1 - size.width / Const_1.DATA_CONTAINER_WIDTH) * Const_1.DATA_CONTAINER_WIDTH - 1);
+    };
+    var onHorizonChange = function (lowerLimit, upLimit) {
+        if (props.onHorizonChange)
+            props.onHorizonChange(lowerLimit, upLimit);
+    };
+    /////////////////////
+    //   MOUSE EVENTS  //
+    /////////////////////
+    var doMouseDown = function (e) {
+        setDragging(true);
+        setDraggingPosition(e.clientX);
+    };
+    var doMouseMove = function (e) {
+        if (dragging) {
+            var delta = draggingPosition - e.clientX;
+            if (delta !== 0) {
+                setDraggingPosition(e.clientX);
+                horizontalChange(scrollLeft + delta);
+            }
+        }
+    };
+    var doMouseUp = function (e) {
+        setDragging(false);
+    };
+    var doMouseLeave = function (e) {
+        // if (!e.relatedTarget.nodeName)
+        //     dragging=false;
+        setDragging(false);
+    };
+    var doTouchStart = function (e) {
+        setDragging(true);
+        setDraggingPosition(e.touches[0].clientX);
+    };
+    var doTouchEnd = function (e) {
+        setDragging(false);
+    };
+    var doTouchMove = function (e) {
+        if (dragging) {
+            var delta = draggingPosition - e.touches[0].clientX;
+            if (delta !== 0) {
+                setDraggingPosition(e.touches[0].clientX);
+                horizontalChange(scrollLeft + delta);
+            }
+        }
+    };
+    var doTouchCancel = function (e) {
+        setDragging(false);
+    };
+    //Child communicating states
+    var onTaskListSizing = function (delta) {
+        setSideStyle({ width: sideStyle.width - delta });
+    };
+    /////////////////////
+    //   ITEMS EVENTS  //
+    /////////////////////
+    var onSelectItem = function (item) {
+        if (props.onSelectItem && item != props.selectedItem)
+            props.onSelectItem(item);
+    };
+    var onStartCreateLink = function (task, position) {
+        console.log("=> Start Link", task, position);
+        setInteractiveMode(true);
+        setTaskToCreate({ task: task, position: position });
+    };
+    var onFinishCreateLink = function (task, position) {
+        console.log("End Link " + task);
+        if (props.onCreateLink && task &&
+            taskToCreate && taskToCreate.task.id != task.id) {
+            props.onCreateLink({
+                id: uuid_1.v4(),
+                start: taskToCreate,
+                end: task.id //{ task: task, position: position }
+            });
+        }
+        setInteractiveMode(false);
+        setTaskToCreate(null);
+    };
+    var onTaskChanging = function (changingTask) {
+        console.log("Changing task", changingTask);
+        setChangingTask(changingTask);
+    };
+    var calcNumVisibleDays = function (size, newDayWidth) {
+        console.log(size, (newDayWidth || dayWidth));
+        return Math.ceil(size.width / (newDayWidth || dayWidth.current)) + Const_1.BUFFER_DAYS;
+    };
+    var changeMode = function (newMode) {
+        console.log("Change mode", newMode);
+        if (newMode != mode) {
+            var newDayWidth = utils_1.getDayWidth(newMode);
             //to recalculate the now position we have to see how mwny scroll has happen
             //to do so we calculate the diff of days between current day and now
             //And we calculate how many times we have scroll
-            var scrollTime = Math.ceil((-this.state.currentday * this.state.dayWidth) / this.pxToScroll);
+            //Posible bug here now
+            var scrollTime = Math.ceil((-currentday * newDayWidth) / pxToScroll);
             //We readjust now postion to the new number of scrolls
-            var scrollLeft = (this.state.currentday * this.state.dayWidth + this.state.nowposition) % this.pxToScroll;
+            var scrollLeft_1 = (currentday * newDayWidth + nowposition) % pxToScroll;
             // we recalculate the new scroll Left value
-            this.setState({
-                mode: this.props.mode,
-                dayWidth: newDayWidth,
-                numVisibleDays: this.calcNumVisibleDays(this.state.size),
-                nowposition: scrollTime * this.pxToScroll,
-                scrollLeft: scrollLeft
-            });
+            console.log(newMode, newDayWidth);
+            setMode(newMode);
+            dayWidth.current = newDayWidth;
+            setNumVisibleDays(calcNumVisibleDays(size, newDayWidth));
+            setNowPosition(scrollTime * pxToScroll);
+            setScrollLeft(scrollLeft_1);
         }
     };
-    TimeLine.prototype.render = function () {
-        this.checkMode();
-        this.checkNeeeData();
-        console.log('On render');
-        if (!this.state.size) {
-            console.log(this.state);
+    var checkNeedData = function () {
+        if (props.data != data) {
+            var rowInfo = calculateStartEndRows(numVisibleRows, props.data || [], scrollTop);
+            Registry_1.default.registerData(data);
+            setData(props.data || []);
+            setStartRow(rowInfo.start);
+            setEndRow(rowInfo.end);
         }
-        return (react_1.default.createElement("div", { className: "timeLine" },
-            react_1.default.createElement("div", { className: "timeLine-side-main", style: this.state.sideStyle },
-                react_1.default.createElement(TaskList_1.default, { ref: "taskViewPort", itemheight: this.props.itemheight, startRow: this.state.startRow, endRow: this.state.endRow, data: this.props.data, selectedItem: this.props.selectedItem, onSelectItem: this.onSelectItem, onUpdateTask: this.props.onUpdateTask, onScroll: this.verticalChange, nonEditable: this.props.nonEditableName }),
-                react_1.default.createElement(VerticalSpliter_1.default, { onTaskListSizing: this.onTaskListSizing })),
+        if (props.links != links) {
+            setLinks(props.links || []);
+            Registry_1.default.registerLinks(props.links);
+        }
+    };
+    react_1.useEffect(function () {
+        if (props.mode) {
+            changeMode(props.mode);
+        }
+    }, [props.mode]);
+    /*  checkMode();
+      checkNeeeData();
+      console.log('On render')
+      if(!size){
+        console.log(state)
+      }*/
+    return (react_1.default.createElement(context_1.TimelineContext.Provider, { value: {
+            style: props.style,
+            mode: mode,
+            scrollLeft: scrollLeft,
+            moveTimeline: horizontalChange,
+            changeMode: changeMode,
+            dayWidth: dayWidth.current
+        } },
+        react_1.default.createElement("div", { className: "timeLine", style: { position: 'relative', flex: 1 } },
+            react_1.default.createElement("div", { className: "timeLine-side-main", style: sideStyle },
+                react_1.default.createElement(TaskList_1.default, { itemheight: props.itemheight, startRow: startRow, endRow: endRow, data: props.data, selectedItem: props.selectedItem, onSelectItem: onSelectItem, onUpdateTask: props.onUpdateTask, onScroll: verticalChange, nonEditable: props.nonEditableName }),
+                react_1.default.createElement(VerticalSpliter_1.default, { onTaskListSizing: onTaskListSizing })),
             react_1.default.createElement("div", { className: "timeLine-main" },
-                react_1.default.createElement(Headers_1.default, { headerData: this.state.headerData, numVisibleDays: this.state.numVisibleDays, currentday: this.state.currentday, nowposition: this.state.nowposition, dayWidth: this.state.dayWidth, mode: this.state.mode, scrollLeft: this.state.scrollLeft }),
-                react_1.default.createElement(DataViewPort_1.default, { ref: "dataViewPort", scrollLeft: this.state.scrollLeft, scrollTop: this.state.scrollTop, itemheight: this.props.itemheight, nowposition: this.state.nowposition, startRow: this.state.startRow, endRow: this.state.endRow, data: this.props.data, selectedItem: this.props.selectedItem, dayWidth: this.state.dayWidth, onScroll: this.scrollData, onMouseDown: this.doMouseDown, onMouseMove: this.doMouseMove, onMouseUp: this.doMouseUp, onMouseLeave: this.doMouseLeave, onTouchStart: this.doTouchStart, onTouchMove: this.doTouchMove, onTouchEnd: this.doTouchEnd, onTouchCancel: this.doTouchCancel, onSelectItem: this.onSelectItem, onUpdateTask: this.props.onUpdateTask, onTaskChanging: this.onTaskChanging, onStartCreateLink: this.onStartCreateLink, onFinishCreateLink: this.onFinishCreateLink, boundaries: {
-                        lower: this.state.scrollLeft,
-                        upper: this.state.scrollLeft + this.state.size.width
-                    }, onSize: this.onSize }),
-                react_1.default.createElement(LinkViewPort_1.default, { scrollLeft: this.state.scrollLeft, scrollTop: this.state.scrollTop, startRow: this.state.startRow, endRow: this.state.endRow, data: this.props.data, nowposition: this.state.nowposition, dayWidth: this.state.dayWidth, interactiveMode: this.state.interactiveMode, taskToCreate: this.state.taskToCreate, onFinishCreateLink: this.onFinishCreateLink, changingTask: this.state.changingTask, selectedItem: this.props.selectedItem, onSelectItem: this.onSelectItem, itemheight: this.props.itemheight, links: this.props.links }))));
-    };
-    return TimeLine;
-}(react_1.Component));
-TimeLine.propTypes = {
-    itemheight: prop_types_1.default.number.isRequired,
-    dayWidth: prop_types_1.default.number.isRequired,
-    nonEditableName: prop_types_1.default.bool
+                react_1.default.createElement(grommet_1.Box, { style: { position: 'absolute', height: '100%', width: '100%', top: 0, left: 0 }, className: "header-container" },
+                    react_1.default.createElement(Headers_1.default, { headerData: headerData, numVisibleDays: numVisibleDays, currentday: currentday, nowposition: nowposition, scrollLeft: scrollLeft })),
+                react_1.default.createElement(grommet_1.Box, { style: { position: 'absolute', width: '100%', height: 'calc(100% - 60px)', zIndex: 9, top: 60, left: 0 } },
+                    react_1.default.createElement(DataViewPort_1.default, { scrollLeft: scrollLeft, scrollTop: scrollTop, itemheight: props.itemheight, nowposition: nowposition, startRow: startRow, endRow: endRow, data: props.data, selectedItem: props.selectedItem, onScroll: scrollData, onMouseDown: doMouseDown, onMouseMove: doMouseMove, onMouseUp: doMouseUp, onMouseLeave: doMouseLeave, onTouchStart: doTouchStart, onTouchMove: doTouchMove, onTouchEnd: doTouchEnd, onTouchCancel: doTouchCancel, onSelectItem: onSelectItem, onUpdateTask: props.onUpdateTask, onTaskChanging: onTaskChanging, onStartCreateLink: onStartCreateLink, onFinishCreateLink: onFinishCreateLink, boundaries: {
+                            lower: scrollLeft,
+                            upper: scrollLeft + size.width
+                        }, onSize: onSize }),
+                    react_1.default.createElement(LinkViewPort_1.default, { scrollLeft: scrollLeft, scrollTop: scrollTop, startRow: startRow, endRow: endRow, data: props.data || [], nowposition: nowposition, interactiveMode: interactiveMode, taskToCreate: taskToCreate, onFinishCreateLink: onFinishCreateLink, changingTask: changingTask, selectedItem: props.selectedItem, onSelectItem: onSelectItem, itemheight: props.itemheight, links: props.links || [] }))))));
 };
-TimeLine.defaultProps = {
-    itemheight: 20,
-    dayWidth: 24,
-    nonEditableName: false
-};
-exports.default = TimeLine;
+exports.Timeline = Timeline;
