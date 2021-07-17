@@ -6,7 +6,7 @@ describe('Testing Links ', function() {
   it('Test when start is less than end in X', () => {
     let start = { x: 10, y: 30 };
     let end = { x: 100, y: 200 };
-    const wrapper = shallow(<Link start={start} end={end} />);
+    const wrapper = shallow<Link>(<Link start={start} end={end} />);
     let coordinates = wrapper.instance().calcNormCoordinates();
     expect(coordinates.cpt1.x).toBe(55);
     expect(coordinates.cpt1.y).toBe(30);
@@ -18,7 +18,7 @@ describe('Testing Links ', function() {
   it('Test when start is less than end in X', () => {
     let start = { x: 110, y: 30 };
     let end = { x: 100, y: 200 };
-    const wrapper = shallow(<Link start={start} end={end} />);
+    const wrapper = shallow<Link>(<Link start={start} end={end} />);
     let coordinates = wrapper.instance().calcSCoordinates();
     expect(coordinates.cpt1.x).toBe(110 + 20);
     expect(coordinates.cpt1.y).toBe(30);

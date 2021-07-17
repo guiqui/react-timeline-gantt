@@ -3,8 +3,8 @@ import TaskList from './TaskList';
 import { shallow, mount } from 'enzyme';
 describe('Testing Firing Events ', function() {
   it('Initialise Properly and not null pointer', () => {
-    const wrapper = shallow(<TaskList />);
-    expect(wrapper.instance().containerStyle.height).toBe(10);
+    const wrapper = shallow<TaskList>(<TaskList />);
+    expect(wrapper.instance().containerStyle?.height).toBe(10);
   });
 
   it('It render and interact properly', () => {
@@ -12,15 +12,15 @@ describe('Testing Firing Events ', function() {
     let data = [];
     const onSelectItem = jest.fn();
     for (let i = 0; i < 20; i++) {
-      data.push({ name: `Task Today`, start: new Date(), end: new Date().setDate(new Date().getDate(), 5), color: 'red' });
+      data.push({ name: `Task Today`, start: new Date(), end: new Date().setDate(new Date().getDate()+ 5), color: 'red' });
     }
-    const wrapper = mount(<TaskList data={data} startRow={0} endRow={17} onSelectItem={onSelectItem} itemheight={itemheight} />);
-    expect(wrapper.instance().containerStyle.height).toBe(itemheight * data.length);
+    const wrapper = mount<TaskList>(<TaskList data={data} startRow={0} endRow={17} onSelectItem={onSelectItem} itemheight={itemheight} />);
+    expect(wrapper.instance().containerStyle?.height).toBe(itemheight * data.length);
 
     expect(wrapper.find('.timeLine-side-task-row')).toHaveLength(18);
     var count = 0;
     wrapper.find('.timeLine-side-task-row').forEach((node) => {
-      expect(node.props().style.top).toBe(count * itemheight);
+      expect(node.props().style?.top).toBe(count * itemheight);
       node.simulate('click');
       count = count + 1;
     });

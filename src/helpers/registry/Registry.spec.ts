@@ -7,7 +7,7 @@ import Registry from './Registry'
 test('Registering Task',()=>{
     let data=[]
     for(let i=0;i<20;i++){
-        data.push({name: `Task Today`,id:i,start:new Date(),end:new Date().setDate(new Date().getDate(),5) ,color:'red'})
+        data.push({name: `Task Today`,id:i,start:new Date(),end:new Date().setDate(new Date().getDate() + 5) ,color:'red'})
     }
     Registry.registerData(data)
     expect(Registry.getTask(0).item.id).toBe(0);

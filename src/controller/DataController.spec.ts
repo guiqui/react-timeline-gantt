@@ -1,5 +1,5 @@
-import DataController from '../../controller/DataController';
-import DateHelper from '../../helpers/DateHelper';
+import DataController from '../controller/DataController';
+import DateHelper from '../helpers/DateHelper';
 describe('Test DataController ', function() {
   test('Initialise Properly ', () => {
     let dataController = new DataController();

@@ -8,7 +8,7 @@ import { shallow, mount } from 'enzyme';
 
 describe('Header Init ', () => {
   it('It mount properly when no property is given', () => {
-    const wrapper = shallow(<Headers />);
+    const wrapper = shallow<Headers>(<Headers />);
     expect(wrapper.find('.header-top').children()).toHaveLength(0);
     expect(wrapper.find('.header-middle').children()).toHaveLength(0);
     expect(wrapper.find('.header-bottom').children()).toHaveLength(0);
@@ -26,9 +26,9 @@ describe('Header Init ', () => {
     let years = endDate.year() - startDate.year() + 1;
     expect(wrapper.find('.header-top').children()).toHaveLength(years);
     let months = Math.ceil(endDate.diff(startDate, 'months', true));
-    expect(wrapper.find('.header-middle').children()).toHaveLength(months);
+    expect(wrapper.find('.header-middle').children()).toHaveLength(months + 1);
     let weeks = Math.ceil(endDate.diff(startDate, 'weeks', true));
-    expect(wrapper.find('.header-bottom').children()).toHaveLength(weeks+1);
+    expect(wrapper.find('.header-bottom').children()).toHaveLength(weeks*2);
   });
   it('When mode is month it draws correctly', () => {
     //calculateMonthData(start,end,now,dayWidth)
@@ -39,11 +39,13 @@ describe('Header Init ', () => {
     );
     let startDate = moment().add(-BUFFER_DAYS, 'days');
     let endDate = moment().add(30 + BUFFER_DAYS, 'days');
+
     let months = Math.ceil(endDate.diff(startDate, 'months', true));
-    expect(wrapper.find('.header-top').children()).toHaveLength(months);
+
+    expect(wrapper.find('.header-top').children()).toHaveLength(months + 1);
     let days = Math.trunc(endDate.diff(startDate, 'days', true));
     expect(wrapper.find('.header-middle').children()).toHaveLength(days);
 
-    expect(wrapper.find('.header-bottom').children()).toHaveLength(days);
+    expect(wrapper.find('.header-bottom').children()).toHaveLength(days * 2);
   });
 });

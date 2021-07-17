@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 describe('Testing Firing Events ', function() {
   it('Initialise Properly and not null pointer', () => {
     let position = { x: 10, y: 10 };
-    const wrapper = shallow(<CreateLink start={position} />);
+    const wrapper = shallow<CreateLink>(<CreateLink start={position} />);
     expect(wrapper.instance().lastX).toBe(-1);
     expect(wrapper.instance().lastY).toBe(-1);
     expect(wrapper.state().x).toBe(10);
@@ -16,7 +16,7 @@ describe('Testing Firing Events ', function() {
   it('It handle mousmove and mouse up', () => {
     let onFinishCreateLink = jest.fn();
     let position = { x: 10, y: 10 };
-    const wrapper = shallow(<CreateLink start={position} onFinishCreateLink={onFinishCreateLink} />);
+    const wrapper = shallow<CreateLink>(<CreateLink start={position} onFinishCreateLink={onFinishCreateLink} />);
     wrapper.instance().doMouseMove({ clientX: 1, clientY: 2 });
     expect(wrapper.instance().lastX).toBe(1);
     expect(wrapper.instance().lastY).toBe(2);
@@ -26,7 +26,7 @@ describe('Testing Firing Events ', function() {
     wrapper.instance().doMouseMove({ clientX: 2, clientY: 3 });
     expect(wrapper.state().x).toBe(11);
     expect(wrapper.state().y).toBe(11);
-    wrapper.instance().doMouseUp();
+    wrapper.instance().doMouseUp({});
     expect(onFinishCreateLink.mock.calls.length).toBe(1);
   });
 });

@@ -3,7 +3,7 @@ import VerticalSpliter from './VerticalSpliter';
 import { shallow } from 'enzyme';
 describe('Testing Firing Events ', function() {
   it('Initialise Properly', () => {
-    const wrapper = shallow(<VerticalSpliter />);
+    const wrapper = shallow<VerticalSpliter>(<VerticalSpliter />);
 
     expect(wrapper.state().dragging).toBe(false);
     expect(wrapper.find('.squareGrip')).toHaveLength(4);
@@ -12,10 +12,10 @@ describe('Testing Firing Events ', function() {
   it('Handle mouse events', () => {
     const mockCallback = jest.fn();
     const stopPropagation = jest.fn();
-    const wrapper = shallow(<VerticalSpliter onTaskListSizing={mockCallback} />);
+    const wrapper = shallow<VerticalSpliter>(<VerticalSpliter onTaskListSizing={mockCallback} />);
 
     expect(wrapper.state().dragging).toBe(false);
-    expect(wrapper.instance().doMouseDown({ button: 1 }));
+    expect(wrapper.instance().doMouseDown({ button: 1 } as any));
     expect(wrapper.state().dragging).toBe(false);
     expect(wrapper.instance().doMouseDown({ button: 0, clientX: 10 }));
     expect(wrapper.state().dragging).toBe(true);
@@ -26,7 +26,7 @@ describe('Testing Firing Events ', function() {
     expect(stopPropagation.mock.calls.length).toBe(1);
     expect(mockCallback.mock.calls.length).toBe(1);
     expect(mockCallback.mock.calls[0][0]).toBe(-10);
-    wrapper.instance().doMouseUp();
+    wrapper.instance().doMouseUp({});
     expect(wrapper.state().dragging).toBe(false);
   });
 });

@@ -1,22 +1,27 @@
 import React from 'react';
-import TimeLine from './TimeLine';
-import { BUFFER_DAYS, DATA_CONTAINER_WIDTH } from '../../Const';
+import {Timeline} from './TimeLine';
+import { BUFFER_DAYS, DATA_CONTAINER_WIDTH } from './Const';
 import { shallow, mount } from 'enzyme';
+import { Task, TimelineProps } from './types';
 
 describe('TimeLine Initialization ', function() {
   it('Initilise properly when all properties are null', () => {
-    const wrapper = shallow(<TimeLine />);
+    const wrapper = shallow<any>(<Timeline />);
     expect(wrapper.find('.timeLine')).toBeDefined();
     expect(wrapper.find('.timeLine-main')).toBeDefined();
   });
 
   it('Initialise on Size', () => {
     let itemheight = 30;
-    let data = [{ name: `Task Today`, start: new Date(), end: new Date().setDate(new Date().getDate(), 5), color: 'red' }];
-    let onNeedData = (start, end) => {
+    let endDate = new Date()
+    endDate.setDate(new Date().getDate() + 5)
+
+    let data : Task[] = [{ id: 1, name: `Task Today`, start: new Date(), end: endDate, color: 'red' }];
+    let onNeedData = (start: any, end: any) => {
       return data;
     };
-    const wrapper = shallow(<TimeLine data={data} itemheight={itemheight} onNeedData={onNeedData} />);
+    
+    const wrapper = shallow<any>(<Timeline data={data} itemheight={itemheight} onNeedData={onNeedData} />);
     //This needs to be improve
     expect(wrapper.state().currentday).toBe(0);
     expect(wrapper.state().nowposition).toBe(0);
@@ -38,21 +43,23 @@ describe('TimeLine Initialization ', function() {
   });
 });
 
-describe('TimeLine Scroll left ', function() {
+describe('Timeline Scroll left ', function() {
   it('Initilise properly when all properties are null', () => {
-    const wrapper = shallow(<TimeLine />);
+    const wrapper = shallow<any>(<Timeline />);
     expect(wrapper.find('.timeLine')).toBeDefined();
     expect(wrapper.find('.timeLine-main')).toBeDefined();
   });
 
   it('Render and handle mouse move right and Right', () => {
     let itemheight = 30;
+    let endDate = new Date()
+    endDate.setDate(new Date().getDate() + 5)
 
-    let data = [{ name: `Task Today`, start: new Date(), end: new Date().setDate(new Date().getDate(), 5), color: 'red' }];
-    let onNeedData = (start, end) => {
+    let data : Task[] = [{ id: 1, name: `Task Today`, start: new Date(), end: endDate, color: 'red' }];
+    let onNeedData = (start: any, end: any) => {
       return data;
     };
-    const wrapper = mount(<TimeLine data={data} itemheight={itemheight} links={[]} onNeedData={onNeedData} />);
+    const wrapper = mount<any>(<Timeline data={data} itemheight={itemheight} links={[]} onNeedData={onNeedData} />);
     wrapper.instance().onSize({ width: 500, height: 500 });
     expect(wrapper.state().nowposition).toBe(0);
     expect(wrapper.state().scrollLeft).toBe(0);
@@ -91,18 +98,21 @@ describe('TimeLine Scroll left ', function() {
   });
 });
 
-describe('TimeLine Scroll Up ', function() {
+describe('Timeline Scroll Up ', function() {
   it('Calculate Num of visible rows properly', () => {
     let itemheight = 30;
 
-    let data = [];
+    let data : Task[] = [];
     for (let i = 0; i < 20; i++) {
-      data.push({ name: `Task Today`, start: new Date(), end: new Date().setDate(new Date().getDate(), 5), color: 'red' });
+      let endDate = new Date()
+      endDate.setDate(new Date().getDate() + 5)
+  
+      data.push({id: i, name: `Task Today`, start: new Date(), end: endDate, color: 'red' });
     }
-    let onNeedData = (start, end) => {
+    let onNeedData = (start: any, end: any) => {
       return data;
     };
-    const wrapper = shallow(<TimeLine data={data} itemheight={itemheight} onNeedData={onNeedData} />);
+    const wrapper = shallow<any>(<Timeline data={data} itemheight={itemheight} onNeedData={onNeedData} />);
     wrapper.instance().onSize({ width: 500, height: 500 });
     expect(wrapper.state().nowposition).toBe(0);
     expect(wrapper.state().scrollTop).toBe(0);
@@ -142,14 +152,17 @@ describe('TimeLine Scroll Up ', function() {
 describe('Testing onTaskListSizing ', function() {
   it('recalculate width properly whe moving vertical Bar', () => {
     let itemheight = 30;
-    let data = [];
+    let data : Task[] = [];
     for (let i = 0; i < 20; i++) {
-      data.push({ name: `Task Today`, start: new Date(), end: new Date().setDate(new Date().getDate(), 5), color: 'red' });
+      let endDate = new Date()
+      endDate.setDate(new Date().getDate() + 5)
+  
+      data.push({ id: i, name: `Task Today`, start: new Date(), end: endDate, color: 'red' });
     }
-    let onNeedData = (start, end) => {
+    let onNeedData = (start: any, end: any) => {
       return data;
     };
-    const wrapper = shallow(<TimeLine data={data} itemheight={itemheight} onNeedData={onNeedData} />);
+    const wrapper = shallow<any>(<Timeline data={data} itemheight={itemheight} onNeedData={onNeedData} />);
     wrapper.instance().onSize({ width: 500, height: 500 });
     expect(wrapper.state().sideStyle.width).toBe(200);
     wrapper.instance().onTaskListSizing(10);
@@ -162,14 +175,17 @@ describe('Testing onTaskListSizing ', function() {
 describe('Testing Mode change ', function() {
   it('It change mode properly when the component has not scroll ', () => {
     let itemheight = 30;
-    let data = [];
+    let data : Task[] = [];
     for (let i = 0; i < 20; i++) {
-      data.push({ name: `Task Today`, start: new Date(), end: new Date().setDate(new Date().getDate(), 5), color: 'red' });
+      let endDate = new Date()
+      endDate.setDate(new Date().getDate() + 5)
+  
+      data.push({ id: i, name: `Task Today`, start: new Date(), end: endDate, color: 'red' });
     }
-    let onNeedData = (start, end) => {
+    let onNeedData = (start: any, end: any) => {
       return data;
     };
-    const wrapper = shallow(<TimeLine data={data} itemheight={itemheight} onNeedData={onNeedData} />);
+    const wrapper = shallow<any>(<Timeline data={data} itemheight={itemheight} onNeedData={onNeedData} />);
     wrapper.instance().onSize({ width: 500, height: 500 });
     expect(wrapper.state().nowposition).toBe(0);
     expect(wrapper.state().scrollLeft).toBe(0);
@@ -193,14 +209,18 @@ describe('Testing Mode change ', function() {
 
   it('It change mode properly when the component has scroll left', () => {
     let itemheight = 30;
-    let data = [];
+    let data : Task[] = [];
     for (let i = 0; i < 20; i++) {
-      data.push({ name: `Task Today`, start: new Date(), end: new Date().setDate(new Date().getDate(), 5), color: 'red' });
+      let endDate = new Date()
+      endDate.setDate(new Date().getDate() + 5)
+  
+      data.push({ id: i, name: `Task Today`, start: new Date(), end: endDate, color: 'red' });
     }
-    let onNeedData = (start, end) => {
+    let onNeedData = (start: any, end: any) => {
       return data;
     };
-    const wrapper = shallow(<TimeLine data={data} itemheight={itemheight} onNeedData={onNeedData} />);
+    const wrapper = shallow<any>(<Timeline data={data} itemheight={itemheight} onNeedData={onNeedData} />);
+    
     wrapper.instance().onSize({ width: 500, height: 500 });
     wrapper.instance().doMouseDown({ clientX: 0 });
     wrapper.instance().doMouseMove({ clientX: 501 });

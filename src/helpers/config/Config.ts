@@ -92,7 +92,7 @@ class Config {
     this.data = defvalues;
   }
 
-  load = (values: any) => {
+  load = (values?: any) => {
     this.data = {};
     if (values) this.populate(values, defvalues, this.data);
     else this.data = defvalues;

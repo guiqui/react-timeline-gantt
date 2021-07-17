@@ -4,18 +4,44 @@ import { MODE_NONE, MODE_MOVE, MOVE_RESIZE_LEFT, MOVE_RESIZE_RIGHT } from '../..
 import { LINK_POS_LEFT, LINK_POS_RIGHT } from '../../Const';
 import Config from '../../helpers/config/Config';
 
-export default class DataTask extends Component<any, any> {
+
+export interface DataTaskProps {
+  dayWidth?: number;
+  item?: any;
+  label?: any;
+  left?: number;
+  width?: number;
+  onStartCreateLink?: (item: any, pos: any) => void;
+  onChildDrag?: any;
+  onTaskChanging?: any;
+  onFinishCreateLink?: any;
+  onUpdateTask?: any;
+  isSelected?: boolean;
+  color?: any;
+  onSelectItem?: any;
+  height?: any;
+  nowposition?: any;
+}
+
+export interface DataTaskState {
+  dragging: boolean;
+  left: number;
+  width: number;
+  mode: any;
+}
+
+export default class DataTask extends Component<DataTaskProps, DataTaskState> {
   draggingPosition: any;
-  constructor(props: any) {
+  constructor(props: DataTaskProps) {
     super(props);
     this.calculateStyle = this.calculateStyle.bind(this);
-    this.state = { dragging: false, left: this.props.left, width: this.props.width, mode: MODE_NONE };
+    this.state = { dragging: false, left: this.props.left || 0, width: this.props.width || 0, mode: MODE_NONE };
   }
 
   onCreateLinkMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, position: string) => {
     if (e.button === 0) {
       e.stopPropagation();
-      this.props.onStartCreateLink(this.props.item, position);
+      this.props.onStartCreateLink?.(this.props.item, position);
     }
   };
   onCreateLinkMouseUp = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, position: any) => {
@@ -24,7 +50,7 @@ export default class DataTask extends Component<any, any> {
   };
   onCreateLinkTouchStart = (e: React.TouchEvent<HTMLDivElement>, position: string) => {
     e.stopPropagation();
-    this.props.onStartCreateLink(this.props.item, position);
+    this.props.onStartCreateLink?.(this.props.item, position);
   };
   onCreateLinkTouchEnd = (e: React.TouchEvent<HTMLDivElement>, position: any) => {
     e.stopPropagation();
@@ -51,8 +77,8 @@ export default class DataTask extends Component<any, any> {
     this.setState({
       dragging: true,
       mode: mode,
-      left: this.props.left,
-      width: this.props.width
+      left: this.props.left || 0,
+      width: this.props.width || 0
     });
   }
   dragProcess(x: number) {
@@ -83,20 +109,20 @@ export default class DataTask extends Component<any, any> {
   }
   dragEnd() {
     this.props.onChildDrag(false);
-    let new_start_date = DateHelper.pixelToDate(this.state.left, this.props.nowposition, this.props.dayWidth);
-    let new_end_date = DateHelper.pixelToDate(this.state.left + this.state.width, this.props.nowposition, this.props.dayWidth);
+    let new_start_date = DateHelper.pixelToDate(this.state.left, this.props.nowposition, this.props.dayWidth || 0);
+    let new_end_date = DateHelper.pixelToDate(this.state.left + this.state.width, this.props.nowposition, this.props.dayWidth || 0);
     this.props.onUpdateTask(this.props.item, { start: new_start_date, end: new_end_date });
     this.setState({ dragging: false, mode: MODE_NONE });
   }
 
-  doMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, mode: number) => {
+  doMouseDown = (e: React.MouseEvent<HTMLDivElement>, mode: number) => {
     if (!this.props.onUpdateTask) return;
     if (e.button === 0) {
       e.stopPropagation();
       this.dragStart(e.clientX, mode);
     }
   };
-  doMouseMove = (e: { stopPropagation: () => void; clientX: any; }) => {
+  doMouseMove = (e: MouseEvent) => {
     if (this.state.dragging) {
       e.stopPropagation();
       this.dragProcess(e.clientX);

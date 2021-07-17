@@ -9,26 +9,27 @@ import { useState } from 'react';
 
 
 export interface LinkViewPortProps {
-  selectedItem: any;
-  onSelectItem: (item: any) => void;
+  selectedItem?: any;
+  onSelectItem?: (item: any) => void;
 
-  itemheight: number;
+  dayWidth?: number;
+  itemheight?: number;
 
-  scrollLeft: number;
-  scrollTop: number;
+  scrollLeft?: number;
+  scrollTop?: number;
 
-  links: Link[];
-  data: Task[];
+  links?: Link[];
+  data?: Task[];
 
-  nowposition: number;
+  nowposition?: number;
 
   startRow?: number;
   endRow?: number;
 
-  interactiveMode: any;
-  changingTask: any;
-  taskToCreate: {task: Task, position: any};
-  onFinishCreateLink: any;
+  interactiveMode?: any;
+  changingTask?: any;
+  taskToCreate?: {task: Task, position: any};
+  onFinishCreateLink?: any;
 }
 
 export interface LinkViewPortState {
@@ -38,6 +39,8 @@ export interface LinkViewPortState {
   dayWidth?: number;
   changingTask?: any;
 }
+
+type LinkViewType = Component<LinkViewPortProps, LinkViewPortState>
 
 
  const LinkViewPort : React.FC<LinkViewPortProps> = (props) => {
@@ -66,7 +69,7 @@ export interface LinkViewPortState {
 
   const getItemPosition = (index: number, date: any) => {
     let x = DateHelper.dateToPixel(date, 0, dayWidth || 0);
-    let y = index * props.itemheight + props.itemheight / 2;
+    let y = index * (props.itemheight||0) + (props.itemheight||0) / 2;
     return { x: x, y: y };
   };
 
@@ -100,7 +103,7 @@ export interface LinkViewPortState {
 
   const renderCreateLink = () => {
     if (props.interactiveMode) {
-      let record = Registry.getTask(props.taskToCreate.task?.id);
+      let record = Registry.getTask(props.taskToCreate?.task?.id);
       let position = getItemPosition(record?.index, record?.item.end);
       return <CreateLink start={position} onFinishCreateLink={props.onFinishCreateLink} />;
     }
@@ -156,7 +159,7 @@ export interface LinkViewPortState {
             <path d="M 0 0 L 10 5 L 0 10 z" strokeLinejoin="round" />
           </marker>
         </defs>
-        <g transform={`matrix(1,0,0,1,${-(props.scrollLeft - props.nowposition)},${-props.scrollTop})`}>
+        <g transform={`matrix(1,0,0,1,${-((props.scrollLeft || 0) - (props.nowposition||0))},${-(props.scrollTop||0)})`}>
           {cache}
           {renderCreateLink()}
         </g>

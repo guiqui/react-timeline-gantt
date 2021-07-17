@@ -11,13 +11,14 @@ import { TimelineContext } from '../../context';
 import { BackgroundStripe } from './BackgroundStripe'
 
 export interface HeaderProps {
-  nowposition: number;
-  scrollLeft: number;
-  currentday: number;
-
+  nowposition?: number;
+  scrollLeft?: number;
+  currentday?: number;
+  mode?: string;
+  dayWidth?: number;
   currentDate?: Date;
-  numVisibleDays: number;
-  headerData: any;
+  numVisibleDays?: number;
+  headerData?: any;
   currentPosition?: {x: number, y: number};
 }
 
@@ -99,7 +100,7 @@ const Header : React.FC<HeaderProps> = (props) => {
       starDate = starDate.startOf('day');
       let now = moment().startOf('day');
       let daysInBetween = starDate.diff(now, 'days');
-      lastLeft = DateHelper.dayToPosition(daysInBetween, props.nowposition, (dayWidth|| 0));
+      lastLeft = DateHelper.dayToPosition(daysInBetween, (props.nowposition||0), (dayWidth|| 0));
     }
 
     return { left: lastLeft, width: increment };
@@ -116,9 +117,9 @@ const Header : React.FC<HeaderProps> = (props) => {
     let box : any = null;
 
     let start = props.currentday;
-    let end = props.currentday + props.numVisibleDays;
+    let end =( props.currentday || 0) + (props.numVisibleDays||0);
 
-    for (let i = start - BUFFER_DAYS; i < end + BUFFER_DAYS; i++) {
+    for (let i = (start||0) - BUFFER_DAYS; i < end + BUFFER_DAYS; i++) {
       //The unit of iteration is day
       currentDate = moment().add(i, 'days');
       if (currentTop != currentDate.format(getFormat(top, 'top'))) {
@@ -173,7 +174,7 @@ const Header : React.FC<HeaderProps> = (props) => {
   };
 
   const renderHeader = () => {
-    switch (mode) {
+    switch (mode || props.mode) {
       case VIEW_MODE_DAY:
         return renderHeaderRows('week', 'dayweek', 'fulltime');
       case VIEW_MODE_WEEK:
@@ -195,7 +196,7 @@ const Header : React.FC<HeaderProps> = (props) => {
     return this.props.currentday < this.start || this.props.currentday + this.props.numVisibleDays > this.end;
   };*/
 
-    if (headerRef.current) headerRef.current.scrollLeft = props.scrollLeft;
+    if (headerRef.current) headerRef.current.scrollLeft = (props.scrollLeft||0);
     //Check boundaries to see if wee need to recalcualte header
     // if (this.needToRender()|| !this.cache){
     //     this.cache=this.renderHeader();

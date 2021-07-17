@@ -14,8 +14,8 @@ type TimelineStyle = {
 type TimelineProps = {
     nonEditableName?: any;
     style?: TimelineStyle;
-    mode: string;
-    itemheight: number;
+    mode?: string;
+    itemheight?: number;
     selectedItem?: any;
     data?: Task[];
     links?: Link[];
@@ -24,6 +24,7 @@ type TimelineProps = {
     onCreateLink?: (link: Link) => void;
     onSelectItem?: (item: object) => void;
     onHorizonChange?: (start: Date, end: Date) => void;
+    onNeedData?: any;
 };
 
 type Task = {

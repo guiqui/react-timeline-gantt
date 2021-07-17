@@ -8,7 +8,7 @@ describe('ContentEditable Initialise propertly ', () => {
     expect(wrapper.find('div').html()).toBe('<div style="width:100%"> Test</div>');
   });
   it('Change to input when focus', () => {
-    const wrapper = shallow(<ContentEditable value="Test" />);
+    const wrapper = shallow<ContentEditable>(<ContentEditable value="Test" />);
     expect(wrapper.state().editing).toBe(false);
     wrapper.find('div').simulate('click');
     expect(wrapper.state().editing).toBe(true);
@@ -17,7 +17,7 @@ describe('ContentEditable Initialise propertly ', () => {
     );
   });
   it('Update state when entering data', () => {
-    const wrapper = shallow(<ContentEditable value="Test" />);
+    const wrapper = shallow<ContentEditable>(<ContentEditable value="Test" />);
     wrapper.find('div').simulate('click');
     expect(wrapper.state().value).toBe('Test');
     wrapper.find('input').simulate('change', { target: { value: 'a' } });
@@ -25,7 +25,7 @@ describe('ContentEditable Initialise propertly ', () => {
   });
 
   it('On press enter go back to not edit mode', () => {
-    const wrapper = shallow(<ContentEditable value="Test" />);
+    const wrapper = shallow<ContentEditable>(<ContentEditable value="Test" />);
     wrapper.find('div').simulate('click');
     expect(wrapper.state().editing).toBe(true);
     wrapper.find('input').simulate('keyUp', { keyCode: 13 });
@@ -33,7 +33,7 @@ describe('ContentEditable Initialise propertly ', () => {
     expect(wrapper.find('div').html()).toBe('<div style="width:100%"> Test</div>');
   });
   it('On Blur enter go back to not edit mode', () => {
-    const wrapper = shallow(<ContentEditable value="Test" />);
+    const wrapper = shallow<ContentEditable>(<ContentEditable value="Test" />);
     wrapper.find('div').simulate('click');
     expect(wrapper.state().editing).toBe(true);
     wrapper.find('input').simulate('blur');
@@ -43,7 +43,7 @@ describe('ContentEditable Initialise propertly ', () => {
 
   it('Call onChange call back when loose focus', () => {
     let mockCallback = jest.fn((value) => `recived${value}`);
-    const wrapper = shallow(<ContentEditable value="Test" onChange={mockCallback} />);
+    const wrapper = shallow<ContentEditable>(<ContentEditable value="Test" onChange={mockCallback} />);
     wrapper.find('div').simulate('click');
     expect(wrapper.state().editing).toBe(true);
     wrapper.find('input').simulate('change', { target: { value: 'Callback' } });

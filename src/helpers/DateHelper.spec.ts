@@ -1,4 +1,4 @@
-import DateHelper from '../../helpers/DateHelper';
+import DateHelper from '../helpers/DateHelper';
 const DAY_WIDTH = 24;
 
 describe('Test DateToPixel Fuctionality', () => {
@@ -51,28 +51,28 @@ describe('Test DateToPixel Fuctionality', () => {
   test('When Today and now position  0', () => {
     let now = DateHelper.getToday();
     let result = DateHelper.dateToPixel(now, 0, DAY_WIDTH);
-    result = DateHelper.pixelToDate(result, 0, DAY_WIDTH);
-    expect(now.getTime() - result.getTime() < 10).toBe(true);
+    let date = DateHelper.pixelToDate(result, 0, DAY_WIDTH);
+    expect(now.getTime() - date.getTime() < 10).toBe(true);
   });
   test('When Today and now position  100 ', () => {
     let now = DateHelper.getToday();
     let result = DateHelper.dateToPixel(now, 100, DAY_WIDTH);
-    result = DateHelper.pixelToDate(result, 100, DAY_WIDTH);
-    expect(now.getTime() - result.getTime() < 10).toBe(true);
+    let date = DateHelper.pixelToDate(result, 100, DAY_WIDTH);
+    expect(now.getTime() - date.getTime() < 10).toBe(true);
   });
   test('When tomorrow and now position 0', () => {
     let tomorrow = DateHelper.getToday();
     tomorrow.setDate(tomorrow.getDate() + 1);
     let result = DateHelper.dateToPixel(tomorrow, 0, DAY_WIDTH);
-    result = DateHelper.pixelToDate(result, 0, DAY_WIDTH);
-    expect(tomorrow.getTime() - result.getTime() < 10).toBe(true);
+    let date = DateHelper.pixelToDate(result, 0, DAY_WIDTH);
+    expect(tomorrow.getTime() - date.getTime() < 10).toBe(true);
   });
   test('When tomorrow and now position 100', () => {
     let tomorrow = DateHelper.getToday();
     tomorrow.setDate(tomorrow.getDate() + 1);
     let result = DateHelper.dateToPixel(tomorrow, 100, DAY_WIDTH);
-    result = DateHelper.pixelToDate(result, 100, DAY_WIDTH);
-    expect(tomorrow.getTime() - result.getTime() < 10).toBe(true);
+    let date = DateHelper.pixelToDate(result, 100, DAY_WIDTH);
+    expect(tomorrow.getTime() - date.getTime() < 10).toBe(true);
   });
 });
 

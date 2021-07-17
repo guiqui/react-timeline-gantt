@@ -27,7 +27,7 @@ class Link extends Component<any, any>{
     return { cpt1: cpt1, cpt2: cpt2, cpt3: cpt3, cpt4: cpt4 };
   };
 
-  getPath = () => {
+  getPath = (coords?: any) => {
     let coordinates = null;
     if (this.props.start.x > this.props.end.x) {
       coordinates = this.calcSCoordinates();

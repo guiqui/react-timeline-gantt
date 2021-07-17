@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Build NPM
 
 on:
   push:
@@ -20,9 +20,6 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: yarn
       - run: yarn run build
-      
-      - run: yarn test
-
       - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

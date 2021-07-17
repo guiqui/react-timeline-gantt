@@ -39,7 +39,7 @@ export const Timeline : React.FC<TimelineProps> = (props) => {
 
   const [sideStyle, setSideStyle ] = useState<any>({ width: 200 })
 
-  const dayWidth = useRef<number>(getDayWidth(props.mode))
+  const dayWidth = useRef<number>(getDayWidth(props.mode || 'month'))
 
   const [currentday, setCurrentDay ] = useState<number>(0)
 
@@ -100,7 +100,7 @@ export const Timeline : React.FC<TimelineProps> = (props) => {
     //   initialise = true;
     // }
     setStartEnd();
-    let newNumVisibleRows = Math.ceil(size.height / props.itemheight);
+    let newNumVisibleRows = Math.ceil(size.height / (props.itemheight||0));
     let newNumVisibleDays = calcNumVisibleDays(size, dayWidth.current);
     let rowInfo = calculateStartEndRows(newNumVisibleRows, props.data || [], scrollTop);
 
@@ -132,7 +132,7 @@ export const Timeline : React.FC<TimelineProps> = (props) => {
   };
 
   const calculateStartEndRows = (numVisibleRows: number, data: Task[], scrollTop: number) => {
-    let new_start = Math.trunc(scrollTop / props.itemheight);
+    let new_start = Math.trunc(scrollTop / (props.itemheight||0));
     let new_end = new_start + numVisibleRows >= data.length ? data.length : new_start + numVisibleRows;
     return { start: new_start, end: new_end };
   };
@@ -167,7 +167,7 @@ export const Timeline : React.FC<TimelineProps> = (props) => {
     let currentIndx = Math.trunc((newScrollLeft - nowposition) / dayWidth.current);
 
     //Calculate rows to render
-    new_startRow = Math.trunc(scrollTop / props.itemheight);
+    new_startRow = Math.trunc(scrollTop / (props.itemheight||0));
     new_endRow =
       new_startRow + numVisibleRows >= (props.data || []).length
         ? (props.data || []).length - 1
@@ -337,7 +337,9 @@ export const Timeline : React.FC<TimelineProps> = (props) => {
 
 
   useEffect(() => {
-    changeMode(props.mode)
+    if(props.mode){
+      changeMode(props.mode)
+    }
   }, [props.mode])
   /*  checkMode();
     checkNeeeData();

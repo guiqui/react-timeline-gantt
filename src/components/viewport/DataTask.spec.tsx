@@ -12,7 +12,7 @@ describe('Testing Firing Events ', function() {
   });
 
   it('Initialise Properly and not null pointer', () => {
-    const wrapper = shallow(<DataTask left={0} item={{}} width={80} color="red" />);
+    const wrapper = shallow<DataTask>(<DataTask left={0} item={{}} width={80} color="red" />);
     let style = wrapper.instance().calculateStyle();
     expect(style.left).toBe(0);
     expect(style.width).toBe(80);
@@ -28,7 +28,7 @@ describe('Testing Firing Events ', function() {
     let dayWidth = 30;
     let nowposition = 0;
     let stopPropagation = jest.fn();
-    const wrapper = shallow(
+    const wrapper = shallow<DataTask>(
       <DataTask
         nowposition={nowposition}
         dayWidth={dayWidth}
@@ -42,10 +42,10 @@ describe('Testing Firing Events ', function() {
       />
     );
     expect(wrapper.state().dragging).toBe(false);
-    wrapper.instance().doMouseDown({ button: 1, clientX: 10, stopPropagation: stopPropagation }, MODE_MOVE);
+    wrapper.instance().doMouseDown({ button: 1, clientX: 10, stopPropagation: stopPropagation } as any, MODE_MOVE);
     expect(wrapper.state().mode).toBe(MODE_NONE);
     expect(wrapper.state().dragging).toBe(false);
-    wrapper.instance().doMouseDown({ button: 0, clientX: 10, stopPropagation: stopPropagation }, MODE_MOVE);
+    wrapper.instance().doMouseDown({ button: 0, clientX: 10, stopPropagation: stopPropagation } as any, MODE_MOVE);
     expect(wrapper.state().mode).toBe(MODE_MOVE);
     expect(wrapper.state().dragging).toBe(true);
     expect(wrapper.state().left).toBe(0);
@@ -53,7 +53,7 @@ describe('Testing Firing Events ', function() {
     expect(onChildDrag.mock.calls.length).toBe(1);
     expect(onChildDrag.mock.calls[0][0]).toBe(true);
 
-    wrapper.instance().doMouseMove({ button: 0, clientX: 20, stopPropagation: stopPropagation });
+    wrapper.instance().doMouseMove({ button: 0, clientX: 20, stopPropagation: stopPropagation } as any);
     expect(wrapper.state().left).toBe(10);
     expect(wrapper.instance().draggingPosition).toBe(20);
     let style = wrapper.instance().calculateStyle();
@@ -80,7 +80,7 @@ describe('Testing Firing Events ', function() {
     let item = { name: 'this Item' };
     let dayWidth = 30;
     let nowposition = 0;
-    const wrapper = shallow(
+    const wrapper = shallow<DataTask>(
       <DataTask
         nowposition={nowposition}
         dayWidth={dayWidth}
@@ -94,10 +94,10 @@ describe('Testing Firing Events ', function() {
       />
     );
     expect(wrapper.state().dragging).toBe(false);
-    wrapper.instance().doMouseDown({ button: 1, clientX: 10, stopPropagation: stopPropagation }, MOVE_RESIZE_LEFT);
+    wrapper.instance().doMouseDown({ button: 1, clientX: 10, stopPropagation: stopPropagation } as any, MOVE_RESIZE_LEFT);
     expect(wrapper.state().dragging).toBe(false);
     expect(wrapper.state().mode).toBe(MODE_NONE);
-    wrapper.instance().doMouseDown({ button: 0, clientX: 10, stopPropagation: stopPropagation }, MOVE_RESIZE_LEFT);
+    wrapper.instance().doMouseDown({ button: 0, clientX: 10, stopPropagation: stopPropagation } as any, MOVE_RESIZE_LEFT);
     expect(wrapper.state().mode).toBe(MOVE_RESIZE_LEFT);
     expect(wrapper.state().dragging).toBe(true);
     expect(wrapper.state().left).toBe(0);
@@ -105,7 +105,7 @@ describe('Testing Firing Events ', function() {
     expect(onChildDrag.mock.calls.length).toBe(1);
     expect(onChildDrag.mock.calls[0][0]).toBe(true);
 
-    wrapper.instance().doMouseMove({ button: 0, clientX: 20, stopPropagation: stopPropagation });
+    wrapper.instance().doMouseMove({ button: 0, clientX: 20, stopPropagation: stopPropagation } as any);
     expect(wrapper.state().left).toBe(10);
     expect(wrapper.instance().draggingPosition).toBe(20);
     let style = wrapper.instance().calculateStyle();
@@ -132,7 +132,7 @@ describe('Testing Firing Events ', function() {
     let dayWidth = 30;
     let nowposition = 0;
     let stopPropagation = jest.fn();
-    const wrapper = shallow(
+    const wrapper = shallow<DataTask>(
       <DataTask
         nowposition={nowposition}
         dayWidth={dayWidth}
@@ -146,10 +146,10 @@ describe('Testing Firing Events ', function() {
       />
     );
     expect(wrapper.state().dragging).toBe(false);
-    wrapper.instance().doMouseDown({ button: 1, clientX: 10, stopPropagation: stopPropagation }, MOVE_RESIZE_RIGHT);
+    wrapper.instance().doMouseDown({ button: 1, clientX: 10, stopPropagation: stopPropagation } as any, MOVE_RESIZE_RIGHT);
     expect(wrapper.state().dragging).toBe(false);
     expect(wrapper.state().mode).toBe(MODE_NONE);
-    wrapper.instance().doMouseDown({ button: 0, clientX: 10, stopPropagation: stopPropagation }, MOVE_RESIZE_RIGHT);
+    wrapper.instance().doMouseDown({ button: 0, clientX: 10, stopPropagation: stopPropagation } as any, MOVE_RESIZE_RIGHT);
     expect(wrapper.state().mode).toBe(MOVE_RESIZE_RIGHT);
     expect(wrapper.state().dragging).toBe(true);
     expect(wrapper.state().left).toBe(0);
@@ -157,7 +157,7 @@ describe('Testing Firing Events ', function() {
     expect(onChildDrag.mock.calls.length).toBe(1);
     expect(onChildDrag.mock.calls[0][0]).toBe(true);
 
-    wrapper.instance().doMouseMove({ button: 0, clientX: 20, stopPropagation: stopPropagation });
+    wrapper.instance().doMouseMove({ button: 0, clientX: 20, stopPropagation: stopPropagation } as any);
     expect(wrapper.state().left).toBe(0);
     expect(wrapper.instance().draggingPosition).toBe(20);
     let style = wrapper.instance().calculateStyle();
@@ -183,7 +183,7 @@ describe('Testing Firing Events ', function() {
     let item = { name: 'this Item' };
     let dayWidth = 30;
     let nowposition = 0;
-    const wrapper = shallow(
+    const wrapper = shallow<DataTask>(
       <DataTask
         nowposition={nowposition}
         dayWidth={dayWidth}
@@ -212,7 +212,7 @@ describe('Testing Firing Events ', function() {
     let item = { name: 'this Item' };
     let dayWidth = 30;
     let nowposition = 0;
-    const wrapper = shallow(
+    const wrapper = shallow<DataTask>(
       <DataTask
         nowposition={nowposition}
         dayWidth={dayWidth}

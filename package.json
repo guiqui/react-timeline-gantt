@@ -20,19 +20,25 @@
     "react-dom": "^17.x"
   },
   "devDependencies": {
+    "@types/enzyme": "^3.10.9",
+    "@types/jest": "^26.0.24",
     "@types/lodash": "^4.14.171",
     "@types/node": "^16.3.2",
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.9",
     "@types/styled-components": "^5.1.11",
     "@types/uuid": "^8.3.1",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.9.1",
-    "jest": "^25.1.0",
-    "jest-fetch-mock": "^1.6.4",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.0.6",
+    "jest-fetch-mock": "^3.0.3",
     "react": "^17.x",
     "react-dom": "^17.x",
     "react-test-renderer": "^16.4.0",
@@ -42,8 +48,8 @@
     "url-loader": "^1.0.1"
   },
   "authors": [
-     "Guillermo  Quiros",
-     "The Kid"
+    "Guillermo  Quiros",
+    "The Kid"
   ],
   "license": "MIT",
   "keywords": [
