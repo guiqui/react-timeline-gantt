@@ -19,6 +19,7 @@ import { Link, Task, TimelineProps } from './types';
 import { useState } from 'react';
 import { useRef } from 'react';
 import { getDayWidth } from './utils';
+import { Box } from 'grommet';
 
 export const Timeline : React.FC<TimelineProps> = (props) => {
   const [ dragging, setDragging ] = useState<boolean>(false)
@@ -353,7 +354,7 @@ export const Timeline : React.FC<TimelineProps> = (props) => {
         changeMode: changeMode,
         dayWidth: dayWidth.current
       }}>
-      <div className="timeLine" style={{flex: 1}}>
+      <div className="timeLine" style={{position: 'relative', flex: 1}}>
         <div className="timeLine-side-main" style={sideStyle}>
           <TaskList
             itemheight={props.itemheight}
@@ -368,17 +369,20 @@ export const Timeline : React.FC<TimelineProps> = (props) => {
           />
           <VerticalSpliter onTaskListSizing={onTaskListSizing} />
         </div>
+
         <div className="timeLine-main">
+         
+        <Box style={{position: 'absolute', height: '100%', width: '100%', top: 0, left: 0}} className="header-container">
           <Header
-            headerData={headerData}
-            numVisibleDays={numVisibleDays}
-            currentday={currentday}
-            nowposition={nowposition}
-            dayWidth={dayWidth.current}
-            mode={mode}
-            scrollLeft={scrollLeft}
-          />
-          <DataViewPort
+              headerData={headerData}
+              numVisibleDays={numVisibleDays}
+              currentday={currentday}
+              nowposition={nowposition}
+              scrollLeft={scrollLeft}
+            />
+        </Box>
+        <Box style={{position: 'absolute', width: '100%', height: 'calc(100% - 60px)', zIndex: 9, top: 60, left: 0}}>
+        <DataViewPort
             scrollLeft={scrollLeft}
             scrollTop={scrollTop}
             itemheight={props.itemheight}
@@ -387,7 +391,6 @@ export const Timeline : React.FC<TimelineProps> = (props) => {
             endRow={endRow}
             data={props.data}
             selectedItem={props.selectedItem}
-            dayWidth={dayWidth}
             onScroll={scrollData}
             onMouseDown={doMouseDown}
             onMouseMove={doMouseMove}
@@ -415,7 +418,6 @@ export const Timeline : React.FC<TimelineProps> = (props) => {
             endRow={endRow}
             data={props.data || []}
             nowposition={nowposition}
-            dayWidth={dayWidth.current}
             interactiveMode={interactiveMode}
             taskToCreate={taskToCreate}
             onFinishCreateLink={onFinishCreateLink}
@@ -425,6 +427,8 @@ export const Timeline : React.FC<TimelineProps> = (props) => {
             itemheight={props.itemheight}
             links={props.links || []}
           />
+        </Box>
+          
         </div>
       </div>
       </TimelineContext.Provider>

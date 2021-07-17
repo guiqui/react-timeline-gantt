@@ -23,9 +23,9 @@
 /* Main Area Header*/
 
 .timeLine-main-header-viewPort {
-  flex: 0 0 60px;
+  flex: 1;
   position: relative;
-  height: 60px;
+  height: 100%;
   width: 100%;
   background-color: rgb(112, 112, 112);
   overflow: hidden;
@@ -106,7 +106,6 @@
   flex: 1 1 auto;
   position: relative;
   overflow: hidden;
-  background-color: #fbf9f9;
 }
 .timeLine-main-data-container {
   position: relative;

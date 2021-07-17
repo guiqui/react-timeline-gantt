@@ -13,7 +13,6 @@ export interface LinkViewPortProps {
   onSelectItem: (item: any) => void;
 
   itemheight: number;
-  dayWidth: number;
 
   scrollLeft: number;
   scrollTop: number;
@@ -66,7 +65,7 @@ export interface LinkViewPortState {
   }
 
   const getItemPosition = (index: number, date: any) => {
-    let x = DateHelper.dateToPixel(date, 0, props.dayWidth);
+    let x = DateHelper.dateToPixel(date, 0, dayWidth || 0);
     let y = index * props.itemheight + props.itemheight / 2;
     return { x: x, y: y };
   };

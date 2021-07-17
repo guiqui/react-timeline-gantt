@@ -42,15 +42,15 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
       if (!item) break;
       //FIXME PAINT IN BOUNDARIES
 
-      let new_position = DateHelper.dateToPixel(item.start, props.nowposition, props.dayWidth);
-      let new_width = DateHelper.dateToPixel(item.end, props.nowposition, props.dayWidth) - new_position;
+      let new_position = DateHelper.dateToPixel(item.start, props.nowposition, dayWidth || 0);
+      let new_width = DateHelper.dateToPixel(item.end, props.nowposition, dayWidth || 0) - new_position;
       result.push(
         <DataRow key={i} label={item.name} top={i * props.itemheight} left={20} itemheight={props.itemheight}>
           <DataTask
             item={item}
             label={item.name}
             nowposition={props.nowposition}
-            dayWidth={props.dayWidth}
+            dayWidth={dayWidth}
             color={item.color}
             left={new_position}
             width={new_width}
@@ -108,7 +108,7 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
       #538c2b 50%,
       #538c2b
     )`,
-    backgroundSize: `${(getBackgroundWidth(props.mode || 'month') * props.dayWidth) * 2}px 100%`,
+    backgroundSize: `${(getBackgroundWidth(props.mode || 'month') * (dayWidth || 0)) * 2}px 100%`,
     backgroundPositionX: getBackgroundPosition(props.mode || 'month'),
   } 
     let height = getContainerHeight(props.data.length);
@@ -134,7 +134,7 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
         <div
           className="timeLine-main-data-container"
           style={{ 
-            ...backgroundStyle,
+            background: 'transparent',
             height: '100%', 
             width: DATA_CONTAINER_WIDTH,
             maxWidth: DATA_CONTAINER_WIDTH }}

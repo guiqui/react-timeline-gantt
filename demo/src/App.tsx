@@ -76,12 +76,14 @@ const config = {
 const DATA : any[] = [
   {
     id: 1,
+    color: 'purple',
     name: "Test",
     start: new Date(2021, 2, 12),
     end: new Date(2021, 5, 9)
   },
   {
     id: 1,
+    color: 'orange',
     name: "Test",
     start: new Date(2021, 7, 12),
     end: new Date(2021, 12, 9)

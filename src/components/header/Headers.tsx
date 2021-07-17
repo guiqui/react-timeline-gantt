@@ -1,18 +1,18 @@
-import React, { PureComponent, useRef } from 'react';
+import React, { PureComponent, useContext, useRef } from 'react';
 import moment from 'moment';
 import { BUFFER_DAYS, DATA_CONTAINER_WIDTH } from '../../Const';
 import { VIEW_MODE_DAY, VIEW_MODE_WEEK, VIEW_MODE_MONTH, VIEW_MODE_YEAR } from '../../Const';
+import { Box } from 'grommet'
 import Config from '../../helpers/config/Config';
 import DateHelper from '../../helpers/DateHelper';
 import './Header.css';
 import { HeaderItem } from './HeaderItem';
-
+import { TimelineContext } from '../../context';
+import { BackgroundStripe } from './BackgroundStripe'
 
 export interface HeaderProps {
-  mode: string;
   nowposition: number;
   scrollLeft: number;
-  dayWidth: number;
   currentday: number;
 
   currentDate?: Date;
@@ -24,6 +24,8 @@ export interface HeaderProps {
 const Header : React.FC<HeaderProps> = (props) => {
   const headerRef = useRef<HTMLDivElement>(null)
 
+  const { mode, dayWidth } = useContext(TimelineContext)
+  
   const getFormat = (mode: string, position?: string) => {
     switch (mode) {
       case 'year':
@@ -91,13 +93,13 @@ const Header : React.FC<HeaderProps> = (props) => {
 
   //TODO make mode timelinemode
   const getBox = (date: moment.Moment, mode: string, lastLeft: number = 0) => {
-    let increment = getModeIncrement(date, mode) * props.dayWidth;
+    let increment = getModeIncrement(date, mode) * (dayWidth || 0);
     if (!lastLeft) {
       let starDate = getStartDate(date, mode);
       starDate = starDate.startOf('day');
       let now = moment().startOf('day');
       let daysInBetween = starDate.diff(now, 'days');
-      lastLeft = DateHelper.dayToPosition(daysInBetween, props.nowposition, props.dayWidth);
+      lastLeft = DateHelper.dayToPosition(daysInBetween, props.nowposition, (dayWidth|| 0));
     }
 
     return { left: lastLeft, width: increment };
@@ -105,13 +107,13 @@ const Header : React.FC<HeaderProps> = (props) => {
 
   //TODO change type to enum of options
   const renderHeaderRows = (top : string, middle: string, bottom: string) => {
-    let result : any = { top: [], middle: [], bottom: [] };
+    let result : any = { top: [], middle: [], bottom: [], background: [] };
     let lastLeft : any = {};
     let currentTop = '';
     let currentMiddle = '';
     let currentBottom = '';
     let currentDate = null;
-    let box = null;
+    let box : any = null;
 
     let start = props.currentday;
     let end = props.currentday + props.numVisibleDays;
@@ -138,10 +140,17 @@ const Header : React.FC<HeaderProps> = (props) => {
         box = getBox(currentDate, bottom, lastLeft.bottom);
         lastLeft.bottom = box.left + box.width;
         if (bottom == 'shorttime' || bottom == 'fulltime') {
+          let stripes = Array.apply(null, Array(24)).map(function () {}).map((x, ix) => (
+            <BackgroundStripe key={`tile-${i}-${ix}`} background={ix % 2 == 0 ? '#5d9634' : '#538c2b'} left={box.left + ((box.width / 24) * ix)} width={box.width / 24} />
+          ))
+          result.background.push(stripes)
           result.bottom.push(renderTime(box.left, box.width, bottom, i));
         } else {
+          result.background.push(<BackgroundStripe key={`tile-${i}`} left={box.left} width={box.width} background={i % 2 == 0 ? '#5d9634' : '#538c2b'} />)
           result.bottom.push(<HeaderItem key={i} left={box.left} width={box.width} label={currentBottom} />);
         }
+
+        
       }
     }
 
@@ -156,12 +165,15 @@ const Header : React.FC<HeaderProps> = (props) => {
         <div className="header-bottom" style={{ ...Config.values.header.bottom.style }}>
           {result.bottom}
         </div>
+        <div className="header-bottom" style={{height: '100%', ...Config.values.header.bottom.style}}>
+          {result.background}
+        </div>
       </div>
     );
   };
 
   const renderHeader = () => {
-    switch (props.mode) {
+    switch (mode) {
       case VIEW_MODE_DAY:
         return renderHeaderRows('week', 'dayweek', 'fulltime');
       case VIEW_MODE_WEEK:
