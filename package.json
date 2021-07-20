@@ -1,6 +1,6 @@
 {
   "name": "@thetechcompany/react-gantt-timeline",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -75,6 +75,7 @@
     "moment": "^2.24.0",
     "nanoid": "^3.1.23",
     "react-resize-aware": "^3.1.0",
+    "rxjs": "^7.2.0",
     "styled-components": "^5.3.0",
     "uuid": "^8.3.2"
   }
