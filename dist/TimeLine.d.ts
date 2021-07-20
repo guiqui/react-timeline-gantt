@@ -1,4 +1,4 @@
 import React from 'react';
-import './TimeLine.css';
 import { TimelineProps } from './types';
+import './TimeLine.css';
 export declare const Timeline: React.FC<TimelineProps>;

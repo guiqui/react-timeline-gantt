@@ -24,7 +24,6 @@ var react_1 = __importStar(require("react"));
 var context_1 = require("../../context");
 var ModeSelector = function (props) {
     var _a = react_1.useContext(context_1.TimelineContext), mode = _a.mode, changeMode = _a.changeMode;
-    console.log("change mode", changeMode);
     var onChange = function (mode) {
         var _a;
         changeMode === null || changeMode === void 0 ? void 0 : changeMode(mode);

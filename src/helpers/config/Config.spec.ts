@@ -1,4 +1,4 @@
-import Config from '../../helpers/config/Config';
+import Config from './Config';
 
 describe('Test Configuration Class', () => {
   it('It populates with defaults when no config is sent', () => {

@@ -1,18 +1,7 @@
-import { Component } from 'react';
-export default class VerticalSpliter extends Component<any, any> {
-    draggingPosition: any;
-    constructor(props: any);
-    doMouseDown(e: {
-        button: number;
-        clientX: any;
-    }): void;
-    componentDidUpdate(props: any, state: {
-        dragging: any;
-    }): void;
-    doMouseMove(e: {
-        stopPropagation: () => void;
-        clientX: number;
-    }): void;
-    doMouseUp(e: any): void;
-    render(): JSX.Element;
+import React from 'react';
+export interface VerticalSplitterProps {
+    className?: string;
+    onTaskListSizing?: (delta: number) => void;
 }
+declare const _default: import("styled-components").StyledComponent<React.FC<VerticalSplitterProps>, any, {}, never>;
+export default _default;

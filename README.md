@@ -10,8 +10,9 @@
 [![downloads](https://img.shields.io/npm/dt/react-gantt-timeline.svg?maxAge=2592000)](https://www.npmjs.com/package/react-gantt-timeline)
 
 
-A react timeline gantt component.
+A react timeline gantt component with typescript suppourt
 
+[Demo](https://TheTechCompany.github.io/react-gantt-timeline)
 ![screencast](https://TheTechCompany.github.io/react-timeline-gantt/demo.gif)
 
 ## About

@@ -1,6 +1,5 @@
 import React from 'react';
 import LinkViewPort from './LinkViewPort';
-import Registry from '../../helpers/registry/Registry';
 import { shallow, mount } from 'enzyme';
 import { Link, Task } from '../../types';
 
@@ -20,13 +19,16 @@ describe('Testing LinksViewPort ', function() {
   
       data.push({ name: `Task Today`, id: i, start: new Date(), end: endDate, color: 'red' });
     }
-    Registry.registerData(data);
+    //Registry.registerData(data);
+    
     let links : Link[] = [];
     for (let i = 0; i < 20; i++) {
       links.push({ id: i, source: i, target: i });
     }
-    Registry.registerLinks(data);
-    const wrapper = mount<any>(<LinkViewPort startRow={0} endRow={0} data={data} nowposition={0} dayWidth={30} links={links} />);
+  
+    //  Registry.registerLinks(data);
+  
+  const wrapper = mount<any>(<LinkViewPort startRow={0} endRow={0} data={data} nowposition={0} dayWidth={30} links={links} />);
     expect(wrapper.instance().cache).toHaveLength(20);
     let renderItems = wrapper.instance().cache;
     expect(wrapper.find('.timeline-link')).toHaveLength(20);

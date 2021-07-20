@@ -53,6 +53,7 @@ var DateHelper_1 = __importDefault(require("../../helpers/DateHelper"));
 var Const_1 = require("../../Const");
 var Const_2 = require("../../Const");
 var Config_1 = __importDefault(require("../../helpers/config/Config"));
+var grommet_1 = require("grommet");
 var DataTask = /** @class */ (function (_super) {
     __extends(DataTask, _super);
     function DataTask(props) {
@@ -130,6 +131,11 @@ var DataTask = /** @class */ (function (_super) {
             document.removeEventListener('touchend', this.doTouchEnd);
         }
     };
+    DataTask.prototype.updatePosition = function () {
+        var new_start_date = DateHelper_1.default.pixelToDate(this.state.left, this.props.nowposition, this.props.dayWidth || 0);
+        var new_end_date = DateHelper_1.default.pixelToDate(this.state.left + this.state.width, this.props.nowposition, this.props.dayWidth || 0);
+        this.props.onUpdateTask(this.props.item, { start: new_start_date, end: new_end_date });
+    };
     DataTask.prototype.dragStart = function (x, mode) {
         this.props.onChildDrag(true);
         this.draggingPosition = x;
@@ -161,33 +167,32 @@ var DataTask = /** @class */ (function (_super) {
             item: this.props.item,
             position: { start: newLeft - this.props.nowposition, end: newLeft + newWidth - this.props.nowposition }
         };
+        this.updatePosition();
         this.props.onTaskChanging(changeObj);
         this.setState({ left: newLeft, width: newWidth });
         this.draggingPosition = x;
     };
     DataTask.prototype.dragEnd = function () {
         this.props.onChildDrag(false);
-        var new_start_date = DateHelper_1.default.pixelToDate(this.state.left, this.props.nowposition, this.props.dayWidth || 0);
-        var new_end_date = DateHelper_1.default.pixelToDate(this.state.left + this.state.width, this.props.nowposition, this.props.dayWidth || 0);
-        this.props.onUpdateTask(this.props.item, { start: new_start_date, end: new_end_date });
+        this.updatePosition();
         this.setState({ dragging: false, mode: Const_1.MODE_NONE });
     };
     DataTask.prototype.calculateStyle = function () {
         var configStyle = this.props.isSelected ? Config_1.default.values.dataViewPort.task.selectedStyle : Config_1.default.values.dataViewPort.task.style;
         var backgroundColor = this.props.color ? this.props.color : configStyle.backgroundColor;
         if (this.state.dragging) {
-            return __assign(__assign({}, configStyle), { backgroundColor: backgroundColor, left: this.state.left, width: this.state.width, height: this.props.height - 5, top: 2 });
+            return __assign(__assign({}, configStyle), { backgroundColor: backgroundColor, left: this.state.left, width: this.state.width, height: this.props.height - 5 });
         }
         else {
-            return __assign(__assign({}, configStyle), { backgroundColor: backgroundColor, left: this.props.left, width: this.props.width, height: this.props.height - 5, top: 2 });
+            return __assign(__assign({}, configStyle), { backgroundColor: backgroundColor, left: this.props.left, width: this.props.width, height: this.props.height - 5 });
         }
     };
     DataTask.prototype.render = function () {
         var _this = this;
         var style = this.calculateStyle();
-        return (react_1.default.createElement("div", { onMouseDown: function (e) { return _this.doMouseDown(e, Const_1.MODE_MOVE); }, onTouchStart: function (e) { return _this.doTouchStart(e, Const_1.MODE_MOVE); }, onClick: function (e) {
+        return (react_1.default.createElement(grommet_1.Box, { focusIndicator: false, elevation: 'medium' /*this.props.isSelected ? 'large': 'none'*/, onMouseDown: function (e) { return _this.doMouseDown(e, Const_1.MODE_MOVE); }, onTouchStart: function (e) { return _this.doTouchStart(e, Const_1.MODE_MOVE); }, onClick: function (e) {
                 _this.props.onSelectItem(_this.props.item);
-            }, style: style },
+            }, style: __assign(__assign({}, style), { top: 3 }) },
             react_1.default.createElement("div", { className: "timeLine-main-data-task-side", style: { top: 0, left: -4, height: style.height }, onMouseDown: function (e) { return _this.doMouseDown(e, Const_1.MOVE_RESIZE_LEFT); }, onTouchStart: function (e) { return _this.doTouchStart(e, Const_1.MOVE_RESIZE_LEFT); } },
                 react_1.default.createElement("div", { className: "timeLine-main-data-task-side-linker", onMouseUp: function (e) { return _this.onCreateLinkMouseUp(e, Const_2.LINK_POS_LEFT); }, onTouchEnd: function (e) { return _this.onCreateLinkTouchEnd(e, Const_2.LINK_POS_LEFT); } })),
             react_1.default.createElement("div", { style: { overflow: 'hidden' } }, Config_1.default.values.dataViewPort.task.showLabel ? this.props.item.name : ''),

@@ -32,6 +32,7 @@ export default class DataTask extends Component<DataTaskProps, DataTaskState> {
     componentDidUpdate(props: any, state: {
         dragging: any;
     }): void;
+    updatePosition(): void;
     dragStart(x: any, mode: any): void;
     dragProcess(x: number): void;
     dragEnd(): void;

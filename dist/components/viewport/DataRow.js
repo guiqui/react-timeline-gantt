@@ -29,6 +29,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var grommet_1 = require("grommet");
 var react_1 = __importDefault(require("react"));
 var react_2 = require("react");
 var Config_1 = __importDefault(require("../../helpers/config/Config"));
@@ -38,7 +39,7 @@ var DataRow = /** @class */ (function (_super) {
         return _super.call(this, props) || this;
     }
     DataRow.prototype.render = function () {
-        return (react_1.default.createElement("div", { className: "timeLine-main-data-row", style: __assign(__assign({}, Config_1.default.values.dataViewPort.rows.style), { top: this.props.top, height: this.props.itemheight, borderBottom: '2px dashed #d3d3d350', strokeDasharray: 1000, strokeDashoffset: 1000 }) }, this.props.children));
+        return (react_1.default.createElement(grommet_1.Box, { className: "timeLine-main-data-row", style: __assign(__assign({}, Config_1.default.values.dataViewPort.rows.style), { top: this.props.top, height: this.props.itemheight, borderBottom: '2px dashed #d3d3d350', strokeDasharray: 1000, strokeDashoffset: 1000 }) }, this.props.children));
     };
     return DataRow;
 }(react_2.Component));

@@ -1,19 +1,8 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -38,51 +27,50 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
+var styled_components_1 = __importDefault(require("styled-components"));
 var Config_1 = __importDefault(require("../../helpers/config/Config"));
-var VerticalSpliter = /** @class */ (function (_super) {
-    __extends(VerticalSpliter, _super);
-    function VerticalSpliter(props) {
-        var _this = _super.call(this, props) || this;
-        _this.doMouseMove = _this.doMouseMove.bind(_this);
-        _this.doMouseDown = _this.doMouseDown.bind(_this);
-        _this.doMouseUp = _this.doMouseUp.bind(_this);
-        _this.state = { dragging: false };
-        return _this;
-    }
-    VerticalSpliter.prototype.doMouseDown = function (e) {
+var grommet_icons_1 = require("grommet-icons");
+var VerticalSpliter = function (props) {
+    var verticalRef = react_1.useRef(null);
+    var dragging = react_1.useRef(false);
+    var _a = react_1.useState(false), isDragging = _a[0], _setDragging = _a[1];
+    var setDragging = function (val) {
+        dragging.current = val;
+        _setDragging(val);
+    };
+    var draggingPosition = react_1.useRef(0);
+    var onMouseDown = function (e) {
         if (e.button === 0) {
-            this.draggingPosition = e.clientX;
-            this.setState({ dragging: true });
+            console.log("MOUSE DOWN");
+            draggingPosition.current = e.clientX;
+            setDragging(true);
+            var cleanup_1 = function () {
+                console.log("CLEANUP");
+                setDragging(false);
+                window.removeEventListener('mousemove', onMouseMove);
+                window.removeEventListener('mouseup', cleanup_1);
+            };
+            window.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('mouseup', cleanup_1);
         }
     };
-    VerticalSpliter.prototype.componentDidUpdate = function (props, state) {
-        if (this.state.dragging && !state.dragging) {
-            document.addEventListener('mousemove', this.doMouseMove);
-            document.addEventListener('mouseup', this.doMouseUp);
-        }
-        else if (!this.state.dragging && state.dragging) {
-            document.removeEventListener('mousemove', this.doMouseMove);
-            document.removeEventListener('mouseup', this.doMouseUp);
-        }
-    };
-    VerticalSpliter.prototype.doMouseMove = function (e) {
-        if (this.state.dragging) {
+    var onMouseMove = function (e) {
+        var _a;
+        if (dragging.current) {
             e.stopPropagation();
-            var delta = this.draggingPosition - e.clientX;
-            this.draggingPosition = e.clientX;
-            this.props.onTaskListSizing(delta);
+            console.log("MOUSEMOVE", e);
+            var bounds = draggingPosition.current || 0;
+            var delta = bounds - e.clientX; //
+            draggingPosition.current = e.clientX;
+            if (delta > 0)
+                console.log("delta", delta);
+            (_a = props.onTaskListSizing) === null || _a === void 0 ? void 0 : _a.call(props, e.clientX + 6);
         }
     };
-    VerticalSpliter.prototype.doMouseUp = function (e) {
-        this.setState({ dragging: false });
-    };
-    VerticalSpliter.prototype.render = function () {
-        return (react_1.default.createElement("div", { className: "verticalResizer", style: Config_1.default.values.taskList.verticalSeparator.style, onMouseDown: this.doMouseDown },
-            react_1.default.createElement("div", { className: "squareGrip", style: Config_1.default.values.taskList.verticalSeparator.grip.style }),
-            react_1.default.createElement("div", { className: "squareGrip", style: Config_1.default.values.taskList.verticalSeparator.grip.style }),
-            react_1.default.createElement("div", { className: "squareGrip", style: Config_1.default.values.taskList.verticalSeparator.grip.style }),
-            react_1.default.createElement("div", { className: "squareGrip", style: Config_1.default.values.taskList.verticalSeparator.grip.style })));
-    };
-    return VerticalSpliter;
-}(react_1.Component));
-exports.default = VerticalSpliter;
+    console.log("Dragging", dragging.current);
+    return (react_1.default.createElement("div", { ref: verticalRef, className: props.className + " " + (isDragging == true ? 'dragging' : ''), style: Config_1.default.values.taskList.verticalSeparator.style, onMouseDown: onMouseDown },
+        react_1.default.createElement(grommet_icons_1.CaretLeftFill, null),
+        react_1.default.createElement(grommet_icons_1.CaretRightFill, null)));
+};
+exports.default = styled_components_1.default(VerticalSpliter)(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  width: 5px;\n  transition: width 100ms ease-out;\n  cursor: col-resize;\n\n  align-items: center;\n  justify-content: center;\n  display: flex;\n  flex-direction: column;\n\n  & svg{\n    transition opacity 100ms ease-out;\n  }\n  &:not(:hover) svg{\n    opacity: 0;\n  }\n\n  &:hover svg{\n    opacity: 1;\n  }\n\n  &:hover{\n    width: 13px;\n  }\n  &.dragging{\n    width: 13px;\n  }\n"], ["\n  width: 5px;\n  transition: width 100ms ease-out;\n  cursor: col-resize;\n\n  align-items: center;\n  justify-content: center;\n  display: flex;\n  flex-direction: column;\n\n  & svg{\n    transition opacity 100ms ease-out;\n  }\n  &:not(:hover) svg{\n    opacity: 0;\n  }\n\n  &:hover svg{\n    opacity: 1;\n  }\n\n  &:hover{\n    width: 13px;\n  }\n  &.dragging{\n    width: 13px;\n  }\n"])));
+var templateObject_1;

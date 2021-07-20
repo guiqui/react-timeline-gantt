@@ -66,7 +66,7 @@ var BaseDataViewPort = function (props) {
             //FIXME PAINT IN BOUNDARIES
             var new_position = DateHelper_1.default.dateToPixel(item.start, props.nowposition, dayWidth || 0);
             var new_width = DateHelper_1.default.dateToPixel(item.end, props.nowposition, dayWidth || 0) - new_position;
-            result.push(react_1.default.createElement(DataRow_1.default, { key: i, label: item.name, top: i * props.itemheight, left: 20, itemheight: props.itemheight },
+            result.push(react_1.default.createElement(DataRow_1.default, { isSelected: props.selectedItem == item, key: i, label: item.name, top: i * (props.itemheight + 5), left: 20, itemheight: (props.itemheight + 5) },
                 react_1.default.createElement(DataTask_1.default, { item: item, label: item.name, nowposition: props.nowposition, dayWidth: dayWidth, color: item.color, left: new_position, width: new_width, height: props.itemheight, onChildDrag: onChildDrag, isSelected: props.selectedItem == item, onSelectItem: props.onSelectItem, onStartCreateLink: props.onStartCreateLink, onFinishCreateLink: props.onFinishCreateLink, onTaskChanging: props.onTaskChanging, onUpdateTask: props.onUpdateTask }, ' ')));
         }
         return result;

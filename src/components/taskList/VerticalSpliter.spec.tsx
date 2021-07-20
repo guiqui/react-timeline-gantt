@@ -3,7 +3,7 @@ import VerticalSpliter from './VerticalSpliter';
 import { shallow } from 'enzyme';
 describe('Testing Firing Events ', function() {
   it('Initialise Properly', () => {
-    const wrapper = shallow<VerticalSpliter>(<VerticalSpliter />);
+    const wrapper = shallow<any>(<VerticalSpliter />);
 
     expect(wrapper.state().dragging).toBe(false);
     expect(wrapper.find('.squareGrip')).toHaveLength(4);
@@ -12,7 +12,7 @@ describe('Testing Firing Events ', function() {
   it('Handle mouse events', () => {
     const mockCallback = jest.fn();
     const stopPropagation = jest.fn();
-    const wrapper = shallow<VerticalSpliter>(<VerticalSpliter onTaskListSizing={mockCallback} />);
+    const wrapper = shallow<any>(<VerticalSpliter onTaskListSizing={mockCallback} />);
 
     expect(wrapper.state().dragging).toBe(false);
     expect(wrapper.instance().doMouseDown({ button: 1 } as any));

@@ -5,7 +5,6 @@ import Header from './components/header/Headers';
 import DataViewPort from './components/viewport/DataViewPort';
 import LinkViewPort from './components/links/LinkViewPort';
 import TaskList from './components/taskList/TaskList';
-import Registry from './helpers/registry/Registry';
 import { BUFFER_DAYS, DATA_CONTAINER_WIDTH } from './Const';
 import { VIEW_MODE_DAY, VIEW_MODE_WEEK, VIEW_MODE_MONTH, VIEW_MODE_YEAR } from './Const';
 import { DAY_MONTH_MODE, DAY_WEEK_MODE, DAY_DAY_MODE, DAY_YEAR_MODE } from './Const';
@@ -258,8 +257,8 @@ export const Timeline : React.FC<TimelineProps> = (props) => {
 
   //Child communicating states
   const onTaskListSizing = (delta: number) => {
-    setSideStyle({ width: sideStyle.width - delta })
-    
+    setSideStyle({ width: delta })
+    //sideStyle.width - delta 
   };
 
   /////////////////////

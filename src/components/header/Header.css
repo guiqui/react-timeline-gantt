@@ -14,5 +14,6 @@
 .header-bottom {
   height: 20px;
   font-size: 10px;
+  background-color: silver;
   border-bottom: solid 0.5px silver;
 }

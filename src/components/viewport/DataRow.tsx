@@ -1,3 +1,4 @@
+import { Box } from "grommet";
 import React from "react";
 import { Component } from "react";
 import Config from '../../helpers/config/Config';
@@ -8,7 +9,7 @@ export default class DataRow extends Component<any, any> {
     }
     render() {
       return (
-        <div
+        <Box
           className="timeLine-main-data-row"
           style={{ 
               ...Config.values.dataViewPort.rows.style, 
@@ -20,7 +21,7 @@ export default class DataRow extends Component<any, any> {
             }}
         >
           {this.props.children}
-        </div>
+        </Box>
       );
     }
   }

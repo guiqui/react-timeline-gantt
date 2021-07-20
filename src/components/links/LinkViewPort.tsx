@@ -1,5 +1,4 @@
 import React, { Component, useContext, useEffect } from 'react';
-import Registry from '../../helpers/registry/Registry';
 import {Link, Task} from '../../types/index';
 import CreateLink from './CreateLink';
 import DateHelper from '../../helpers/DateHelper';
@@ -60,7 +59,6 @@ type LinkViewType = Component<LinkViewPortProps, LinkViewPortState>
   const renderLink = (startItem: { index: any } & Task, endItem: { index?: any; } & Task, link: Link, key: React.Key | null | undefined) => {
     let startPosition = getItemPosition(startItem.index, startItem.end);
     let endPosition = getItemPosition(endItem.index, endItem.start);
-    console.log(startPosition, startItem.end)
     return (
       <LinkComponent
         key={link.id}
@@ -74,15 +72,14 @@ type LinkViewType = Component<LinkViewPortProps, LinkViewPortState>
   }
 
   const getItemPosition = (index: number, date: Date) => {
-    console.log(props.itemheight)
+    let itemHeight = (props.itemheight || 0 )+ 5
+
     let x = DateHelper.dateToPixel(date, 0, dayWidth || 0);
-    let y = index * (props.itemheight||0) + (props.itemheight||0) / 2;
-    console.log(index, date, x, y)
+    let y = (index * (itemHeight)) + (itemHeight / 2);
     return { x: x, y: y };
   };
 
   const renderLinks = () => {
-    console.log("Render Links")
     let ret : any[] = [];
 
     let startItem: any = {}
@@ -94,7 +91,6 @@ type LinkViewType = Component<LinkViewPortProps, LinkViewPortState>
       if (!link) return;
      // if (renderLinks[link.id]) continue;
 
-     console.log("RENDER",  link)
       startItem = useDataItem(link.source)
     
       if (!startItem) {
@@ -118,8 +114,7 @@ type LinkViewType = Component<LinkViewPortProps, LinkViewPortState>
 
   const renderCreateLink = () => {
     if (props.interactiveMode && props.taskToCreate?.task.id) {
-      console.log(props.taskToCreate,
-        "TASK", taskToCreate, link)
+
       if(!taskToCreate)return console.error("No link")
   
       let position = getItemPosition(taskToCreate?.index, taskToCreate?.end);

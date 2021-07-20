@@ -49,6 +49,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TaskRow = exports.VerticalLine = void 0;
+var grommet_1 = require("grommet");
 var react_1 = __importStar(require("react"));
 var Config_1 = __importDefault(require("../../helpers/config/Config"));
 var ContentEditable_1 = __importDefault(require("../common/ContentEditable"));
@@ -76,7 +77,9 @@ var TaskRow = /** @class */ (function (_super) {
     }
     TaskRow.prototype.render = function () {
         var _this = this;
-        return (react_1.default.createElement("div", { className: "timeLine-side-task-row", style: __assign(__assign({}, Config_1.default.values.taskList.task.style), { top: this.props.top, height: this.props.itemheight }), onClick: function (e) { return _this.props.onSelectItem(_this.props.item); } }, this.props.nonEditable ? (react_1.default.createElement("div", { tabIndex: this.props.index, style: { width: '100%' } }, this.props.label)) : (react_1.default.createElement(ContentEditable_1.default, { value: this.props.label, index: this.props.index, onChange: this.onChange }))));
+        return (react_1.default.createElement(grommet_1.Box, { direction: "row", className: "timeLine-side-task-row", style: __assign(__assign({}, Config_1.default.values.taskList.task.style), { top: this.props.top, height: this.props.itemheight + 5 }), onClick: function (e) { return _this.props.onSelectItem(_this.props.item); } },
+            react_1.default.createElement("div", { className: "color-dot", style: { width: 5, height: 5, borderRadius: 10, background: this.props.item.color } }),
+            this.props.nonEditable ? (react_1.default.createElement(grommet_1.Box, { tabIndex: this.props.index }, this.props.label)) : (react_1.default.createElement(ContentEditable_1.default, { value: this.props.label, index: this.props.index, onChange: this.onChange }))));
     };
     return TaskRow;
 }(react_1.Component));
@@ -103,18 +106,18 @@ var TaskList = /** @class */ (function (_super) {
             var item = data[i];
             if (!item)
                 break;
-            result.push(react_1.default.createElement(TaskRow, { key: i, index: i, item: item, label: item.name, top: i * this.props.itemheight, itemheight: this.props.itemheight, isSelected: this.props.selectedItem == item, onUpdateTask: this.props.onUpdateTask, onSelectItem: this.props.onSelectItem, nonEditable: this.props.nonEditable }));
+            result.push(react_1.default.createElement(TaskRow, { key: i, index: i, item: item, label: item.name, top: i * (this.props.itemheight + 5), itemheight: this.props.itemheight, isSelected: this.props.selectedItem == item, onUpdateTask: this.props.onUpdateTask, onSelectItem: this.props.onSelectItem, nonEditable: this.props.nonEditable }));
         }
         return result;
     };
     TaskList.prototype.render = function () {
         var data = this.props.data ? this.props.data : [];
         this.containerStyle = this.getContainerStyle(data.length);
-        return (react_1.default.createElement("div", { className: "timeLine-side" },
-            react_1.default.createElement("div", { className: "timeLine-side-title", style: Config_1.default.values.taskList.title.style },
+        return (react_1.default.createElement(grommet_1.Box, { className: "timeLine-side" },
+            react_1.default.createElement(grommet_1.Box, { height: '60px', background: "dark-2", elevation: "small", pad: "small", align: "center", justify: "center", direction: "row" },
                 react_1.default.createElement("div", null, Config_1.default.values.taskList.title.label)),
-            react_1.default.createElement("div", { ref: this.taskViewRef, className: "timeLine-side-task-viewPort", onScroll: this.doScroll },
-                react_1.default.createElement("div", { className: "timeLine-side-task-container", style: this.containerStyle }, this.renderTaskRow(data)))));
+            react_1.default.createElement(grommet_1.Box, { ref: this.taskViewRef, className: "timeLine-side-task-viewPort", onScroll: this.doScroll },
+                react_1.default.createElement(grommet_1.Box, { className: "timeLine-side-task-container", style: this.containerStyle }, this.renderTaskRow(data)))));
     };
     return TaskList;
 }(react_1.Component));

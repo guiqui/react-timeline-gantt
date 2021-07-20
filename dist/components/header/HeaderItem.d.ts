@@ -4,5 +4,7 @@ export interface HeaderItemProps {
     width: number;
     label?: string | number;
     mode?: string;
+    className?: string;
 }
-export declare const HeaderItem: React.FC<HeaderItemProps>;
+export declare const BaseHeaderItem: React.FC<HeaderItemProps>;
+export declare const HeaderItem: import("styled-components").StyledComponent<React.FC<HeaderItemProps>, any, {}, never>;

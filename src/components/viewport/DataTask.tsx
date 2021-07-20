@@ -4,6 +4,7 @@ import { MODE_NONE, MODE_MOVE, MOVE_RESIZE_LEFT, MOVE_RESIZE_RIGHT } from '../..
 import { LINK_POS_LEFT, LINK_POS_RIGHT } from '../../Const';
 import Config from '../../helpers/config/Config';
 import { debounce } from 'lodash';
+import { Box } from 'grommet';
 
 
 export interface DataTaskProps {
@@ -170,22 +171,26 @@ export default class DataTask extends Component<DataTaskProps, DataTaskState> {
         left: this.state.left,
         width: this.state.width,
         height: this.props.height - 5,
-        top: 2
       };
     } else {
-      return { ...configStyle, backgroundColor, left: this.props.left, width: this.props.width, height: this.props.height - 5, top: 2 };
+      return { ...configStyle, backgroundColor, left: this.props.left, width: this.props.width, height: this.props.height - 5 };
     }
   }
   render() {
     let style = this.calculateStyle();
     return (
-      <div
+      <Box
+        focusIndicator={false}
+        elevation={'medium' /*this.props.isSelected ? 'large': 'none'*/}
         onMouseDown={(e) => this.doMouseDown(e, MODE_MOVE)}
         onTouchStart={(e) => this.doTouchStart(e, MODE_MOVE)}
         onClick={(e) => {
           this.props.onSelectItem(this.props.item);
         }}
-        style={style}
+        style={{
+          ...style,
+          top: 3
+        }}
       >
         <div
           className="timeLine-main-data-task-side"
@@ -212,7 +217,7 @@ export default class DataTask extends Component<DataTaskProps, DataTaskState> {
             onTouchStart={(e) => this.onCreateLinkTouchStart(e, LINK_POS_RIGHT)}
           />
         </div>
-      </div>
+      </Box>
     );
   }
 }

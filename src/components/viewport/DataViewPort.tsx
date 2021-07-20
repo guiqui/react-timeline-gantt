@@ -45,7 +45,13 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
       let new_position = DateHelper.dateToPixel(item.start, props.nowposition, dayWidth || 0);
       let new_width = DateHelper.dateToPixel(item.end, props.nowposition, dayWidth || 0) - new_position;
       result.push(
-        <DataRow key={i} label={item.name} top={i * props.itemheight} left={20} itemheight={props.itemheight}>
+        <DataRow
+          isSelected={props.selectedItem == item}
+           key={i} 
+           label={item.name} 
+           top={i * (props.itemheight + 5)} 
+           left={20} 
+           itemheight={(props.itemheight + 5)}>
           <DataTask
             item={item}
             label={item.name}

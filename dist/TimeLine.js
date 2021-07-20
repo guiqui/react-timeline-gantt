@@ -29,18 +29,17 @@ var Headers_1 = __importDefault(require("./components/header/Headers"));
 var DataViewPort_1 = __importDefault(require("./components/viewport/DataViewPort"));
 var LinkViewPort_1 = __importDefault(require("./components/links/LinkViewPort"));
 var TaskList_1 = __importDefault(require("./components/taskList/TaskList"));
-var Registry_1 = __importDefault(require("./helpers/registry/Registry"));
 var Const_1 = require("./Const");
 var Const_2 = require("./Const");
 var DataController_1 = __importDefault(require("./controller/DataController"));
 var Config_1 = __importDefault(require("./helpers/config/Config"));
 var context_1 = require("./context");
-var uuid_1 = require("uuid");
-require("./TimeLine.css");
+var nanoid_1 = require("nanoid");
 var react_2 = require("react");
 var react_3 = require("react");
 var utils_1 = require("./utils");
 var grommet_1 = require("grommet");
+require("./TimeLine.css");
 var Timeline = function (props) {
     var _a = react_2.useState(false), dragging = _a[0], setDragging = _a[1];
     var _b = react_2.useState(0), draggingPosition = _b[0], setDraggingPosition = _b[1];
@@ -123,11 +122,11 @@ var Timeline = function (props) {
         dc.current.setStartEnd(scrollLeft, scrollLeft + size.width, nowposition, dayWidth.current);
     };
     var horizontalChange = function (newScrollLeft) {
+        var _a, _b;
         var new_nowposition = nowposition;
         var new_left = -1;
         var new_startRow = startRow;
         var new_endRow = endRow;
-        console.log(props.mode);
         //Calculating if we need to roll up the scroll
         if (newScrollLeft > pxToScroll) {
             //ContenLegnth-viewportLengt
@@ -156,6 +155,14 @@ var Timeline = function (props) {
         //Got you
         setStartEnd();
         setCurrentDay(currentIndx);
+        var date = new Date();
+        var currentDate = props.date;
+        date.setHours(0, 0, 0, 0);
+        currentDate === null || currentDate === void 0 ? void 0 : currentDate.setHours(0, 0, 0, 0);
+        date.setDate(date.getDate() + currentIndx);
+        if (((_a = props.date) === null || _a === void 0 ? void 0 : _a.getTime()) != date.getTime()) {
+            (_b = props.onDateChange) === null || _b === void 0 ? void 0 : _b.call(props, date);
+        }
         setNowPosition(new_nowposition);
         setHeaderData(headerData);
         setScrollLeft(new_left);
@@ -215,7 +222,8 @@ var Timeline = function (props) {
     };
     //Child communicating states
     var onTaskListSizing = function (delta) {
-        setSideStyle({ width: sideStyle.width - delta });
+        setSideStyle({ width: delta });
+        //sideStyle.width - delta 
     };
     /////////////////////
     //   ITEMS EVENTS  //
@@ -230,17 +238,21 @@ var Timeline = function (props) {
         setTaskToCreate({ task: task, position: position });
     };
     var onFinishCreateLink = function (task, position) {
-        console.log("End Link " + task);
+        console.log("End Link", task, taskToCreate, props.onCreateLink);
         if (props.onCreateLink && task &&
             taskToCreate && taskToCreate.task.id != task.id) {
-            props.onCreateLink({
-                id: uuid_1.v4(),
-                start: taskToCreate,
-                end: task.id //{ task: task, position: position }
-            });
+            var newLink = {
+                id: nanoid_1.nanoid(),
+                source: taskToCreate.task.id,
+                sourceHandle: taskToCreate.position,
+                target: task.id,
+                targetHandle: position
+            };
+            console.log("New link", newLink);
+            props.onCreateLink(newLink);
         }
         setInteractiveMode(false);
-        setTaskToCreate(null);
+        setTaskToCreate(undefined);
     };
     var onTaskChanging = function (changingTask) {
         console.log("Changing task", changingTask);
@@ -270,19 +282,30 @@ var Timeline = function (props) {
             setScrollLeft(scrollLeft_1);
         }
     };
-    var checkNeedData = function () {
-        if (props.data != data) {
-            var rowInfo = calculateStartEndRows(numVisibleRows, props.data || [], scrollTop);
-            Registry_1.default.registerData(data);
-            setData(props.data || []);
-            setStartRow(rowInfo.start);
-            setEndRow(rowInfo.end);
+    //USEFUL
+    // let rowInfo = calculateStartEndRows(numVisibleRows, props.data || [], scrollTop);
+    // const checkNeedData = () => {
+    //   if (props.data != data) {
+    //     Registry.registerData(data);
+    //     setData(props.data || [])
+    //     setStartRow(rowInfo.start)
+    //     setEndRow(rowInfo.end)
+    //   }
+    //   if (props.links != links) {
+    //     setLinks(props.links || [])
+    //     Registry.registerLinks(props.links);
+    //   }
+    // };
+    react_1.useEffect(function () {
+        if (props.data) {
+            setData(props.data);
         }
-        if (props.links != links) {
-            setLinks(props.links || []);
-            Registry_1.default.registerLinks(props.links);
+    }, [props.data]);
+    react_1.useEffect(function () {
+        if (props.links) {
+            setLinks(props.links);
         }
-    };
+    }, [props.links]);
     react_1.useEffect(function () {
         if (props.mode) {
             changeMode(props.mode);
@@ -294,7 +317,10 @@ var Timeline = function (props) {
       if(!size){
         console.log(state)
       }*/
+    console.log(data);
     return (react_1.default.createElement(context_1.TimelineContext.Provider, { value: {
+            data: data,
+            links: links,
             style: props.style,
             mode: mode,
             scrollLeft: scrollLeft,

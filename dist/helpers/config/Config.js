@@ -21,9 +21,9 @@ var defvalues = {
         },
         bottom: {
             style: {
-                background: 'grey',
-                color: 'white',
-                fontSize: 9
+                background: '#f3f4f5',
+                color: '#667280',
+                fontSize: '.9em'
             },
             selectedStyle: {
                 backgroundColor: '#b13525',

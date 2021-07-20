@@ -43,8 +43,8 @@ type Link = {
     id: string | number;
     source: string | number;
     sourceHandle?: string;
-    target?: string | number;
-    targetHandle: string;
+    target: string | number;
+    targetHandle?: string;
 };
 
 export type Config = Partial<{
