@@ -3,16 +3,17 @@
 # react-gantt-timeline
 [![npm](https://img.shields.io/npm/v/react-gantt-timeline.svg?style=flat-square)](http://npm.im/react-gantt-timeline)
 [![MIT License](https://img.shields.io/npm/l/react-list.svg?style=flat-square)](http://opensource.org/licenses/MIT)
-[![Travis](https://travis-ci.org/guiqui/react-timeline-gantt.svg?branch=master)](https://travis-ci.org/guiqui/react-timeline-gantt)
-[![codecov](https://codecov.io/gh/guiqui/react-timeline-gantt/branch/master/graph/badge.svg)](https://codecov.io/gh/guiqui/react-timeline-gantt)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9149e301e65b44cebf2e7b49316aee10)](https://www.codacy.com/app/gquiman/react-timeline-gantt?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=guiqui/react-timeline-gantt&amp;utm_campaign=Badge_Grade)
+[![Travis](https://travis-ci.org/TheTechCompany/react-timeline-gantt.svg?branch=master)](https://travis-ci.org/TheTechCompany/react-timeline-gantt)
+[![codecov](https://codecov.io/gh/TheTechCompany/react-timeline-gantt/branch/master/graph/badge.svg)](https://codecov.io/gh/TheTechCompany/react-timeline-gantt)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9149e301e65b44cebf2e7b49316aee10)](https://www.codacy.com/app/gquiman/react-timeline-gantt?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=TheTechCompany/react-timeline-gantt&amp;utm_campaign=Badge_Grade)
 [![Backers on Open Collective](https://opencollective.com/react-timeline-gantt/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/react-timeline-gantt/sponsors/badge.svg)](#sponsors) 
 [![downloads](https://img.shields.io/npm/dt/react-gantt-timeline.svg?maxAge=2592000)](https://www.npmjs.com/package/react-gantt-timeline)
 
 
-A react timeline gantt component.
+A react timeline gantt component with typescript suppourt
 
-![screencast](https://guiqui.github.io/react-timeline-gantt/demo.gif)
+[Demo](https://TheTechCompany.github.io/react-gantt-timeline)
+![screencast](https://TheTechCompany.github.io/react-timeline-gantt/demo.gif)
 
 ## About
 React-timeline-gantt is a component built to display and manage calendar gantt charts.
@@ -31,10 +32,10 @@ The component is capable of:
 
  To watch a demo take a look at [video](https://youtu.be/ASGD1FXOafw) that shows how to use the component.
  
- To play with a live [demo](https://guiqui.github.io/react-timeline-gantt/index.html) .
+ To play with a live [demo](https://TheTechCompany.github.io/react-timeline-gantt/index.html) .
  
  ## Golden Sponsor
- [![alt text](https://guiqui.github.io/react-timeline-gantt/K8Stu.png)](https://www.uxxu.io)
+ [![alt text](https://TheTechCompany.github.io/react-timeline-gantt/K8Stu.png)](https://www.uxxu.io)
 
 
 ## Release Notes version 0.3.9
@@ -50,7 +51,9 @@ The component is capable of:
 
 ## Installation
 ```bash
-npm install react-gantt-timeline
+npm install @thetechcompany/react-gantt-timeline
+
+yarn add @thetechcompany/react-gantt-timeline
 ```
 The component has the following dependencies: moment, react-sizeme
 
@@ -202,7 +205,7 @@ Once the object is defined we just need to pass the config object to the timelin
 
 This diagram shows the different elements of timeline component and where are they place:
 
-![configMap](https://guiqui.github.io/react-timeline-gantt/ConfigMap.png)
+![configMap](https://TheTechCompany.github.io/react-timeline-gantt/ConfigMap.png)
 
 Here is a demo:
 
@@ -218,7 +221,7 @@ Here is a demo:
 ## Contributors
 
 This project exists thanks to all the people who contribute. 
-<a href="https://github.com/guiqui/react-timeline-gantt/contributors"><img src="https://opencollective.com/react-timeline-gantt/contributors.svg?width=890&button=false" /></a>
+<a href="https://github.com/TheTechCompany/react-timeline-gantt/contributors"><img src="https://opencollective.com/react-timeline-gantt/contributors.svg?width=890&button=false" /></a>
 
 
 ## Backers
