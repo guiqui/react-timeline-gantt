@@ -91,13 +91,13 @@ type LinkViewType = Component<LinkViewPortProps, LinkViewPortState>
       if (!link) return;
      // if (renderLinks[link.id]) continue;
 
-      startItem = useDataItem(link.source)
+      startItem = data?.find((a) => a.id == link?.source)
     
       if (!startItem) {
         //ret.concat([null])
         continue;
       }
-      endItem = useDataItem(link.target || '')
+      endItem = data?.find((a) => a.id == link?.target)
 
       if (!endItem) {
       //  setCache(cache.concat([null]))
