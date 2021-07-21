@@ -4,5 +4,5 @@ import reactRefresh from '@vitejs/plugin-react-refresh'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [reactRefresh()],
-  base: '/react-timeline-gantt/'
+  base: './', //process.env.NODE_ENV == 'production' ? '/react-timeline-gantt/' : './'
 })

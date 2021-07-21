@@ -21,7 +21,7 @@ jobs:
 
       - run: yarn
       - run: cd demo && yarn
-      - run: cd demo && yarn run build
+      - run: cd demo && NODE_ENV=production yarn run build
     
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
