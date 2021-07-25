@@ -117,8 +117,8 @@ export const BaseDataViewPort : React.FC<any> = (props) => {
     backgroundSize: `${(getBackgroundWidth(props.mode || 'month') * (dayWidth || 0)) * 2}px 100%`,
     backgroundPositionX: getBackgroundPosition(props.mode || 'month'),
   } 
-    let height = getContainerHeight(props.data.length);
-    return (
+
+  return (
       <div
         ref={dataViewRef}
         id="timeLinedataViewPort"
