@@ -2,38 +2,17 @@ import React from "react";
 
 
 
-type TimelineBackground = {background?: string, backgroundPosition?: string, backgroundSize?: string } | string 
+export type TimelineBackground = {background?: string, backgroundPosition?: string, backgroundSize?: string } | string 
 
-type TimelineHeader = {format: string, item?: (date: Date) => any}
+export type TimelineHeader = {format: string, item?: (date: Date) => any}
 
-type TimelineStyle = {
+export type TimelineStyle = {
     background?: (mode: string, dayWidth: number) => TimelineBackground | TimelineBackground
     header?: TimelineHeader[]
 }
 
-type TimelineProps = {
-    className?: string;
-    
-    nonEditableName?: any;
-    style?: TimelineStyle;
-    mode?: string;
-    itemheight?: number;
-    selectedItem?: any;
-    data?: Task[];
-    links?: Link[];
-    config?: Config;
 
-    date?: Date;
-    onDateChange?: (date: Date) => void;
-
-    onUpdateTask?: (task: Task, props: object) => void;
-    onCreateLink?: (link: Link) => void;
-    onSelectItem?: (item: object) => void;
-    onHorizonChange?: (start: Date, end: Date) => void;
-    onNeedData?: any;
-};
-
-type Task = {
+export type Task = {
     id: string | number;
     start: Date;
     end: Date;
@@ -41,7 +20,7 @@ type Task = {
     color?: string;
 };
 
-type Link = {
+export type Link = {
     id: string | number;
     source: string | number;
     sourceHandle?: string;

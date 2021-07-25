@@ -13,13 +13,36 @@ import Config from './helpers/config/Config';
 import DateHelper from './helpers/DateHelper';
 import { TimelineContext } from './context'
 import {nanoid} from 'nanoid'
-import { Link, Task, TimelineProps } from './types';
+import { Link, Config as _Config, Task, TimelineStyle } from './types';
 import { useState } from 'react';
 import { useRef } from 'react';
 import { getDayWidth } from './utils';
 import { Box } from 'grommet';
 import styled from 'styled-components'
 
+
+
+export type TimelineProps = {
+  className?: string;
+  
+  nonEditableName?: any;
+  style?: TimelineStyle;
+  mode?: string;
+  itemheight?: number;
+  selectedItem?: any;
+  data?: Task[];
+  links?: Link[];
+  config?: _Config;
+
+  date?: Date;
+  onDateChange?: (date: Date) => void;
+
+  onUpdateTask?: (task: Task, props: object) => void;
+  onCreateLink?: (link: Link) => void;
+  onSelectItem?: (item: object) => void;
+  onHorizonChange?: (start: Date, end: Date) => void;
+  onNeedData?: any;
+};
 
 const BaseTimeline : React.FC<TimelineProps> = (props) => {
   const [ dragging, setDragging ] = useState<boolean>(false)

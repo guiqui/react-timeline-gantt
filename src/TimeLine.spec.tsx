@@ -2,7 +2,7 @@ import React from 'react';
 import {Timeline} from './TimeLine';
 import { BUFFER_DAYS, DATA_CONTAINER_WIDTH } from './Const';
 import { shallow, mount } from 'enzyme';
-import { Task, TimelineProps } from './types';
+import { Task } from './types';
 
 describe('TimeLine Initialization ', function() {
   it('Initilise properly when all properties are null', () => {
