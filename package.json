@@ -1,6 +1,6 @@
 {
   "name": "@thetechcompany/react-gantt-timeline",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "",
   "main": "dist/index.js",
   "files": [

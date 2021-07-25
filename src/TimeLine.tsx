@@ -476,7 +476,7 @@ const BaseTimeline : React.FC<TimelineProps> = (props) => {
 
 
 export const Timeline = styled(BaseTimeline)`
-.timeLine {
+ 
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -487,7 +487,6 @@ export const Timeline = styled(BaseTimeline)`
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
-}
 
 /* Main Area */
 
