@@ -5,10 +5,10 @@ import { VIEW_MODE_DAY, VIEW_MODE_WEEK, VIEW_MODE_MONTH, VIEW_MODE_YEAR } from '
 import { Box } from 'grommet'
 import Config from '../../helpers/config/Config';
 import DateHelper from '../../helpers/DateHelper';
-import './Header.css';
 import { HeaderItem } from './HeaderItem';
 import { TimelineContext } from '../../context';
 import { BackgroundStripe } from './BackgroundStripe'
+import styled from 'styled-components'
 
 export interface HeaderProps {
   nowposition?: number;
@@ -20,6 +20,7 @@ export interface HeaderProps {
   numVisibleDays?: number;
   headerData?: any;
   currentPosition?: {x: number, y: number};
+  className?: string;
 }
 
 const Header : React.FC<HeaderProps> = (props) => {
@@ -203,11 +204,31 @@ const Header : React.FC<HeaderProps> = (props) => {
     //     this.setBoundaries();
     // }
     return (
-      <div id="timeline-header" ref={headerRef} className="timeLine-main-header-viewPort">
+      <div id="timeline-header" ref={headerRef} className={`${props.className} timeLine-main-header-viewPort`}>
         {renderHeader()}
       </div>
     );
   
 }
 
-export default Header;
+export default styled(Header)`
+.header-top {
+  height: 20px;
+
+  border-bottom: solid 0.5px silver;
+}
+
+.header-middle {
+  height: 20px;
+  background-color: chocolate;
+  color: white;
+  font-size: 10px;
+  border-bottom: solid 0.5px silver;
+}
+.header-bottom {
+  height: 20px;
+  font-size: 10px;
+  background-color: silver;
+  border-bottom: solid 0.5px silver;
+}
+`;

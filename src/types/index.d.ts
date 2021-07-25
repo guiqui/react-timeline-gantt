@@ -12,6 +12,8 @@ type TimelineStyle = {
 }
 
 type TimelineProps = {
+    className?: string;
+    
     nonEditableName?: any;
     style?: TimelineStyle;
     mode?: string;
