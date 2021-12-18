@@ -55,7 +55,7 @@ const defvalues = {
       }
     }
   },
-  dataViewPort: {
+  dataViewPort: {    
     rows: {
       style: {
         backgroundColor: '#fbf9f9',

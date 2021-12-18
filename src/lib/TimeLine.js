@@ -264,7 +264,7 @@ class TimeLine extends Component {
   onFinishCreateLink = (task, position) => {
     console.log(`End Link ${task}`);
     if (this.props.onCreateLink && task &&
-      this.state.taskToCreate &&this.state.taskToCreate.task.id!=task.id) {
+      this.state.taskToCreate && this.state.taskToCreate.task.id != task.id) {
       this.props.onCreateLink({
         start: this.state.taskToCreate,
         end: { task: task, position: position }
