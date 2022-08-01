@@ -34,7 +34,7 @@ The component is capable of:
  To play with a live [demo](https://guiqui.github.io/react-timeline-gantt/index.html) .
  
  ## Topcloudops.com is our Golden Sponsor
- [![alt text](https://guiqui.github.io/react-timeline-gantt/K8Stu.png)](https://www.topcloudops.io)
+ [![alt text](https://guiqui.github.io/react-timeline-gantt/K8Stu.png)](https://www.topcloudops.com)
 
 
 ## Release Notes version 0.3.9
