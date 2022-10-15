@@ -234,6 +234,11 @@ Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/react-timeline-gantt#sponsor)]
 
+## Free Apps we have created:
+- [Profile Me](https://profile.softcloud.pro/) - Creates Professional Profile pictures.
+- [Background RM](https://rmbackground.softcloud.pro/) - Remove pictures Background.
+- [MetersApp](https://app.meters.app/login) - Create Quotes using measures from floorplan.
+
 <a href="https://opencollective.com/react-timeline-gantt/sponsor/0/website" target="_blank"><img src="https://opencollective.com/react-timeline-gantt/sponsor/0/avatar.svg"></a>
 <a href="https://opencollective.com/react-timeline-gantt/sponsor/1/website" target="_blank"><img src="https://opencollective.com/react-timeline-gantt/sponsor/1/avatar.svg"></a>
 <a href="https://opencollective.com/react-timeline-gantt/sponsor/2/website" target="_blank"><img src="https://opencollective.com/react-timeline-gantt/sponsor/2/avatar.svg"></a>
