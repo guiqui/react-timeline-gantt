@@ -234,7 +234,8 @@ Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/react-timeline-gantt#sponsor)]
 
-## Free Apps we have created:
+## Apps we have created:
+- [k8Studio](https://k8studio.io/) - The IDE to manage Kubernetes Clusters.
 - [Profile Me](https://profile.softcloud.pro/) - Creates Professional Profile pictures.
 - [Background RM](https://rmbackground.softcloud.pro/) - Remove pictures Background.
 - [MetersApp](https://app.meters.app/login) - Create Quotes using measures from floorplan.
